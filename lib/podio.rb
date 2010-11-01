@@ -5,6 +5,7 @@ module Podio
     attr_accessor :api_key
     attr_accessor :api_secret
     attr_accessor :api_url
+    attr_accessor :debug
 
     def configure
       yield self

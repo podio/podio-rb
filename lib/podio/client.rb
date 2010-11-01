@@ -6,12 +6,13 @@ require 'podio/middleware/error_response'
 
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection
+    attr_reader :api_url, :api_key, :api_secret, :debug, :oauth_token, :connection
 
     def initialize(options = {})
       @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
       @api_key = options[:api_key] || Podio.api_key
       @api_secret = options[:api_secret] || Podio.api_secret
+      @debug = options[:debug] || Podio.debug
       @oauth_token = options[:oauth_token]
 
       @connection = configure_connection
@@ -55,6 +56,7 @@ module Podio
 
     def configure_oauth_connection
       conn = @connection.dup
+      conn.options[:client] = self
       conn.params = {}
       conn
     end

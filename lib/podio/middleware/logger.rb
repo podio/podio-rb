@@ -4,7 +4,10 @@ module Podio
   module Middleware
     class Logger < Faraday::Middleware
       def call(env)
-        puts "\n==> #{env[:method].to_s.upcase} #{env[:url]} \n\n"
+        if env[:request][:client].debug
+          puts "\n==> #{env[:method].to_s.upcase} #{env[:url]} \n\n"
+        end
+
         @app.call(env)
       end
 
