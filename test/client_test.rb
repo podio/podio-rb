@@ -26,7 +26,7 @@ context 'ClientTest' do
       assert_equal 'new_client_secret', podio.api_secret
     end
 
-    test 'should setup connections' do
+    test 'should setup connection' do
       token = Podio::OAuthToken.new('access_token' => 'access', 'refresh_token' => 'refresh')
       podio = Podio::Client.new(:oauth_token => token)
 
@@ -38,7 +38,7 @@ context 'ClientTest' do
 
   context 'oauth2 authorization' do
     test 'should get an access token' do
-      client = podio_test_client
+      client = Podio::Client.new(:api_url => 'https://api.podio.com', :api_key => 'client_id', :api_secret => 'client_secret')
       assert_nil client.oauth_token
 
       stub_post(
@@ -50,6 +50,32 @@ context 'ClientTest' do
 
       assert_equal 'access', client.oauth_token.access_token
       assert_equal 'refresh', client.oauth_token.refresh_token
+    end
+
+    test 'should be able to refresh access token' do
+      client = podio_test_client
+
+      stub_post(
+        '/oauth/token?grant_type=refresh_token&refresh_token=refresh&client_id=client_id&client_secret=client_secret',
+        {'access_token' => 'new_access', 'refresh_token' => 'refresh', 'expires_in' => 3600}
+      )
+
+      client.refresh_access_token
+
+      assert_equal 'new_access', client.oauth_token.access_token
+      assert_equal 'refresh', client.oauth_token.refresh_token
+    end
+  end
+
+  context 'raw connection' do
+    test 'should be able to make arbitrary requests' do
+      client = podio_test_client
+
+      stub_get('/?oauth_token=access', { 'messaging' => true, 'version' => '1.0.1' })
+
+      response = client.connection.get('/')
+      assert_equal 200, response.status
+      assert_equal({ 'messaging' => true, 'version' => '1.0.1' }, response.body)
     end
   end
 end

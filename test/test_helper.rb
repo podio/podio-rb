@@ -8,7 +8,8 @@ require 'podio'
 FakeWeb.allow_net_connect = false
 
 def podio_test_client
-  Podio::Client.new(:api_url => 'https://api.podio.com', :api_key => 'client_id', :api_secret => 'client_secret')
+  token = Podio::OAuthToken.new('access_token' => 'access', 'refresh_token' => 'refresh', 'expires_in' => 3600)
+  Podio::Client.new(:api_url => 'https://api.podio.com', :api_key => 'client_id', :api_secret => 'client_secret', :oauth_token => token)
 end
 
 def fixture_file(filename)
