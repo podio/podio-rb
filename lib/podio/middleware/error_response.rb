@@ -13,7 +13,7 @@ module Podio
                 raise Error::AuthorizationError, finished_env[:body].inspect
               end
             when 500
-              raise Error::ServerError
+              raise Error::ServerError, finished_env[:body].inspect
           end
         end
       end
