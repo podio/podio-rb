@@ -5,17 +5,18 @@ module Podio
     class OAuth2 < Faraday::Middleware
       def call(env)
         podio_client = env[:request][:client]
+        orig_env = env.dup
 
         begin
           @app.call(env)
         rescue Error::TokenExpired
           podio_client.refresh_access_token
 
-          params = env[:url].query_values || {}
-          env[:url].query_values = params.merge('oauth_token' => podio_client.oauth_token.access_token)
+          params = orig_env[:url].query_values || {}
+          orig_env[:url].query_values = params.merge('oauth_token' => podio_client.oauth_token.access_token)
 
           # redo the request with the new access token
-          @app.call(env)
+          @app.call(orig_env)
         end
       end
 
