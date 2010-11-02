@@ -35,6 +35,7 @@ module Podio
       end
 
       @oauth_token.access_token = response.body['access_token']
+      configure_oauth
     end
 
   private
