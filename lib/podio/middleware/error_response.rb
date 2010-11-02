@@ -12,6 +12,10 @@ module Podio
               else
                 raise Error::AuthorizationError, finished_env[:body].inspect
               end
+            when 403
+              raise Error::AuthorizationError, finished_env[:body].inspect
+            when 404
+              raise Error::NotFoundError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
             when 500
               raise Error::ServerError, finished_env[:body].inspect
           end

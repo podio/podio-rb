@@ -25,6 +25,7 @@ module Podio
     class TokenExpired < StandardError; end
     class AuthorizationError < StandardError; end
     class ServerError < StandardError; end
+    class NotFoundError < StandardError; end
   end
 end
 
