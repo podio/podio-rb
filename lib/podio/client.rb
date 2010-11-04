@@ -1,5 +1,6 @@
 require 'podio/middleware/logger'
 require 'podio/middleware/oauth2'
+require 'podio/middleware/mashify'
 require 'podio/middleware/podio_api'
 require 'podio/middleware/yajl_response'
 require 'podio/middleware/error_response'
@@ -51,6 +52,7 @@ module Podio
         builder.use Middleware::Logger
         builder.adapter Faraday.default_adapter
         builder.use Middleware::YajlResponse
+        builder.use Middleware::Mashify
         builder.use Middleware::ErrorResponse
       end
     end
