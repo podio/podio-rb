@@ -11,6 +11,18 @@ module Podio
       yield self
       true
     end
+
+    def client
+      Thread.current[:podio_client] ||= Podio::Client.new
+    end
+
+    def client=(new_client)
+      Thread.current[:podio_client] = new_client
+    end
+
+    def connection
+      client.connection
+    end
   end
 
   class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at)
