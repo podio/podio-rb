@@ -33,6 +33,16 @@ module Podio
     end
   end
 
+  module ResponseWrapper
+    def member(response)
+      response
+    end
+
+    def collection(response)
+      Struct.new(:all, :count, :total_count).new(response['items'], response['filtered'], response['total'])
+    end
+  end
+
   module Error
     class TokenExpired < StandardError; end
     class AuthorizationError < StandardError; end
@@ -44,3 +54,6 @@ module Podio
 end
 
 require 'podio/client'
+require 'podio/organization'
+require 'podio/item'
+require 'podio/app_store'
