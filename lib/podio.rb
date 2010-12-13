@@ -1,5 +1,11 @@
 require 'faraday'
 
+require 'podio/middleware/logger'
+require 'podio/middleware/oauth2'
+require 'podio/middleware/podio_api'
+require 'podio/middleware/yajl_response'
+require 'podio/middleware/error_response'
+
 module Podio
   class << self
     attr_accessor :api_key
@@ -51,9 +57,10 @@ module Podio
     class NotFoundError < StandardError; end
     class GoneError < StandardError; end
   end
-end
 
-require 'podio/client'
-require 'podio/organization'
-require 'podio/item'
-require 'podio/app_store'
+  autoload :Client,          'podio/client'
+  autoload :Organization,    'podio/organization'
+  autoload :Item,            'podio/item'
+  autoload :Category,        'podio/app_store'
+  autoload :Space,           'podio/space'
+end

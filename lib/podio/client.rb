@@ -1,9 +1,3 @@
-require 'podio/middleware/logger'
-require 'podio/middleware/oauth2'
-require 'podio/middleware/podio_api'
-require 'podio/middleware/yajl_response'
-require 'podio/middleware/error_response'
-
 module Podio
   class Client
     attr_reader :api_url, :api_key, :api_secret, :debug, :oauth_token, :connection
