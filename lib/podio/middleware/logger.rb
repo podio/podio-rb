@@ -8,7 +8,13 @@ module Podio
           puts "\n==> #{env[:method].to_s.upcase} #{env[:url]} \n\n"
         end
 
-        @app.call(env)
+        begin
+          @app.call(env)
+        ensure
+          if env[:request][:client].debug
+            puts "\n==> #{env[:body]}\n\n"
+          end
+        end
       end
 
       def initialize(app)
