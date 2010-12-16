@@ -12,7 +12,7 @@ module Podio
           @app.call(env)
         ensure
           if env[:request][:client].debug
-            puts "\n==> #{env[:body]}\n\n"
+            puts "\n== (#{env[:status]}) ==> #{env[:body]}\n\n"
           end
         end
       end
