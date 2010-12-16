@@ -67,4 +67,5 @@ module Podio
   autoload :Item,            'podio/item'
   autoload :Category,        'podio/app_store'
   autoload :Space,           'podio/space'
+  autoload :Widget,          'podio/widget'
 end
