@@ -35,10 +35,10 @@ module Podio
   private
 
     def configure_connection
-      params = {}
-      params[:oauth_token] = oauth_token.access_token if oauth_token
+      headers = {}
+      headers['authorization'] = "OAuth2 #{oauth_token.access_token}" if oauth_token
 
-      Faraday::Connection.new(:url => api_url, :params => params, :headers => default_headers, :request => {:client => self}) do |builder|
+      Faraday::Connection.new(:url => api_url, :headers => default_headers.merge(headers), :request => {:client => self}) do |builder|
         builder.use Faraday::Request::Yajl
         builder.use Middleware::PodioApi
         builder.use Middleware::OAuth2
