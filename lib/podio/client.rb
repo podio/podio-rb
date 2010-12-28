@@ -1,6 +1,7 @@
 module Podio
   class Client
     attr_reader :api_url, :api_key, :api_secret, :debug, :oauth_token, :connection
+    attr_accessor :stubs
 
     def initialize(options = {})
       @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
@@ -9,6 +10,10 @@ module Podio
       @debug = options[:debug] || Podio.debug
       @oauth_token = options[:oauth_token]
 
+      if options[:test_mode]
+        @test_mode = true
+        @stubs = Faraday::Adapter::Test::Stubs.new
+      end
       @connection = configure_connection
       @oauth_connection = configure_oauth_connection
     end
@@ -43,10 +48,14 @@ module Podio
         builder.use Middleware::PodioApi
         builder.use Middleware::OAuth2
         builder.use Middleware::Logger
-        builder.adapter Faraday.default_adapter
+        builder.adapter(*default_adapter)
         builder.use Middleware::YajlResponse
         builder.use Middleware::ErrorResponse
       end
+    end
+
+    def default_adapter
+      @test_mode ? [:test, @stubs] : Faraday.default_adapter
     end
 
     def configure_oauth_connection
