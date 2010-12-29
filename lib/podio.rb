@@ -41,30 +41,10 @@ module Podio
     end
   end
 
-  module ResponseWrapper
-    def member(response)
-      response
-    end
-
-    def list(response)
-      response
-    end
-
-    def collection(response)
-      Struct.new(:all, :count, :total_count).new(response['items'], response['filtered'], response['total'])
-    end
-  end
-
-  module Error
-    class TokenExpired < StandardError; end
-    class AuthorizationError < StandardError; end
-    class BadRequestError < StandardError; end
-    class ServerError < StandardError; end
-    class NotFoundError < StandardError; end
-    class GoneError < StandardError; end
-  end
-
   autoload :Client,          'podio/client'
+  autoload :Error,           'podio/error'
+  autoload :ResponseWrapper, 'podio/response_wrapper'
+
   autoload :Organization,    'podio/areas/organization'
   autoload :Contact,         'podio/areas/contact'
   autoload :Item,            'podio/areas/item'
