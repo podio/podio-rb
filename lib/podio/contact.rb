@@ -3,8 +3,8 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
-    def find(id)
-      member Podio.connection.get("/space/{id}").body
+    def find(user_id)
+      member Podio.connection.get("/contact/#{user_id}").body
     end
 
     def find_all_for_org(org_id, options={})

@@ -1,4 +1,5 @@
 require 'faraday'
+require 'active_support/core_ext'
 
 require 'podio/middleware/logger'
 require 'podio/middleware/oauth2'
@@ -65,6 +66,7 @@ module Podio
 
   autoload :Client,          'podio/client'
   autoload :Organization,    'podio/organization'
+  autoload :Contact,         'podio/contact'
   autoload :Item,            'podio/item'
   autoload :Category,        'podio/app_store'
   autoload :Space,           'podio/space'
