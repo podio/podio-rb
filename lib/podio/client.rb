@@ -61,7 +61,7 @@ module Podio
     def configure_oauth_connection
       conn = @connection.dup
       conn.options[:client] = self
-      conn.params = {}
+      conn.headers.delete('authorization')
       conn
     end
 
