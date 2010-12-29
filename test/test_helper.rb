@@ -5,6 +5,7 @@ require 'active_support'
 require 'podio'
 
 
+ENABLE_RECORD = ENV['ENABLE_RECORD'] == 'true'
 
 class ActiveSupport::TestCase
   setup :set_podio_client

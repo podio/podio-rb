@@ -14,6 +14,8 @@ module Podio
         @test_mode = true
         @stubs = Faraday::Adapter::Test::Stubs.new
       end
+      @record_mode = options[:record_mode]
+
       @connection = configure_connection
       @oauth_connection = configure_oauth_connection
     end
@@ -49,6 +51,7 @@ module Podio
         builder.use Middleware::OAuth2
         builder.use Middleware::Logger
         builder.adapter(*default_adapter)
+        builder.use Middleware::ResponseRecorder if @record_mode
         builder.use Middleware::YajlResponse
         builder.use Middleware::ErrorResponse
       end
