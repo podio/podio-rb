@@ -10,10 +10,11 @@ module Podio
       @debug = options[:debug] || Podio.debug
       @oauth_token = options[:oauth_token]
 
-      if options[:test_mode]
-        @test_mode = true
+      if options[:enable_stubs]
+        @enable_stubs = true
         @stubs = Faraday::Adapter::Test::Stubs.new
       end
+      @test_mode   = options[:test_mode]
       @record_mode = options[:record_mode]
 
       setup_connections
@@ -44,8 +45,9 @@ module Podio
 
     def configured_headers
       headers = {}
-      headers['User-Agent']    = 'Podio Ruby Library'
-      headers['authorization'] = "OAuth2 #{oauth_token.access_token}" if oauth_token
+      headers['User-Agent']     = 'Podio Ruby Library'
+      headers['authorization']  = "OAuth2 #{oauth_token.access_token}" if oauth_token
+      headers['hoist.api.test'] = '1'                                  if @test_mode
 
       headers
     end
@@ -71,13 +73,14 @@ module Podio
     end
 
     def default_adapter
-      @test_mode ? [:test, @stubs] : Faraday.default_adapter
+      @enable_stubs ? [:test, @stubs] : Faraday.default_adapter
     end
 
     def configure_oauth_connection
       conn = @connection.dup
       conn.options[:client] = self
       conn.headers.delete('authorization')
+      conn.headers.delete('hoist.api.test') if @test_mode # oauth requests don't really work well in test mode
       conn
     end
 
