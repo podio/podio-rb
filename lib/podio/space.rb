@@ -4,7 +4,7 @@ module Podio
     extend self
 
     def find(id)
-      member Podio.connection.get("/space/{id}").body
+      member Podio.connection.get("/space/#{id}").body
     end
 
     def find_all_for_org(org_id)
