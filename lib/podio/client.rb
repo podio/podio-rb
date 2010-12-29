@@ -16,8 +16,11 @@ module Podio
       end
       @record_mode = options[:record_mode]
 
-      @connection = configure_connection
-      @oauth_connection = configure_oauth_connection
+      setup_connections
+    end
+
+    def reset
+      setup_connections
     end
 
     def get_access_token(username, password)
@@ -39,13 +42,23 @@ module Podio
       configure_oauth
     end
 
-  private
-
-    def configure_connection
+    def configured_headers
       headers = {}
+      headers['User-Agent']    = 'Podio Ruby Library'
       headers['authorization'] = "OAuth2 #{oauth_token.access_token}" if oauth_token
 
-      Faraday::Connection.new(:url => api_url, :headers => default_headers.merge(headers), :request => {:client => self}) do |builder|
+      headers
+    end
+
+  private
+
+    def setup_connections
+      @connection = configure_connection
+      @oauth_connection = configure_oauth_connection
+    end
+
+    def configure_connection
+      Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
         builder.use Faraday::Request::Yajl
         builder.use Middleware::PodioApi
         builder.use Middleware::OAuth2
@@ -70,10 +83,6 @@ module Podio
 
     def configure_oauth
       @connection = configure_connection
-    end
-
-    def default_headers
-      { :user_agent => 'Podio Ruby Library' }
     end
   end
 end

@@ -12,6 +12,9 @@ module Podio
         rescue Error::TokenExpired
           podio_client.refresh_access_token
 
+          # new access token needs to be put into the header
+          orig_env[:request_headers].merge!(podio_client.configured_headers)
+
           # redo the request with the new access token
           @app.call(orig_env)
         end

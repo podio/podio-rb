@@ -55,6 +55,17 @@ class ClientTest < ActiveSupport::TestCase
     assert_equal old_token.refresh_token, client.oauth_token.refresh_token
   end
 
+  test 'should automatically refresh an expired token' do
+    # this token is already expired in the test database
+    Podio.client.oauth_token = Podio::OAuthToken.new('access_token' => '30da4594eef93528c11df7fb5deb989cd629ea7060a1ce1ced628d19398214c942bcfe0334cf953ef70a80ea1afdfd80183d5c75d19c1f5526ca4c6f6f3471ef', 'refresh_token' => '82e7a11ae187f28a25261599aa6229cd89f8faee48cba18a75d70efae88ba665ced11d43143b7f5bebb31a4103662b851dd2db1879a3947b843259479fccfad3', 'expires_in' => -10)
+    Podio.client.reset
+
+    assert_nothing_raised do
+      response = Podio.client.connection.get('/org/')
+      assert_equal 200, response.status
+    end
+  end
+
   test 'should be able to make arbitrary requests' do
     response = Podio.client.connection.get('/org/')
     assert_equal 200, response.status
