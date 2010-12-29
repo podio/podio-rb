@@ -1,61 +1,16 @@
 require 'test/unit'
 require 'yajl'
-require 'fakeweb'
+require 'active_support'
 
 require 'podio'
 
-
-FakeWeb.allow_net_connect = false
-
 def podio_test_client
-  token = Podio::OAuthToken.new('access_token' => 'access', 'refresh_token' => 'refresh', 'expires_in' => 3600)
-  Podio::Client.new(:api_url => 'https://api.podio.com', :api_key => 'client_id', :api_secret => 'client_secret', :oauth_token => token)
+  token = Podio::OAuthToken.new('access_token' => '352e85cd67eff86179194515b91a75404c1169ad083ad435b200af834b9121665b2aaf894f599b7d9b1bee6b7551f3a11e2a02dc43def9a9b549b1f2a4fe9a42', 'refresh_token' => '82e7a11ae187f28a25261599aa6229cd89f8faee48cba18a75d70efae88ba665ced11d43143b7f5bebb31a4103662b851dd2db1879a3947b843259479fccfad3', 'expires_in' => 3600)
+  Podio::Client.new(
+    :api_url => 'http://127.0.0.1:8080',
+    :api_key => 'dev@hoisthq.com',
+    :api_secret => 'CmACRWF1WBOTDfOa20A',
+    :oauth_token => token)
 end
 
-def fixture_file(filename)
-  return '' if filename == ''
-  file_path = File.expand_path(File.dirname(__FILE__) + '/fixtures/' + filename)
-  File.read(file_path)
-end
-
-def stub_get(url, body, options = {})
-  opts = {
-    :body => body.is_a?(String) ? body : Yajl::Encoder.encode(body),
-    :content_type => 'application/json; charset=utf-8'
-  }.merge(options)
-  FakeWeb.register_uri(:get, "https://api.podio.com#{url}", opts)
-end
-
-def stub_post(url, body, options = {})
-  opts = {
-    :body => body.is_a?(String) ? body : Yajl::Encoder.encode(body),
-    :content_type => 'application/json; charset=utf-8'
-  }.merge(options)
-  FakeWeb.register_uri(:post, "https://api.podio.com#{url}", opts)
-end
-
-
-##
-# test/spec/mini 5
-# http://gist.github.com/307649
-# chris@ozmm.org
-#
-def context(*args, &block)
-  return super unless (name = args.first) && block
-  require 'test/unit'
-  klass = Class.new(defined?(ActiveSupport::TestCase) ? ActiveSupport::TestCase : Test::Unit::TestCase) do
-    def self.test(name, &block)
-      define_method("test_#{name.to_s.gsub(/\W/,'_')}", &block) if block
-    end
-    def self.xtest(*args) end
-    def self.context(*args, &block) instance_eval(&block) end
-    def self.setup(&block)
-      define_method(:setup) { self.class.setups.each { |s| instance_eval(&s) } }
-      setups << block
-    end
-    def self.setups; @setups ||= [] end
-    def self.teardown(&block) define_method(:teardown, &block) end
-  end
-  (class << klass; self end).send(:define_method, :name) { name.gsub(/\W/,'_') }
-  klass.class_eval(&block)
-end
+Podio.client = podio_test_client
