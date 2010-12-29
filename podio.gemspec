@@ -16,9 +16,8 @@ Gem::Specification.new do |s|
   s.require_paths     = ['lib']
 
   s.add_runtime_dependency 'faraday', '~> 0.5.1'
-  s.add_runtime_dependency 'yajl-ruby', '~> 0.7.0'
-
-  s.add_development_dependency 'fakeweb', '~> 1.3'
+  s.add_runtime_dependency 'activesupport', '~> 3.0'
+  s.add_runtime_dependency 'yajl-ruby', '~> 0.7'
 
   s.description       = <<desc
 The humble beginnings of the Ruby wrapper for the Podio API.
