@@ -32,5 +32,14 @@ module Podio
     def find_all
       collection Podio.connection.get("/app_store/category/").body
     end
+
+  private
+
+    def self.collection(response)
+      return Struct.new(:functional, :vertical).new([], []) if response.blank?
+      functionals = response['functional'].map! { |cat| member(cat) }
+      verticals   = response['vertical'].map! { |cat| member(cat) }
+      Struct.new(:functional, :vertical).new(functionals, verticals)
+    end
   end
 end
