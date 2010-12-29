@@ -65,10 +65,10 @@ module Podio
   end
 
   autoload :Client,          'podio/client'
-  autoload :Organization,    'podio/organization'
-  autoload :Contact,         'podio/contact'
-  autoload :Item,            'podio/item'
-  autoload :Category,        'podio/app_store'
-  autoload :Space,           'podio/space'
-  autoload :Widget,          'podio/widget'
+  autoload :Organization,    'podio/areas/organization'
+  autoload :Contact,         'podio/areas/contact'
+  autoload :Item,            'podio/areas/item'
+  autoload :Category,        'podio/areas/app_store'
+  autoload :Space,           'podio/areas/space'
+  autoload :Widget,          'podio/areas/widget'
 end
