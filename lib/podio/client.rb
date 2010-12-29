@@ -1,7 +1,7 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :debug, :oauth_token, :connection
-    attr_accessor :stubs
+    attr_reader :api_url, :api_key, :api_secret, :debug, :connection
+    attr_accessor :oauth_token, :stubs
 
     def initialize(options = {})
       @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
@@ -19,7 +19,7 @@ module Podio
     end
 
     def get_access_token(username, password)
-      response = connection.post do |req|
+      response = @oauth_connection.post do |req|
         req.url '/oauth/token', :grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password
       end
 

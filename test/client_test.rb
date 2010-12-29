@@ -35,7 +35,8 @@ class ClientTest < ActiveSupport::TestCase
   end
 
   test 'should get an access token' do
-    client = Podio::Client.new(:api_url => 'http://127.0.0.1:8080', :api_key => 'dev@hoisthq.com', :api_secret => 'CmACRWF1WBOTDfOa20A')
+    client = Podio.client
+    client.oauth_token = nil
     assert_nil client.oauth_token
 
     client.get_access_token('pollas@hoisthq.com', 'secret')
@@ -45,7 +46,7 @@ class ClientTest < ActiveSupport::TestCase
   end
 
   test 'should be able to refresh access token' do
-    client = podio_test_client
+    client = Podio.client
     old_token = client.oauth_token.dup
 
     client.refresh_access_token
@@ -55,9 +56,7 @@ class ClientTest < ActiveSupport::TestCase
   end
 
   test 'should be able to make arbitrary requests' do
-    client = podio_test_client
-
-    response = client.connection.get('/org/')
+    response = Podio.client.connection.get('/org/')
     assert_equal 200, response.status
     assert response.body.is_a?(Array)
   end
