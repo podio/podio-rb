@@ -10,5 +10,22 @@ module Podio
         req.url("/org/#{org_id}/member/", options)
       }.body
     end
+    
+    def delete(org_id, user_id)
+      Podio.connection.delete("/org/#{org_id}/member/#{user_id}").status
+    end
+    
+    def make_admin(org_id, user_id)
+      response = Podio.connection.post do |req|
+        req.url "/org/#{org_id}/admin/"
+        req.body = { :user_id => user_id.to_i }
+      end
+      response.status
+    end
+
+    def remove_admin(org_id, user_id)
+      Podio.connection.delete("/org/#{org_id}/admin/#{user_id}").status
+    end
+    
   end
 end
