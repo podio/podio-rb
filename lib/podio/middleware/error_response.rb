@@ -7,7 +7,7 @@ module Podio
         env[:response].on_complete do |finished_env|
           case finished_env[:status]
             when 400
-              raise Error::BadRequestError, finished_env[:body].inspect
+              raise Error::BadRequestError, finished_env[:body]
             when 401
               if finished_env[:body]['error_description'] =~ /expired_token/
                 raise Error::TokenExpired, finished_env[:body].inspect
