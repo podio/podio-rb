@@ -10,6 +10,10 @@ module Podio
         req.url("/org/#{org_id}/member/", options)
       }.body
     end
+
+    def find(org_id, user_id)
+      member Podio.connection.get("/org/#{org_id}/member/#{user_id}").body
+    end
     
     def delete(org_id, user_id)
       Podio.connection.delete("/org/#{org_id}/member/#{user_id}").status
