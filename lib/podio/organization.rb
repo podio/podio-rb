@@ -20,5 +20,9 @@ module Podio
       member Podio.connection.get("/org/#{id}").body
     end
     
+    def find_all
+      list Podio.connection.get("/org/").body
+    end
+    
   end
 end
