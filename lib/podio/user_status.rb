@@ -1,10 +1,10 @@
 module Podio
-  module User
+  module UserStatus
     include Podio::ResponseWrapper
     extend self
 
     def current
-      member Podio.connection.get("/user/").body
+      member Podio.connection.get("/user/status").body
     end
 
   end
