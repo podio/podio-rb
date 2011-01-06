@@ -19,10 +19,13 @@ module Podio
     def find(id)
       member Podio.connection.get("/org/#{id}").body
     end
-    
+
+    def find_by_url(url)
+      member Podio.connection.get("/org/url?url=#{url}").body
+    end
+
     def find_all
       list Podio.connection.get("/org/").body
     end
-    
   end
 end
