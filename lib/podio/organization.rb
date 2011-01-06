@@ -24,6 +24,13 @@ module Podio
       member Podio.connection.get("/org/url?url=#{url}").body
     end
 
+    def validate_url_label(url_label)
+      Podio.connection.post { |req|
+        req.url '/org/url/validate'
+        req.body = {:url_label => url_label}
+      }.body
+    end
+
     def find_all
       list Podio.connection.get("/org/").body
     end
