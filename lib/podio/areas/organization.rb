@@ -8,7 +8,6 @@ module Podio
         req.url "/org/#{id}"
         req.body = attributes
       end
-
       response.status
     end
 
@@ -37,6 +36,14 @@ module Podio
     
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics").body
+    end
+    
+    def update_profile(id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/org/#{id}/profile"
+        req.body = attributes
+      end
+      response.status
     end
     
   end
