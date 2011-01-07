@@ -35,5 +35,9 @@ module Podio
       list Podio.connection.get("/org/").body
     end
     
+    def get_statistics(id)
+      Podio.connection.get("/org/#{id}/statistics").body
+    end
+    
   end
 end
