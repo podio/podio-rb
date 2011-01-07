@@ -9,7 +9,7 @@ module Podio
       
       # Converts all attributes ending with "_on" to datetime and ending with "date" to date
       def self.convert_dates(body)
-        [body].flatten.each do |hash|
+        [body].flatten.compact.each do |hash|
           hash.each do |key, value|
             if value.is_a?(Hash)
               self.convert_dates(value)
