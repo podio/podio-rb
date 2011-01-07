@@ -54,4 +54,5 @@ module Podio
   autoload :Widget,             'podio/areas/widget'
   autoload :User,               'podio/areas/user'
   autoload :UserStatus,         'podio/areas/user_status'
+  autoload :Search,             'podio/areas/search'
 end
