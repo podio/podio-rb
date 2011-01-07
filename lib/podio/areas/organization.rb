@@ -2,7 +2,7 @@ module Podio
   module Organization
     include Podio::ResponseWrapper
     extend self
-
+    
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/org/#{id}"
@@ -34,5 +34,6 @@ module Podio
     def find_all
       list Podio.connection.get("/org/").body
     end
+    
   end
 end

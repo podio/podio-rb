@@ -69,6 +69,7 @@ module Podio
         builder.use Middleware::ResponseRecorder if @record_mode
         builder.use Middleware::YajlResponse
         builder.use Middleware::ErrorResponse
+        builder.use Middleware::DateConversion
       end
     end
 

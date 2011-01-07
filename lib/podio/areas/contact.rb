@@ -15,5 +15,10 @@ module Podio
         req.url("/contact/org/#{org_id}", options)
       }.body
     end
+    
+    def find_for_org(org_id)
+      member Podio.connection.get("/org/#{org_id}/profile").body
+    end
+    
   end
 end
