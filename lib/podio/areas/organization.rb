@@ -38,6 +38,14 @@ module Podio
       Podio.connection.get("/org/#{id}/statistics").body
     end
     
+    def get_login_report(id, options = {})
+      options.assert_valid_keys(:limit, :offset)
+
+      Podio.connection.get { |req|
+        req.url("/org/#{id}/report/login/", options)
+      }.body
+    end
+    
     def update_profile(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/org/#{id}/profile"
