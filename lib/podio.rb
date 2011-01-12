@@ -48,6 +48,7 @@ module Podio
   autoload :Organization,       'podio/areas/organization'
   autoload :OrganizationMember, 'podio/areas/organization_member'
   autoload :Contact,            'podio/areas/contact'
+  autoload :Form,               'podio/areas/form'
   autoload :Item,               'podio/areas/item'
   autoload :Category,           'podio/areas/app_store'
   autoload :Space,              'podio/areas/space'
