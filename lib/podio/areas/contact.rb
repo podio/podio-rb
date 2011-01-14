@@ -20,5 +20,9 @@ module Podio
       member Podio.connection.get("/org/#{org_id}/profile").body
     end
     
+    def totals_by_org
+      Podio.connection.get("/contact/totals/").body
+    end
+    
   end
 end
