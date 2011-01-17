@@ -24,9 +24,21 @@ module Podio
       setup_connections
     end
 
+    # Sign in as a user
     def get_access_token(username, password)
       response = @oauth_connection.post do |req|
         req.url '/oauth/token', :grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+    
+    # Sign in as an app
+    def get_access_token_as_app(app_id, app_token)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'app', :client_id => api_key, :client_secret => api_secret, :app_id => app_id, :app_token => app_token
       end
 
       @oauth_token = OAuthToken.new(response.body)
