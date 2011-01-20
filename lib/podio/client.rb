@@ -57,9 +57,9 @@ module Podio
 
     def configured_headers
       headers = {}
-      headers['User-Agent']     = 'Podio Ruby Library'
-      headers['authorization']  = "OAuth2 #{oauth_token.access_token}" if oauth_token
-      headers['hoist.api.test'] = '1'                                  if @test_mode
+      headers['User-Agent']      = 'Podio Ruby Library'
+      headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
+      headers['X-Podio-Dry-Run'] = '1'                                  if @test_mode
 
       headers
     end
