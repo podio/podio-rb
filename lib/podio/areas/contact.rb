@@ -3,6 +3,14 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
+    def all(options={})
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+
+      list Podio.connection.get { |req|
+        req.url("/contact/", options)
+      }.body
+    end
+
     def find(user_id)
       member Podio.connection.get("/contact/#{user_id}").body
     end
