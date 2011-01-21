@@ -93,7 +93,7 @@ module Podio
       conn = @connection.dup
       conn.options[:client] = self
       conn.headers.delete('authorization')
-      conn.headers.delete('hoist.api.test') if @test_mode # oauth requests don't really work well in test mode
+      conn.headers.delete('X-Podio-Dry-Run') if @test_mode # oauth requests don't really work well in test mode
       conn
     end
 
