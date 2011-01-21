@@ -15,6 +15,15 @@ module Podio
       Podio.connection.delete("/org/#{id}").status
     end
 
+    def create(attributes)
+      response = Podio.connection.post do |req|
+        req.url '/org/'
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     def find(id)
       member Podio.connection.get("/org/#{id}").body
     end
