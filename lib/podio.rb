@@ -1,6 +1,7 @@
 require 'faraday'
 require 'active_support/core_ext'
 
+require 'podio/middleware/date_conversion'
 require 'podio/middleware/logger'
 require 'podio/middleware/oauth2'
 require 'podio/middleware/podio_api'
