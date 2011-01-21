@@ -9,7 +9,7 @@ module Podio
         req.body = attributes
       end
 
-      response.body['space_id']
+      response.body
     end
 
     def find(id)
