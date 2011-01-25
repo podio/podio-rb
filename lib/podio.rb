@@ -48,6 +48,7 @@ module Podio
 
   autoload :Application,        'podio/areas/application'
   autoload :Category,           'podio/areas/app_store'
+  autoload :Connection,         'podio/areas/connection'
   autoload :Contact,            'podio/areas/contact'
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'

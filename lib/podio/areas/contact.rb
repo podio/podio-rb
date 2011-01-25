@@ -32,7 +32,11 @@ module Podio
         req.url("/contact/space/#{space_id}", options)
       }.body
     end
-    
+
+    def find_all_for_connection(connection_id)
+      list Podio.connection.get("/contact/connection/#{connection_id}").body
+    end
+
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/profile").body
     end
