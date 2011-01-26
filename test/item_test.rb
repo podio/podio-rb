@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class ItemTest < ActiveSupport::TestCase
+class ItemTest < Test::Unit::TestCase
   test 'should find single item' do
     item = Podio::Item.find(1)
 

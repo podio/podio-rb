@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class WidgetTest < ActiveSupport::TestCase
+class WidgetTest < Test::Unit::TestCase
   test 'should find single widget' do
     widget = Podio::Widget.find(1)
 

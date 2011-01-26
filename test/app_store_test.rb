@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class AppStoreTest < ActiveSupport::TestCase
+class AppStoreTest < Test::Unit::TestCase
   test 'should find single category' do
     category = Podio::Category.find(1)
 

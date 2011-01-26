@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class ContactTest < ActiveSupport::TestCase
+class ContactTest < Test::Unit::TestCase
   test 'should find single contact' do
     contact = Podio::Contact.find(1)
 

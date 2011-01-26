@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class ClientTest < ActiveSupport::TestCase
+class ClientTest < Test::Unit::TestCase
   def setup
     Podio.configure do |config|
       config.api_url = 'https://api.podio.com'

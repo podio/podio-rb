@@ -1,6 +1,5 @@
 require 'test/unit'
 require 'yajl'
-require 'active_support'
 
 require 'podio'
 
@@ -8,9 +7,28 @@ require 'podio'
 ENABLE_STUBS  = ENV['ENABLE_STUBS'] == 'true'
 ENABLE_RECORD = ENV['ENABLE_RECORD'] == 'true'
 
-class ActiveSupport::TestCase
-  setup :set_podio_client
-  setup :stub_responses if ENABLE_STUBS
+class Test::Unit::TestCase
+
+  def setup
+    set_podio_client
+    stub_responses if ENABLE_STUBS
+  end
+
+  # test "verify something" do
+  #   ...
+  # end
+  def self.test(name, &block)
+    test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
+    defined = instance_method(test_name) rescue false
+    raise "#{test_name} is already defined in #{self}" if defined
+    if block_given?
+      define_method(test_name, &block)
+    else
+      define_method(test_name) do
+        flunk "No implementation provided for #{name}"
+      end
+    end
+  end
 
   def set_podio_client(user_id = 1)
     Podio.client = Podio::Client.new(

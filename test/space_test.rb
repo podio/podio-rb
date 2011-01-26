@@ -1,14 +1,14 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class SpaceTest < ActiveSupport::TestCase
-  test 'should find single space' do
+class SpaceTest < Test::Unit::TestCase
+  def test_should_find_single_space
     space = Podio::Space.find(1)
 
     assert_equal 1, space['space_id']
     assert_equal 'API', space['name']
   end
 
-  test 'should find all for org' do
+  def test_should_find_all_for_org
     spaces = Podio::Space.find_all_for_org(1)
 
     assert spaces.is_a?(Array)

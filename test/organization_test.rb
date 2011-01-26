@@ -1,6 +1,6 @@
-require_relative 'test_helper'
+require 'test_helper'
 
-class OrganizationTest < ActiveSupport::TestCase
+class OrganizationTest < Test::Unit::TestCase
   test 'should find single organization' do
     org = Podio::Organization.find(1)
 
