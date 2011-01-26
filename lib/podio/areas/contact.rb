@@ -37,6 +37,10 @@ module Podio
       list Podio.connection.get("/contact/connection/#{connection_id}").body
     end
 
+    def find_all_for_connection_type(connection_type)
+      list Podio.connection.get("/contact/connection/#{connection_type}").body
+    end
+
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/profile").body
     end
