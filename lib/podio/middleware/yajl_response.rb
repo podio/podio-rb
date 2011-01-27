@@ -9,7 +9,9 @@ module Podio
 
         def self.register_on_complete(env)
           env[:response].on_complete do |finished_env|
-            finished_env[:body] = parse(finished_env[:body]) if finished_env[:body].is_a?(String)
+            if finished_env[:body].is_a?(String) && finished_env[:status] < 500
+              finished_env[:body] = parse(finished_env[:body])
+            end
           end
         end
       rescue LoadError, NameError => e

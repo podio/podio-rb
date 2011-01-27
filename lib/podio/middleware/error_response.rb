@@ -22,6 +22,8 @@ module Podio
               raise Error::GoneError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
             when 500
               raise Error::ServerError, finished_env[:body].inspect
+            when 502, 503
+              raise Error::Unavailable, finished_env[:body].inspect
           end
         end
       end
