@@ -11,8 +11,8 @@ module Podio
       }.body
     end
 
-    def find(user_id)
-      member Podio.connection.get("/contact/#{user_id}").body
+    def find(profile_id)
+      member Podio.connection.get("/contact/#{profile_id}/v2").body
     end
 
     def find_all_for_org(org_id, options={})
