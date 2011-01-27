@@ -16,11 +16,11 @@ class ContactTest < Test::Unit::TestCase
   end
 
   test 'should find all for org filtered by key' do
-    contacts = Podio::Contact.find_all_for_org(1, :key => 'organization', :value => 'kolios')
+    contacts = Podio::Contact.find_all_for_org(1, :key => 'organization', :value => 'Hoist')
 
     assert contacts.size > 0
     contacts.each do |contact|
-      assert_equal 'kolios', contact['organization']
+      assert_equal 'Hoist', contact['organization']
     end
   end
 end
