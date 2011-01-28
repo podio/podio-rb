@@ -1,11 +1,12 @@
 require 'faraday'
 require 'active_support/core_ext'
 
+require 'podio/middleware/json_request'
 require 'podio/middleware/date_conversion'
 require 'podio/middleware/logger'
 require 'podio/middleware/oauth2'
 require 'podio/middleware/podio_api'
-require 'podio/middleware/yajl_response'
+require 'podio/middleware/json_response'
 require 'podio/middleware/error_response'
 require 'podio/middleware/response_recorder'
 

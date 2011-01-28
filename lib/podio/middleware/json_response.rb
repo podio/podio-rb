@@ -1,11 +1,11 @@
-# Custom Yajl until I find a way to only parse the body once in
+# Custom Json response until I find a way to only parse the body once in
 # the OAuth2 retry case
 #
 module Podio
   module Middleware
-    class YajlResponse < Faraday::Response::Middleware
+    class JsonResponse < Faraday::Response::Middleware
       begin
-        require 'yajl'
+        require 'multi_json'
 
         def self.register_on_complete(env)
           env[:response].on_complete do |finished_env|
@@ -24,7 +24,7 @@ module Podio
       end
 
       def self.parse(body)
-        Yajl::Parser.parse(body)
+        MultiJson.decode(body)
       rescue Object => err
         raise Faraday::Error::ParsingError.new(err)
       end

@@ -73,13 +73,13 @@ module Podio
 
     def configure_connection
       Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
-        builder.use Faraday::Request::Yajl
+        builder.use Middleware::JsonRequest
         builder.use Middleware::PodioApi
         builder.use Middleware::OAuth2
         builder.use Middleware::Logger
         builder.adapter(*default_adapter)
         builder.use Middleware::ResponseRecorder if @record_mode
-        builder.use Middleware::YajlResponse
+        builder.use Middleware::JsonResponse
         builder.use Middleware::ErrorResponse
         builder.use Middleware::DateConversion
       end
