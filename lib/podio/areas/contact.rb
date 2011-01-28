@@ -34,11 +34,17 @@ module Podio
     end
 
     def find_all_for_connection(connection_id)
-      list Podio.connection.get("/contact/connection/#{connection_id}").body
+      options = { :type => 'full' }
+      list Podio.connection.get { |req|
+        req.url("/contact/connection/#{connection_id}", options)
+      }.body      
     end
 
     def find_all_for_connection_type(connection_type)
-      list Podio.connection.get("/contact/connection/#{connection_type}").body
+      options = { :type => 'full' }
+      list Podio.connection.get { |req|
+        req.url("/contact/connection/#{connection_type}", options)
+      }.body
     end
 
     def find_for_org(org_id)
