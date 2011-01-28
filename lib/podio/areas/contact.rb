@@ -33,15 +33,19 @@ module Podio
       }.body
     end
 
-    def find_all_for_connection(connection_id)
-      options = { :type => 'full' }
+    def find_all_for_connection(connection_id, options={})
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options[:type] ||= 'full'
+
       list Podio.connection.get { |req|
         req.url("/contact/connection/#{connection_id}", options)
       }.body      
     end
 
-    def find_all_for_connection_type(connection_type)
-      options = { :type => 'full' }
+    def find_all_for_connection_type(connection_type, options={})
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options[:type] ||= 'full'
+
       list Podio.connection.get { |req|
         req.url("/contact/connection/#{connection_type}", options)
       }.body
