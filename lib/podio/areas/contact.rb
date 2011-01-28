@@ -33,12 +33,22 @@ module Podio
       }.body
     end
 
-    def find_all_for_connection(connection_id)
-      list Podio.connection.get("/contact/connection/#{connection_id}").body
+    def find_all_for_connection(connection_id, options={})
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options[:type] ||= 'full'
+
+      list Podio.connection.get { |req|
+        req.url("/contact/connection/#{connection_id}", options)
+      }.body      
     end
 
-    def find_all_for_connection_type(connection_type)
-      list Podio.connection.get("/contact/connection/#{connection_type}").body
+    def find_all_for_connection_type(connection_type, options={})
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options[:type] ||= 'full'
+
+      list Podio.connection.get { |req|
+        req.url("/contact/connection/#{connection_type}", options)
+      }.body
     end
 
     def find_for_org(org_id)

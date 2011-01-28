@@ -17,14 +17,14 @@ class ItemTest < Test::Unit::TestCase
   end
 
   test 'should find items by external id' do
-    items = Podio::Item.find_all_by_external_id(1, 'Foo generator')
+    items = Podio::Item.find_all_by_external_id(1, 'Bar generator')
 
     assert items['count'] > 0
     assert items['total_count'] > 0
 
     assert items['all'].is_a?(Array)
     items['all'].each do |item|
-      assert_equal 'Foo generator', item['external_id']
+      assert_equal 'Bar generator', item['external_id']
     end
   end
 
