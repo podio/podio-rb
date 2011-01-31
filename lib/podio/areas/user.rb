@@ -7,10 +7,10 @@ module Podio
       member Podio.connection.get("/user/").body
     end
 
-    def create(token, attributes)
+    def create(attributes)
       response = Podio.connection.post do |req|
         req.url '/user/'
-        req.body = attributes.merge(:token => token)
+        req.body = attributes
       end
 
       response.body['user_id']

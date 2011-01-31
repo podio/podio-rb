@@ -9,6 +9,7 @@ module Podio
       @api_secret = options[:api_secret] || Podio.api_secret
       @debug = options[:debug] || Podio.debug
       @oauth_token = options[:oauth_token]
+      @headers = options[:custom_headers] || {}
 
       if options[:enable_stubs]
         @enable_stubs = true
@@ -56,7 +57,7 @@ module Podio
     end
 
     def configured_headers
-      headers = {}
+      headers = @headers.dup
       headers['User-Agent']      = 'Podio Ruby Library'
       headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
       headers['X-Podio-Dry-Run'] = '1'                                  if @test_mode
