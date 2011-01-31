@@ -4,7 +4,7 @@ module Podio
     extend self
 
     def all(options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email)
 
       list Podio.connection.get { |req|
         req.url("/contact/", options)
@@ -16,7 +16,7 @@ module Podio
     end
 
     def find_all_for_org(org_id, options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email)
       options[:type] ||= 'full'
 
       list Podio.connection.get { |req|
@@ -25,7 +25,7 @@ module Podio
     end
 
     def find_all_for_space(space_id, options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email)
       options[:type] ||= 'full'
 
       list Podio.connection.get { |req|
@@ -34,7 +34,7 @@ module Podio
     end
 
     def find_all_for_connection(connection_id, options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email)
       options[:type] ||= 'full'
 
       list Podio.connection.get { |req|
@@ -43,7 +43,7 @@ module Podio
     end
 
     def find_all_for_connection_type(connection_type, options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email)
       options[:type] ||= 'full'
 
       list Podio.connection.get { |req|
