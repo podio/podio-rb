@@ -4,18 +4,14 @@
 module Podio
   module Middleware
     class JsonResponse < Faraday::Response::Middleware
-      begin
-        require 'multi_json'
+      require 'multi_json'
 
-        def self.register_on_complete(env)
-          env[:response].on_complete do |finished_env|
-            if finished_env[:body].is_a?(String) && finished_env[:status] < 500
-              finished_env[:body] = parse(finished_env[:body])
-            end
+      def self.register_on_complete(env)
+        env[:response].on_complete do |finished_env|
+          if finished_env[:body].is_a?(String) && finished_env[:status] < 500
+            finished_env[:body] = parse(finished_env[:body])
           end
         end
-      rescue LoadError, NameError => e
-        self.load_error = e
       end
 
       def initialize(app)

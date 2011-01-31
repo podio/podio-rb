@@ -1,12 +1,7 @@
 module Podio
   module Middleware
     class JsonRequest < Faraday::Middleware
-      begin
-        require 'multi_json'
-
-      rescue LoadError, NameError => e
-        self.load_error = e
-      end
+      require 'multi_json'
 
       def call(env)
         env[:request_headers]['Content-Type'] = 'application/json'
