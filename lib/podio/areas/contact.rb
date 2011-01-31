@@ -4,10 +4,18 @@ module Podio
     extend self
 
     def all(options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order)
+      options.assert_valid_keys(:limit, :offset, :type, :order, :required, :name)
 
       list Podio.connection.get { |req|
         req.url("/contact/", options)
+      }.body
+    end
+
+    def top(options={})
+      options.assert_valid_keys(:limit, :type)
+
+      list Podio.connection.get { |req|
+        req.url("/contact/top/", options)
       }.body
     end
 
