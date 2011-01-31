@@ -20,6 +20,7 @@ module Podio
       end
 
       def self.parse(body)
+        return nil if body !~ /\S/ # json gem doesn't like decoding blank strings
         MultiJson.decode(body)
       rescue Object => err
         raise Faraday::Error::ParsingError.new(err)
