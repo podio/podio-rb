@@ -35,6 +35,21 @@ module Podio
     end
   end
 
+  class StdoutLogger
+    def initialize(debug)
+      @debug = debug
+    end
+
+    def log(env)
+      begin
+        puts "\n==> #{env[:method].to_s.upcase} #{env[:url]} \n\n" if @debug
+        yield
+      ensure
+        puts "\n== (#{env[:status]}) ==> #{env[:body]}\n\n" if @debug
+      end
+    end
+  end
+
   class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at)
     def initialize(params = {})
       self.access_token = params['access_token']

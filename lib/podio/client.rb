@@ -1,13 +1,13 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :debug, :connection
+    attr_reader :api_url, :api_key, :api_secret, :connection
     attr_accessor :oauth_token, :stubs
 
     def initialize(options = {})
       @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
       @api_key = options[:api_key] || Podio.api_key
       @api_secret = options[:api_secret] || Podio.api_secret
-      @debug = options[:debug] || Podio.debug
+      @logger = options[:logger] || Podio::StdoutLogger.new(options[:debug] || Podio.debug)
       @oauth_token = options[:oauth_token]
       @headers = options[:custom_headers] || {}
 
@@ -19,6 +19,10 @@ module Podio
       @record_mode = options[:record_mode]
 
       setup_connections
+    end
+
+    def log(env, &block)
+      @logger.log(env, &block)
     end
 
     def reset

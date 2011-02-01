@@ -4,16 +4,8 @@ module Podio
   module Middleware
     class Logger < Faraday::Middleware
       def call(env)
-        if env[:request][:client].debug
-          puts "\n==> #{env[:method].to_s.upcase} #{env[:url]} [#{env[:body]}]\n\n"
-        end
-
-        begin
+        env[:request][:client].log(env) do
           @app.call(env)
-        ensure
-          if env[:request][:client].debug
-            puts "\n== (#{env[:status]}) ==> #{env[:body]}\n\n"
-          end
         end
       end
 
