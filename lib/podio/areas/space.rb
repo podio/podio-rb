@@ -16,9 +16,14 @@ module Podio
       member Podio.connection.get("/space/#{id}").body
     end
 
+    def find_by_url(url)
+      member Podio.connection.get("/space/url?url=#{url}").body
+    end
+    
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
+
   end
 
   module SpaceInvite
