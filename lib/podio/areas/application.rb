@@ -14,6 +14,12 @@ module Podio
         req.url("/app/", options)
       }.body
     end
+
+    def find_all_for_space(space_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/app/space/#{space_id}/", options)
+      }.body
+    end
     
   end
 end
