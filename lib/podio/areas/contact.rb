@@ -70,6 +70,19 @@ module Podio
     def totals_by_org_and_space
       Podio.connection.get("/contact/totals/v2/").body
     end
-    
+
+    def totals_by_space(space_id)
+      Podio.connection.get("/contact/space/#{space_id}/totals/").body
+    end
+
+    def create_space_contact(space_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contact/space/#{space_id}/"
+        req.body = attributes
+      end
+
+      response.body
+    end
   end
+
 end
