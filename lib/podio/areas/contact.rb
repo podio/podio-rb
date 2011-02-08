@@ -58,7 +58,7 @@ module Podio
         req.url("/contact/connection/#{connection_type}", options)
       }.body
     end
-
+    
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/profile").body
     end
@@ -83,6 +83,7 @@ module Podio
 
       response.body
     end
+    
   end
 
 end

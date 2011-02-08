@@ -56,4 +56,16 @@ module Podio
       response.body
     end
   end
+  
+  module SpaceMember
+    include Podio::ResponseWrapper
+    extend self
+
+    def find_all_for_role(space_id, role)
+      list Podio.connection.get { |req|
+        req.url("/space/#{space_id}/member/#{role}/")
+      }.body
+    end
+
+  end
 end

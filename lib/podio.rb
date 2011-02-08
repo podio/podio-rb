@@ -58,10 +58,9 @@ module Podio
     end
   end
 
-  autoload :Client,          'podio/client'
-  autoload :Error,           'podio/error'
-  autoload :ResponseWrapper, 'podio/response_wrapper'
-
+  autoload :Client,             'podio/client'
+  autoload :Error,              'podio/error'
+  autoload :ResponseWrapper,    'podio/response_wrapper'
   autoload :Application,        'podio/areas/application'
   autoload :Category,           'podio/areas/app_store'
   autoload :Connection,         'podio/areas/connection'
@@ -75,6 +74,7 @@ module Podio
   autoload :Search,             'podio/areas/search'
   autoload :Space,              'podio/areas/space'
   autoload :SpaceInvite,        'podio/areas/space'
+  autoload :SpaceMember,        'podio/areas/space'
   autoload :User,               'podio/areas/user'
   autoload :UserStatus,         'podio/areas/user_status'
   autoload :Widget,             'podio/areas/widget'
