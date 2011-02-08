@@ -23,6 +23,14 @@ module Podio
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
+    
+    def update_space_membership(space_id, user_id, role)
+      response = Podio.connection.put do |req|
+        req.url "/space/#{space_id}/member/#{user_id}"
+        req.body = { :role => role.to_s }
+      end
+      response.status
+    end
 
   end
 
