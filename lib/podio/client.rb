@@ -10,6 +10,7 @@ module Podio
       @logger = options[:logger] || Podio::StdoutLogger.new(options[:debug] || Podio.debug)
       @oauth_token = options[:oauth_token]
       @headers = options[:custom_headers] || {}
+      @adapter = options[:adapter] || Faraday.default_adapter
 
       if options[:enable_stubs]
         @enable_stubs = true
@@ -91,7 +92,7 @@ module Podio
     end
 
     def default_adapter
-      @enable_stubs ? [:test, @stubs] : Faraday.default_adapter
+      @enable_stubs ? [:test, @stubs] : @adapter
     end
 
     def configure_oauth_connection
