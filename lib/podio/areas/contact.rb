@@ -84,6 +84,10 @@ module Podio
       response.body
     end
     
+    def delete_contact(profile_id)
+      Podio.connection.delete("/contact/#{profile_id}").body
+    end
+    
   end
 
 end
