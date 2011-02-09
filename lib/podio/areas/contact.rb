@@ -87,6 +87,15 @@ module Podio
     def delete_contact(profile_id)
       Podio.connection.delete("/contact/#{profile_id}").body
     end
+
+    def update_contact(profile_id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/contact/#{profile_id}"
+        req.body = attributes
+      end
+
+      response.body
+    end
     
   end
 
