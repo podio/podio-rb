@@ -62,6 +62,11 @@ module Podio
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/profile").body
     end
+
+    def find_for_user(user_id)
+      member Podio.connection.get("/contact/user/#{user_id}").body
+    end
+
     
     def totals_by_org
       Podio.connection.get("/contact/totals/").body
