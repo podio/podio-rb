@@ -33,8 +33,9 @@ module Podio
     end
 
     def find_all_for_space(space_id, options={})
-      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email, :contact_type)
+      options.assert_valid_keys(:key, :value, :limit, :offset, :type, :order, :name, :email, :contact_type, :exclude_self)
       options[:type] ||= 'full'
+      options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
 
       list Podio.connection.get { |req|
         req.url("/contact/space/#{space_id}", options)
