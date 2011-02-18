@@ -21,12 +21,16 @@ module Podio
       response.status
     end
 
-    def find(id)
+    def find(id, options={})
       member Podio.connection.get("/bulletin/#{id}").body
     end
 
-    def find_all
+    def find_visible
       list Podio.connection.get("/bulletin/").body
+    end
+
+    def find_all
+      list Podio.connection.get("/bulletin/?show_drafts=1").body
     end
 
     def find_all_by_locale(locale)
