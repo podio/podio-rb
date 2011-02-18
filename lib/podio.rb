@@ -61,7 +61,9 @@ module Podio
   autoload :Client,             'podio/client'
   autoload :Error,              'podio/error'
   autoload :ResponseWrapper,    'podio/response_wrapper'
+
   autoload :Application,        'podio/areas/application'
+  autoload :Bulletin,           'podio/areas/bulletin'
   autoload :Category,           'podio/areas/app_store'
   autoload :Connection,         'podio/areas/connection'
   autoload :Contact,            'podio/areas/contact'
