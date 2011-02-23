@@ -12,6 +12,10 @@ module Podio
       response.body['task_id']
     end
 
+    def delete(id)
+      Podio.connection.delete("/task/#{id}").status
+    end
+
     def complete(id)
       Podio.connection.post("/task/#{id}/complete").body
     end
