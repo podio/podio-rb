@@ -77,6 +77,7 @@ module Podio
   autoload :Space,              'podio/areas/space'
   autoload :SpaceInvite,        'podio/areas/space'
   autoload :SpaceMember,        'podio/areas/space'
+  autoload :Task,               'podio/areas/task'
   autoload :User,               'podio/areas/user'
   autoload :UserStatus,         'podio/areas/user_status'
   autoload :Widget,             'podio/areas/widget'
