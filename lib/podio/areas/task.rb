@@ -24,10 +24,6 @@ module Podio
       Podio.connection.post("/task/#{id}/incomplete").body
     end
 
-    def delete(id)
-      Podio.connection.delete("/task/#{id}").body
-    end
-
     def find(id)
       member Podio.connection.get("/task/#{id}").body
     end
