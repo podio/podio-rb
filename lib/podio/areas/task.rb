@@ -28,16 +28,10 @@ module Podio
       member Podio.connection.get("/task/#{id}").body
     end
 
-    def find_active(options={})
-      collection Podio.connection.get("/task/active/").body
-    end
-
-    def find_completed
-      list Podio.connection.get("/task/completed/").body
-    end
-
-    def find_delegated
-      collection Podio.connection.get("/task/assigned/active/").body
+    def find_all(options={})
+      list Podio.connection.get { |req|
+        req.url('/task/', options)
+      }.body
     end
   end
 end
