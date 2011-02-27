@@ -24,14 +24,6 @@ module Podio
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
     
-    def update_space_membership(space_id, user_id, role)
-      response = Podio.connection.put do |req|
-        req.url "/space/#{space_id}/member/#{user_id}"
-        req.body = { :role => role.to_s }
-      end
-      response.status
-    end
-
   end
 
   module SpaceInvite
@@ -65,6 +57,18 @@ module Podio
       list Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/#{role}/")
       }.body
+    end
+
+    def update_role(space_id, user_id, role)
+      response = Podio.connection.put do |req|
+        req.url "/space/#{space_id}/member/#{user_id}"
+        req.body = { :role => role.to_s }
+      end
+      response.status
+    end
+
+    def end_membership(space_id, user_id)
+      Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
 
   end
