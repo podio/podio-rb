@@ -65,6 +65,7 @@ module Podio
   autoload :Application,        'podio/areas/application'
   autoload :Bulletin,           'podio/areas/bulletin'
   autoload :Category,           'podio/areas/app_store'
+  autoload :Comment,            'podio/areas/comment'
   autoload :Connection,         'podio/areas/connection'
   autoload :Contact,            'podio/areas/contact'
   autoload :Conversation,       'podio/areas/conversation'
