@@ -20,6 +20,15 @@ module Podio
         req.url("/app/space/#{space_id}/", options)
       }.body
     end
+
+    def update_order(space_id, app_ids = [])
+      response = Podio.connection.put do |req|
+        req.url "/app/space/#{space_id}/order"
+        req.body = app_ids
+      end
+
+      response.body
+    end    
     
   end
 end
