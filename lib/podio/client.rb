@@ -1,7 +1,7 @@
 module Podio
   class Client
     attr_reader :api_url, :api_key, :api_secret, :connection
-    attr_accessor :oauth_token, :stubs
+    attr_accessor :oauth_token, :stubs, :current_http_client
 
     def initialize(options = {})
       @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
