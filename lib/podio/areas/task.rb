@@ -53,6 +53,10 @@ module Podio
       Podio.connection.post("/task/#{id}/incomplete").body
     end
 
+    def rank(id, before_task_id, after_task_id)
+      Podio.connection.post("/task/#{id}/rank", {:before => before_task_id, :after => after_task_id}).body
+    end
+
     def find(id)
       member Podio.connection.get("/task/#{id}").body
     end
