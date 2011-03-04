@@ -19,5 +19,13 @@ module Podio
       Podio.connection.post "/file/#{file_id}/available"
     end
     
+    # Attach a file to an existing reference
+    def attach(file_id, ref_type, ref_id)
+      Podio.connection.post do |req|
+        req.url "/file/#{file_id}/attach"
+        req.body = { :ref_type => ref_type, :ref_id => ref_id }
+      end
+    end
+    
   end
 end
