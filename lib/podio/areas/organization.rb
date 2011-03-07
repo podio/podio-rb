@@ -62,10 +62,10 @@ module Podio
       end
       response.status
     end
-    
+
     def upgrade(id)
       Podio.connection.post("/org/#{id}/upgrade").body
     end
-    
+  
   end
 end
