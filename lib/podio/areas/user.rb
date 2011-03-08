@@ -15,5 +15,9 @@ module Podio
 
       response.body['user_id']
     end
+    
+    def find_all_admins_for_org(org_id)
+      list Podio.connection.get("/org/#{org_id}/admin/").body
+    end
   end
 end
