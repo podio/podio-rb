@@ -26,8 +26,6 @@ module Podio
         req.url "/integration/#{app_id}/mapping"
         req.body = attributes[:mapping]
       end
-
-      response.body
     end
 
     def find(app_id)
