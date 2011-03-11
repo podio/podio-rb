@@ -55,9 +55,9 @@ module Podio
       }.body
     end
     
-    def update_profile(id, attributes)
+    def update_billing_profile(id, attributes)
       response = Podio.connection.put do |req|
-        req.url "/org/#{id}/profile"
+        req.url "/org/#{id}/billing"
         req.body = attributes
       end
       response.status

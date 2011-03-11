@@ -74,6 +74,7 @@ module Podio
   autoload :Item,               'podio/areas/item'
   autoload :Organization,       'podio/areas/organization'
   autoload :OrganizationMember, 'podio/areas/organization_member'
+  autoload :OrganizationProfile, 'podio/areas/organization_profile'
   autoload :Search,             'podio/areas/search'
   autoload :Space,              'podio/areas/space'
   autoload :SpaceInvite,        'podio/areas/space'
