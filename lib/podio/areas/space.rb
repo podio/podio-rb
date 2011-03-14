@@ -1,3 +1,5 @@
+require "erb"
+
 module Podio
   module Space
     include Podio::ResponseWrapper
@@ -17,7 +19,7 @@ module Podio
     end
 
     def find_by_url(url)
-      member Podio.connection.get("/space/url?url=#{url}").body
+      member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
     end
     
     def find_all_for_org(org_id)
