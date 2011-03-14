@@ -35,5 +35,9 @@ module Podio
     def find_available_fields_for(app_id)
       list Podio.connection.get("/integration/#{app_id}/field/").body
     end
+    
+    def delete(app_id)
+      Podio.connection.delete("/integration/#{app_id}").status
+    end
   end
 end
