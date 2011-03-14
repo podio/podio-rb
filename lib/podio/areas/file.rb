@@ -27,5 +27,9 @@ module Podio
       end
     end
     
+    def copy(file_id)
+      Podio.connection.post "/file/#{file_id}/copy"['file_id']
+    end
+    
   end
 end
