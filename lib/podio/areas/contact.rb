@@ -77,8 +77,13 @@ module Podio
       Podio.connection.get("/contact/totals/v2/").body
     end
 
-    def totals_by_space(space_id)
-      Podio.connection.get("/contact/space/#{space_id}/totals/").body
+    def totals_by_space(space_id, options = {})
+      options.assert_valid_keys(:exclude_self)
+      options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
+      
+      Podio.connection.get { |req|
+        req.url("/contact/space/#{space_id}/totals/", options)
+      }.body
     end
 
     def create_space_contact(space_id, attributes)
