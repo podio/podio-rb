@@ -12,10 +12,10 @@ module Podio
               if finished_env[:body]['error_description'] =~ /expired_token/
                 raise Error::TokenExpired, finished_env[:body].inspect
               else
-                raise Error::AuthorizationError, finished_env[:body].inspect
+                raise Error::AuthorizationError, finished_env[:body]
               end
             when 403
-              raise Error::AuthorizationError, finished_env[:body].inspect
+              raise Error::AuthorizationError, finished_env[:body]
             when 404
               raise Error::NotFoundError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
             when 410
