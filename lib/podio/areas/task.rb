@@ -41,6 +41,10 @@ module Podio
       Podio.connection.post("/task/#{id}/assign", {:responsible => user_id}).status
     end
 
+    def update_labels(id, label_ids)
+      Podio.connection.put("/task/#{id}/label/", label_ids).status
+    end
+
     def delete(id)
       Podio.connection.delete("/task/#{id}").status
     end
@@ -66,5 +70,27 @@ module Podio
         req.url('/task/', options)
       }.body
     end
+    
+    def create_label(text, color)
+      response = Podio.connection.post do |req|
+        req.url "/task/label/"
+        req.body = { :text => text, :color => color }
+      end
+
+      response.body['label_id']
+    end
+    
+    def delete_label(label_id)
+      Podio.connection.delete("/task/label/#{label_id}").status
+    end
+    
+    def find_all_labels
+      Podio.connection.get("/task/label/").body
+    end
+    
+    def update_label(label_id, text, color)
+      Podio.connection.put("/task/label/#{label_id}", {:text => text, :color => color}).status
+    end
+    
   end
 end
