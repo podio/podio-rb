@@ -70,27 +70,35 @@ module Podio
         req.url('/task/', options)
       }.body
     end
-    
-    def create_label(text, color)
+  end
+
+  module TaskLabel
+    include Podio::ResponseWrapper
+    extend self
+
+    def find_all_labels
+      list Podio.connection.get { |req|
+        req.url("/task/label/")
+      }.body
+    end
+
+    def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/task/label/"
-        req.body = { :text => text, :color => color }
+        req.body = attributes
       end
 
       response.body['label_id']
     end
-    
-    def delete_label(label_id)
+
+    def delete(label_id)
       Podio.connection.delete("/task/label/#{label_id}").status
     end
-    
-    def find_all_labels
-      Podio.connection.get("/task/label/").body
-    end
-    
-    def update_label(label_id, text, color)
+
+    def update(label_id, text, color)
       Podio.connection.put("/task/label/#{label_id}", {:text => text, :color => color}).status
     end
-    
+
   end
 end
+
