@@ -95,8 +95,8 @@ module Podio
       Podio.connection.delete("/task/label/#{label_id}").status
     end
 
-    def update(label_id, text, color)
-      Podio.connection.put("/task/label/#{label_id}", {:text => text, :color => color}).status
+    def update(label_id, attributes)
+      Podio.connection.put("/task/label/#{label_id}", attributes).status
     end
 
   end
