@@ -41,6 +41,10 @@ module Podio
       Podio.connection.post("/task/#{id}/assign", {:responsible => user_id}).status
     end
 
+    def update_reference(id, ref_type, ref_id)
+      Podio.connection.put("/task/#{id}/ref", {:ref_type => ref_type, :ref_id => ref_id}).status
+    end
+    
     def update_labels(id, label_ids)
       Podio.connection.put("/task/#{id}/label/", label_ids).status
     end
