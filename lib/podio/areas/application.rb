@@ -28,6 +28,14 @@ module Podio
       end
 
       response.body
+    end
+    
+    def create(attributes)
+      response = Podio.connection.post do |req|
+        req.url "/app/"
+        req.body = attributes
+      end
+      response.body['app_id']
     end    
     
   end
