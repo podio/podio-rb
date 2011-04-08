@@ -23,7 +23,6 @@ module Podio
       }.body
     end
 
-    
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/item/app/#{app_id}/"
@@ -31,6 +30,11 @@ module Podio
       end
 
       response.body['item_id']
-    end    
+    end
+    
+    def delete(id)
+      Podio.connection.delete("/item/#{id}").body
+    end
+    
   end
 end
