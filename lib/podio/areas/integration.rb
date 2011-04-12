@@ -39,5 +39,9 @@ module Podio
     def delete(app_id)
       Podio.connection.delete("/integration/#{app_id}").status
     end
+
+    def refresh(app_id)
+      Podio.connection.post("/integration/#{app_id}/refresh").status
+    end
   end
 end
