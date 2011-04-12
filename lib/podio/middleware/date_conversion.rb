@@ -3,7 +3,7 @@ module Podio
     class DateConversion < Faraday::Response::Middleware
       def self.register_on_complete(env)
         env[:response].on_complete do |finished_env|
-          convert_dates(finished_env[:body])
+          convert_dates(finished_env[:body]) if finished_env[:body].is_a?(Hash)
         end
       end
       

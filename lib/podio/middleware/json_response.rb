@@ -8,7 +8,7 @@ module Podio
 
       def self.register_on_complete(env)
         env[:response].on_complete do |finished_env|
-          if finished_env[:body].is_a?(String) && finished_env[:status] < 500
+          if finished_env[:body].is_a?(String) && is_json?(finished_env) && finished_env[:status] < 500
             finished_env[:body] = parse(finished_env[:body])
           end
         end
@@ -17,6 +17,10 @@ module Podio
       def initialize(app)
         super
         @parser = nil
+      end
+
+      def self.is_json?(finished_env)
+        finished_env[:response_headers]['content-type'] =~ /application\/json/
       end
 
       def self.parse(body)
