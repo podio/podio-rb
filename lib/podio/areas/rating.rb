@@ -3,10 +3,10 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
-    def create(ref_type, ref_id, rating_type)
+    def create(ref_type, ref_id, rating_type, value)
       response = Podio.connection.post do |req|
         req.url "/rating/#{ref_type}/#{ref_id}/#{rating_type}"
-        req.body = attributes
+        req.body = { :value => value }
       end
 
       response.body['rating_id']
