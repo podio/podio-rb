@@ -36,6 +36,14 @@ module Podio
         req.body = attributes
       end
       response.body['app_id']
+    end
+    
+    def deactivate(id)
+      Podio.connection.post("/app/#{id}/deactivate").body
+    end
+    
+    def delete(id)
+      Podio.connection.delete("/app/#{id}").body
     end    
     
   end
