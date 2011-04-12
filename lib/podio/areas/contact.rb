@@ -70,6 +70,10 @@ module Podio
       member Podio.connection.get("/contact/user/#{user_id}").body
     end
 
+    def vcard(profile_id)
+      Podio.connection.get("/contact/#{profile_id}/vcard").body
+    end
+
     def totals_by_org
       Podio.connection.get("/contact/totals/").body
     end
