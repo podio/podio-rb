@@ -83,6 +83,7 @@ module Podio
   autoload :SpaceMember,        'podio/areas/space'
   autoload :Status,             'podio/areas/status'
   autoload :StoreShare,         'podio/areas/store'
+  autoload :Subscription,       'podio/areas/subscription'
   autoload :Task,               'podio/areas/task'
   autoload :TaskLabel,          'podio/areas/task'
   autoload :User,               'podio/areas/user'
