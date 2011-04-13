@@ -72,6 +72,7 @@ module Podio
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'
   autoload :Item,               'podio/areas/item'
+  autoload :Importer,           'podio/areas/importer'
   autoload :Integration,        'podio/areas/integration'
   autoload :Organization,       'podio/areas/organization'
   autoload :OrganizationMember, 'podio/areas/organization_member'
