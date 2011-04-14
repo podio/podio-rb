@@ -47,6 +47,15 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
+    def create(attributes)
+      response = Podio.connection.post do |req|
+        req.url "/app_store/"
+        req.body = attributes
+      end
+
+      response.body['share_id']
+    end
+
     def find(id)
       member Podio.connection.get("/app_store/#{id}/v2").body
     end
