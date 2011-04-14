@@ -71,6 +71,7 @@ module Podio
   autoload :Conversation,       'podio/areas/conversation'
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'
+  autoload :Hook,               'podio/areas/hook'
   autoload :Item,               'podio/areas/item'
   autoload :Integration,        'podio/areas/integration'
   autoload :Organization,       'podio/areas/organization'
