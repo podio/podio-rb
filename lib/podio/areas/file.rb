@@ -71,15 +71,17 @@ module Podio
       }.body
     end
     
-    def replace(new_file_id, old_file_id)
-      Podio.connection.get { |req|
-        req.url("/file/#{file_id}/replace", { :old_file_id => old_file_id })
+    def replace(old_file_id, new_file_id)
+      Podio.connection.post { |req|
+        req.url "/file/#{new_file_id}/replace"
+        req.body = { :old_file_id => old_file_id }
       }.body
     end
 
     def update(id, description)
       Podio.connection.put { |req|
-        req.url("/file/#{file_id}", { :description => description })
+        req.url "/file/#{file_id}"
+        req.body = { :description => description }
       }.body
     end
     
