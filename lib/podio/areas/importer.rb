@@ -3,13 +3,12 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
-    def process_file(file_id, app_id, external_id, mapping)
+    def process_file(file_id, app_id, mappings)
       response = Podio.connection.post do |req|
         req.url "/importer/#{file_id}/process"
         req.body = {
           :app_id => app_id,
-          :external_id => external_id,
-          :mapping => mapping
+          :mappings => mappings
         }
       end
 
