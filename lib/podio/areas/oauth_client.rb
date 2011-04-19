@@ -4,6 +4,8 @@ module Podio
     extend self
 
     def update(id, attributes)
+      puts attributes
+      
       response = Podio.connection.put do |req|
         req.url "/oauth/client/#{id}"
         req.body = attributes
@@ -15,9 +17,6 @@ module Podio
     def delete(id)
       response = Podio.connection.delete("/oauth/client/#{id}")
       
-      response.status
-      end
-
       response.status
     end
     
