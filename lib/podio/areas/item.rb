@@ -16,8 +16,6 @@ module Podio
     end
 
     def find_all(app_id, options={})
-      options.assert_valid_keys(:key, :limit, :offset, :sort_by, :sort_desc)
-
       collection Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/", options)
       }.body
