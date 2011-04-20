@@ -3,11 +3,27 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
+    def create_admin(user_id, attributes)      
+      response = Podio.connection.post do |req|
+        req.url "/oauth/client/user/#{user_id}/"
+        req.body = attributes
+      end
+
+      response.status
+    end
+
     def update(id, attributes)
-      puts attributes
-      
       response = Podio.connection.put do |req|
         req.url "/oauth/client/#{id}"
+        req.body = attributes
+      end
+
+      response.status
+    end
+
+    def update_admin(id, attributes)      
+      response = Podio.connection.put do |req|
+        req.url "/oauth/client/#{id}/admin"
         req.body = attributes
       end
 
