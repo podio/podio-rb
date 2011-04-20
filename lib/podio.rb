@@ -87,6 +87,7 @@ module Podio
   autoload :Status,             'podio/areas/status'
   autoload :Subscription,       'podio/areas/subscription'
   autoload :Task,               'podio/areas/task'
+  autoload :Tag,                'podio/areas/tag'
   autoload :TaskLabel,          'podio/areas/task'
   autoload :User,               'podio/areas/user'
   autoload :UserStatus,         'podio/areas/user_status'
