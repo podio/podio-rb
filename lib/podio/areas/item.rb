@@ -29,6 +29,16 @@ module Podio
       find_next_or_previous(:previous, current_item_id, time)
     end
 
+    def revisions(item_id)
+      collection Podio.connection.get("/item/#{item_id}/revision/").body
+    end
+
+    def revision_difference(item_id, revision_from_id, revision_to_id)
+      list Podio.connection.get{ |req|
+        req.url("/item/#{item_id}/revision/#{revision_from_id}/#{revision_to_id}")
+      }.body
+    end
+
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/item/app/#{app_id}/"
