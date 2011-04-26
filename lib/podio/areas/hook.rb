@@ -17,6 +17,13 @@ module Podio
         req.url "/hook/#{hook_id}/verify/request"
       end
     end
+
+    def validate(hook_id, code)
+      Podio.connection.post do |req|
+        req.url "/hook/#{hook_id}/verify/validate"
+        req.body = {:code => code}
+      end
+    end
     
     def delete(hook_id)
       Podio.connection.delete do |req|
