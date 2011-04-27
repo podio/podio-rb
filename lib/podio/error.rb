@@ -5,6 +5,7 @@ module Podio
     class BadRequestError < StandardError; end
     class ServerError < StandardError; end
     class NotFoundError < StandardError; end
+    class ConflictError < StandardError; end
     class GoneError < StandardError; end
     class Unavailable < StandardError; end
   end

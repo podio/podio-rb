@@ -6,6 +6,8 @@ module Podio
       def self.register_on_complete(env)
         env[:response].on_complete do |finished_env|
           case finished_env[:status]
+            when 200, 204
+              # pass
             when 400
               raise Error::BadRequestError, finished_env[:body]
             when 401
@@ -18,12 +20,17 @@ module Podio
               raise Error::AuthorizationError, finished_env[:body]
             when 404
               raise Error::NotFoundError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
+            when 409
+              raise Error::ConflictError, finished_env[:body]
             when 410
               raise Error::GoneError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
             when 500
               raise Error::ServerError, finished_env[:body].inspect
             when 502, 503
               raise Error::Unavailable, finished_env[:body].inspect
+            else
+              # anything else is something unexpected, so raise it
+              raise Error::ServerError, finished_env[:body].inspect
           end
         end
       end
