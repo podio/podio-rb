@@ -19,5 +19,13 @@ module Podio
     def find_all_admins_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/admin/").body
     end
+
+    def get_property(name, value)
+      Podio.connection.get("/user/property/#{name}").body['value']
+    end
+    
+    def set_property(name, value)
+      Podio.connection.put("/user/property/#{name}", {:value => value}).status
+    end
   end
 end
