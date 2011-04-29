@@ -78,7 +78,7 @@ module Podio
   autoload :Importer,           'podio/areas/importer'
   autoload :Integration,        'podio/areas/integration'
   autoload :OAuth,              'podio/areas/oauth'
-  autoload :OAuthClient,        'podio/areas/oauth_client'
+  autoload :OAuthClient,        'podio/areas/oauth'
   autoload :Organization,       'podio/areas/organization'
   autoload :OrganizationMember, 'podio/areas/organization_member'
   autoload :OrganizationProfile, 'podio/areas/organization_profile'
