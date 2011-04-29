@@ -24,8 +24,15 @@ module Podio
         req.url "/conversation/#{ref_type}/#{ref_id}/"
         req.body = attributes
       end
-
       response.body
+    end
+    
+    def create_reply(conversation_id, text)
+      response = Podio.connection.post do |req|
+        req.url "/conversation/#{conversation_id}/reply"
+        req.body = { :text => text }
+      end
+      response.body['message_id']
     end
 
   end
