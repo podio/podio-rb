@@ -58,6 +58,7 @@ module Podio
       end
 
       @oauth_token.access_token = response.body['access_token']
+      @oauth_token.refreshed = true
       configure_oauth
     end
 
