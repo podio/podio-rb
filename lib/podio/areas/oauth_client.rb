@@ -3,6 +3,15 @@ module Podio
     include Podio::ResponseWrapper
     extend self
 
+    def get_info(attributes)
+      response = Podio.connection.post do |req|
+        req.url "/oauth/info"
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     def create_admin(user_id, attributes)      
       response = Podio.connection.post do |req|
         req.url "/oauth/client/user/#{user_id}/"
@@ -36,10 +45,14 @@ module Podio
       response.status
     end
     
+    def find_granted()
+      list Podio.connection.get("oauth/grant/client/").body
+    end
+
     def find_all_for_user(user_id)
       list Podio.connection.get("oauth/client/user/#{user_id}/").body
     end
-    
+
     def find(client_id)
       member Podio.connection.get("oauth/client/#{client_id}").body
     end
