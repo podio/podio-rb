@@ -50,7 +50,7 @@ module Podio
     end
   end
 
-  class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at, :reference)
+  class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at, :reference, :refreshed)
     def initialize(params = {})
       self.access_token  = params['access_token']
       self.refresh_token = params['refresh_token']
