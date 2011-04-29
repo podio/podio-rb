@@ -67,6 +67,12 @@ module Podio
         response.status
       end
 
+      def delete_grant(id)
+         response = Podio.connection.delete("/oauth/grant/client/#{id}")
+
+         response.status
+       end
+
       def find_granted_clients()
         list Podio.connection.get("oauth/grant/client/").body
       end
