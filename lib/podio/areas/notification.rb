@@ -26,6 +26,15 @@ module Podio
     def mark_all_as_viewed(id)
       Podio.connection.post("/notification/viewed").status
     end
+    
+    def star(id)
+      Podio.connection.post("/notification/#{id}/star").status
+    end
+
+    def unstar(id)
+      Podio.connection.delete("/notification/#{id}/star").status
+    end
+    
   end
 
 end
