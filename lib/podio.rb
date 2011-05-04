@@ -71,6 +71,7 @@ module Podio
   autoload :Connection,         'podio/areas/connection'
   autoload :Contact,            'podio/areas/contact'
   autoload :Conversation,       'podio/areas/conversation'
+  autoload :Email,              'podio/areas/email'
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'
   autoload :Hook,               'podio/areas/hook'
