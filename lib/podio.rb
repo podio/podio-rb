@@ -30,6 +30,13 @@ module Podio
       Thread.current[:podio_client] = new_client
     end
 
+    def with_client
+      old_client = Podio.client.dup
+      yield
+    ensure
+      Podio.client = old_client
+    end
+
     def connection
       client.connection
     end

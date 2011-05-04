@@ -40,32 +40,24 @@ module Podio
     end
 
     def find_for_app(app_id, options={})
-      options.assert_valid_keys(:limit, :offset)
-
       collection Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/", options)
       }.body
     end
 
     def find_for_space(space_id, options={})
-      options.assert_valid_keys(:limit, :offset)
-
       collection Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/", options)
       }.body
     end
 
     def find_latest_for_app(app_id, options={})
-      options.assert_valid_keys(:limit, :offset)
-
       collection Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/latest/", options)
       }.body
     end
 
     def find_latest_for_space(space_id, options={})
-      options.assert_valid_keys(:limit, :offset)
-
       collection Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/latest/", options)
       }.body
