@@ -48,8 +48,6 @@ module Podio
     end
     
     def get_login_report(id, options = {})
-      options.assert_valid_keys(:limit, :offset)
-
       Podio.connection.get { |req|
         req.url("/org/#{id}/report/login/", options)
       }.body
