@@ -28,7 +28,7 @@ module Podio
     end
     
     def copy(id)
-      Podio.connection.post("/file/#{id}/copy").body['id']
+      Podio.connection.post("/file/#{id}/copy").body['file_id']
     end
     
     def delete(id)
