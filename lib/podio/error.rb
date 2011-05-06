@@ -1,12 +1,14 @@
 module Podio
   module Error
-    class TokenExpired < StandardError; end
-    class AuthorizationError < StandardError; end
-    class BadRequestError < StandardError; end
-    class ServerError < StandardError; end
-    class NotFoundError < StandardError; end
-    class ConflictError < StandardError; end
-    class GoneError < StandardError; end
-    class Unavailable < StandardError; end
+    class PodioError < StandardError; end
+
+    class TokenExpired < PodioError; end
+    class AuthorizationError < PodioError; end
+    class BadRequestError < PodioError; end
+    class ServerError < PodioError; end
+    class NotFoundError < PodioError; end
+    class ConflictError < PodioError; end
+    class GoneError < PodioError; end
+    class Unavailable < PodioError; end
   end
 end
