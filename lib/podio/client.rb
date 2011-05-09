@@ -57,7 +57,7 @@ module Podio
         req.url '/oauth/token', :grant_type => 'refresh_token', :refresh_token => oauth_token.refresh_token, :client_id => api_key, :client_secret => api_secret
       end
 
-      @oauth_token.access_token = response.body['access_token']
+      @oauth_token = OAuthToken.new(response.body)
       @oauth_token.refreshed = true
       configure_oauth
     end
