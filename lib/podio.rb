@@ -81,6 +81,7 @@ module Podio
   autoload :Email,              'podio/areas/email'
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'
+  autoload :Email,              'podio/areas/email'
   autoload :Hook,               'podio/areas/hook'
   autoload :Item,               'podio/areas/item'
   autoload :Importer,           'podio/areas/importer'
