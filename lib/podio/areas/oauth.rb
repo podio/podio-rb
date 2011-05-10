@@ -80,6 +80,11 @@ module Podio
          response = Podio.connection.delete("/oauth/grant/client/#{id}")
 
          response.status
+      end
+
+      def reset(id)
+         response = Podio.connection.post("/oauth/client/#{id}/reset")
+         response.status
        end
 
       def find_granted_clients()
