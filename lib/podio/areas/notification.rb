@@ -11,7 +11,7 @@ module Podio
       Podio.connection.post("/notification/#{id}/viewed").status
     end
 
-    def mark_all_as_viewed(id)
+    def mark_all_as_viewed
       Podio.connection.post("/notification/viewed").status
     end
     
