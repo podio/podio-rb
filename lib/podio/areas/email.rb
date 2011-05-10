@@ -17,7 +17,7 @@ module Podio
     end
 
     def unsubscribe(username)
-      Podio.connection.delete("/email/unsubscribe/#{username}").status
+      Podio.connection.post("/email/unsubscribe/#{username}").status
     end
 
   end
