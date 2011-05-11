@@ -16,7 +16,7 @@ module Podio
     end
 
     def delete(id)
-      Podio.connection.delete("/subscription/#{id}}")
+      Podio.connection.delete("/subscription/#{id}")
     end
 
     def delete_by_reference(ref_type, ref_id)
