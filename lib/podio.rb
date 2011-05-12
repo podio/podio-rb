@@ -13,6 +13,10 @@ require 'podio/middleware/response_recorder'
 
 module Podio
   class << self
+    def setup(options={})
+      Podio.client = Podio::Client.new(options)
+    end
+
     def client
       Thread.current[:podio_client]
     end
