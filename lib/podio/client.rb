@@ -4,10 +4,10 @@ module Podio
     attr_accessor :oauth_token, :stubs, :current_http_client
 
     def initialize(options = {})
-      @api_url = options[:api_url] || Podio.api_url || 'https://api.podio.com'
-      @api_key = options[:api_key] || Podio.api_key
-      @api_secret = options[:api_secret] || Podio.api_secret
-      @logger = options[:logger] || Podio::StdoutLogger.new(options[:debug] || Podio.debug)
+      @api_url = options[:api_url] || 'https://api.podio.com'
+      @api_key = options[:api_key]
+      @api_secret = options[:api_secret]
+      @logger = options[:logger] || Podio::StdoutLogger.new(options[:debug])
       @oauth_token = options[:oauth_token]
       @headers = options[:custom_headers] || {}
       @adapter = options[:adapter] || Faraday.default_adapter

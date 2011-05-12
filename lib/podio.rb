@@ -13,18 +13,8 @@ require 'podio/middleware/response_recorder'
 
 module Podio
   class << self
-    attr_accessor :api_key
-    attr_accessor :api_secret
-    attr_accessor :api_url
-    attr_accessor :debug
-
-    def configure
-      yield self
-      true
-    end
-
     def client
-      Thread.current[:podio_client] ||= Podio::Client.new
+      Thread.current[:podio_client]
     end
 
     def client=(new_client)
@@ -39,7 +29,7 @@ module Podio
     end
 
     def connection
-      client.connection
+      client ? client.connection : nil
     end
   end
 
