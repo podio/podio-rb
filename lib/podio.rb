@@ -1,6 +1,7 @@
 require 'faraday'
 require 'active_support/core_ext'
 
+require 'podio/error'
 require 'podio/middleware/json_request'
 require 'podio/middleware/date_conversion'
 require 'podio/middleware/logger'
@@ -67,7 +68,6 @@ module Podio
   end
 
   autoload :Client,             'podio/client'
-  autoload :Error,              'podio/error'
   autoload :ResponseWrapper,    'podio/response_wrapper'
 
   autoload :Application,        'podio/areas/application'
