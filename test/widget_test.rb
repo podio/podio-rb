@@ -32,7 +32,7 @@ class WidgetTest < Test::Unit::TestCase
   end
 
   test 'should not create widget with missing field' do
-    assert_raises Podio::Error::BadRequestError do
+    assert_raises Podio::BadRequestError do
       Podio::Widget.create(:app, 1, :title => 'widget title', :config => {:text => 'widget'})
     end
   end

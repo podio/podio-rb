@@ -9,7 +9,7 @@ module Podio
 
         begin
           @app.call(env)
-        rescue Error::TokenExpired
+        rescue TokenExpired
           podio_client.refresh_access_token
 
           # new access token needs to be put into the header

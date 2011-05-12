@@ -11,7 +11,7 @@ class ItemTest < Test::Unit::TestCase
   end
 
   test 'should not find nonexistant item' do
-    assert_raises Podio::Error::NotFoundError do
+    assert_raises Podio::NotFoundError do
       Podio::Item.find(42)
     end
   end

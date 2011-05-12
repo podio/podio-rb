@@ -9,28 +9,28 @@ module Podio
             when 200, 204
               # pass
             when 400
-              raise Error::BadRequestError, finished_env[:body]
+              raise BadRequestError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 401
               if finished_env[:body]['error_description'] =~ /expired_token/
-                raise Error::TokenExpired, finished_env[:body].inspect
+                raise TokenExpired.new(finished_env[:body], finished_env[:status], finished_env[:url])
               else
-                raise Error::AuthorizationError, finished_env[:body]
+                raise AuthorizationError.new(finished_env[:body], finished_env[:status], finished_env[:url])
               end
             when 403
-              raise Error::AuthorizationError, finished_env[:body]
+              raise AuthorizationError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 404
-              raise Error::NotFoundError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
+              raise NotFoundError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 409
-              raise Error::ConflictError, finished_env[:body]
+              raise ConflictError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 410
-              raise Error::GoneError, "#{finished_env[:method].to_s.upcase} #{finished_env[:url]}"
+              raise GoneError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 500
-              raise Error::ServerError, finished_env[:body].inspect
+              raise ServerError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             when 502, 503
-              raise Error::Unavailable, finished_env[:body].inspect
+              raise UnavailableError.new(finished_env[:body], finished_env[:status], finished_env[:url])
             else
               # anything else is something unexpected, so raise it
-              raise Error::ServerError, finished_env[:body].inspect
+              raise ServerError.new(finished_env[:body], finished_env[:status], finished_env[:url])
           end
         end
       end
