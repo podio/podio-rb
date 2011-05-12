@@ -52,6 +52,16 @@ module Podio
       @oauth_token
     end
 
+    def login_with_authorization_code(authorization_code, redirect_uri)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'authorization_code', :client_id => api_key, :client_secret => api_secret, :code => authorization_code, :redirect_uri => redirect_uri
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     def refresh_access_token
       response = @oauth_connection.post do |req|
         req.url '/oauth/token', :grant_type => 'refresh_token', :refresh_token => oauth_token.refresh_token, :client_id => api_key, :client_secret => api_secret
