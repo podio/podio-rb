@@ -1,23 +1,15 @@
 require 'test_helper'
 
 class ClientTest < Test::Unit::TestCase
-  def setup
-    Podio.configure do |config|
-      config.api_url = 'https://api.podio.com'
-      config.api_key = 'client_id'
-      config.api_secret = 'client_secret'
-    end
+  test 'should setup client' do
+    Podio.setup(:api_key => 'client_id', :api_secret => 'client_secret')
+
+    assert_equal Podio::Client, Podio.client.class
+    assert_equal 'client_id', Podio.client.api_key
+    assert_equal 'client_secret', Podio.client.api_secret
   end
 
-  test 'should configure defaults' do
-    podio = Podio::Client.new
-
-    assert_equal 'https://api.podio.com', podio.api_url
-    assert_equal 'client_id', podio.api_key
-    assert_equal 'client_secret', podio.api_secret
-  end
-
-  test 'should overwrite defaults' do
+  test 'should initialize client' do
     podio = Podio::Client.new(:api_url => 'https://new.podio.com', :api_key => 'new_client_id', :api_secret => 'new_client_secret')
 
     assert_equal 'https://new.podio.com', podio.api_url
@@ -39,7 +31,7 @@ class ClientTest < Test::Unit::TestCase
     client.oauth_token = nil
     assert_nil client.oauth_token
 
-    client.get_access_token('pollas@hoisthq.com', 'secret')
+    client.authenticate_with_credentials('pollas@hoisthq.com', 'secret')
 
     assert_not_nil client.oauth_token.access_token
     assert_not_nil client.oauth_token.refresh_token
