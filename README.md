@@ -113,6 +113,9 @@ Full Example
       puts org['url']
     end
 
+Note on Heroku Usage
+---------------------
+If you plan on using podio-rb on Heroku please noe that only the 1.9.2 stack has been tested. Specifically, bamboo-mri-1.9.2 is recommended, while 1.8.7 is still stock on Heroku. Refer to their documentation for information on how to migrate your dynos 
 
 Meta
 ----
