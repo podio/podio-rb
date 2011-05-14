@@ -6,24 +6,17 @@ module Podio
     class JsonResponse < Faraday::Response::Middleware
       require 'multi_json'
 
-      def self.register_on_complete(env)
-        env[:response].on_complete do |finished_env|
-          if finished_env[:body].is_a?(String) && is_json?(finished_env) && finished_env[:status] < 500
-            finished_env[:body] = parse(finished_env[:body])
-          end
+      def on_complete(env)
+        if env[:body].is_a?(String) && is_json?(env) && env[:status] < 500
+          env[:body] = parse(env[:body])
         end
       end
 
-      def initialize(app)
-        super
-        @parser = nil
+      def is_json?(env)
+        env[:response_headers]['content-type'] =~ /application\/json/
       end
 
-      def self.is_json?(finished_env)
-        finished_env[:response_headers]['content-type'] =~ /application\/json/
-      end
-
-      def self.parse(body)
+      def parse(body)
         return nil if body !~ /\S/ # json gem doesn't like decoding blank strings
         MultiJson.decode(body)
       rescue Object => err

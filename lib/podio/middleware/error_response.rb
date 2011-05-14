@@ -3,40 +3,34 @@
 module Podio
   module Middleware
     class ErrorResponse < Faraday::Response::Middleware
-      def self.register_on_complete(env)
-        env[:response].on_complete do |finished_env|
-          case finished_env[:status]
-            when 200, 204
-              # pass
-            when 400
-              raise BadRequestError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 401
-              if finished_env[:body]['error_description'] =~ /expired_token/
-                raise TokenExpired.new(finished_env[:body], finished_env[:status], finished_env[:url])
-              else
-                raise AuthorizationError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-              end
-            when 403
-              raise AuthorizationError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 404
-              raise NotFoundError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 409
-              raise ConflictError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 410
-              raise GoneError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 500
-              raise ServerError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-            when 502, 503
-              raise UnavailableError.new(finished_env[:body], finished_env[:status], finished_env[:url])
+      def on_complete(env)
+        case env[:status]
+          when 200, 204
+            # pass
+          when 400
+            raise BadRequestError.new(env[:body], env[:status], env[:url])
+          when 401
+            if env[:body]['error_description'] =~ /expired_token/
+              raise TokenExpired.new(env[:body], env[:status], env[:url])
             else
-              # anything else is something unexpected, so raise it
-              raise ServerError.new(finished_env[:body], finished_env[:status], finished_env[:url])
-          end
+              raise AuthorizationError.new(env[:body], env[:status], env[:url])
+            end
+          when 403
+            raise AuthorizationError.new(env[:body], env[:status], env[:url])
+          when 404
+            raise NotFoundError.new(env[:body], env[:status], env[:url])
+          when 409
+            raise ConflictError.new(env[:body], env[:status], env[:url])
+          when 410
+            raise GoneError.new(env[:body], env[:status], env[:url])
+          when 500
+            raise ServerError.new(env[:body], env[:status], env[:url])
+          when 502, 503
+            raise UnavailableError.new(env[:body], env[:status], env[:url])
+          else
+            # anything else is something unexpected, so raise it
+            raise ServerError.new(env[:body], env[:status], env[:url])
         end
-      end
-
-      def initialize(app)
-        super
       end
     end
   end
