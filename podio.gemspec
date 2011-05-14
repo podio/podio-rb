@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.test_files        = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths     = ['lib']
 
-  s.add_runtime_dependency 'faraday', '~> 0.5.1'
+  s.add_runtime_dependency 'faraday', '~> 0.7.0'
   s.add_runtime_dependency 'activesupport', '~> 3.0'
   s.add_runtime_dependency 'i18n', '>= 0.4.2'
   s.add_runtime_dependency 'multi_json', '~> 0.0.5'
