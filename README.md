@@ -29,9 +29,14 @@ After the configuration you need to authenticate against the API. The client sup
 
 ### Web Server Flow
 
-The default OAuth flow to be used when you authenticate Podio users from your web application.
+The default OAuth flow to be used when you authenticate Podio users from your web application. See the `sinatra.rb` in the examples folder.
 
-    Podio.client.authenticate_with_auth_code('AUTHORIZATION_CODE', redirect_uri)
+    # Redirect the user to the authorize url
+    Podio.client.authorize_url(:redirect_uri => redirect_uri)
+
+    # In the callback you get the authorization_code
+    # wich you use to get the access token
+    Podio.client.authenticate_with_auth_code(params[:code], redirect_uri)
 
 ### Username and Password Flow
 
