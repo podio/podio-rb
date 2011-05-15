@@ -30,6 +30,15 @@ module Podio
       setup_connections
     end
 
+    def authorize_url(params={})
+      uri = URI.parse(@api_url)
+      uri.host  = uri.host.gsub('api.', '')
+      uri.path  = '/oauth/authorize'
+      uri.query = Rack::Utils.build_query(params.merge(:client_id => api_key))
+
+      uri.to_s
+    end
+
     # sign in as a user using the server side flow
     def authenticate_with_auth_code(authorization_code, redirect_uri)
       response = @oauth_connection.post do |req|
