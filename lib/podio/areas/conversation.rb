@@ -34,6 +34,14 @@ module Podio
       end
       response.body['message_id']
     end
+    
+    def add_participant(conversation_id, user_id)
+      response = Podio.connection.post do |req|
+        req.url "/conversation/#{conversation_id}/participant"
+        req.body = { :user_id => user_id }
+      end
+      response.body
+    end
 
   end
 end
