@@ -69,6 +69,10 @@ module Podio
       member Podio.connection.get("/task/#{id}").body
     end
 
+    def find_for_reference(ref_type, ref_id)
+      list Podio.connection.get("/task/#{ref_type}/#{ref_id}/").body
+    end
+
     def find_all(options={})
       list Podio.connection.get { |req|
         req.url('/task/', options)
