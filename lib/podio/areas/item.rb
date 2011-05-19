@@ -29,10 +29,12 @@ module Podio
       find_next_or_previous(:previous, current_item_id, time)
     end
 
+    # Deprecated. Use method in ItemRevision instead.
     def revisions(item_id)
       collection Podio.connection.get("/item/#{item_id}/revision/").body
     end
 
+    # Deprecated. Use method in ItemDiff instead.
     def revision_difference(item_id, revision_from_id, revision_to_id)
       list Podio.connection.get{ |req|
         req.url("/item/#{item_id}/revision/#{revision_from_id}/#{revision_to_id}")
@@ -46,6 +48,14 @@ module Podio
       end
 
       response.body['item_id']
+    end
+    
+    def update(id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/item/#{id}"
+        req.body = attributes
+      end
+      response.status
     end
     
     def delete(id)
@@ -64,5 +74,27 @@ module Podio
         }.body
       end
     
+  end
+
+  module ItemRevision
+    include Podio::ResponseWrapper
+    extend self
+
+    def find(item_id, revision_id)
+      member Podio.connection.get("/item/#{item_id}/revision/#{revision_id}").body
+    end
+
+    def find_all_by_item_id(item_id)
+      list Podio.connection.get("/item/#{item_id}/revision/").body
+    end
+  end
+
+  module ItemDiff
+    include Podio::ResponseWrapper
+    extend self
+
+    def find_by_item_and_revisions(item_id, revision_from_id, revision_to_id)
+      list Podio.connection.get("/item/#{item_id}/revision/#{revision_from_id}/#{revision_to_id}").body
+    end
   end
 end
