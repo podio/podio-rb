@@ -97,4 +97,18 @@ module Podio
       list Podio.connection.get("/item/#{item_id}/revision/#{revision_from_id}/#{revision_to_id}").body
     end
   end
+
+  module ItemField
+    include Podio::ResponseWrapper
+    extend self
+
+    def update(item_id, field_id, values)
+      response = Podio.connection.put do |req|
+        req.url "/item/#{item_id}/value/#{field_id}"
+        req.body = values
+      end
+      response.status
+    end
+  end
+  
 end
