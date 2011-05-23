@@ -12,6 +12,15 @@ module Podio
       response.body
     end
 
+    def update(tagable_type, tagable_id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/tag/#{tagable_type}/#{tagable_id}/"
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     def find_by_app(app_id, limit, text)
       list Podio.connection.get("/tag/app/#{app_id}/?limit=#{limit}&text=#{text}").body
     end
