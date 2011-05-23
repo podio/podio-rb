@@ -49,6 +49,15 @@ module Podio
 
       response.body
     end
+
+    def decline(invite_code)
+      response = Podio.connection.post do |req|
+        req.url '/space/invite/decline'
+        req.body = {:invite_code => invite_code}
+      end
+
+      response.body
+    end
   end
   
   module SpaceMember
