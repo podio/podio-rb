@@ -1,6 +1,6 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :connection
+    attr_reader :api_url, :api_key, :api_secret, :connection, :raw_connection
     attr_accessor :oauth_token, :stubs, :current_http_client
 
     def initialize(options = {})
@@ -95,12 +95,14 @@ module Podio
 
     def setup_connections
       @connection = configure_connection
+      @raw_connection = configure_connection(true)
       @oauth_connection = configure_oauth_connection
     end
 
-    def configure_connection
+    def configure_connection(raw=false)
       Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
-        builder.use Middleware::JsonRequest
+        builder.use Middleware::JsonRequest unless raw
+        builder.use Faraday::Request::Multipart if raw
         builder.use Middleware::OAuth2
         builder.use Middleware::Logger
 
@@ -109,7 +111,7 @@ module Podio
         # first response middleware defined get's executed last
         builder.use Middleware::DateConversion
         builder.use Middleware::ErrorResponse
-        builder.use Middleware::JsonResponse
+        builder.use Middleware::JsonResponse unless raw
         builder.use Middleware::ResponseRecorder if @record_mode
       end
     end
@@ -128,6 +130,7 @@ module Podio
 
     def configure_oauth
       @connection = configure_connection
+      @raw_connection = configure_connection(true)
     end
   end
 end
