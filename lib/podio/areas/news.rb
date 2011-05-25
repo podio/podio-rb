@@ -5,7 +5,7 @@ module Podio
 
 		def create(attributes)
 			response = Podio.connection.post do |req|
-				req.url = '/news'
+				req.url '/news/'
 				req.body = attributes
 			end
 
