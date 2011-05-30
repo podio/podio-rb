@@ -13,7 +13,7 @@ module Podio
 
     def unsubscribe_entry(news_id)
       Podio.connection.post do |req|
-        req.url "/news/#{news_entry}/unsubscribe"
+        req.url "/news/#{news_id}/unsubscribe"
       end
     end
 
