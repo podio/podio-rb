@@ -3,6 +3,13 @@ module Podio
 		include Podio::ResponseWrapper
 		extend self
 
+		def find_stream()
+			Podio.connection.get("/news/stream").body
+		end
+
+		def get_news_redirect(news_id)
+			Podio.connection.get("/news/#{news_id}/redirect").body
+
 		def create(attributes)
 			response = Podio.connection.post do |req|
 				req.url '/news/'
@@ -13,7 +20,7 @@ module Podio
 		end
 
 		def update(id, attributes)
-			response = Podio.connection.post do |req|
+			response = Podio.connection.put do |req|
 				req.url "/news/#{id}"
 				req.body = attributes
 			end
@@ -30,7 +37,7 @@ module Podio
 		end
 
 		def find_all
-			list Podio.connection.get("/news/admin/").body
+			list Podio.connection.get("/news/").body
 		end
 
 		def find_all_by_locale(locale)
