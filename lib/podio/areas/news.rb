@@ -8,7 +8,9 @@ module Podio
     end
 
     def get_news_redirect(news_id)
-      Podio.connection.get("/news/#{news_id}/redirect").body
+      response = Podio.connection.get("/news/#{news_id}/redirect")
+
+      response.body['link']
     end
 
     def unsubscribe_entry(news_id)
