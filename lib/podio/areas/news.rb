@@ -9,7 +9,13 @@ module Podio
 
 		def get_news_redirect(news_id)
 			Podio.connection.get("/news/#{news_id}/redirect").body
+		end
 
+		def unsubscribe_entry(news_id)
+			Podio.connection.post do |req|
+				req.url "/news/#{news_entry}/unsubscribe"
+			end
+		end
 		def create(attributes)
 			response = Podio.connection.post do |req|
 				req.url '/news/'
