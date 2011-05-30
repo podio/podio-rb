@@ -36,5 +36,9 @@ module Podio
     def set_property(name, value)
       Podio.connection.put("/user/property/#{name}", {:value => value}).status
     end
+
+    def remove_property(name)
+      Podio.connection.delete("/user/property/#{name}", {}).status
+    end
   end
 end
