@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.summary           = 'Ruby wrapper for the Podio API'
   s.homepage          = 'https://github.com/podio/podio-rb'
   s.email             = 'florian@podio.com'
-  s.authors           = ['Florian Munz']
+  s.authors           = ['Florian Munz', 'Casper Fabricius']
   s.has_rdoc          = false
 
   s.files             = `git ls-files`.split("\n")
@@ -21,6 +21,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'multi_json', '~> 0.0.5'
 
   s.description       = <<desc
-The humble beginnings of the Ruby wrapper for the Podio API.
+The official Ruby wrapper for the Podio API used and maintained by the Podio team
 desc
 end
