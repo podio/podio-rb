@@ -58,6 +58,10 @@ module Podio
 
       response.body
     end
+
+    def find(invite_code)
+      member Podio.connection.get("/space/invite/status?invite_code=#{ERB::Util.url_encode(invite_code)}").body
+    end
   end
   
   module SpaceMember
