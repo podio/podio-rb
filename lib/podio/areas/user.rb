@@ -29,7 +29,7 @@ module Podio
       list Podio.connection.get("/org/#{org_id}/admin/").body
     end
 
-    def get_property(name, value)
+    def get_property(name)
       Podio.connection.get("/user/property/#{name}").body['value']
     end
     
