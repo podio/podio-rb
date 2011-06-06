@@ -45,4 +45,14 @@ module Podio
     end    
     
   end
+  
+  module ApplicationField
+    include Podio::ResponseWrapper
+    extend self
+    
+    def find(app_id, field_id)
+      member Podio.connection.get("/app/#{app_id}/field/#{field_id}").body
+    end
+    
+  end
 end
