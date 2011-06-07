@@ -1,0 +1,34 @@
+--- 
+:users: 
+  :new_user: 
+    :mail: new@noname.com
+    :password: n00b
+    :user_id: 3
+  :professor: 
+    :mail: professor@planetexpress.com
+    :password: professor
+    :user_id: 4
+  :fry: 
+    :mail: fry@planetexpress.com
+    :password: fry
+    :user_id: 5
+  :leela: 
+    :mail: leela@planetexpress.com
+    :password: leela
+    :user_id: 6
+  :bender: 
+    :mail: bender@planetexpress.com
+    :password: killallhumans
+    :user_id: 7
+  :amy: 
+    :mail: amy@planetexpress.com
+    :password: amy
+    :user_id: 8
+  :zoidberg: 
+    :mail: zoidberg@planetexpress.com
+    :password: zoidberg
+    :user_id: 9
+  :hermes: 
+    :mail: hermes@planetexpress.com
+    :password: hermes
+    :user_id: 10

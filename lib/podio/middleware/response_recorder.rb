@@ -7,7 +7,7 @@ module Podio
         response = "['#{Faraday::Utils.normalize_path(env[:url])}', :#{env[:method]}, #{env[:status]}, #{env[:response_headers]}, '#{env[:body]}']"
 
         filename = Digest::MD5.hexdigest(env[:url].request_uri)
-        File.open("#{filename}.rack", 'w') { |f| f.write(response) }
+        ::File.open("#{filename}.rack", 'w') { |f| f.write(response) }
       end
     end
   end
