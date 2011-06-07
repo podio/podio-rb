@@ -10,6 +10,9 @@ require 'podio/middleware/json_response'
 require 'podio/middleware/error_response'
 require 'podio/middleware/response_recorder'
 
+require 'podio/active_podio/base'
+require 'podio/active_podio/updatable'
+
 module Podio
   class << self
     def setup(options={})
