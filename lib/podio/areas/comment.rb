@@ -32,5 +32,10 @@ module Podio
     def find_all_for(commentable_type, commentable_id)
       list Podio.connection.get("/comment/#{commentable_type}/#{commentable_id}").body
     end
+
+    def find_recent_for_share
+      #Internal
+      list Podio.connection.get("/comment/share/")
+    end
   end
 end
