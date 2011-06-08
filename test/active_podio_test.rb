@@ -10,15 +10,11 @@ class ActivePodioTest < Test::Unit::TestCase
   # - constructor (with edge case values)
   # - ==, hash and as_json
 
-  class TestAssociationModel
-    include ActivePodio::Base
-    
+  class TestAssociationModel < ActivePodio::Base
     property :string, :string
   end
 
-  class TestModel
-    include ActivePodio::Base
-    
+  class TestModel < ActivePodio::Base
     property :string, :string
     property :hash, :hash
     property :datetime, :datetime

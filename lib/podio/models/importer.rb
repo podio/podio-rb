@@ -1,0 +1,2 @@
+class Podio::Importer
+end
