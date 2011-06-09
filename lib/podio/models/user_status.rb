@@ -9,4 +9,10 @@ class Podio::UserStatus < ActivePodio::Base
 
   has_one :user, :class => Podio::User
   has_one :contact, :class => Podio::Contact, :property => :profile
+  
+  class << self
+    def current
+      member Podio.connection.get("/user/status").body
+    end
+  end
 end

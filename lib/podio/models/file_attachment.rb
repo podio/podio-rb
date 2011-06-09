@@ -13,16 +13,84 @@ class Podio::FileAttachment < ActivePodio::Base
   
   alias_method :id, :file_id
 
-  # Uploads the given file, moves it to its proper place and marks it as available
-  def self.create(name, content_type, source_path)
-    upload_info = super(name, content_type)
-    destination_path = File.join(PODIO_FILESERVER_CONFIG[Rails.env][:mount], upload_info['location'])
-    FileUtils.move(source_path, destination_path)
-    self.set_available(upload_info['file_id'])
-    return self.new(:file_id => upload_info['file_id'])
-  end
-  
   def image?
     ['image/png', 'image/jpeg', 'image/gif', 'image/tiff', 'image/bmp'].include?(self.mimetype)
+  end
+  
+  class << self
+    # Uploading a file is a two-step operation
+    # First, the file must be created to get a file id and the path to move it to
+    def create(name, content_type)
+      response = Podio.connection.post do |req|
+        req.url "/file/"
+        req.body = { :name => name, :mimetype => content_type }
+      end
+
+      response.body
+    end
+    
+    # Then, when the file has been moved, it must be marked as available
+    def set_available(id)
+      Podio.connection.post "/file/#{id}/available"
+    end
+    
+    # Attach a file to an existing reference
+    def attach(id, ref_type, ref_id)
+      Podio.connection.post do |req|
+        req.url "/file/#{id}/attach"
+        req.body = { :ref_type => ref_type, :ref_id => ref_id }
+      end
+    end
+    
+    def copy(id)
+      Podio.connection.post("/file/#{id}/copy").body['file_id']
+    end
+    
+    def delete(id)
+      Podio.connection.delete("/file/#{id}")
+    end
+    
+    def find(id)
+      member Podio.connection.get("/file/#{id}").body
+    end
+
+    def find_for_app(app_id, options={})
+      collection Podio.connection.get { |req|
+        req.url("/file/app/#{app_id}/", options)
+      }.body
+    end
+
+    def find_for_space(space_id, options={})
+      collection Podio.connection.get { |req|
+        req.url("/file/space/#{space_id}/", options)
+      }.body
+    end
+
+    def find_latest_for_app(app_id, options={})
+      collection Podio.connection.get { |req|
+        req.url("/file/app/#{app_id}/latest/", options)
+      }.body
+    end
+
+    def find_latest_for_space(space_id, options={})
+      collection Podio.connection.get { |req|
+        req.url("/file/space/#{space_id}/latest/", options)
+      }.body
+    end
+    
+    def replace(old_file_id, new_file_id)
+      Podio.connection.post { |req|
+        req.url "/file/#{new_file_id}/replace"
+        req.body = { :old_file_id => old_file_id }
+      }.body
+    end
+
+    def update(id, description)
+      Podio.connection.put { |req|
+        req.url "/file/#{file_id}"
+        req.body = { :description => description }
+      }.body
+    end
+    
   end
 end

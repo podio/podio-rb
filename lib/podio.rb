@@ -116,14 +116,6 @@ module Podio
   autoload :Widget,                   'podio/models/widget'
 
 
-  # models_directory = File.join(File.dirname(__FILE__), '..', 'lib', 'podio', 'models')
-  # model_files = Dir[File.join(models_directory, '**', '*')]
-  # model_files.each do |model_file|
-  #   filename = File.basename(model_file, File.extname(model_file))
-  #   model_name = filename.classify.to_sym
-  #   autoload model_name, model_file
-  # end
-
   # autoload :Application,        'podio/areas/application'
   # autoload :Bulletin,           'podio/areas/bulletin'
   # autoload :Category,           'podio/areas/app_store'

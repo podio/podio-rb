@@ -7,4 +7,11 @@ class Podio::Form < ActivePodio::Base
   property :attachments, :boolean
   
   alias_method :id, :form_id
+  
+  class << self
+    def find(form_id)
+      member Podio.connection.get("/form/#{form_id}").body
+    end
+    
+  end
 end

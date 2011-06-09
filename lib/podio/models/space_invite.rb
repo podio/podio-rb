@@ -18,4 +18,38 @@ class Podio::SpaceInvite < ActivePodio::Base
   end
   
   handle_api_errors_for :save, :accept # Call must be made after the methods to handle have been defined
+  
+  class << self
+    def create(space_id, role, attributes={})
+      response = Podio.connection.post do |req|
+        req.url "/space/#{space_id}/invite"
+        req.body = attributes.merge(:role => role)
+      end
+
+      response.body
+    end
+
+    def accept(invite_code)
+      response = Podio.connection.post do |req|
+        req.url '/space/invite/accept'
+        req.body = {:invite_code => invite_code}
+      end
+
+      response.body
+    end
+
+    def decline(invite_code)
+      response = Podio.connection.post do |req|
+        req.url '/space/invite/decline'
+        req.body = {:invite_code => invite_code}
+      end
+
+      response.body
+    end
+
+    def find(invite_code)
+      member Podio.connection.get("/space/invite/status?invite_code=#{ERB::Util.url_encode(invite_code)}").body
+    end
+    
+  end
 end

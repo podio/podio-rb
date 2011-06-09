@@ -17,5 +17,19 @@ class Podio::Status < ActivePodio::Base
   has_many :files, :class => Podio::FileAttachment
   
   alias_method :id, :status_id
-  alias_method :name, :value # So tasks can refer to ref.name on all types of references
+  
+  class << self
+    def find(id)
+      member Podio.connection.get("/status/#{id}").body
+    end
+
+    def create(space_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/status/space/#{space_id}/"
+        req.body = attributes
+      end
+
+      response.body['status_id']
+    end
+  end
 end

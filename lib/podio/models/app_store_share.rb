@@ -27,5 +27,33 @@ class Podio::AppStoreShare < ActivePodio::Base
   has_one :author, :class => Podio::ByLine
   
   alias_method :id, :share_id
+  
+  class << self
+    def create(attributes)
+      response = Podio.connection.post do |req|
+        req.url "/app_store/"
+        req.body = attributes
+      end
+
+      response.body['share_id']
+    end
+
+    def install(share_id, space_id, dependencies)
+      response = Podio.connection.post do |req|
+        req.url "/app_store/#{share_id}/install/v2"
+        req.body = {:space_id => space_id, :dependencies => dependencies}
+      end
+
+      response.body
+    end
+
+    def find(id)
+      member Podio.connection.get("/app_store/#{id}/v2").body
+    end
+
+    def find_all_private_for_org(org_id)
+      list Podio.connection.get("/app_store/org/#{org_id}/").body['shares']
+    end
+  end
 end
 
