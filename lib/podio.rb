@@ -68,6 +68,7 @@ module Podio
                                       
   autoload :AppStoreShare,            'podio/models/app_store_share'
   autoload :Application,              'podio/models/application'
+  autoload :ApplicationEmail,         'podio/models/application_email'
   autoload :ApplicationField,         'podio/models/application_field'
   autoload :Bulletin,                 'podio/models/bulletin'
   autoload :ByLine,                   'podio/models/by_line'
