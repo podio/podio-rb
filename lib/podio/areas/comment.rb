@@ -35,7 +35,7 @@ module Podio
 
     def find_recent_for_share
       #Internal
-      list Podio.connection.get("/comment/share/")
+      list Podio.connection.get("/comment/share/").body
     end
   end
 end
