@@ -27,6 +27,14 @@ class Podio::AppStoreShare < ActivePodio::Base
   has_one :author, :class => Podio::ByLine
   
   alias_method :id, :share_id
+
+  def create
+    self.share_id = self.class.create(self.attributes)
+  end
+
+  def install(space_id, dependencies)
+    self.class.install(self.share_id, space_id, dependencies)
+  end
   
   class << self
     def create(attributes)

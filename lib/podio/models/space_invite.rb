@@ -1,4 +1,6 @@
 class Podio::SpaceInvite < ActivePodio::Base
+  include ActivePodio::Updatable
+  
   property :space_id, :integer
   property :role, :string
   property :subject, :string

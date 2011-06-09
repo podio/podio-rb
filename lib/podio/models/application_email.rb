@@ -1,4 +1,6 @@
 class ApplicationEmail < ActivePodio::Base
+  include ActivePodio::Updatable
+
   property :attachments, :boolean
   property :mappings, :hash  
 
