@@ -23,8 +23,8 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :screenshots, :array
   property :info, :hash
   
-  has_many :children, :class => AppStoreShare
-  has_one :author, :class => ByLine
+  #has_many :children, :class => AppStoreShare
+  has_one :author, :class => Podio::ByLine
   
   alias_method :id, :share_id
 end

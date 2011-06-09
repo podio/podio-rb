@@ -1,2 +1,2 @@
-class Podio::Rating
+class Podio::Rating < ActivePodio::Base
 end

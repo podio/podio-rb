@@ -1,2 +1,2 @@
-class Podio::Importer
+class Podio::Importer < ActivePodio::Base
 end
