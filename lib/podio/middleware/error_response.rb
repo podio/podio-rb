@@ -8,7 +8,11 @@ module Podio
           when 200, 204
             # pass
           when 400
-            raise BadRequestError.new(env[:body], env[:status], env[:url])
+            if env[:body]['error'] == 'invalid_grant'
+              raise InvalidGrantError.new(env[:body], env[:status], env[:url])
+            else
+              raise BadRequestError.new(env[:body], env[:status], env[:url])
+            end
           when 401
             if env[:body]['error_description'] =~ /expired_token/
               raise TokenExpired.new(env[:body], env[:status], env[:url])
