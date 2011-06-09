@@ -7,8 +7,8 @@ class Podio::UserStatus < ActivePodio::Base
   property :task_mail, :string
   property :mailbox, :string
 
-  has_one :user, :class => Podio::User
-  has_one :contact, :class => Podio::Contact, :property => :profile
+  has_one :user, :class => 'User'
+  has_one :contact, :class => 'Contact', :property => :profile
   
   class << self
     def current

@@ -26,15 +26,15 @@ class Podio::Task < ActivePodio::Base
   # new reference
   property :ref, :hash
 
-  has_one :created_by, :class => Podio::User
-  has_one :completed_by, :class => Podio::User
-  has_one :created_via, :class => Podio::Via
-  has_one :deleted_via, :class => Podio::Via
-  has_one :completed_via, :class => Podio::Via
-  has_one :assignee, :class => Podio::User, :property => :responsible
-  has_many :label_list, :class => Podio::TaskLabel, :property => :labels 
-  has_many :files, :class => Podio::FileAttachment
-  has_many :comments, :class => Podio::Comment
+  has_one :created_by, :class => 'User'
+  has_one :completed_by, :class => 'User'
+  has_one :created_via, :class => 'Via'
+  has_one :deleted_via, :class => 'Via'
+  has_one :completed_via, :class => 'Via'
+  has_one :assignee, :class => 'User', :property => :responsible
+  has_many :label_list, :class => 'TaskLabel', :property => :labels 
+  has_many :files, :class => 'FileAttachment'
+  has_many :comments, :class => 'Comment'
 
   alias_method :id, :task_id
   

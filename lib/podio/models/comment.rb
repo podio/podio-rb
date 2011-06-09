@@ -7,9 +7,9 @@ class Podio::Comment < ActivePodio::Base
   property :files, :array # when outputting comments
   property :file_ids, :array # when inputting comments
   
-  has_one :created_by, :class => Podio::ByLine
-  has_one :created_via, :class => Podio::Via
-  has_many :files, :class => Podio::FileAttachment
+  has_one :created_by, :class => 'ByLine'
+  has_one :created_via, :class => 'Via'
+  has_many :files, :class => 'FileAttachment'
 
   alias_method :id, :comment_id
   attr_accessor :commentable_type, :commentable_id

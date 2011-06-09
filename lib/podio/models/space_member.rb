@@ -4,7 +4,7 @@ class Podio::SpaceMember < ActivePodio::Base
   property :invited_on, :datetime
   property :started_on, :datetime
 
-  has_one :user, :class => Podio::User
+  has_one :user, :class => 'User'
 
   delegate :user_id, :name, :to => :user
 

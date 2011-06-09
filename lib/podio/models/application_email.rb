@@ -1,4 +1,4 @@
-class ApplicationEmail < ActivePodio::Base
+class Podio::ApplicationEmail < ActivePodio::Base
   include ActivePodio::Updatable
 
   property :attachments, :boolean

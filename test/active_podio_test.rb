@@ -16,10 +16,10 @@ class ActivePodioTest < Test::Unit::TestCase
     property :boolean, :boolean
     property :array, :array
     
-    has_one :association, :class => TestAssociationModel
-    has_one :different_association, :class => TestAssociationModel, :property => :other_association
-    has_many :associations, :class => TestAssociationModel
-    has_many :different_associations, :class => TestAssociationModel, :property => :other_associations
+    has_one :association, :class => 'ActivePodioTest::TestAssociationModel'
+    has_one :different_association, :class => 'ActivePodioTest::TestAssociationModel', :property => :other_association
+    has_many :associations, :class => 'ActivePodioTest::TestAssociationModel'
+    has_many :different_associations, :class => 'ActivePodioTest::TestAssociationModel', :property => :other_associations
     
     alias_method :id, :test_id
     

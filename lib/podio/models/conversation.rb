@@ -9,10 +9,10 @@ class Podio::Conversation < ActivePodio::Base
 
   # When outputting conversation(s)
   property :created_on, :datetime
-  has_one :created_by, :class => Podio::ByLine
-  has_many :files, :class => Podio::FileAttachment
-  has_many :messages, :class => Podio::ConversationMessage
-  has_many :participants_full, :class => Podio::ConversationParticipant
+  has_one :created_by, :class => 'ByLine'
+  has_many :files, :class => 'FileAttachment'
+  has_many :messages, :class => 'ConversationMessage'
+  has_many :participants_full, :class => 'ConversationParticipant'
   
   alias_method :id, :conversation_id
   alias_method :name, :subject # So tasks can refer to ref.name on all types of references

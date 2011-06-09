@@ -57,18 +57,18 @@ module ActivePodio
       self.attributes
     end
     
-    protected
+    private
     
-      def parse_numeric(value)
-        Delocalize::LocalizedNumericParser.parse(value)
-      end
-    
-      def parse_datetime(value)
-        Delocalize::LocalizedDateTimeParser.parse(value, DateTime).in_time_zone
-      end
-    
-      def parse_date(value)
-        Delocalize::LocalizedDateTimeParser.parse(value, Date).in_time_zone
+      def klass_for_association(options)
+        klass_name = options[:class]
+        raise "Missing class name of associated model. Provide with :class => 'MyClass'." unless klass_name.present?
+        klass = nil
+        begin
+          klass = klass_name.constantize
+        rescue
+          klass = "Podio::#{klass_name}".constantize
+        end
+        return klass
       end
 
     class << self
@@ -99,10 +99,8 @@ module ActivePodio
     
       # Wraps a single hash provided from the API in the given model
       def has_one(name, options = {})
-        klass = options[:class]
-        raise 'Missing class name of associated model. Provide with :class => MyClass.' unless klass.present?
-    
         self.send(:define_method, name) do
+          klass = klass_for_association(options)
           instance = self.instance_variable_get("@#{name}_has_one_instance")
           unless instance.present?
             property = options[:property] || name.to_sym
@@ -119,10 +117,8 @@ module ActivePodio
     
       # Wraps a collection of hashes from the API to a collection of the given model
       def has_many(name, options = {})
-        klass = options[:class]
-        raise 'Missing class name of associated model. Provide with :class => MyClass.' unless klass.present?
-    
         self.send(:define_method, name) do
+          klass = klass_for_association(options)
           instances = self.instance_variable_get("@#{name}_has_many_instances")
           unless instances.present?
             property = options[:property] || name.to_sym
@@ -203,7 +199,7 @@ module ActivePodio
         end
       end
     
-      protected
+      private
     
         def define_generic_accessor(name, options = {})
           options.reverse_merge!(:getter => true, :setter => true)

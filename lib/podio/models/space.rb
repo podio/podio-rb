@@ -9,7 +9,7 @@ class Podio::Space < ActivePodio::Base
   property :role, :string
   property :rights, :array
   
-  has_one :created_by, :class => Podio::ByLine
+  has_one :created_by, :class => 'ByLine'
 
   alias_method :id, :space_id
   

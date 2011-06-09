@@ -7,7 +7,7 @@ class Podio::Bulletin < ActivePodio::Base
   property :target_group, :string
   property :created_on, :datetime
 
-  has_one :created_by, :class => Podio::ByLine
+  has_one :created_by, :class => 'ByLine'
 
   alias_method :id, :bulletin_id
   

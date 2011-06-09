@@ -4,8 +4,8 @@ class Podio::OrganizationMember < ActivePodio::Base
   property :profile, :hash
   property :admin, :boolean
 
-  has_one :user, :class => Podio::User
-  has_one :contact, :class => Podio::Contact, :property => :profile
+  has_one :user, :class => 'User'
+  has_one :contact, :class => 'Contact', :property => :profile
 
   delegate :user_id, :mail, :last_active_on, :to => :user
   delegate :name, :avatar, :title, :organization, :title_and_org, :avatar_url, :to => :contact

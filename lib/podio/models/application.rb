@@ -14,7 +14,7 @@ class Podio::Application < ActivePodio::Base
   property :rights, :array
   property :link, :string
   
-  has_one :integration, :class => Podio::Integration
+  has_one :integration, :class => 'Integration'
 
   alias_method :id, :app_id
   delegate_to_hash :config, :name, :item_name, :allow_edit?, :allow_attachments?, :allow_comments?, :description

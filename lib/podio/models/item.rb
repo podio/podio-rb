@@ -8,8 +8,8 @@ class Podio::Item < ActivePodio::Base
   property :fields, :array
   property :rights, :array
 
-  has_one :initial_revision, :class => Podio::ItemRevision
-  has_one :current_revision, :class => Podio::ItemRevision
+  has_one :initial_revision, :class => 'ItemRevision'
+  has_one :current_revision, :class => 'ItemRevision'
   
   # Also included in the full Get item
   property :ratings, :hash
@@ -20,10 +20,10 @@ class Podio::Item < ActivePodio::Base
   property :subscribed, :boolean
   property :user_ratings, :hash
 
-  has_many :revisions, :class => Podio::ItemRevision
-  has_many :files, :class => Podio::FileAttachment
-  has_many :comments, :class => Podio::Comment
-  has_many :shares, :class => Podio::AppStoreShare
+  has_many :revisions, :class => 'ItemRevision'
+  has_many :files, :class => 'FileAttachment'
+  has_many :comments, :class => 'Comment'
+  has_many :shares, :class => 'AppStoreShare'
 
   # For inserting/updating
   property :file_ids, :array

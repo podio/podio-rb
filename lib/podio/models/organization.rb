@@ -18,7 +18,7 @@ class Podio::Organization < ActivePodio::Base
   property :contact_count, :integer
   property :billing_interval, :integer
 
-  has_one :created_by, :class => Podio::ByLine
+  has_one :created_by, :class => 'ByLine'
 
   alias_method :id, :org_id
 
