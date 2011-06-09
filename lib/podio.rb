@@ -72,6 +72,7 @@ module Podio
   autoload :Contact,            'podio/areas/contact'
   autoload :Conversation,       'podio/areas/conversation'
   autoload :Email,              'podio/areas/email'
+  autoload :ApplicationEmail,              'podio/areas/email'
   autoload :File,               'podio/areas/file'
   autoload :Form,               'podio/areas/form'
   autoload :Email,              'podio/areas/email'
