@@ -28,7 +28,7 @@ module Podio
     end
 
     def with_client
-      old_client = Podio.client.dup
+      old_client = Podio.client.try(:dup)
       yield
     ensure
       Podio.client = old_client
