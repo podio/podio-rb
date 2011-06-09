@@ -6,7 +6,7 @@ module ActivePodio
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
     
-    cattr_accessor :valid_attributes
+    class_inheritable_accessor :valid_attributes
     attr_accessor :attributes, :error_code, :error_message, :error_parameters
 
     def initialize(attributes = {})

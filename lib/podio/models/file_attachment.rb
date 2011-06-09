@@ -7,9 +7,9 @@ class Podio::FileAttachment < ActivePodio::Base
   property :size, :integer
   property :created_on, :datetime
   
-  has_one :created_by, :class => ByLine
-  has_one :created_via, :class => Via
-  has_many :replaces, :class => FileAttachment
+  has_one :created_by, :class => Podio::ByLine
+  has_one :created_via, :class => Podio::Via
+  has_many :replaces, :class => Podio::FileAttachment
   
   alias_method :id, :file_id
 

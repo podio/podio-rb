@@ -1,4 +1,4 @@
-class Podio::OauthClient < ActivePodio::Base
+class Podio::OAuthClient < ActivePodio::Base
   include ActivePodio::Updatable
 
   property :auth_client_id, :integer

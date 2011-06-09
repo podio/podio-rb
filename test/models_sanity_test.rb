@@ -2,6 +2,11 @@ require 'test_helper'
 require 'ruby-debug'
 
 class ModelsSanityTest < Test::Unit::TestCase
+
+  ActiveSupport::Inflector.inflections do |inflect|
+    inflect.uncountable %w( status user_status via )
+  end
+
   models_directory = File.join(File.dirname(__FILE__), '..', 'lib', 'podio', 'models')
   model_files = Dir[File.join(models_directory, '**', '*')]
   model_files.each do |model_file|

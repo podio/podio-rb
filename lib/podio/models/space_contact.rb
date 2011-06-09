@@ -1,4 +1,4 @@
-class Podio::SpaceContact < Profile
+class Podio::SpaceContact < Podio::Profile
   include ActivePodio::Updatable
 
   property :space_id, :integer

@@ -16,9 +16,9 @@ class Podio::Notification < ActivePodio::Base
   property :context_link, :string
   property :context, :hash
 
-  has_one :created_by, :class => ByLine
-  has_one :created_via, :class => Via
-  has_one :user, :class => User
+  has_one :created_by, :class => Podio::ByLine
+  has_one :created_via, :class => Podio::Via
+  has_one :user, :class => Podio::User
 
   alias_method :id, :notification_id
   delegate_to_hash :data, :field, :value, :role, :message

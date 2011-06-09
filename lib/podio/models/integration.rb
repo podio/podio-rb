@@ -12,7 +12,7 @@ class Podio::Integration < ActivePodio::Base
   property :last_updated_on, :datetime
   property :created_on, :datetime
   
-  has_one :created_by, :class => ByLine
+  has_one :created_by, :class => Podio::ByLine
 
   alias_method :id, :integration_id
 
