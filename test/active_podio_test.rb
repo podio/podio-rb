@@ -2,21 +2,14 @@ require 'test_helper'
 
 class ActivePodioTest < Test::Unit::TestCase
 
-  # TODO - following still needs to be tested:
-  # - delegate_to_hash
-  # - handle_api_errors_for
-  # - member, list and collection
-  # - persisted?, new_record? and to_param
-  # - constructor (with edge case values)
-  # - ==, hash and as_json
-
   class TestAssociationModel < ActivePodio::Base
     property :string, :string
   end
 
   class TestModel < ActivePodio::Base
+    property :test_id, :integer
     property :string, :string
-    property :hash, :hash
+    property :hash_property, :hash
     property :datetime, :datetime
     property :date, :date
     property :integer, :integer
@@ -27,6 +20,22 @@ class ActivePodioTest < Test::Unit::TestCase
     has_one :different_association, :class => TestAssociationModel, :property => :other_association
     has_many :associations, :class => TestAssociationModel
     has_many :different_associations, :class => TestAssociationModel, :property => :other_associations
+    
+    alias_method :id, :test_id
+    
+    delegate_to_hash :hash_property, :key1, :key2, :really?
+    
+    def save(exception_class = nil)
+      if exception_class
+        raise exception_class.new({
+          'error' => 'test status',
+          'error_description' => 'test desc',
+          'error_parameters' => 'test parms'
+          }, 500, 'http://api.podio.dev')
+      end
+    end
+    
+    handle_api_errors_for :save
   end
   
   test 'should instansiate model' do
@@ -40,8 +49,8 @@ class ActivePodioTest < Test::Unit::TestCase
   end
 
   test 'should support hash property' do
-    @test = TestModel.new(:hash => { :key => 'value' })
-    assert_equal({ :key => 'value' }, @test.hash)
+    @test = TestModel.new(:hash_property => { :key => 'value' })
+    assert_equal({ :key => 'value' }, @test.hash_property)
   end
   
   test 'should store given datetime as a db string internally' do
@@ -77,7 +86,7 @@ class ActivePodioTest < Test::Unit::TestCase
   [true, 'true', 1, '1', 'yes'].each do |boolean_value|
     test "should store and expose given boolean value #{boolean_value} (#{boolean_value.class.name}) as true" do
       @test = TestModel.new(:boolean => boolean_value)
-      assert_equal true, @test.boolean
+      assert @test.boolean
     end
   end
 
@@ -145,6 +154,103 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:other_associations => [{ :string => 'other association 1' }, { :string => 'other association 2' }])
     assert_equal 'other association 1', @test.different_associations[0].string
     assert_equal 'other association 2', @test.different_associations[1].string
+  end
+  
+  test 'should expose methods defined by delegate to hash' do
+    @test = TestModel.new(:hash_property => {'key1' => 'value1', 'key2' => 'value2', 'really' => true})
+    assert_equal 'value1', @test.key1
+    assert @test.really?
+  end
+  
+  test 'should handle non failing api requests' do
+    @test = TestModel.new
+    assert @test.save
+  end
+
+  [Podio::BadRequestError, Podio::AuthorizationError].each do |exception_class|
+    test "should handle failing api requests with #{exception_class.name} exception" do
+      @test = TestModel.new
+      assert_equal false, @test.save(exception_class)
+      assert_equal 'test status', @test.error_code
+      assert_equal 'test desc', @test.error_message
+      assert_equal 'test parms', @test.error_parameters
+    end
+  end
+  
+  test 'should return instance from member' do
+    assert TestModel.member(:string => 'string').instance_of?(TestModel)
+  end
+
+  test 'should return array of instances from list' do
+    instances = TestModel.list([{:string => 'first'}, {:string => 'last'}])
+    assert_equal 2, instances.length
+    assert instances.all? { |instance| instance.instance_of?(TestModel) }
+    assert_equal 'first', instances.first.string
+    assert_equal 'last', instances.last.string
+  end
+  
+  test 'should return struct with count, total and array from collection' do
+    struct = TestModel.collection('items' => [{:string => 'first'}, {:string => 'last'}], 'filtered' => 10, 'total' => 50)
+    assert_equal 2, struct.all.length
+    assert struct.all.all? { |instance| instance.instance_of?(TestModel) }
+    assert_equal 10, struct.count
+    assert_equal 50, struct.total_count
+  end
+  
+  test 'should be new record without id' do
+    @test = TestModel.new
+    assert @test.new_record?
+  end
+
+  test 'should not be new record with id' do
+    @test = TestModel.new(:test_id => 42)
+    assert_equal false, @test.new_record?
+  end
+
+  test 'should not be persisted without id' do
+    @test = TestModel.new
+    assert_equal false, @test.persisted?
+  end
+
+  test 'should be persisted with id' do
+    @test = TestModel.new(:test_id => 42)
+    assert @test.persisted?
+  end
+  
+  test 'should return id as to_param' do
+    @test = TestModel.new(:test_id => 42)
+    assert_equal '42', @test.to_param
+  end
+
+  test 'should return nil as to_param when model has no id' do
+    @test = TestAssociationModel.new
+    assert_nil @test.to_param
+  end
+  
+  test 'should initialize nil attributes when constructed without given attributes' do
+    @test = TestModel.new
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
+  end
+
+  test 'should accept unknown properties when constructed' do
+    @test = TestModel.new(:unknown => 'attribute')
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
+  end
+  
+  test 'should use id for ==' do
+    @test1 = TestModel.new(:test_id => 42)
+    @test2 = TestModel.new(:test_id => 42)
+    assert @test1 == @test2
+  end
+  
+  test 'should use hashed id for hash' do
+    @test = TestModel.new(:test_id => 42)
+    assert_equal 42.hash, @test.hash
+  end
+  
+  test 'should return attributes for as_json' do
+    @test = TestModel.new(:test_id => 42)
+    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
   end
   
 end

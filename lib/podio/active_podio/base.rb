@@ -148,9 +148,8 @@ module ActivePodio
     
       # Returns a simple collection model instances
       def list(response)
-        result = super
-        result.map! { |item| new(item) }
-        result
+        response.map! { |item| new(item) }
+        response
       end
     
       # Returns a struct that includes:
@@ -158,7 +157,7 @@ module ActivePodio
       # * count: The number of returned records
       # * total_count: The total number of records matching the given conditions
       def collection(response)
-        result = super
+        result = Struct.new(:all, :count, :total_count).new(response['items'], response['filtered'], response['total'])
         result.all.map! { |item| new(item) }
         result
       end
