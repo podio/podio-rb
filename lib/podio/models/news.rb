@@ -3,6 +3,17 @@ class Podio::News < ActivePodio::Base
   property :title, :string
   property :content, :string
   property :link, :string
+  property :priority, :integer
+  property :target_group, :string
+  property :locale, :string
+  property :run_from, :datetime
+  property :run_to, :datetime
+  property :stream_display, :boolean
+  property :email_display, :boolean
+  property :email_views, :integer
+  property :stream_views, :integer
+  property :email_clicks, :integer
+  property :stream_clicks, :integer
 
   alias_method :id, :news_id
   

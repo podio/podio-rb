@@ -1,4 +1,10 @@
 class Podio::Category < ActivePodio::Base
+  property :category_id, :integer
+  property :type, :string
+  property :name, :string
+
+  alias_method :id, :category_id
+  
   class << self
     def create(attributes)
       response = Podio.connection.post do |req|
@@ -32,7 +38,7 @@ class Podio::Category < ActivePodio::Base
 
     private
 
-      def self.collection(response)
+      def collection(response)
         return Struct.new(:functional, :vertical).new([], []) if response.blank?
         functionals = response['functional'].map! { |cat| member(cat) }
         verticals   = response['vertical'].map! { |cat| member(cat) }

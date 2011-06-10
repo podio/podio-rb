@@ -6,6 +6,7 @@ class Podio::Bulletin < ActivePodio::Base
   property :locale, :string
   property :target_group, :string
   property :created_on, :datetime
+  property :sent_on, :datetime
 
   has_one :created_by, :class => 'ByLine'
 
