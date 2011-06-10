@@ -4,6 +4,7 @@ class Podio::ByLine < ActivePodio::Base
   property :id, :integer
   property :avatar_type, :string
   property :avatar_id, :integer
+  property :image, :hash
   property :name, :string
   property :url, :string
   property :avatar, :integer # Sometimes used by older operations
