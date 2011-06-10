@@ -48,7 +48,7 @@ If you're writing a batch job or are just playing around with the API, this is t
 Basic Usage
 -----------
 
-After you configured the `Podio.client` singleton you can use all of the wrapper functions to do API requests. The functions are organized into modules corresponding to the official API documentation. The functions follow a common naming pattern that should be familiar to ActiveRecord users. For example:
+After you configured the `Podio.client` singleton you can use all of the wrapper functions to do API requests. The functions are organized into models corresponding to the official API documentation, although most API areas have multiple models associated. The method follow a common naming pattern that should be familiar to ActiveRecord users. For example:
 
     # Getting an item
     Podio::Item.find(42)
@@ -69,7 +69,7 @@ If there is a method missing or you want to do something special, you can use th
     end
     response.body
 
-All the wrapped methods either return a single Ruby hash, an array of Ruby hashes, or a simple Struct in case of pagination:
+All the wrapped methods either return a single model instance, an array of instances, or a simple Struct in case of pagination:
 
     # Find all items in an app (paginated)
     items = Podio::Item.find_all(app_id, :limit => 20)
@@ -82,6 +82,22 @@ All the wrapped methods either return a single Ruby hash, an array of Ruby hashe
 
     # get count of all items in this app
     items.total_count
+
+
+Active Podio
+------------
+
+The Podio API is based on REST requests passing JSON back and forth, but we have tried to make the use of this client an experience more similar to using ActiveRecord from Ruby on Rails. That means that all find methods returns model instances with attributes cast to the expected type (string, integer, boolean, datetime, etc.). Also, models can be instantiated using an object array from params in Rails, just like with ActiveRecord Models.
+
+While the models can be used directly from this gem, we encourage everyone using Podio in a Rails project to add models that extends the standard models:
+
+    class Item < Podio::Item # Inherits from the base model in the Podio gem
+
+      # Your custom methods, e.g.:
+      def application
+        @app_instance ||= Application.find(self.app_id)
+      end
+    end
 
 
 Error Handling
@@ -99,6 +115,18 @@ All unsuccessful responses returned by the API (everything that has a 4xx or 5xx
       # you normally want this one, a human readable error description
       puts exc.response_body['error_description']
     end
+    
+On instance methods, however, exceptions are handled in a way more similar to ActiveRecord. These methods returns a boolean indicating if the API request succeeded or not, and makes the code, description and parameters available when the request fails:
+
+    @space_contact = SpaceContact.new({:name => 'Fritz Smith', :birthdate => 70.years.ago})
+    if @space_contact.create
+      # Success
+    else
+      # Error, check:
+      # @space_contact.error_code
+      # @space_contact.error_message
+      # @space_contact.error_parameters
+    end
 
 
 Full Example
@@ -114,8 +142,8 @@ Full Example
     my_orgs = Podio::Organization.find_all
 
     my_orgs.each do |org|
-      puts org['name']
-      puts org['url']
+      puts org.name
+      puts org.url
     end
 
 Note on Heroku Usage
