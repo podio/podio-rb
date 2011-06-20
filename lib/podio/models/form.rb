@@ -9,9 +9,17 @@ class Podio::Form < ActivePodio::Base
   alias_method :id, :form_id
   
   class << self
+    def create(app_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/form/app/#{app_id}/"
+        req.body = attributes
+      end
+
+      response.body['form_id']
+    end
+
     def find(form_id)
       member Podio.connection.get("/form/#{form_id}").body
     end
-    
   end
 end
