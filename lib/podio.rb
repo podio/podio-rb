@@ -80,6 +80,7 @@ module Podio
   autoload :ConversationMessage,      'podio/models/conversation_message'
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
+  autoload :Embed,                    'podio/models/embed'
   autoload :FileAttachment,           'podio/models/file_attachment'
   autoload :Form,                     'podio/models/form'
   autoload :Hook,                     'podio/models/hook'
