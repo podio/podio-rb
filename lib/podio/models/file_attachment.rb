@@ -25,7 +25,7 @@ class Podio::FileAttachment < ActivePodio::Base
     def upload(file_stream, content_type, file_name)
       response = Podio.client.raw_connection.post do |req|
         req.url "/file/v2/"
-        req.body = {:source => Faraday::UploadIO.new(file_stream, content_type, file_name)}
+        req.body = {:source => Faraday::UploadIO.new(file_stream, content_type, file_name), :filename => file_name}
       end
       file_attributes = ActiveSupport::JSON.decode(response.body) # Using raw_connection means response is not automatically decoded to json
       file_attributes.merge!(:name => file_name, :mimetype => content_type)
@@ -36,6 +36,7 @@ class Podio::FileAttachment < ActivePodio::Base
     # Optionally attaches the file to the given ref type and ref id
     # Returns an instantiated FileAttachment model with id, link, name and mimetype set
     def upload_from_rails_param(uploaded_file, ref_type = nil, ref_id = nil)
+      p uploaded_file
       file_attachment = self.upload(uploaded_file.tempfile, uploaded_file.content_type, uploaded_file.original_filename)
       if ref_type.present? && ref_id.present?
         self.attach(file_attachment.id, ref_type, ref_id)
