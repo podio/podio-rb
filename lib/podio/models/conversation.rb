@@ -1,14 +1,14 @@
 class Podio::Conversation < ActivePodio::Base
   property :conversation_id, :integer
   property :subject, :string
-  property :embed_id, :integer
-  property :embed_file_id, :integer
-  
+
   # When inputting conversation
   property :text, :string
   property :participants, :array
   property :file_ids, :array
-
+  property :embed_id, :integer
+  property :embed_file_id, :integer
+  
   # When outputting conversation(s)
   property :created_on, :datetime
   has_one :created_by, :class => 'ByLine'
