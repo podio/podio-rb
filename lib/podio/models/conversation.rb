@@ -1,6 +1,8 @@
 class Podio::Conversation < ActivePodio::Base
   property :conversation_id, :integer
   property :subject, :string
+  property :embed_id, :integer
+  property :embed_file_id, :integer
   
   # When inputting conversation
   property :text, :string

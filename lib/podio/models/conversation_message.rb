@@ -1,5 +1,7 @@
 class Podio::ConversationMessage < ActivePodio::Base
   property :message_id, :integer
+  property :embed_id, :integer
+  property :embed_file_id, :integer
   property :text, :string
   property :created_on, :datetime
 
