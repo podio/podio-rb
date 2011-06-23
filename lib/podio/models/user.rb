@@ -58,5 +58,9 @@ class Podio::User < ActivePodio::Base
     def remove_property(name)
       Podio.connection.delete("/user/property/#{name}", {}).status
     end
+    
+    def delete
+      Podio.connection.delete("/user/").status
+    end    
   end
 end
