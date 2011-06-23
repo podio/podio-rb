@@ -6,9 +6,12 @@ class Podio::Comment < ActivePodio::Base
   property :created_on, :datetime
   property :files, :array # when outputting comments
   property :file_ids, :array # when inputting comments
-  property :embed_id, :integer #optional
-  property :embed_file_id, :integer #optional
-  
+  property :embed_id, :integer #optional, when inputting comments
+  property :embed_file_id, :integer #optional, when inputting comments
+
+  has_one :embed, :class => 'Embed'
+  has_one :embed_file, :class => 'FileAttachment'
+
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_many :files, :class => 'FileAttachment'
