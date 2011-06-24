@@ -1,5 +1,4 @@
 require 'test/unit'
-require 'yajl'
 
 require 'podio'
 

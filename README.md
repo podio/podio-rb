@@ -87,9 +87,9 @@ All the wrapped methods either return a single model instance, an array of insta
 Active Podio
 ------------
 
-The Podio API is based on REST requests passing JSON back and forth, but we have tried to make the use of this client an experience more similar to using ActiveRecord from Ruby on Rails. That means that all find methods returns model instances with attributes cast to the expected type (string, integer, boolean, datetime, etc.). Also, models can be instantiated using an object array from params in Rails, just like with ActiveRecord Models.
+The Podio API is based on REST requests passing JSON back and forth, but we have tried to make the use of this client an experience more similar to using ActiveRecord from Rails. That means that all find methods return model instances with attributes cast to the expected type (string, integer, boolean, datetime, etc.). Also, models can be instantiated using a params hash, just like with ActiveRecord models.
 
-While the models can be used directly from this gem, we encourage everyone using Podio in a Rails project to add models that extends the standard models:
+While the models can be used directly from this gem, we encourage everyone using Podio in a Rails project to add models that extend the standard models:
 
     class Item < Podio::Item # Inherits from the base model in the Podio gem
 
@@ -103,7 +103,7 @@ While the models can be used directly from this gem, we encourage everyone using
 Error Handling
 --------------
 
-All unsuccessful responses returned by the API (everything that has a 4xx or 5xx HTTP status code) will throw an exception. All exceptions inherit from `Podio::PodioError` and have three additional properties which give you more information about the error:
+All unsuccessful responses returned by the API (everything that has a 4xx or 5xx HTTP status code) will throw exceptions. All exceptions inherit from `Podio::PodioError` and have three additional properties which give you more information about the error:
 
     begin
       Podio::Space.create({:name => 'New Space', :org_id => 42})
@@ -115,10 +115,10 @@ All unsuccessful responses returned by the API (everything that has a 4xx or 5xx
       # you normally want this one, a human readable error description
       puts exc.response_body['error_description']
     end
-    
-On instance methods, however, exceptions are handled in a way more similar to ActiveRecord. These methods returns a boolean indicating if the API request succeeded or not, and makes the code, description and parameters available when the request fails:
 
-    @space_contact = SpaceContact.new({:name => 'Fritz Smith', :birthdate => 70.years.ago})
+On instance methods, however, exceptions are handled in a way similar to ActiveRecord. These methods returns a boolean indicating if the API request succeeded or not, and makes the code, description and parameters available when the request fails:
+
+    @space_contact = SpaceContact.new({:name => 'The Dude', :birthdate => 50.years.ago})
     if @space_contact.create
       # Success
     else
@@ -147,8 +147,8 @@ Full Example
     end
 
 Note on Heroku Usage
----------------------
-If you plan on using podio-rb on Heroku please noe that only the 1.9.2 stack has been tested. Specifically, bamboo-mri-1.9.2 is recommended, while 1.8.7 is still stock on Heroku. Refer to their documentation for information on how to migrate your dynos 
+--------------------
+If you plan on using podio-rb on Heroku please note that only the 1.9.2 stack has been tested. Specifically, bamboo-mri-1.9.2 is recommended, while 1.8.7 is still stock on Heroku. Refer to their documentation for information on how to migrate your dynos 
 
 Meta
 ----
