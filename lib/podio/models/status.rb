@@ -10,6 +10,8 @@ class Podio::Status < ActivePodio::Base
 
   has_one :created_by, :class => 'Contact'
   has_one :created_via, :class => 'Via'
+  has_one :embed, :class => 'Embed'
+  has_one :embed_file, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_many :conversations, :class => 'Conversation'
   has_many :tasks, :class => 'Task'
