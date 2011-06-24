@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'ruby-debug'
 
 class ModelsSanityTest < Test::Unit::TestCase
 
