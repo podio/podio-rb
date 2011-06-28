@@ -20,6 +20,7 @@ class Podio::Item < ActivePodio::Base
   property :tags, :array
   property :subscribed, :boolean
   property :user_ratings, :hash
+  property :link, :string
 
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'
