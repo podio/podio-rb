@@ -16,9 +16,11 @@ class Podio::Item < ActivePodio::Base
   property :conversations, :array
   property :tasks, :array
   property :references, :array
+  property :refs, :array
   property :tags, :array
   property :subscribed, :boolean
   property :user_ratings, :hash
+  property :link, :string
 
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'

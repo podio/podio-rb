@@ -1,12 +1,13 @@
 class Podio::Importer < ActivePodio::Base
   
   class << self
-    def process_file(file_id, app_id, mappings)
+    def process_file(file_id, app_id, mappings, tags_column_id)
       response = Podio.connection.post do |req|
         req.url "/importer/#{file_id}/process"
         req.body = {
           :app_id => app_id,
-          :mappings => mappings
+          :mappings => mappings,
+          :tags_column_id => tags_column_id
         }
       end
 
