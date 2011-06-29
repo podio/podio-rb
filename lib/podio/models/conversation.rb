@@ -55,10 +55,10 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
     
-    def create_reply(conversation_id, text, file_ids = [])
+    def create_reply(conversation_id, text, file_ids = [], embed_id , embed_file_id)
       response = Podio.connection.post do |req|
         req.url "/conversation/#{conversation_id}/reply"
-        req.body = { :text => text, :file_ids => file_ids }
+        req.body = { :text => text, :file_ids => file_ids, :embed_id => embed_id, :embed_file_id => embed_file_id }
       end
       response.body['message_id']
     end
