@@ -1,7 +1,7 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :connection, :raw_connection
-    attr_accessor :oauth_token, :stubs, :current_http_client
+    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection, :raw_connection
+    attr_accessor :stubs, :current_http_client
 
     def initialize(options = {})
       @api_url = options[:api_url] || 'https://api.podio.com'
@@ -70,6 +70,11 @@ module Podio
       @oauth_token = OAuthToken.new(response.body)
       configure_oauth
       @oauth_token
+    end
+
+    def oauth_token=(new_oauth_token)
+      @oauth_token = new_oauth_token.is_a?(Hash) ? OAuthToken.new(new_oauth_token) : new_oauth_token
+      configure_oauth
     end
 
     def refresh_access_token

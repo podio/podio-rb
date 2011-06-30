@@ -52,16 +52,32 @@ class ClientTest < Test::Unit::TestCase
   test 'should automatically refresh an expired token' do
     # this token is already expired in the test database
     # Podio.client.oauth_token = Podio::OAuthToken.new('access_token' => '30da4594eef93528c11df7fb5deb989cd629ea7060a1ce1ced628d19398214c942bcfe0334cf953ef70a80ea1afdfd80183d5c75d19c1f5526ca4c6f6f3471ef', 'refresh_token' => '82e7a11ae187f28a25261599aa6229cd89f8faee48cba18a75d70efae88ba665ced11d43143b7f5bebb31a4103662b851dd2db1879a3947b843259479fccfad3', 'expires_in' => -10)
-    
+
     login_as(:professor)
     Podio.client.reset
-  
+
     assert_nothing_raised do
       response = Podio.connection.get("/org/")
       assert_equal 200, response.status
     end
   end
-  
+
+  test 'setting the oauth_token should reconfigure the connection' do
+    podio = Podio::Client.new
+    assert_nil podio.connection.headers['authorization']
+
+    podio.oauth_token = Podio::OAuthToken.new('access_token' => 'access', 'refresh_token' => 'refresh')
+    assert_equal 'OAuth2 access', podio.connection.headers['authorization']
+  end
+
+  test 'setting the oauth_token as a hash should reconfigure the connection' do
+    podio = Podio::Client.new
+    assert_nil podio.connection.headers['authorization']
+
+    podio.oauth_token = {'access_token' => 'access', 'refresh_token' => 'refresh'}
+    assert_equal 'OAuth2 access', podio.connection.headers['authorization']
+  end
+
   test 'should be able to make arbitrary requests' do
     login_as(:professor)
     response = Podio.connection.get("/org/")
