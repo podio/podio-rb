@@ -8,6 +8,8 @@ class Podio::Space < ActivePodio::Base
   property :members, :integer
   property :role, :string
   property :rights, :array
+  property :post_on_new_app, :bool
+  property :post_on_new_member, :bool
   
   has_one :created_by, :class => 'ByLine'
 
@@ -19,6 +21,10 @@ class Podio::Space < ActivePodio::Base
     self.space_id = response['space_id']
   end
   
+  def update
+    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member)
+  end
+  
   class << self
     def create(attributes)
       response = Podio.connection.post do |req|
@@ -27,6 +33,10 @@ class Podio::Space < ActivePodio::Base
       end
 
       response.body
+    end
+
+    def update(space_id, attributes)
+      Podio.connection.put("/space/#{space_id}", attributes).status
     end
 
     def find(id)
