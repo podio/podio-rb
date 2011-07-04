@@ -39,6 +39,10 @@ class Podio::Space < ActivePodio::Base
       Podio.connection.put("/space/#{space_id}", attributes).status
     end
 
+    def delete(id)
+      Podio.connection.delete("/space/#{id}").status
+    end
+
     def find(id)
       member Podio.connection.get("/space/#{id}").body
     end
