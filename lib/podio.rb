@@ -100,6 +100,8 @@ module Podio
   autoload :OrganizationMember,       'podio/models/organization_member'
   autoload :OrganizationProfile,      'podio/models/organization_profile'
   autoload :Profile,                  'podio/models/profile'
+  autoload :Question,                 'podio/models/question'
+  autoload :QuestionAnswer,           'podio/models/question_answer'
   autoload :Rating,                   'podio/models/rating'
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'
