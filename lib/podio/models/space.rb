@@ -22,7 +22,7 @@ class Podio::Space < ActivePodio::Base
   end
   
   def update
-    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member)
+    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label)
   end
   
   class << self
@@ -54,6 +54,14 @@ class Podio::Space < ActivePodio::Base
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
+    
+    def validate_url_label(org_id, url_label)
+      Podio.connection.post { |req|
+        req.url "/space/org/#{org_id}/url/validate"
+        req.body = {:url_label => url_label}
+      }.body
+    end
+    
   end
 end
 
