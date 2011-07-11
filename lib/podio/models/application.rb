@@ -36,6 +36,12 @@ class Podio::Application < ActivePodio::Base
       }.body
     end
 
+    def get_calculations(app_id)
+      list Podio.connection.get { |req|
+        req.url("/app/#{app_id}/calculation/", {})
+      }.body
+    end
+
     def update_order(space_id, app_ids = [])
       response = Podio.connection.put do |req|
         req.url "/app/space/#{space_id}/order"
