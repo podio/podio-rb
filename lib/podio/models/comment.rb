@@ -15,6 +15,7 @@ class Podio::Comment < ActivePodio::Base
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_many :files, :class => 'FileAttachment'
+  has_many :questions, :class => 'Question'
 
   alias_method :id, :comment_id
   attr_accessor :commentable_type, :commentable_id
