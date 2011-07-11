@@ -52,7 +52,16 @@ class Podio::Application < ActivePodio::Base
       end
       response.body['app_id']
     end
-    
+
+    def update(attributes, app_id)
+      response = Podio.connection.put do |req|
+        req.url "/app/#{app_id}"
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     def deactivate(id)
       Podio.connection.post("/app/#{id}/deactivate").body
     end
