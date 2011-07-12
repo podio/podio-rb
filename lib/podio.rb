@@ -102,6 +102,7 @@ module Podio
   autoload :Profile,                  'podio/models/profile'
   autoload :Question,                 'podio/models/question'
   autoload :QuestionAnswer,           'podio/models/question_answer'
+  autoload :QuestionOption,           'podio/models/question_option'
   autoload :Rating,                   'podio/models/rating'
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'

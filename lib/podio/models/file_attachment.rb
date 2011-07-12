@@ -18,37 +18,23 @@ class Podio::FileAttachment < ActivePodio::Base
   end
   
   class << self
-
-    # Accepts an open file stream along with a content type and a file name and uploads the file to Podio
-    # Returns an instantiated FileAttachment model with id, link, name and mimetype set
-    # If you use Ruby on Rails 3 or higher you can also pass the file in params directly to +upload_from_rails_param+
-    def upload(file_stream, content_type, file_name)
+    # Accepts an open file stream along with a file name and uploads the file to Podio
+    def upload(file_stream, file_name)
       response = Podio.client.raw_connection.post do |req|
+        req.options[:timeout] = 1200
         req.url "/file/v2/"
-        req.body = {:source => Faraday::UploadIO.new(file_stream, content_type, file_name), :filename => file_name}
+        req.body = {:source => Faraday::UploadIO.new(file_stream, nil, nil), :filename => file_name}
       end
-      file_attributes = ActiveSupport::JSON.decode(response.body) # Using raw_connection means response is not automatically decoded to json
-      file_attributes.merge!(:name => file_name, :mimetype => content_type)
-      member file_attributes
+
+      # Using raw_connection means response is not automatically decoded to json
+      member MultiJson.decode(response.body)
     end
-    
-    # Accepts a ActionDispatch::Http::UploadedFile or similar and uploads the file to Podio
-    # Optionally attaches the file to the given ref type and ref id
-    # Returns an instantiated FileAttachment model with id, link, name and mimetype set
-    def upload_from_rails_param(uploaded_file, ref_type = nil, ref_id = nil)
-      p uploaded_file
-      file_attachment = self.upload(uploaded_file.tempfile, uploaded_file.content_type, uploaded_file.original_filename)
-      if ref_type.present? && ref_id.present?
-        self.attach(file_attachment.id, ref_type, ref_id)
-      end
-      file_attachment
-    end
-    
+
     # Attach a file to an existing reference
     def attach(id, ref_type, ref_id)
       Podio.connection.post do |req|
         req.url "/file/#{id}/attach"
-        req.body = { :ref_type => ref_type, :ref_id => ref_id }
+        req.body = {:ref_type => ref_type, :ref_id => ref_id}
       end
     end
 
@@ -62,6 +48,10 @@ class Podio::FileAttachment < ActivePodio::Base
     
     def find(id)
       member Podio.connection.get("/file/#{id}").body
+    end
+
+    def find_raw(id)
+      Podio.client.raw_connection.get("/file/#{id}/raw").body
     end
 
     def find_for_app(app_id, options={})

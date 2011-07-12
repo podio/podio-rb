@@ -2,9 +2,9 @@ class Podio::Question < ActivePodio::Base
 
   property :question_id, :integer
   property :text, :string
-  property :options, :hash
 
   has_many :answers, :class => 'QuestionAnswer'
+  has_many :options, :class => 'QuestionOption'
 
   alias_method :id, :question_id
 
