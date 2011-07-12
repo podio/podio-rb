@@ -6,7 +6,7 @@ class Podio::ApplicationField < ActivePodio::Base
 
   alias_method :id, :field_id
   delegate_to_hash :config, :label, :description, :delta, :settings, :required?, :visible?
-  delegate_to_hash :settings, :allowed_values, :referenceable_types, :allowed_currencies, :valid_types
+  delegate_to_hash :settings, :allowed_values, :referenceable_types, :allowed_currencies, :valid_types, :options, :multiple
   
   class << self
     def find(app_id, field_id)
