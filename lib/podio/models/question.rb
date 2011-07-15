@@ -2,6 +2,7 @@ class Podio::Question < ActivePodio::Base
 
   property :question_id, :integer
   property :text, :string
+  property :ref, :hash
 
   has_many :answers, :class => 'QuestionAnswer'
   has_many :options, :class => 'QuestionOption'
