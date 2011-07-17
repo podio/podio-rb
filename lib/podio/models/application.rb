@@ -66,6 +66,10 @@ class Podio::Application < ActivePodio::Base
       end
       response.status
     end
+
+    def delete_field(app_id, field_id)
+      Podio.connection.delete("/app/#{app_id}/field/#{field_id}").status
+    end
     
     def deactivate(id)
       Podio.connection.post("/app/#{id}/deactivate").body
