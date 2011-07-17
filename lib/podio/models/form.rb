@@ -18,6 +18,12 @@ class Podio::Form < ActivePodio::Base
       response.body['form_id']
     end
 
+    def find_all_for_app(app_id)
+      list Podio.connection.get { |req|
+        req.url("/form/app/#{app_id}/")
+      }.body
+    end
+
     def find(form_id)
       member Podio.connection.get("/form/#{form_id}").body
     end
