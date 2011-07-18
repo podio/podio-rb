@@ -10,6 +10,7 @@ class ActivePodioTest < Test::Unit::TestCase
     property :test_id, :integer
     property :string, :string
     property :hash_property, :hash
+    property :other_hash_property, :hash
     property :datetime, :datetime
     property :date, :date
     property :integer, :integer
@@ -24,6 +25,8 @@ class ActivePodioTest < Test::Unit::TestCase
     alias_method :id, :test_id
     
     delegate_to_hash :hash_property, :key1, :key2, :really?
+    delegate_to_hash :other_hash_property, :key3, :prefix => true, :setter  => true
+    
     
     def save(exception_class = nil)
       if exception_class
@@ -156,10 +159,17 @@ class ActivePodioTest < Test::Unit::TestCase
     assert_equal 'other association 2', @test.different_associations[1].string
   end
   
-  test 'should expose methods defined by delegate to hash' do
+  test 'should expose getter methods defined by delegate to hash' do
     @test = TestModel.new(:hash_property => {'key1' => 'value1', 'key2' => 'value2', 'really' => true})
     assert_equal 'value1', @test.key1
     assert @test.really?
+  end
+
+  test 'should expose prefixed getter and setter methods defined by delegate to hash' do
+    @test = TestModel.new(:other_hash_property => {'key3' => 'value3'})
+    assert_equal 'value3', @test.other_hash_property_key3
+    @test.other_hash_property_key3 = 'new'
+    assert_equal 'new', @test.other_hash_property_key3
   end
   
   test 'should handle non failing api requests' do
@@ -229,12 +239,12 @@ class ActivePodioTest < Test::Unit::TestCase
   
   test 'should initialize nil attributes when constructed without given attributes' do
     @test = TestModel.new
-    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
   end
 
   test 'should accept unknown properties when constructed' do
     @test = TestModel.new(:unknown => 'attribute')
-    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
   end
   
   test 'should use id for ==' do
@@ -250,7 +260,7 @@ class ActivePodioTest < Test::Unit::TestCase
   
   test 'should return attributes for as_json' do
     @test = TestModel.new(:test_id => 42)
-    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
+    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
   end
   
 end

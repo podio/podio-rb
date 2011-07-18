@@ -159,10 +159,18 @@ module ActivePodio
       end
     
       def delegate_to_hash(hash_name, *attribute_names)
+        options = attribute_names.extract_options! || { :prefix => false, :setter => false }
+        options.assert_valid_keys(:prefix, :setter)
         attribute_names.each do |attribute_name|
           hash_index = attribute_name.to_s.gsub(/[\?!]/, '')
-          self.send(:define_method, attribute_name) do
+          method_name = "#{options[:prefix] ? "#{hash_name}_" : ''}#{attribute_name}"
+          self.send(:define_method, method_name) do
             self.send(hash_name)[hash_index]
+          end
+          if options[:setter]
+            self.send(:define_method, "#{method_name}=") do |value|
+              self.send(hash_name)[hash_index] = value
+            end
           end
         end
       end
