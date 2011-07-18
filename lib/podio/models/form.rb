@@ -7,6 +7,8 @@ class Podio::Form < ActivePodio::Base
   property :attachments, :boolean
   
   alias_method :id, :form_id
+  delegate_to_hash :settings, :captcha, :text, :theme
+  delegate_to_hash :text, :submit, :success
   
   class << self
     def create(app_id, attributes)
