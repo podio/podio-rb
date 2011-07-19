@@ -7,8 +7,8 @@ class Podio::Form < ActivePodio::Base
   property :attachments, :boolean
   
   alias_method :id, :form_id
-  delegate_to_hash :settings, :captcha, :text, :theme
-  delegate_to_hash :text, :submit, :success
+  delegate_to_hash :settings, :captcha, :text, :theme, :setter => true
+  delegate_to_hash :text, :submit, :success, :setter => true
   
   class << self
     def create(app_id, attributes)
@@ -18,6 +18,15 @@ class Podio::Form < ActivePodio::Base
       end
 
       response.body['form_id']
+    end
+
+    def update(form_id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/form/#{form_id}"
+        req.body = attributes
+      end
+
+      response.status
     end
 
     def find_all_for_app(app_id)
