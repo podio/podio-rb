@@ -187,6 +187,17 @@ class ActivePodioTest < Test::Unit::TestCase
     @test.prefixed_hash_property_with_setter_key5 = 'new'
     assert_equal 'new', @test.prefixed_hash_property_with_setter_key5
   end
+
+  test 'should work with delegate to hash getter when hash is nil' do
+    @test = TestModel.new
+    assert_nil @test.key4
+  end
+
+  test 'should work with delegate to hashsetter when hash is nil' do
+    @test = TestModel.new
+    @test.key4 = 'new'
+    assert_equal 'new', @test.key4
+  end
   
   test 'should handle non failing api requests' do
     @test = TestModel.new

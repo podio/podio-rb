@@ -166,10 +166,12 @@ module ActivePodio
           hash_index = attribute_name.to_s.gsub(/[\?!]/, '')
           method_name = "#{options[:prefix] ? "#{hash_name}_" : ''}#{attribute_name}"
           self.send(:define_method, method_name) do
+            self.send("#{hash_name}=", {}) unless self.send(hash_name)
             self.send(hash_name)[hash_index]
           end
           if options[:setter]
             self.send(:define_method, "#{method_name}=") do |value|
+              self.send("#{hash_name}=", {}) unless self.send(hash_name)
               self.send(hash_name)[hash_index] = value
             end
           end
