@@ -159,7 +159,8 @@ module ActivePodio
       end
     
       def delegate_to_hash(hash_name, *attribute_names)
-        options = attribute_names.extract_options! || { :prefix => false, :setter => false }
+        options = attribute_names.extract_options!
+        options.reverse_merge!(:prefix => false, :setter => false)
         options.assert_valid_keys(:prefix, :setter)
         attribute_names.each do |attribute_name|
           hash_index = attribute_name.to_s.gsub(/[\?!]/, '')

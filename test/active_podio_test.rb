@@ -10,7 +10,9 @@ class ActivePodioTest < Test::Unit::TestCase
     property :test_id, :integer
     property :string, :string
     property :hash_property, :hash
-    property :other_hash_property, :hash
+    property :prefixed_hash_property, :hash
+    property :hash_property_with_setter, :hash
+    property :prefixed_hash_property_with_setter, :hash
     property :datetime, :datetime
     property :date, :date
     property :integer, :integer
@@ -25,7 +27,9 @@ class ActivePodioTest < Test::Unit::TestCase
     alias_method :id, :test_id
     
     delegate_to_hash :hash_property, :key1, :key2, :really?
-    delegate_to_hash :other_hash_property, :key3, :prefix => true, :setter  => true
+    delegate_to_hash :prefixed_hash_property, :key3, :prefix => true
+    delegate_to_hash :hash_property_with_setter, :key4, :setter => true
+    delegate_to_hash :prefixed_hash_property_with_setter, :key5, :setter => true, :prefix => true
     
     
     def save(exception_class = nil)
@@ -165,11 +169,23 @@ class ActivePodioTest < Test::Unit::TestCase
     assert @test.really?
   end
 
+  test 'should expose prefixed getter methods defined by delegate to hash' do
+    @test = TestModel.new(:prefixed_hash_property => {'key3' => 'value3'})
+    assert_equal 'value3', @test.prefixed_hash_property_key3
+  end
+
+  test 'should expose setter methods defined by delegate to hash' do
+    @test = TestModel.new(:hash_property_with_setter => {'key4' => 'value4'})
+    assert_equal 'value4', @test.key4
+    @test.key4 = 'new'
+    assert_equal 'new', @test.key4
+  end
+
   test 'should expose prefixed getter and setter methods defined by delegate to hash' do
-    @test = TestModel.new(:other_hash_property => {'key3' => 'value3'})
-    assert_equal 'value3', @test.other_hash_property_key3
-    @test.other_hash_property_key3 = 'new'
-    assert_equal 'new', @test.other_hash_property_key3
+    @test = TestModel.new(:prefixed_hash_property_with_setter => {'key5' => 'value5'})
+    assert_equal 'value5', @test.prefixed_hash_property_with_setter_key5
+    @test.prefixed_hash_property_with_setter_key5 = 'new'
+    assert_equal 'new', @test.prefixed_hash_property_with_setter_key5
   end
   
   test 'should handle non failing api requests' do
@@ -239,12 +255,12 @@ class ActivePodioTest < Test::Unit::TestCase
   
   test 'should initialize nil attributes when constructed without given attributes' do
     @test = TestModel.new
-    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
   end
 
   test 'should accept unknown properties when constructed' do
     @test = TestModel.new(:unknown => 'attribute')
-    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
+    assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
   end
   
   test 'should use id for ==' do
@@ -260,7 +276,7 @@ class ActivePodioTest < Test::Unit::TestCase
   
   test 'should return attributes for as_json' do
     @test = TestModel.new(:test_id => 42)
-    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :other_hash_property=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
+    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
   end
   
 end
