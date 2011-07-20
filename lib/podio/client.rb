@@ -106,6 +106,7 @@ module Podio
 
     def configure_connection(raw=false)
       Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
+        builder.use Middleware::RequestHook
         builder.use Middleware::JsonRequest unless raw
         builder.use Faraday::Request::Multipart if raw
         builder.use Middleware::OAuth2

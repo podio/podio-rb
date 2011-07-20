@@ -78,6 +78,19 @@ class ClientTest < Test::Unit::TestCase
     assert_equal 'OAuth2 access', podio.connection.headers['authorization']
   end
 
+  test 'should allow to modify the request using before request hooks' do
+    login_as(:professor)
+    Podio::Hooks.add_before_request_hook do |env|
+      env[:request_headers][:hook] = "true"
+    end
+
+    podio = Podio::Client.new
+    assert_nil podio.connection.headers['Hook']
+
+    response = Podio.connection.get("/org/")
+    assert_equal "true", response.env[:request_headers]['Hook']
+  end
+
   test 'should be able to make arbitrary requests' do
     login_as(:professor)
     response = Podio.connection.get("/org/")
