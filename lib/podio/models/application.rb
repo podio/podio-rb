@@ -17,7 +17,7 @@ class Podio::Application < ActivePodio::Base
   has_one :integration, :class => 'Integration'
 
   alias_method :id, :app_id
-  delegate_to_hash :config, :name, :item_name, :allow_edit?, :allow_attachments?, :allow_comments?, :description
+  delegate_to_hash :config, :name, :item_name, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?
   
   class << self
     def find(app_id)
