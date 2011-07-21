@@ -5,6 +5,7 @@ class Podio::Form < ActivePodio::Base
   property :domains, :array
   property :field_ids, :array
   property :attachments, :boolean
+  property :status, :string
   
   alias_method :id, :form_id
   delegate_to_hash :settings, :captcha, :text, :theme, :setter => true
@@ -37,6 +38,14 @@ class Podio::Form < ActivePodio::Base
 
     def find(form_id)
       member Podio.connection.get("/form/#{form_id}").body
+    end
+
+    def disable(form_id)
+      Podio.connection.post("/form/#{form_id}/deactivate").body
+    end
+
+    def enable(form_id)
+      Podio.connection.post("/form/#{form_id}/activate").body
     end
   end
 end
