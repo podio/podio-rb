@@ -1,6 +1,7 @@
 class Podio::Form < ActivePodio::Base
   property :form_id, :integer
   property :app_id, :integer
+  property :space_id, :integer
   property :settings, :hash
   property :domains, :array
   property :fields, :array
