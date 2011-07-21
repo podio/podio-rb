@@ -1,6 +1,7 @@
 class Podio::Comment < ActivePodio::Base
   property :comment_id, :integer
   property :value, :string
+  property :rich_value, :string
   property :external_id, :integer
   property :space_id, :integer
   property :created_on, :datetime
