@@ -3,8 +3,11 @@ class Podio::Form < ActivePodio::Base
   property :app_id, :integer
   property :settings, :hash
   property :domains, :array
-  property :field_ids, :array
+  property :fields, :array
   property :attachments, :boolean
+
+  # Deprecated
+  property :field_ids, :array
   
   alias_method :id, :form_id
   delegate_to_hash :settings, :captcha, :text, :theme, :setter => true
