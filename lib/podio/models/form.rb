@@ -3,6 +3,10 @@ class Podio::Form < ActivePodio::Base
   property :app_id, :integer
   property :settings, :hash
   property :domains, :array
+  property :fields, :array
+  property :attachments, :boolean
+
+  # Deprecated
   property :field_ids, :array
   property :attachments, :boolean
   property :status, :string

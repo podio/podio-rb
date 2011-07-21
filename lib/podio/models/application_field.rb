@@ -3,6 +3,7 @@ class Podio::ApplicationField < ActivePodio::Base
   property :type, :string
   property :external_id, :integer
   property :config, :hash
+  property :status, :string
 
   alias_method :id, :field_id
   delegate_to_hash :config, :label, :description, :delta, :settings, :required?, :visible?
