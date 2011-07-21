@@ -5,12 +5,11 @@ class Podio::Form < ActivePodio::Base
   property :domains, :array
   property :fields, :array
   property :attachments, :boolean
+  property :status, :string
 
   # Deprecated
   property :field_ids, :array
-  property :attachments, :boolean
-  property :status, :string
-  
+
   alias_method :id, :form_id
   delegate_to_hash :settings, :captcha, :text, :theme, :setter => true
   delegate_to_hash :text, :submit, :success, :heading, :description, :setter => true
