@@ -25,6 +25,13 @@ class ClientTest < Test::Unit::TestCase
   
     assert_equal 'OAuth2 access', podio.connection.headers['authorization']
   end
+
+  test 'should allow to specify ssl params for faraday' do
+    ssl_settings = { :verify => false }
+    podio = Podio::Client.new(:ssl => ssl_settings)
+
+    assert_equal podio.connection.ssl, ssl_settings
+  end
   
   test 'should get an access token' do
     client = Podio.client
