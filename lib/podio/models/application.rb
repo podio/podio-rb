@@ -74,6 +74,10 @@ class Podio::Application < ActivePodio::Base
     def deactivate(id)
       Podio.connection.post("/app/#{id}/deactivate").body
     end
+
+    def activate(id)
+      Podio.connection.post("/app/#{id}/activate").body
+    end
     
     def delete(id)
       Podio.connection.delete("/app/#{id}").body
