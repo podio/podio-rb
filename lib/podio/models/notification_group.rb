@@ -2,7 +2,7 @@
 class Podio::NotificationGroup < ActivePodio::Base
   property :context, :hash
   property :notifications, :hash
-  delegate_to_hash :context, :ref, :data
+  delegate_to_hash :context, :ref, :data, :comment_count
   delegate_to_hash :data, :link
   
   class << self
