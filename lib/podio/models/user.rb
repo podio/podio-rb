@@ -60,9 +60,9 @@ class Podio::User < ActivePodio::Base
     end
 
     def verify(verification_code)
-      Podio.connection.put("/user/verify/#{verification_code}").status
+      Podio.connection.post("/user/mail_verification/#{verification_code}").status
     end
-    
+
     def delete
       Podio.connection.delete("/user/").status
     end    
