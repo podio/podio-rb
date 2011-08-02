@@ -64,8 +64,6 @@ class Podio::SpaceInvite < ActivePodio::Base
 
     def decline_member(invite_code)
       Podio.connection.delete("/space/membership?invite_code=#{invite_code}").status
-
-      response.body
     end
 
     def find(invite_code)
