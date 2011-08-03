@@ -75,6 +75,10 @@ class Podio::Organization < ActivePodio::Base
     def find_all
       list Podio.connection.get("/org/").body
     end
+
+    def find_orgs_and_spaces_for_navigation
+      Podio.connection.get("/org/v2/").body
+    end
     
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics").body
