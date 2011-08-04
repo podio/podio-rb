@@ -1,4 +1,6 @@
 class Podio::Contact < Podio::Profile
+  include ActivePodio::Updatable
+  
   property :is_selected, :bool
   property :user_id, :integer
   property :organization, :string
@@ -7,4 +9,9 @@ class Podio::Contact < Podio::Profile
   property :link, :string
 
   alias_method :id, :user_id
+
+  def update
+    self.class.update_contact(self.profile_id, self.attributes)
+  end
+
 end
