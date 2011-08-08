@@ -115,6 +115,7 @@ module Podio
   autoload :Task,                     'podio/models/task'
   autoload :TaskLabel,                'podio/models/task_label'
   autoload :User,                     'podio/models/user'
+  autoload :UserMail,                 'podio/models/user_mail'
   autoload :UserStatus,               'podio/models/user_status'
   autoload :Via,                      'podio/models/via'
   autoload :Widget,                   'podio/models/widget'

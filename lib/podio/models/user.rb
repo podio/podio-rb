@@ -4,6 +4,9 @@ class Podio::User < ActivePodio::Base
   property :status, :string
   property :locale, :string
   property :timezone, :string
+  property :password, :string
+  property :old_password, :string
+  property :new_password, :string
   property :flags, :array
   property :created_on, :datetime
   property :last_active_on, :datetime
@@ -12,6 +15,8 @@ class Podio::User < ActivePodio::Base
   property :avatar, :integer
   property :profile_id, :integer  
   property :type, :string
+
+  has_many :mails, :class => 'UserMail'
   
   # Only settable on creation
   property :landing, :string
@@ -32,6 +37,10 @@ class Podio::User < ActivePodio::Base
       end
 
       response.body['user_id']
+    end
+
+    def update(attributes)
+      Podio.connection.put("/user/", attributes).status
     end
 
     def activate(attributes)
@@ -57,6 +66,15 @@ class Podio::User < ActivePodio::Base
 
     def remove_property(name)
       Podio.connection.delete("/user/property/#{name}", {}).status
+    end
+
+    def mail_verification(attributes)
+      response = Podio.connection.post do |req|
+        req.url '/user/mail_verification/'
+        req.body = attributes
+      end
+
+      response.body
     end
 
     def verify(verification_code)
