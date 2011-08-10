@@ -9,6 +9,7 @@ class Podio::Bulletin < ActivePodio::Base
   property :sent_on, :datetime
 
   has_one :created_by, :class => 'ByLine'
+  has_one :sent_by, :class => 'ByLine'
 
   alias_method :id, :bulletin_id
   
