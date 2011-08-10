@@ -7,6 +7,7 @@ class Podio::Contact < Podio::Profile
   property :role, :string # Only available when getting contacts for a space
   property :type, :string # user, space, connection - blank probably means it's a real user / Podio member
   property :link, :string
+  property :last_seen_on, :datetime
 
   alias_method :id, :user_id
 

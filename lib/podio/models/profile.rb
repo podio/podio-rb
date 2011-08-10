@@ -19,7 +19,10 @@ class Podio::Profile < ActivePodio::Base
   property :phone, :array
   property :title, :array
   property :url, :array
-  
+  property :skill, :array
+  property :linkedin, :string
+  property :twitter, :string
+
   class << self
     def all(options={})
       options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
@@ -91,6 +94,12 @@ class Podio::Profile < ActivePodio::Base
 
     def totals_by_org_and_space
       Podio.connection.get("/contact/totals/v2/").body
+    end
+
+    def skills(options)
+      Podio.connection.get { |req|
+        req.url("/contact/skill/", options)
+      }.body      
     end
 
     def totals_by_space(space_id, options = {})
