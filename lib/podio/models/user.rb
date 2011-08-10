@@ -81,6 +81,24 @@ class Podio::User < ActivePodio::Base
       Podio.connection.post("/user/mail_verification/#{verification_code}").status
     end
 
+    def recover(mail)
+      response = Podio.connection.post do |req|
+        req.url '/user/recover_password'
+        req.body = {:mail => mail}
+      end
+
+      response.status
+    end
+
+    def reset(password, recovery_code)
+      response = Podio.connection.post do |req|
+        req.url '/user/reset_password'
+        req.body = {:password => password, :recovery_code => recovery_code}
+      end
+
+      response.body
+    end
+
     def delete
       Podio.connection.delete("/user/").status
     end    
