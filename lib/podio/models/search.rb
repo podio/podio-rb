@@ -1,4 +1,15 @@
 class Podio::Search < ActivePodio::Base
+  property :type, :string
+  property :id, :integer
+  property :title, :string
+  property :created_on, :datetime
+  property :link, :string
+  property :space, :hash
+  property :org, :hash
+  property :app, :hash
+  
+  has_one :created_by, :class => 'ByLine'
+  
   
   class << self
     def in_org(org_id, words)

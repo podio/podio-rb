@@ -3,6 +3,7 @@ class Podio::SpaceMember < ActivePodio::Base
   property :role, :string
   property :invited_on, :datetime
   property :started_on, :datetime
+  property :ended_on, :datetime
 
   has_one :user, :class => 'User'
 
@@ -14,6 +15,12 @@ class Podio::SpaceMember < ActivePodio::Base
     def find_all_for_role(space_id, role)
       list Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/#{role}/")
+      }.body
+    end
+
+    def find_all_ended(space_id)
+      list Podio.connection.get { |req|
+        req.url("/space/#{space_id}/member/ended/")
       }.body
     end
 
