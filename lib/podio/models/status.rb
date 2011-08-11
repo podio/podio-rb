@@ -1,6 +1,7 @@
 class Podio::Status < ActivePodio::Base
   property :status_id, :integer
   property :value, :string
+  property :rich_value, :string
   property :link, :string
   property :created_on, :datetime
   property :alerts, :array

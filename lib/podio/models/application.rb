@@ -13,11 +13,23 @@ class Podio::Application < ActivePodio::Base
   property :integration, :hash
   property :rights, :array
   property :link, :string
+
+  # When app is returned as part of large collection (e.g. for stream), some config properties is moved to the main object
+  property :name, :string
+  property :item_name, :string
   
   has_one :integration, :class => 'Integration'
 
   alias_method :id, :app_id
-  delegate_to_hash :config, :name, :item_name, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?
+  delegate_to_hash :config, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?
+  
+  def name
+    self[:name] || self.config[:name]
+  end
+  
+  def item_name
+    self[:item_name] || self.config[:item_name]
+  end
   
   class << self
     def find(app_id)
