@@ -105,6 +105,7 @@ module ActivePodio
           unless instance.present?
             property = options[:property] || name.to_sym
             if self[property].present?
+              debugger
               instance = klass.new(self[property])
               self.instance_variable_set("@#{name}_has_one_instance", instance)
             else

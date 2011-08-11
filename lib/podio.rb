@@ -66,6 +66,7 @@ module Podio
   autoload :Client,                   'podio/client'
   autoload :ResponseWrapper,          'podio/response_wrapper'
                                       
+  autoload :Action,                   'podio/models/action'
   autoload :Activity,                 'podio/models/activity'
   autoload :AppStoreShare,            'podio/models/app_store_share'
   autoload :Application,              'podio/models/application'
