@@ -26,5 +26,9 @@ class Podio::StreamObject < ActivePodio::Base
         req.url("/stream/user/#{user_id}/", options)
       }.body      
     end
+    
+    def find_by_ref(ref_type, ref_id)
+      member Podio.connection.get("/stream/#{ref_type}/#{ref_id}/v2").body
+    end
   end
 end
