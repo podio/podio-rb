@@ -1,4 +1,10 @@
 class Podio::Rating < ActivePodio::Base
+
+  property :rating_id, :integer
+  property :type, :string
+  property :value, :string
+  
+  alias_method :id, :rating_id
   
   class << self
     def create(ref_type, ref_id, rating_type, value)

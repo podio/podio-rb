@@ -1,7 +1,7 @@
 class Podio::Activity < ActivePodio::Base
   property :id, :integer
   property :type, :string
-  property :actvitity_type, :string
+  property :activity_type, :string
   property :data, :hash
   property :created_on, :datetime
 
