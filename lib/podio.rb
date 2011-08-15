@@ -115,6 +115,7 @@ module Podio
   autoload :StreamObject,             'podio/models/stream_object'
   autoload :Subscription,             'podio/models/subscription'
   autoload :Tag,                      'podio/models/tag'
+  autoload :TagSearch,                'podio/models/tag_search'
   autoload :Task,                     'podio/models/task'
   autoload :TaskLabel,                'podio/models/task_label'
   autoload :User,                     'podio/models/user'
