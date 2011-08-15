@@ -24,11 +24,11 @@ class Podio::Application < ActivePodio::Base
   delegate_to_hash :config, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?
   
   def name
-    self[:name] || self.config[:name]
+    self[:name] || self.config['name']
   end
   
   def item_name
-    self[:item_name] || self.config[:item_name]
+    self[:item_name] || self.config['item_name']
   end
   
   class << self
