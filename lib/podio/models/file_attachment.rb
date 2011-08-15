@@ -55,25 +55,25 @@ class Podio::FileAttachment < ActivePodio::Base
     end
 
     def find_for_app(app_id, options={})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/", options)
       }.body
     end
 
     def find_for_space(space_id, options={})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/", options)
       }.body
     end
 
     def find_latest_for_app(app_id, options={})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/latest/", options)
       }.body
     end
 
     def find_latest_for_space(space_id, options={})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/latest/", options)
       }.body
     end
