@@ -18,6 +18,7 @@ class Podio::Status < ActivePodio::Base
   has_many :tasks, :class => 'Task'
   has_many :shares, :class => 'AppStoreShare'
   has_many :files, :class => 'FileAttachment'
+  has_many :questions, :class => 'Question'
   
   alias_method :id, :status_id
   
