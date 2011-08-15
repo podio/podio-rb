@@ -5,6 +5,7 @@ class Podio::FileAttachment < ActivePodio::Base
   property :description, :string
   property :mimetype, :string
   property :size, :integer
+  property :context, :hash
   property :created_on, :datetime
   
   has_one :created_by, :class => 'ByLine'
