@@ -67,6 +67,7 @@ module Podio
   autoload :ResponseWrapper,          'podio/response_wrapper'
                                       
   autoload :Action,                   'podio/models/action'
+  autoload :ActivationStatus,         'podio/models/activation_status'
   autoload :Activity,                 'podio/models/activity'
   autoload :AppStoreShare,            'podio/models/app_store_share'
   autoload :Application,              'podio/models/application'
