@@ -21,6 +21,24 @@ class Podio::StreamObject < ActivePodio::Base
   has_many :activity, :class => 'Activity'
 
   class << self
+    def find_all(options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/v2/", options)
+      }.body      
+    end
+
+    def find_all_by_space_id(space_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/space/#{space_id}/v2/", options)
+      }.body      
+    end
+
+    def find_all_by_app_id(app_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/app/#{app_id}/", options)
+      }.body      
+    end
+
     def find_all_by_user_id(user_id, options={})
       list Podio.connection.get { |req|
         req.url("/stream/user/#{user_id}/", options)
