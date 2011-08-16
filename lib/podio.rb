@@ -85,6 +85,7 @@ module Podio
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
   autoload :Embed,                    'podio/models/embed'
   autoload :FileAttachment,           'podio/models/file_attachment'
+  autoload :Filter,                   'podio/models/filter'
   autoload :Form,                     'podio/models/form'
   autoload :Hook,                     'podio/models/hook'
   autoload :Importer,                 'podio/models/importer'
