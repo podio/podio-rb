@@ -45,7 +45,7 @@ module ActivePodio
     end
     
     def ==(other)
-      self.respond_to?(:id) && other.respond_to?(:id) && self.id == other.id
+      !self.nil? && !other.nil? && self.respond_to?(:id) && other.respond_to?(:id) && self.id == other.id
     end
     alias :eql? :==
     
