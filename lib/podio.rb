@@ -114,6 +114,7 @@ module Podio
   autoload :SpaceInvite,              'podio/models/space_invite'
   autoload :SpaceMember,              'podio/models/space_member'
   autoload :Status,                   'podio/models/status'
+  autoload :StreamMute,               'podio/models/stream_mute'
   autoload :StreamObject,             'podio/models/stream_object'
   autoload :Subscription,             'podio/models/subscription'
   autoload :Tag,                      'podio/models/tag'
