@@ -17,6 +17,7 @@ class Podio::Organization < ActivePodio::Base
   property :member_count, :integer
   property :contact_count, :integer
   property :billing_interval, :integer
+  property :rights, :array
 
   has_one :created_by, :class => 'ByLine'
 
