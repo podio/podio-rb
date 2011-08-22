@@ -22,6 +22,12 @@ class Podio::Profile < ActivePodio::Base
   property :skill, :array
   property :linkedin, :string
   property :twitter, :string
+  
+  property :app_store_about, :string
+  property :app_store_organization, :string
+  property :app_store_location, :string
+  property :app_store_title, :string
+  property :app_store_url, :string
 
   class << self
     def all(options={})
