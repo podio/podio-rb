@@ -33,6 +33,12 @@ class Podio::StreamObject < ActivePodio::Base
       }.body      
     end
 
+    def find_all_by_org_id(org_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/org/#{org_id}/v2/", options)
+      }.body      
+    end
+
     def find_all_by_app_id(app_id, options={})
       list Podio.connection.get { |req|
         req.url("/stream/app/#{app_id}/", options)
