@@ -13,6 +13,7 @@ class Podio::Application < ActivePodio::Base
   property :integration, :hash
   property :rights, :array
   property :link, :string
+  property :url_add, :string
 
   # When app is returned as part of large collection (e.g. for stream), some config properties is moved to the main object
   property :name, :string
