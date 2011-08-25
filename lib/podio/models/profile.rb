@@ -29,6 +29,8 @@ class Podio::Profile < ActivePodio::Base
   property :app_store_title, :string
   property :app_store_url, :string
 
+  property :last_seen_on, :datetime
+
   class << self
     def all(options={})
       options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
