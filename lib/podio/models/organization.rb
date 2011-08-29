@@ -84,6 +84,10 @@ class Podio::Organization < ActivePodio::Base
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics").body
     end
+
+    def get_member_count(id)
+      Podio.connection.get("/org/#{id}/member/count").body
+    end
     
     def get_login_report(id, options = {})
       Podio.connection.get { |req|
