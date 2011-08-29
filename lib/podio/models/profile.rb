@@ -13,6 +13,7 @@ class Podio::Profile < ActivePodio::Base
   property :zip, :string
   property :city, :string
   property :country, :string
+  property :state, :string
   property :im, :array
   property :location, :array
   property :mail, :array
