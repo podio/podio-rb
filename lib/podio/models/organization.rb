@@ -103,5 +103,12 @@ class Podio::Organization < ActivePodio::Base
       Podio.connection.post("/org/#{id}/upgrade").body
     end
     
+    def set_joined_as(org_id, joined_as_type, joined_as_id)
+      Podio.connection.post { |req|
+        req.url "/org/#{org_id}/joined_as"
+        req.body = {:type => joined_as_type, :id => joined_as_id}
+      }.body
+    end
+    
   end
 end
