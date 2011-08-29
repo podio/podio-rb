@@ -33,6 +33,20 @@ class Podio::Calendar < ActivePodio::Base
       response['upcoming']['events'] = list(response['upcoming']['events'])
       response
     end
+
+    def mute_object(scope_type, scope_id, object_type)
+      response = Podio.connection.post do |req|
+        req.url "/calendar/mute/#{scope_type}/#{scope_id}/#{object_type}"
+      end
+
+      response.body
+    end
+
+    def unmute_object(scope_type, scope_id, object_type)
+      Podio.connection.delete do |req|
+        req.url "/calendar/mute/#{scope_type}/#{scope_id}/#{object_type}"
+      end
+    end     
     
   end
 end
