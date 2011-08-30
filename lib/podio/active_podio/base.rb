@@ -45,7 +45,7 @@ module ActivePodio
     end
     
     def ==(other)
-      self.respond_to?(:id) && other.respond_to?(:id) && self.id == other.id
+      !self.nil? && !other.nil? && self.respond_to?(:id) && other.respond_to?(:id) && self.id == other.id
     end
     alias :eql? :==
     
@@ -301,7 +301,7 @@ module ActivePodio
             end
     
             self.send(:define_method, "#{name}=") do |array|
-              self[name.to_sym] = array.reject(&:blank?) if array.respond_to?(:reject)
+              self[name.to_sym] = array.respond_to?(:reject) ? array.reject(&:blank?) : array
             end
           end
     
@@ -310,7 +310,7 @@ module ActivePodio
           end
     
           self.send(:define_method, "#{name.to_s.pluralize}=") do |array|
-            self[name.to_sym] = array.reject(&:blank?) if array.respond_to?(:reject)
+            self[name.to_sym] = array.respond_to?(:reject) ? array.reject(&:blank?) : array
           end
     
           self.send(:define_method, "default_#{name.to_s.singularize}") do

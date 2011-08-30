@@ -13,6 +13,7 @@ class Podio::Profile < ActivePodio::Base
   property :zip, :string
   property :city, :string
   property :country, :string
+  property :state, :string
   property :im, :array
   property :location, :array
   property :mail, :array
@@ -22,6 +23,14 @@ class Podio::Profile < ActivePodio::Base
   property :skill, :array
   property :linkedin, :string
   property :twitter, :string
+  
+  property :app_store_about, :string
+  property :app_store_organization, :string
+  property :app_store_location, :string
+  property :app_store_title, :string
+  property :app_store_url, :string
+
+  property :last_seen_on, :datetime
 
   class << self
     def all(options={})
@@ -35,6 +44,18 @@ class Podio::Profile < ActivePodio::Base
     def top(options={})
       list Podio.connection.get { |req|
         req.url("/contact/top/", options)
+      }.body
+    end
+
+    def top_for_space(space_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/contact/space/#{space_id}/top/", options)
+      }.body
+    end
+
+    def top_for_org(org_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/contact/org/#{org_id}/top/", options)
       }.body
     end
 

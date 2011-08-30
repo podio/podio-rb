@@ -17,7 +17,8 @@ class Podio::User < ActivePodio::Base
   property :type, :string
 
   has_many :mails, :class => 'UserMail'
-  
+  has_one :profile, :class => 'Profile'
+
   # Only settable on creation
   property :landing, :string
   property :referrer, :string
@@ -41,6 +42,10 @@ class Podio::User < ActivePodio::Base
 
     def update(attributes)
       Podio.connection.put("/user/", attributes).status
+    end
+
+    def update_profile(attributes)
+      Podio.connection.put("/user/profile/", attributes).status
     end
 
     def activate(attributes)

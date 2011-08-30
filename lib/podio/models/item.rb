@@ -69,6 +69,13 @@ class Podio::Item < ActivePodio::Base
         req.url("/item/field/#{field_id}/top/", options)
       }.body
     end
+    
+    def xlsx(app_id, options={})
+      response = Podio.connection.get { |req|
+        req.url("/item/app/#{app_id}/xlsx/", options)
+      }
+      response.body
+    end
 
     def search_field(field_id, options={})
       list Podio.connection.get { |req|

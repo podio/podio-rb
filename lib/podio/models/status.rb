@@ -9,6 +9,11 @@ class Podio::Status < ActivePodio::Base
   property :subscribed, :boolean
   property :user_ratings, :hash
 
+  # Properties for create
+  property :file_ids, :array
+  property :embed_id, :integer
+  property :embed_file_id, :integer
+
   has_one :created_by, :class => 'Contact'
   has_one :created_via, :class => 'Via'
   has_one :embed, :class => 'Embed'
@@ -21,6 +26,10 @@ class Podio::Status < ActivePodio::Base
   has_many :questions, :class => 'Question'
   
   alias_method :id, :status_id
+
+  def destroy
+    Status.delete(self.id)
+  end
   
   class << self
     def find(id)
@@ -35,5 +44,10 @@ class Podio::Status < ActivePodio::Base
 
       response.body['status_id']
     end
+    
+    def delete(id)
+      Podio.connection.delete("/status/#{id}").body
+    end
   end
+  
 end

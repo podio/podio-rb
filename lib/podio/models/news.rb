@@ -19,7 +19,8 @@ class Podio::News < ActivePodio::Base
   
   class << self
     def find_stream()
-      Podio.connection.get("/news/stream").body
+      result = Podio.connection.get("/news/stream").body
+      result.blank? ? nil : member(result)
     end
 
     def get_news_redirect(news_id, type=nil)
