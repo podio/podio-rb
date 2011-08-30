@@ -76,6 +76,7 @@ module Podio
   autoload :Bulletin,                 'podio/models/bulletin'
   autoload :ByLine,                   'podio/models/by_line'
   autoload :Calendar,                 'podio/models/calendar'
+  autoload :CalendarMute,             'podio/models/calendar_mute'
   autoload :Category,                 'podio/models/category'
   autoload :Comment,                  'podio/models/comment'
   autoload :Connection,               'podio/models/connection'
