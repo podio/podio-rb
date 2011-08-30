@@ -54,5 +54,11 @@ class Podio::StreamObject < ActivePodio::Base
     def find_by_ref(ref_type, ref_id)
       member Podio.connection.get("/stream/#{ref_type}/#{ref_id}/v2").body
     end
+    
+    def find_all_personal(options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/personal/", options)
+      }.body      
+    end    
   end
 end

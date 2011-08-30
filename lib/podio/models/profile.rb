@@ -59,6 +59,12 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
+    def top_for_personal(options={})
+      list Podio.connection.get { |req|
+        req.url("/contact/personal/top/", options)
+      }.body
+    end
+
     def find(profile_id)
       member Podio.connection.get("/contact/#{profile_id}/v2").body
     end

@@ -33,6 +33,13 @@ class Podio::Calendar < ActivePodio::Base
       response['upcoming']['events'] = list(response['upcoming']['events'])
       response
     end
+
+    def find_personal_summary
+      response = Podio.connection.get("/calendar/personal/summary").body
+      response['today']['events'] = list(response['today']['events'])
+      response['upcoming']['events'] = list(response['upcoming']['events'])
+      response
+    end
       
   end
 end

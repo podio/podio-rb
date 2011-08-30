@@ -157,6 +157,7 @@ class Podio::Task < ActivePodio::Base
       response['other']['tasks'] = list(response['other']['tasks'])
       response
     end
+
     def find_summary_for_reference(ref_type, ref_id)
       response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -164,5 +165,14 @@ class Podio::Task < ActivePodio::Base
       response['other']['tasks'] = list(response['other']['tasks'])
       response
     end
+    
+    def find_personal_summary
+      response = Podio.connection.get("/task/personal/summary").body
+      response['overdue']['tasks'] = list(response['overdue']['tasks'])
+      response['today']['tasks'] = list(response['today']['tasks'])
+      response['other']['tasks'] = list(response['other']['tasks'])
+      response
+    end
+    
   end
 end
