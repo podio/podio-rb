@@ -47,8 +47,9 @@ class Podio::Space < ActivePodio::Base
       member Podio.connection.get("/space/#{id}").body
     end
 
-    def find_by_url(url)
-      member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
+    def find_by_url(url, info = false)
+      info = info ? 1 : 0
+      member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}&info=#{info}").body
     end
     
     def find_all_for_org(org_id)
