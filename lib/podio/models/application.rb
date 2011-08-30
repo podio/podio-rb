@@ -48,6 +48,11 @@ class Podio::Application < ActivePodio::Base
         req.url("/app/top/", options)
       }.body
     end
+    def find_top_for_org(org_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/app/org/#{org_id}/top/", options)
+      }.body
+    end
 
     def find_all_for_space(space_id, options = {})
       list Podio.connection.get { |req|
