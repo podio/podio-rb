@@ -119,6 +119,10 @@ class Podio::Profile < ActivePodio::Base
       Podio.connection.get("/contact/totals/").body
     end
 
+    def totals_by_space_v2(space_id)
+      Podio.connection.get("/contact/space/#{space_id}/totals/space").body
+    end
+
     def totals_by_org_and_space
       Podio.connection.get("/contact/totals/v2/").body
     end
