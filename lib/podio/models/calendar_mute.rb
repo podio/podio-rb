@@ -13,14 +13,14 @@ class Podio::CalendarMute < ActivePodio::Base
     end
 
     def create(scope_type, scope_id, object_type = nil)
-      path = "/calendar/mute/#{scope_type}/#{scope_id}"
-      path += "/#{object_type}" unless object_type.nil?
+      path = "/calendar/mute/#{scope_type}/#{scope_id}/"
+      path += "#{object_type}/" unless object_type.nil?
       Podio.connection.post(path).status 
     end
 
     def delete(scope_type, scope_id, object_type = nil)
-      path = "/calendar/mute/#{scope_type}/#{scope_id}"
-      path += "/#{object_type}" unless object_type.nil?
+      path = "/calendar/mute/#{scope_type}/#{scope_id}/"
+      path += "#{object_type}/" unless object_type.nil?
       Podio.connection.delete(path).status
     end
   end
