@@ -1,7 +1,6 @@
 class Podio::Contact < Podio::Profile
   include ActivePodio::Updatable
   
-  property :is_selected, :bool
   property :user_id, :integer
   property :organization, :string
   property :role, :string # Only available when getting contacts for a space

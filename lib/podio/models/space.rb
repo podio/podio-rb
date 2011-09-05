@@ -1,4 +1,6 @@
 class Podio::Space < ActivePodio::Base
+  include ActivePodio::Updatable
+  
   property :space_id, :integer
   property :name, :string
   property :url, :string
@@ -8,8 +10,9 @@ class Podio::Space < ActivePodio::Base
   property :members, :integer
   property :role, :string
   property :rights, :array
-  property :post_on_new_app, :bool
-  property :post_on_new_member, :bool
+  property :post_on_new_app, :boolean
+  property :post_on_new_member, :boolean
+  property :subscribed, :boolean
   
   has_one :created_by, :class => 'ByLine'
 
