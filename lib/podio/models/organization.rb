@@ -25,7 +25,7 @@ class Podio::Organization < ActivePodio::Base
   alias_method :id, :org_id
 
   def create
-    attributes = Organization.create(:name => name)
+    attributes = Organization.create(:name => name, :logo => logo)
     self.org_id = attributes['org_id']
     self.url = attributes['url']
     self.url_label = attributes['url_label']
