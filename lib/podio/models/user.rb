@@ -40,6 +40,15 @@ class Podio::User < ActivePodio::Base
       response.body['user_id']
     end
 
+    def create_inactive(attributes)
+      response = Podio.connection.post do |req|
+        req.url '/user/inactive/'
+        req.body = attributes
+      end
+
+      response.body['user_id']
+    end
+
     def update(attributes)
       Podio.connection.put("/user/", attributes).status
     end
