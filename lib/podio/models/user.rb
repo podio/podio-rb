@@ -63,7 +63,7 @@ class Podio::User < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['user_id']
+      member response.body
     end
 
     def find_all_admins_for_org(org_id)
