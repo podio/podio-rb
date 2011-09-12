@@ -22,7 +22,7 @@ class Podio::User < ActivePodio::Base
   # Only settable on creation
   property :landing, :string
   property :referrer, :string
-  property :initial, :hash
+  property :internal, :hash
   
   alias_method :id, :user_id
   
