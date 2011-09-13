@@ -76,13 +76,13 @@ module ActivePodio
       public
       
       # Defines the the supported attributes of the model
-      def property(name, type = :string)
+      def property(name, type = :string, options = {})
         self.valid_attributes ||= []
         self.valid_attributes << name
     
         case type
         when :datetime
-          define_datetime_accessor(name)
+          define_datetime_accessor(name, options)
         when :date
           define_date_accessor(name)
         when :integer
@@ -228,9 +228,9 @@ module ActivePodio
           end
         end
     
-        def define_datetime_accessor(name)
+        def define_datetime_accessor(name, options = {})
           self.send(:define_method, name) do
-            self[name.to_sym].try(:to_datetime).try(:in_time_zone)
+            options[:convert_timezone] == false ? self[name.to_sym].try(:to_datetime) : self[name.to_sym].try(:to_datetime).try(:in_time_zone)
           end
     
           self.send(:define_method, "#{name}=") do |value|

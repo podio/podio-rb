@@ -3,8 +3,8 @@ class Podio::Calendar < ActivePodio::Base
   property :id, :integer
   property :group, :string
   property :title, :string
-  property :start, :datetime
-  property :end, :datetime
+  property :start, :datetime, :convert_timezone => false
+  property :end, :datetime, :convert_timezone => false
   property :link, :string
   
   has_one :app, :class => 'Application'
