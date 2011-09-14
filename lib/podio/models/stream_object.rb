@@ -20,6 +20,8 @@ class Podio::StreamObject < ActivePodio::Base
   has_many :files, :class => 'FileAttachment'
   has_many :activity, :class => 'Activity'
 
+  alias_method :activities, :activity
+
   class << self
     def find_all(options={})
       list Podio.connection.get { |req|
