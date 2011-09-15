@@ -113,7 +113,7 @@ module Podio
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'
   autoload :SpaceContact,             'podio/models/space_contact'
-  autoload :SpaceInvite,              'podio/models/space_invite'
+  autoload :SpaceInvitation,          'podio/models/space_invitation'
   autoload :SpaceMember,              'podio/models/space_member'
   autoload :Status,                   'podio/models/status'
   autoload :StreamMute,               'podio/models/stream_mute'

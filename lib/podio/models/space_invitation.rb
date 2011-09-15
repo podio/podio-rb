@@ -1,4 +1,4 @@
-class Podio::SpaceInvite < ActivePodio::Base
+class Podio::SpaceInvitation < ActivePodio::Base
   include ActivePodio::Updatable
   
   property :space_id, :integer
