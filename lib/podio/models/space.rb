@@ -51,6 +51,10 @@ class Podio::Space < ActivePodio::Base
     def find(id)
       member Podio.connection.get("/space/#{id}").body
     end
+    
+    def join(space_id)
+      Podio.connection.post("/space/#{space_id}/join").body
+    end
 
     def find_by_url(url, info = false)
       info = info ? 1 : 0
@@ -59,6 +63,10 @@ class Podio::Space < ActivePodio::Base
     
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
+    end
+
+    def find_open_for_org(org_id)
+      list Podio.connection.get("/space/org/#{org_id}/available/").body
     end
     
     def validate_url_label(org_id, url_label)
