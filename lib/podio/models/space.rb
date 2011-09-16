@@ -13,6 +13,8 @@ class Podio::Space < ActivePodio::Base
   property :post_on_new_app, :boolean
   property :post_on_new_member, :boolean
   property :subscribed, :boolean
+  property :privacy, :string
+  property :auto_join, :boolean
   
   has_one :created_by, :class => 'ByLine'
 
@@ -25,7 +27,7 @@ class Podio::Space < ActivePodio::Base
   end
   
   def update
-    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label)
+    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label, :privacy => self.privacy, :auto_join => self.auto_join)
   end
   
   class << self
