@@ -1,4 +1,6 @@
 class Podio::Space < ActivePodio::Base
+  include ActivePodio::Updatable
+  
   property :space_id, :integer
   property :name, :string
   property :url, :string
@@ -8,8 +10,11 @@ class Podio::Space < ActivePodio::Base
   property :members, :integer
   property :role, :string
   property :rights, :array
-  property :post_on_new_app, :bool
-  property :post_on_new_member, :bool
+  property :post_on_new_app, :boolean
+  property :post_on_new_member, :boolean
+  property :subscribed, :boolean
+  property :privacy, :string
+  property :auto_join, :boolean
   
   has_one :created_by, :class => 'ByLine'
 
@@ -22,7 +27,7 @@ class Podio::Space < ActivePodio::Base
   end
   
   def update
-    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label)
+    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label, :privacy => self.privacy, :auto_join => self.auto_join)
   end
   
   class << self
@@ -46,6 +51,10 @@ class Podio::Space < ActivePodio::Base
     def find(id)
       member Podio.connection.get("/space/#{id}").body
     end
+    
+    def join(space_id)
+      Podio.connection.post("/space/#{space_id}/join").body
+    end
 
     def find_by_url(url, info = false)
       info = info ? 1 : 0
@@ -54,6 +63,10 @@ class Podio::Space < ActivePodio::Base
     
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
+    end
+
+    def find_open_for_org(org_id)
+      list Podio.connection.get("/space/org/#{org_id}/available/").body
     end
     
     def validate_url_label(org_id, url_label)

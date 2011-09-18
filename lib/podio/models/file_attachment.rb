@@ -31,6 +31,15 @@ class Podio::FileAttachment < ActivePodio::Base
       member MultiJson.decode(response.body)
     end
 
+    def upload_from_url(url)
+      response = Podio.client.connection.post do |req|
+        req.url "/file/from_url/"
+        req.body = {:url => url}
+      end
+
+      member response.body
+    end
+
     # Attach a file to an existing reference
     def attach(id, ref_type, ref_id)
       Podio.connection.post do |req|

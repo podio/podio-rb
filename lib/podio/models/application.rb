@@ -14,6 +14,7 @@ class Podio::Application < ActivePodio::Base
   property :rights, :array
   property :link, :string
   property :url_add, :string
+  property :token, :string
 
   # When app is returned as part of large collection (e.g. for stream), some config properties is moved to the main object
   property :name, :string
@@ -46,6 +47,11 @@ class Podio::Application < ActivePodio::Base
     def find_top(options={})
       list Podio.connection.get { |req|
         req.url("/app/top/", options)
+      }.body
+    end
+    def find_top_for_org(org_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/app/org/#{org_id}/top/", options)
       }.body
     end
 

@@ -18,13 +18,14 @@ class Podio::Organization < ActivePodio::Base
   property :contact_count, :integer
   property :billing_interval, :integer
   property :rights, :array
+  property :verified_domain, :string
 
   has_one :created_by, :class => 'ByLine'
 
   alias_method :id, :org_id
 
   def create
-    attributes = Organization.create(:name => name)
+    attributes = Organization.create(:name => name, :logo => logo)
     self.org_id = attributes['org_id']
     self.url = attributes['url']
     self.url_label = attributes['url_label']

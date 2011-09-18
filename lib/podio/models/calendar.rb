@@ -3,8 +3,8 @@ class Podio::Calendar < ActivePodio::Base
   property :id, :integer
   property :group, :string
   property :title, :string
-  property :start, :datetime
-  property :end, :datetime
+  property :start, :datetime, :convert_timezone => false
+  property :end, :datetime, :convert_timezone => false
   property :link, :string
   
   has_one :app, :class => 'Application'
@@ -29,6 +29,13 @@ class Podio::Calendar < ActivePodio::Base
 
     def find_summary_for_org(org_id)
       response = Podio.connection.get("/calendar/org/#{org_id}/summary").body
+      response['today']['events'] = list(response['today']['events'])
+      response['upcoming']['events'] = list(response['upcoming']['events'])
+      response
+    end
+
+    def find_personal_summary
+      response = Podio.connection.get("/calendar/personal/summary").body
       response['today']['events'] = list(response['today']['events'])
       response['upcoming']['events'] = list(response['upcoming']['events'])
       response

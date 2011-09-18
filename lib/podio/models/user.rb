@@ -22,7 +22,7 @@ class Podio::User < ActivePodio::Base
   # Only settable on creation
   property :landing, :string
   property :referrer, :string
-  property :initial, :hash
+  property :internal, :hash
   
   alias_method :id, :user_id
   
@@ -34,6 +34,15 @@ class Podio::User < ActivePodio::Base
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url '/user/'
+        req.body = attributes
+      end
+
+      response.body['user_id']
+    end
+
+    def create_inactive(attributes)
+      response = Podio.connection.post do |req|
+        req.url '/user/inactive/'
         req.body = attributes
       end
 
@@ -54,7 +63,7 @@ class Podio::User < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['user_id']
+      member response.body
     end
 
     def find_all_admins_for_org(org_id)

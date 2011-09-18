@@ -76,13 +76,13 @@ module ActivePodio
       public
       
       # Defines the the supported attributes of the model
-      def property(name, type = :string)
+      def property(name, type = :string, options = {})
         self.valid_attributes ||= []
         self.valid_attributes << name
     
         case type
         when :datetime
-          define_datetime_accessor(name)
+          define_datetime_accessor(name, options)
         when :date
           define_date_accessor(name)
         when :integer
@@ -180,7 +180,7 @@ module ActivePodio
       
       # Wraps the given methods in a begin/rescue block
       # If no error occurs, the return value of the method, or true if nil is returned, is returned
-      # If a Podio::BadRequestError occurs, the method returns false and the error can be read from the error_message accessor
+      # If a Podio::PodioError occurs, the method returns false and the error can be read from the error_message accessor
       # If another error occurs, it is still raised
       def handle_api_errors_for(*method_names)
         method_names.each do |method_name|
@@ -189,7 +189,7 @@ module ActivePodio
             begin
               result = self.send("#{method_name}_without_api_errors_handled", *args)
               success = true
-            rescue Podio::BadRequestError, Podio::AuthorizationError => ex
+            rescue Podio::PodioError => ex
               success = false
               code        = ex.response_body["error"]
               message     = ex.response_body["error_description"]
@@ -228,9 +228,9 @@ module ActivePodio
           end
         end
     
-        def define_datetime_accessor(name)
+        def define_datetime_accessor(name, options = {})
           self.send(:define_method, name) do
-            self[name.to_sym].try(:to_datetime).try(:in_time_zone)
+            options[:convert_timezone] == false ? self[name.to_sym].try(:to_datetime) : self[name.to_sym].try(:to_datetime).try(:in_time_zone)
           end
     
           self.send(:define_method, "#{name}=") do |value|

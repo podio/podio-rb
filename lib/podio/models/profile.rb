@@ -59,6 +59,12 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
+    def top_for_personal(options={})
+      list Podio.connection.get { |req|
+        req.url("/contact/personal/top/", options)
+      }.body
+    end
+
     def find(profile_id)
       member Podio.connection.get("/contact/#{profile_id}/v2").body
     end
@@ -111,6 +117,10 @@ class Podio::Profile < ActivePodio::Base
 
     def totals_by_org
       Podio.connection.get("/contact/totals/").body
+    end
+
+    def totals_by_space_v2(space_id)
+      Podio.connection.get("/contact/space/#{space_id}/totals/space").body
     end
 
     def totals_by_org_and_space
