@@ -24,7 +24,7 @@ class Podio::Connection < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['connection_id']
+      member response.body
     end
 
     def reload(id)
@@ -41,6 +41,10 @@ class Podio::Connection < ActivePodio::Base
 
     def all(options={})
       list Podio.connection.get('/connection/').body
+    end
+
+    def preview(id)
+      list Podio.connection.get("/connection/#{id}/preview").body
     end
     
   end
