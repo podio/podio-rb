@@ -21,7 +21,7 @@ class Podio::Space < ActivePodio::Base
   alias_method :id, :space_id
   
   def create
-    response = Space.create(:org_id => org_id, :name => name)
+    response = Space.create(:org_id => org_id, :name => name, :privacy => self.privacy, :auto_join => self.auto_join)
     self.url = response['url']
     self.space_id = response['space_id']
   end
