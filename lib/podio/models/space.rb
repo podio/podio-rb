@@ -58,8 +58,13 @@ class Podio::Space < ActivePodio::Base
     end
 
     def find_by_url(url, info = false)
+      url = URI.parse(url)
+      path = url.path
+      path = "#{path}/" unless path.end_with?('/')
+      url_string = "#{url.scheme}://#{url.host}#{path}"
+      
       info = info ? 1 : 0
-      member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}&info=#{info}").body
+      member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url_string)}&info=#{info}").body
     end
     
     def find_all_for_org(org_id)
