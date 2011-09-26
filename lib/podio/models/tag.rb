@@ -22,11 +22,11 @@ class Podio::Tag < ActivePodio::Base
     end
 
     def find_by_app(app_id, limit, text)
-      list Podio.connection.get("/tag/app/#{app_id}/?limit=#{limit}&text=#{text}").body
+      list Podio.connection.get("/tag/app/#{app_id}/?limit=#{limit}&text=#{CGI.escape(text)}").body
     end
 
     def find_top_by_app(app_id, limit, text)
-      Podio.connection.get("/tag/app/#{app_id}/top/?limit=#{limit}&text=#{text}").body
+      Podio.connection.get("/tag/app/#{app_id}/top/?limit=#{limit}&text=#{CGI.escape(text)}").body
     end
   end
 end
