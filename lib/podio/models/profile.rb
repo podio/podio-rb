@@ -31,6 +31,9 @@ class Podio::Profile < ActivePodio::Base
   property :app_store_url, :string
 
   property :last_seen_on, :datetime
+  property :is_employee, :boolean
+  
+  alias_method :employee?, :is_employee
 
   class << self
     def all(options={})
