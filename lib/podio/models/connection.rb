@@ -44,7 +44,7 @@ class Podio::Connection < ActivePodio::Base
     end
 
     def preview(id)
-      list Podio.connection.get("/connection/#{id}/preview").body
+      Podio.connection.get("/connection/#{id}/preview").body
     end
     
   end
