@@ -43,8 +43,10 @@ class Podio::Connection < ActivePodio::Base
       list Podio.connection.get('/connection/').body
     end
 
-    def preview(id)
-      Podio.connection.get("/connection/#{id}/preview").body
+    def preview(id, options={})
+      Podio.connection.get { |req|
+        req.url("/connection/#{id}/preview", options)
+      }.body
     end
     
   end
