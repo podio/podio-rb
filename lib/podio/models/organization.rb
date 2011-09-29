@@ -19,6 +19,7 @@ class Podio::Organization < ActivePodio::Base
   property :billing_interval, :integer
   property :rights, :array
   property :verified_domain, :string
+  property :rank, :integer
 
   has_one :created_by, :class => 'ByLine'
 
