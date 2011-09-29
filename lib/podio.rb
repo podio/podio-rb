@@ -81,6 +81,8 @@ module Podio
   autoload :Comment,                  'podio/models/comment'
   autoload :Connection,               'podio/models/connection'
   autoload :Contact,                  'podio/models/contact'
+  autoload :Contract,                 'podio/models/contract'
+  autoload :ContractAccounting,       'podio/models/contract_accounting'
   autoload :Conversation,             'podio/models/conversation'
   autoload :ConversationMessage,      'podio/models/conversation_message'
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
