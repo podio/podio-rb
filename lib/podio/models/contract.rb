@@ -5,6 +5,7 @@ class Podio::Contract < ActivePodio::Base
   property :org_id, :integer
   property :status, :string
   property :created_on, :datetime
+  property :started_on, :datetime
   property :ended_on, :datetime
   property :item_prices, :hash
   property :payment_id, :string
@@ -13,8 +14,11 @@ class Podio::Contract < ActivePodio::Base
   property :premium_spaces, :array
   property :next_period_start, :datetime, :convert_timezone => false
   property :next_period_end, :datetime, :convert_timezone => false
+  property :invoice_interval, :integer
+  property :invoicing_mode, :string
 
   has_one :org, :class => 'Organization'
+  has_one :user, :class => 'User'
   has_one :price, :class => 'ContractPrice'
   has_many :premium_spaces, :class => 'Space'
 
@@ -42,6 +46,10 @@ class Podio::Contract < ActivePodio::Base
 
     def find_all_mine
       list Podio.connection.get("/contract/").body
+    end
+
+    def find_for_org(org_id)
+      list Podio.connection.get("/contract/org/#{org_id}/").body
     end
 
     def create(attributes)
