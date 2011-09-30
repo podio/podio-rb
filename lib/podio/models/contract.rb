@@ -9,6 +9,7 @@ class Podio::Contract < ActivePodio::Base
   property :ended_on, :datetime
   property :item_prices, :hash
   property :payment_id, :string
+  property :accounting_id, :string
   property :full, :boolean
   property :premium_emp_network, :boolean
   property :premium_spaces, :array
@@ -67,6 +68,10 @@ class Podio::Contract < ActivePodio::Base
         req.body = attributes
       end
       response.status
+    end
+
+    def start(contract_id)
+      Podio.connection.post("/contract/#{contract_id}/start").body
     end
 
     def delete(id)
