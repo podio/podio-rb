@@ -17,7 +17,7 @@ class Podio::User < ActivePodio::Base
   property :type, :string
 
   has_many :mails, :class => 'UserMail'
-  has_one :profile, :class => 'Profile'
+  has_one :profile, :class => 'Contact'
 
   # Only settable on creation
   property :landing, :string
