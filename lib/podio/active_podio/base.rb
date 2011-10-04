@@ -201,7 +201,7 @@ module ActivePodio
             else
               @error_code       = code
               @error_message    = message
-              @error_parameters = parameters
+              @error_parameters = parameters || {}
               return false
             end
           end
