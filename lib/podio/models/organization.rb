@@ -20,6 +20,7 @@ class Podio::Organization < ActivePodio::Base
   property :rights, :array
   property :verified_domain, :string
   property :rank, :integer
+  property :contract_status, :string
 
   has_one :created_by, :class => 'ByLine'
 
