@@ -9,6 +9,7 @@ class Podio::Contract < ActivePodio::Base
   property :ended_on, :datetime
   property :item_prices, :hash
   property :payment_id, :string
+  property :payment_status, :string
   property :accounting_id, :string
   property :full, :boolean
   property :premium_emp_network, :boolean
