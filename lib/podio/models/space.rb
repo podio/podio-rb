@@ -16,6 +16,7 @@ class Podio::Space < ActivePodio::Base
   property :privacy, :string
   property :auto_join, :boolean
   property :type, :string
+  property :premium, :boolean
   
   has_one :created_by, :class => 'ByLine'
 
