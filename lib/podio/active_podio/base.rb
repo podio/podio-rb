@@ -7,7 +7,8 @@ module ActivePodio
     include ActiveModel::Conversion
     
     class_inheritable_accessor :valid_attributes
-    attr_accessor :attributes, :error_code, :error_message, :error_parameters
+    attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
+    alias_method :propagate_error?, :error_propagate
 
     def initialize(attributes = {})
       self.valid_attributes ||= []
@@ -194,6 +195,7 @@ module ActivePodio
               code        = ex.response_body["error"]
               message     = ex.response_body["error_description"]
               parameters  = ex.response_body["error_parameters"]
+              propagate  = ex.response_body["error_propagate"]
             end
           
             if success
@@ -202,6 +204,7 @@ module ActivePodio
               @error_code       = code
               @error_message    = message
               @error_parameters = parameters || {}
+              @error_propagate  = propagate
               return false
             end
           end
