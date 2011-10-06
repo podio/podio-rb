@@ -58,6 +58,10 @@ class Podio::Contract < ActivePodio::Base
       list Podio.connection.get("/contract/org/#{org_id}/").body
     end
 
+    def find_users_for_org(org_id)
+      member Podio.connection.get("/contract/org/#{org_id}/user").body
+    end
+
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/contract/"
