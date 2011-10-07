@@ -14,6 +14,7 @@ class Podio::Contract < ActivePodio::Base
   property :full, :boolean
   property :premium_emp_network, :boolean
   property :premium_spaces, :array
+  property :premium_space_ids, :array
   property :next_period_start, :datetime, :convert_timezone => false
   property :next_period_end, :datetime, :convert_timezone => false
   property :invoice_interval, :integer
@@ -26,12 +27,16 @@ class Podio::Contract < ActivePodio::Base
 
   alias_method :id, :contract_id
 
+  def premium_space_ids=(values)
+    self[:premium_space_ids] = (values || []).map(&:to_i)
+  end
+
   def update
-    self.class.update(self.contract_id, self.attributes)
+    self.class.update(self.contract_id, self.attributes.except(:premium_spaces))
   end
 
   def calculate_price
-    pricing = self.class.calculate_price(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_spaces))
+    pricing = self.class.calculate_price(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_space_ids))
     self["price"] = pricing
   end
 
@@ -56,6 +61,10 @@ class Podio::Contract < ActivePodio::Base
 
     def find_for_org(org_id)
       list Podio.connection.get("/contract/org/#{org_id}/").body
+    end
+
+    def find_users_for_org(org_id)
+      member Podio.connection.get("/contract/org/#{org_id}/user").body
     end
 
     def create(attributes)
