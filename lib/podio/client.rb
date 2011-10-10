@@ -116,7 +116,7 @@ module Podio
         # first response middleware defined get's executed last
         builder.use Middleware::DateConversion
         builder.use Middleware::ErrorResponse
-        builder.use Middleware::JsonResponse unless raw
+        builder.use Middleware::JsonResponse
         builder.use Middleware::ResponseRecorder if @record_mode
       end
     end
