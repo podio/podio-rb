@@ -27,8 +27,7 @@ class Podio::FileAttachment < ActivePodio::Base
         req.body = {:source => Faraday::UploadIO.new(file_stream, nil, nil), :filename => file_name}
       end
 
-      # Using raw_connection means response is not automatically decoded to json
-      member MultiJson.decode(response.body)
+      member response.body
     end
 
     def upload_from_url(url)
