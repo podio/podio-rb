@@ -80,10 +80,6 @@ class Podio::Organization < ActivePodio::Base
       list Podio.connection.get("/org/").body
     end
 
-    def find_orgs_and_spaces_for_navigation
-      Podio.connection.get("/org/v2/").body
-    end
-    
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics").body
     end
@@ -108,13 +104,6 @@ class Podio::Organization < ActivePodio::Base
 
     def upgrade(id)
       Podio.connection.post("/org/#{id}/upgrade").body
-    end
-    
-    def set_joined_as(org_id, joined_as_type, joined_as_id)
-      Podio.connection.post { |req|
-        req.url "/org/#{org_id}/joined_as"
-        req.body = {:type => joined_as_type, :id => joined_as_id}
-      }.body
     end
     
   end
