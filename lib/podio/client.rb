@@ -91,7 +91,7 @@ module Podio
       headers = @headers.dup
       headers['User-Agent']      = 'Podio Ruby Library'
       headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
-      headers['X-Podio-Dry-Run'] = '1'                                  if @test_mode
+      headers['X-Podio-Dry-Run'] = @test_mode                           if @test_mode
 
       headers
     end
