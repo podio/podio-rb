@@ -35,10 +35,7 @@ class Podio::Item < ActivePodio::Base
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
   def create
-    fields = self.fields.collect { |field| field.values.empty? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
-    file_ids = self.files.collect(&:id)
-    tags = self.tags.collect(&:presence).compact
-    self.item_id = Item.create(self.app_id, :fields => fields, :file_ids => file_ids, :tags => tags)
+    self.item_id = Item.create(self.app_id, prepare_item_values(self))
   end
 
   def destroy
@@ -46,10 +43,19 @@ class Podio::Item < ActivePodio::Base
   end
 
   def update
-    Item.update(self.id, self.attributes)
+    Item.update(self.id, prepare_item_values(self))
   end
 
   handle_api_errors_for :create
+
+  protected
+      def prepare_item_values(item)
+        fields = item.fields.collect { |field| field.values.empty? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
+        file_ids = item.files.collect(&:id)
+        tags = item.tags.collect(&:presence).compact
+
+        {:fields => fields, :file_ids => file_ids, :tags => tags }
+      end
   
   class << self
     def find(id)
@@ -128,6 +134,6 @@ class Podio::Item < ActivePodio::Base
         member Podio.connection.get { |req|
           req.url("/item/#{current_item_id}/#{operation}", time_options(time))
         }.body
-      end    
+      end
   end
 end
