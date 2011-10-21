@@ -42,6 +42,10 @@ class Podio::Item < ActivePodio::Base
     Item.delete(self.id)
   end
 
+  def update
+    Item.update(self.id, self.attributes)
+  end
+
   handle_api_errors_for :create
   
   class << self
