@@ -35,7 +35,10 @@ class Podio::Item < ActivePodio::Base
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
   def create
-    self.item_id = Item.create(self.app_id, :fields => self.fields.collect { |field| field.values.empty? ? nil : { :external_id => field.external_id, :values => field.values } }.compact, :file_ids => self.files.collect(&:id))
+    fields = self.fields.collect { |field| field.values.empty? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
+    file_ids = self.files.collect(&:id)
+    tags = self.tags.collect(&:presence).compact
+    self.item_id = Item.create(self.app_id, :fields => fields, :file_ids => file_ids, :tags => tags)
   end
 
   def destroy
