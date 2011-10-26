@@ -50,7 +50,7 @@ class Podio::Item < ActivePodio::Base
 
   protected
       def prepare_item_values(item)
-        fields = item.fields.collect { |field| field.values.empty? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
+        fields = item.fields.collect { |field| field.values.nil? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
         file_ids = item[:file_ids]
         tags = item.tags.collect(&:presence).compact
 
