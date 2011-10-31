@@ -46,7 +46,7 @@ class Podio::Item < ActivePodio::Base
     Item.update(self.id, prepare_item_values(self))
   end
 
-  handle_api_errors_for :create
+  handle_api_errors_for :create, :update
 
   protected
       def prepare_item_values(item)
