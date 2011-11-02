@@ -11,6 +11,11 @@ class Podio::NotificationGroup < ActivePodio::Base
         req.url('/notification/', options)
       }.body
     end
+
+    def find(id)
+      member Podio.connection.get("/notification/#{id}/v2").body
+    end
+
     
     def mark_as_viewed_by_ref(ref_type, ref_id)
       Podio.connection.post("/notification/#{ref_type}/#{ref_id}/viewed").status
