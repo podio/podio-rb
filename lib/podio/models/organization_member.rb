@@ -1,6 +1,5 @@
 # Encapsulates a user's indirect membership (through spaces) of an organization.
 class Podio::OrganizationMember < ActivePodio::Base
-  property :spaces, :hash
   property :profile, :hash
   property :admin, :boolean
 
