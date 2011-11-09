@@ -7,6 +7,7 @@ class Podio::TagSearch < ActivePodio::Base
   
   class << self
     def search_by_space(space_id, text)
+      text = CGI.escape(text) if text
       list Podio.connection.get("/tag/space/#{space_id}/search/?text=#{text}").body
     end
   end

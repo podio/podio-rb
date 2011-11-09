@@ -69,7 +69,12 @@ class Podio::Profile < ActivePodio::Base
     end
 
     def find(profile_id)
-      member Podio.connection.get("/contact/#{profile_id}/v2").body
+      result = Podio.connection.get("/contact/#{profile_id}/v2").body
+      if result.is_a?(Array)
+        return list result
+      else
+        return member result
+      end
     end
 
     def find_all_for_org(org_id, options={})

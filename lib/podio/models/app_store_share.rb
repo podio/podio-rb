@@ -35,6 +35,8 @@ class Podio::AppStoreShare < ActivePodio::Base
   def install(space_id, dependencies)
     self.class.install(self.share_id, space_id, dependencies)
   end
+
+  handle_api_errors_for :create, :install  # Call must be made after the methods to handle have been defined
   
   class << self
     def create(attributes)

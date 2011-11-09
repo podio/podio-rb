@@ -14,5 +14,8 @@ class Podio::UserStatus < ActivePodio::Base
     def current
       member Podio.connection.get("/user/status").body
     end
+    def find_for_space(space_id)
+      Podio.connection.get("/user/status/1ux/space/#{space_id}").body
+    end
   end
 end

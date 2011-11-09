@@ -72,6 +72,17 @@ module Podio
       @oauth_token
     end
 
+    # Sign in with an OpenID, only available for Podio
+    def authenticate_with_openid(identifier)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token_by_openid', :grant_type => 'openid', :client_id => api_key, :client_secret => api_secret, :identifier => identifier
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     def oauth_token=(new_oauth_token)
       @oauth_token = new_oauth_token.is_a?(Hash) ? OAuthToken.new(new_oauth_token) : new_oauth_token
       configure_oauth
@@ -91,7 +102,7 @@ module Podio
       headers = @headers.dup
       headers['User-Agent']      = 'Podio Ruby Library'
       headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
-      headers['X-Podio-Dry-Run'] = '1'                                  if @test_mode
+      headers['X-Podio-Dry-Run'] = @test_mode                           if @test_mode
 
       headers
     end
@@ -116,7 +127,7 @@ module Podio
         # first response middleware defined get's executed last
         builder.use Middleware::DateConversion
         builder.use Middleware::ErrorResponse
-        builder.use Middleware::JsonResponse unless raw
+        builder.use Middleware::JsonResponse
         builder.use Middleware::ResponseRecorder if @record_mode
       end
     end

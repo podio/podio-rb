@@ -1,4 +1,5 @@
 class Podio::Item < ActivePodio::Base
+  include ActivePodio::Updatable
 
   # Included Get Item basic
   property :item_id, :integer
@@ -33,9 +34,28 @@ class Podio::Item < ActivePodio::Base
   alias_method :id, :item_id
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
+  def create
+    self.item_id = Item.create(self.app_id, prepare_item_values(self))
+  end
+
   def destroy
     Item.delete(self.id)
   end
+
+  def update
+    Item.update(self.id, prepare_item_values(self))
+  end
+
+  handle_api_errors_for :create, :update
+
+  protected
+      def prepare_item_values(item)
+        fields = item.fields.collect { |field| field.values.nil? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
+        file_ids = item[:file_ids]
+        tags = item.tags.collect(&:presence).compact
+
+        {:fields => fields, :file_ids => file_ids, :tags => tags }
+      end
   
   class << self
     def find(id)
@@ -83,18 +103,6 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # Deprecated. Use method in ItemRevision instead.
-    # def revisions(item_id)
-    #   collection Podio.connection.get("/item/#{item_id}/revision/").body
-    # end
-
-    # Deprecated. Use method in ItemDiff instead.
-    # def revision_difference(item_id, revision_from_id, revision_to_id)
-    #   list Podio.connection.get{ |req|
-    #     req.url("/item/#{item_id}/revision/#{revision_from_id}/#{revision_to_id}")
-    #   }.body
-    # end
-
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/item/app/#{app_id}/"
@@ -126,6 +134,6 @@ class Podio::Item < ActivePodio::Base
         member Podio.connection.get { |req|
           req.url("/item/#{current_item_id}/#{operation}", time_options(time))
         }.body
-      end    
+      end
   end
 end

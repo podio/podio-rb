@@ -1,6 +1,5 @@
 # Encapsulates a user's indirect membership (through spaces) of an organization.
 class Podio::OrganizationMember < ActivePodio::Base
-  property :spaces, :hash
   property :profile, :hash
   property :admin, :boolean
 
@@ -8,7 +7,7 @@ class Podio::OrganizationMember < ActivePodio::Base
   has_one :contact, :class => 'Contact', :property => :profile
 
   delegate :user_id, :mail, :last_active_on, :to => :user
-  delegate :name, :avatar, :title, :organization, :title_and_org, :avatar_url, :to => :contact
+  delegate :name, :avatar, :title, :organization, :title_and_org, :default_title, :avatar_url, :to => :contact
   
   class << self
     def find_all_for_org(org_id, options = {})
