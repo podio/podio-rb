@@ -16,6 +16,7 @@ class Podio::Task < ActivePodio::Base
   property :file_ids, :array # when inputting tasks
   property :label_ids, :array # when inputting tasks
   property :labels, :array # when outputting tasks
+  property :external_id, :string
 
   # old references
   property :ref_type, :string
