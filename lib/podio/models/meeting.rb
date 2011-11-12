@@ -18,6 +18,7 @@ class Podio::Meeting < ActivePodio::Base
   property :external_password, :string
   property :created_on, :datetime
   property :deleted_on, :datetime
+  property :link, :string
   property :ref, :hash
   
   # For creation only
