@@ -10,10 +10,13 @@ module ActivePodio
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
-    def initialize(attributes = {})
+    def initialize(attributes = {}, options = {})
       self.valid_attributes ||= []
       attributes ||= {}
       self.attributes = Hash[*self.valid_attributes.collect { |n| [n.to_sym, nil] }.flatten].merge(attributes.symbolize_keys)
+
+      @values_from_api = options[:values_from_api] # Used to determine if date times should be converted from local to utc, or are already utc
+      
       attributes.each do |key, value|
         if self.respond_to?("#{key}=".to_sym)
           self.send("#{key}=".to_sym, value) 
@@ -21,6 +24,8 @@ module ActivePodio
           self.send(:[]=, key.to_sym, value)
         end
       end
+      
+      @values_from_api = false
     end
     
     def persisted?
@@ -140,12 +145,12 @@ module ActivePodio
     
       # Returns a single instance of the model
       def member(response)
-        new(response)
+        new(response, :values_from_api => true)
       end
     
       # Returns a simple collection model instances
       def list(response)
-        response.map! { |item| new(item) }
+        response.map! { |item| new(item, :values_from_api => true) }
         response
       end
     
@@ -155,7 +160,7 @@ module ActivePodio
       # * total_count: The total number of records matching the given conditions
       def collection(response)
         result = Struct.new(:all, :count, :total_count).new(response['items'], response['filtered'], response['total'])
-        result.all.map! { |item| new(item) }
+        result.all.map! { |item| new(item, :values_from_api => true) }
         result
       end
     
@@ -237,6 +242,14 @@ module ActivePodio
           end
     
           self.send(:define_method, "#{name}=") do |value|
+            
+            # TODO: This should eventually be done on all date times
+            # This option is a temporary fix while API transitions to UTC only
+            if options[:convert_incoming_local_datetime_to_utc] && !@values_from_api
+              value = value.try(:to_datetime) unless value.is_a?(DateTime)
+              value = Time.zone.local_to_utc(value)
+            end
+            
             self[name.to_sym] = if value.is_a?(DateTime)
               value.try(:to_s, :db)
             else

@@ -3,8 +3,8 @@ class Podio::Meeting < ActivePodio::Base
 
   property :meeting_id, :integer
   property :title, :string
-  property :starts_on, :datetime
-  property :ends_on, :datetime
+  property :starts_on, :datetime, :convert_incoming_local_datetime_to_utc => true
+  property :ends_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :participant_ids, :array
   property :is_remote, :boolean
   property :status, :string
