@@ -80,7 +80,7 @@ class Podio::Meeting < ActivePodio::Base
         req.body = attributes
       end
 
-      member = response.body
+      member response.body
     end
 
     def update(id, attributes)
