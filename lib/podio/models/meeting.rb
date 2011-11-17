@@ -16,6 +16,7 @@ class Podio::Meeting < ActivePodio::Base
   property :external_url, :string
   property :external_phone, :string
   property :external_password, :string
+  property :external_recording_url, :string
   property :created_on, :datetime
   property :deleted_on, :datetime
   property :link, :string
