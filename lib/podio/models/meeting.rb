@@ -16,10 +16,12 @@ class Podio::Meeting < ActivePodio::Base
   property :external_url, :string
   property :external_phone, :string
   property :external_password, :string
+  property :external_recording_url, :string
   property :created_on, :datetime
   property :deleted_on, :datetime
   property :link, :string
   property :ref, :hash
+  property :space_id, :integer
   
   # For creation only
   property :ref_id, :integer
@@ -30,6 +32,8 @@ class Podio::Meeting < ActivePodio::Base
   has_one :deleted_by, :class => 'User'
   has_one :deleted_via, :class => 'Via'
   has_many :participants, :class => 'MeetingParticipant'
+  has_many :files, :class => 'FileAttachment'
+  has_many :comments, :class => 'Comment'
 
   alias_method :id, :meeting_id
   
