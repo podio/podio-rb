@@ -26,6 +26,7 @@ class Podio::Meeting < ActivePodio::Base
   # For creation only
   property :ref_id, :integer
   property :ref_type, :string
+  property :file_ids, :array
 
   has_one :created_by, :class => 'User'
   has_one :created_via, :class => 'Via'
