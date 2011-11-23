@@ -37,6 +37,7 @@ class Podio::Task < ActivePodio::Base
   has_many :label_list, :class => 'TaskLabel', :property => :labels 
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
+  has_one :reminder, :class => 'Reminder'
 
   alias_method :id, :task_id
   

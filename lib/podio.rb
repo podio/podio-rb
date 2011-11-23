@@ -115,6 +115,7 @@ module Podio
   autoload :QuestionAnswer,           'podio/models/question_answer'
   autoload :QuestionOption,           'podio/models/question_option'
   autoload :Rating,                   'podio/models/rating'
+  autoload :Reminder,                 'podio/models/reminder'
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'
   autoload :SpaceContact,             'podio/models/space_contact'
