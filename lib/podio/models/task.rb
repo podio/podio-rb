@@ -8,6 +8,7 @@ class Podio::Task < ActivePodio::Base
   property :description, :string
   property :private, :boolean
   property :due_date, :date
+  property :due_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :responsible, :hash
   property :space_id, :integer
   property :link, :string
