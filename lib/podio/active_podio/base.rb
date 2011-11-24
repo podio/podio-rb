@@ -42,7 +42,9 @@ module ActivePodio
     end
     
     def to_param
-      return self.id.try(:to_s) if self.respond_to?(:id)
+      local_id = self.id if self.respond_to?(:id)
+      local_id = nil if local_id == self.object_id # Id still returns object_id in Ruby 1.8.7, JRuby and Rubinius
+      local_id.try(:to_s)
     end
     
     def [](attribute)
