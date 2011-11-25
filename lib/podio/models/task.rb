@@ -38,6 +38,7 @@ class Podio::Task < ActivePodio::Base
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_one :reminder, :class => 'Reminder'
+  has_one :recurrence, :class => 'Recurrence'
 
   alias_method :id, :task_id
   
