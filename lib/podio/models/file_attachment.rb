@@ -15,7 +15,7 @@ class Podio::FileAttachment < ActivePodio::Base
   alias_method :id, :file_id
 
   def image?
-    ['image/png', 'image/jpeg', 'image/gif', 'image/tiff', 'image/bmp'].include?(self.mimetype)
+    ['image/png', 'image/jpeg', 'image/gif', 'image/bmp'].include?(self.mimetype)
   end
   
   class << self

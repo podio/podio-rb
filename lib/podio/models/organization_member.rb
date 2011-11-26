@@ -6,8 +6,8 @@ class Podio::OrganizationMember < ActivePodio::Base
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
 
-  delegate :user_id, :mail, :last_active_on, :to => :user
-  delegate :name, :avatar, :title, :organization, :title_and_org, :default_title, :avatar_url, :to => :contact
+  delegate :user_id, :mail, :to => :user
+  delegate :name, :avatar, :title, :organization, :title_and_org, :default_title, :avatar_url, :last_seen_on, :to => :contact
   
   class << self
     def find_all_for_org(org_id, options = {})

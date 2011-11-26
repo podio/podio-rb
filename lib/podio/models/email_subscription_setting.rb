@@ -7,6 +7,8 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   property :message, :boolean
   property :space, :boolean
   property :subscription, :boolean
+  property :push_notification, :boolean
+  property :push_notification_sound, :boolean
 
   def self.find_for_current_user
     self.get_groups

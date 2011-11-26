@@ -21,6 +21,8 @@ class Podio::Organization < ActivePodio::Base
   property :verified_domain, :string
   property :rank, :integer
   property :contract_status, :string
+  property :type, :string
+  property :segment, :string
 
   has_one :created_by, :class => 'ByLine'
 

@@ -6,21 +6,31 @@ module ActivePodio
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
     
-    class_inheritable_accessor :valid_attributes
+    class_inheritable_accessor :valid_attributes, :associations
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
-    def initialize(attributes = {})
+    def initialize(attributes = {}, options = {})
       self.valid_attributes ||= []
       attributes ||= {}
       self.attributes = Hash[*self.valid_attributes.collect { |n| [n.to_sym, nil] }.flatten].merge(attributes.symbolize_keys)
+
+      @values_from_api = options[:values_from_api] # Used to determine if date times should be converted from local to utc, or are already utc
+      
       attributes.each do |key, value|
         if self.respond_to?("#{key}=".to_sym)
-          self.send("#{key}=".to_sym, value) 
-        elsif valid_attributes.include?(key.to_sym)
-          self.send(:[]=, key.to_sym, value)
+          self.send("#{key}=".to_sym, value)
+        else
+          is_association_hash = value.is_a?(Hash) && self.associations.present? && self.associations.has_key?(key.to_sym) && self.associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
+          if valid_attributes.include?(key.to_sym) || is_association_hash
+            value = self.send(key.to_sym).attributes if is_association_hash # Initialize nested object to get correctly casted values set back
+            self.send(:[]=, key.to_sym, value)
+          end
         end
       end
+
+      @belongs_to = options[:belongs_to] # Allows has_one associations to communicate their changed content back to their parent model
+      @values_from_api = false
     end
     
     def persisted?
@@ -32,7 +42,9 @@ module ActivePodio
     end
     
     def to_param
-      return self.id.try(:to_s) if self.respond_to?(:id)
+      local_id = self.id if self.respond_to?(:id)
+      local_id = nil if local_id == self.object_id # Id still returns object_id in Ruby 1.8.7, JRuby and Rubinius
+      local_id.try(:to_s)
     end
     
     def [](attribute)
@@ -43,6 +55,11 @@ module ActivePodio
     def []=(attribute, value)
       @attributes ||= {}
       @attributes[attribute.to_sym] = value
+      # @belongs_to[:model][@belongs_to[:as]] = @attributes if @belongs_to.present?
+      if @belongs_to.present?
+        @belongs_to[:model][@belongs_to[:as]] ||= {}
+        @belongs_to[:model][@belongs_to[:as]][attribute.to_sym] = value
+      end
     end
     
     def ==(other)
@@ -100,13 +117,16 @@ module ActivePodio
     
       # Wraps a single hash provided from the API in the given model
       def has_one(name, options = {})
+        self.associations ||= {}
+        self.associations[name] = :has_one
+
         self.send(:define_method, name) do
           klass = klass_for_association(options)
           instance = self.instance_variable_get("@#{name}_has_one_instance")
           unless instance.present?
             property = options[:property] || name.to_sym
             if self[property].present?
-              instance = klass.new(self[property])
+              instance = klass.new(self[property], :belongs_to => { :model => self, :as => property })
               self.instance_variable_set("@#{name}_has_one_instance", instance)
             else
               instance = nil
@@ -118,6 +138,9 @@ module ActivePodio
     
       # Wraps a collection of hashes from the API to a collection of the given model
       def has_many(name, options = {})
+        self.associations ||= {}
+        self.associations[name] = :has_many
+
         self.send(:define_method, name) do
           klass = klass_for_association(options)
           instances = self.instance_variable_get("@#{name}_has_many_instances")
@@ -140,12 +163,12 @@ module ActivePodio
     
       # Returns a single instance of the model
       def member(response)
-        new(response)
+        new(response, :values_from_api => true)
       end
     
       # Returns a simple collection model instances
       def list(response)
-        response.map! { |item| new(item) }
+        response.map! { |item| new(item, :values_from_api => true) }
         response
       end
     
@@ -155,7 +178,7 @@ module ActivePodio
       # * total_count: The total number of records matching the given conditions
       def collection(response)
         result = Struct.new(:all, :count, :total_count).new(response['items'], response['filtered'], response['total'])
-        result.all.map! { |item| new(item) }
+        result.all.map! { |item| new(item, :values_from_api => true) }
         result
       end
     
@@ -237,6 +260,14 @@ module ActivePodio
           end
     
           self.send(:define_method, "#{name}=") do |value|
+            
+            # TODO: This should eventually be done on all date times
+            # This option is a temporary fix while API transitions to UTC only
+            if options[:convert_incoming_local_datetime_to_utc] && !@values_from_api
+              value = value.try(:to_datetime) unless value.is_a?(DateTime)
+              value = Time.zone.local_to_utc(value)
+            end
+            
             self[name.to_sym] = if value.is_a?(DateTime)
               value.try(:to_s, :db)
             else

@@ -8,6 +8,7 @@ class Podio::Task < ActivePodio::Base
   property :description, :string
   property :private, :boolean
   property :due_date, :date
+  property :due_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :responsible, :hash
   property :space_id, :integer
   property :link, :string
@@ -36,6 +37,8 @@ class Podio::Task < ActivePodio::Base
   has_many :label_list, :class => 'TaskLabel', :property => :labels 
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
+  has_one :reminder, :class => 'Reminder'
+  has_one :recurrence, :class => 'Recurrence'
 
   alias_method :id, :task_id
   
