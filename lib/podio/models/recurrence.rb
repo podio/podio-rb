@@ -6,6 +6,7 @@ class Podio::Recurrence < ActivePodio::Base
   property :until, :date
 
   alias_method :id, :recurrence_id
+  delegate_to_hash :config, :days, :repeat_on, :setter => true
   
   class << self
     def delete(ref_type, ref_id)
