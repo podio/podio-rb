@@ -23,7 +23,15 @@ module ActivePodio
         else
           is_association_hash = value.is_a?(Hash) && self.associations.present? && self.associations.has_key?(key.to_sym) && self.associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
           if valid_attributes.include?(key.to_sym) || is_association_hash
-            value = self.send(key.to_sym).attributes if is_association_hash # Initialize nested object to get correctly casted values set back
+            # Initialize nested object to get correctly casted values set back, unless the given values are all blank
+            if is_association_hash
+              attributes = self.send(key.to_sym).attributes
+              if attributes.values.any?(&:present?)
+                value = attributes
+              else
+                value = nil
+              end
+            end
             self.send(:[]=, key.to_sym, value)
           end
         end
@@ -55,8 +63,7 @@ module ActivePodio
     def []=(attribute, value)
       @attributes ||= {}
       @attributes[attribute.to_sym] = value
-      # @belongs_to[:model][@belongs_to[:as]] = @attributes if @belongs_to.present?
-      if @belongs_to.present?
+      if @belongs_to.present? && value.present?
         @belongs_to[:model][@belongs_to[:as]] ||= {}
         @belongs_to[:model][@belongs_to[:as]][attribute.to_sym] = value
       end
