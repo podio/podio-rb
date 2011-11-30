@@ -26,7 +26,7 @@ module ActivePodio
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
               attributes = self.send(key.to_sym).attributes
-              if attributes.values.any?(&:present?)
+              if any_values_present_recursive?(attributes.values)
                 value = attributes
               else
                 value = nil
@@ -94,6 +94,16 @@ module ActivePodio
           klass = "Podio::#{klass_name}".constantize
         end
         return klass
+      end
+      
+      def any_values_present_recursive?(values)
+        values.any? do |value|
+          if value.respond_to?(:values)
+            any_values_present_recursive?(value.values)
+          else
+            value.present?
+          end
+        end
       end
 
     class << self
