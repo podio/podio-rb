@@ -280,7 +280,7 @@ module ActivePodio
             
             # TODO: This should eventually be done on all date times
             # This option is a temporary fix while API transitions to UTC only
-            if options[:convert_incoming_local_datetime_to_utc] && !@values_from_api
+            if options[:convert_incoming_local_datetime_to_utc] && value.present? && !@values_from_api
               value = value.try(:to_datetime) unless value.is_a?(DateTime)
               value = Time.zone.local_to_utc(value)
             end
