@@ -373,6 +373,17 @@ module ActivePodio
           self.send(:define_method, "default_#{name.to_s.singularize}") do
             self[name.to_sym].try(:first).presence
           end
+
+          self.send(:define_method, "default_#{name.to_s.singularize}=") do |value|
+            if self[name.to_sym].try(:first).present?
+              self[name.to_sym][0] = value
+            else
+              self[name.to_sym] = [value]
+            end
+            
+            self[name.to_sym].compact!
+
+          end
         end
     end
   end
