@@ -151,6 +151,10 @@ module ActivePodio
           end
           instance
         end
+
+        self.send(:define_method, "clear_#{name}") do
+          self.instance_variable_set("@#{name}_has_one_instance", nil)
+        end
       end
     
       # Wraps a collection of hashes from the API to a collection of the given model

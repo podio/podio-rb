@@ -37,6 +37,7 @@ class Podio::Contract < ActivePodio::Base
 
   def calculate_price
     pricing = self.class.calculate_price(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_space_ids))
+    self.clear_price
     self["price"] = pricing
   end
 
