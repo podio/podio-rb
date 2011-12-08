@@ -5,8 +5,8 @@ module ActivePodio
   class Base
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
-    
-    class_inheritable_accessor :valid_attributes, :associations
+
+    class_attribute :valid_attributes, :associations
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
@@ -154,6 +154,10 @@ module ActivePodio
             end
           end
           instance
+        end
+
+        self.send(:define_method, "clear_#{name}") do
+          self.instance_variable_set("@#{name}_has_one_instance", nil)
         end
       end
     

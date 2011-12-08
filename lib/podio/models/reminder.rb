@@ -9,8 +9,8 @@ class Podio::Reminder < ActivePodio::Base
       Podio.connection.delete("/reminder/#{ref_type}/#{ref_id}").body
     end
     
-    def snooze(id)
-      Podio.connection.post("/reminder/#{id}/snooze").body
+    def snooze(ref_type, ref_id)
+      Podio.connection.post("/reminder/#{ref_type}/#{ref_id}/snooze").body
     end
 
     def create(ref_type, ref_id, attributes)
