@@ -79,7 +79,11 @@ module ActivePodio
     end
     
     def as_json(options={})
-      self.attributes
+      if self.respond_to?(:id)
+        self.attributes.merge(:id => self.id)
+      else
+        self.attributes
+       end
     end
     
     private
@@ -380,7 +384,7 @@ module ActivePodio
             else
               self[name.to_sym] = [value]
             end
-            
+
             self[name.to_sym].compact!
 
           end
