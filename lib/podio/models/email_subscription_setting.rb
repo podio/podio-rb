@@ -5,6 +5,7 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   property :bulletin, :boolean
   property :reference, :boolean
   property :message, :boolean
+  property :reminder, :boolean
   property :space, :boolean
   property :subscription, :boolean
   property :push_notification, :boolean
