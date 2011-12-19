@@ -35,5 +35,13 @@ class Podio::SpaceMember < ActivePodio::Base
     def end_membership(space_id, user_id)
       Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
+    
+    def find_top_contacts(space_id)
+      result = Podio.connection.get("/space/#{space_id}/member/top/").body
+      %w(employee external).each do |section|
+        result[section]['profiles'].map! { |profile| Contact.new(profile) } if result[section].present? && result[section]['profiles'].present?
+      end
+      result
+    end
   end
 end
