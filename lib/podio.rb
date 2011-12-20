@@ -75,7 +75,7 @@ module Podio
   autoload :ApplicationField,         'podio/models/application_field'
   autoload :Bulletin,                 'podio/models/bulletin'
   autoload :ByLine,                   'podio/models/by_line'
-  autoload :Calendar,                 'podio/models/calendar'
+  autoload :CalendarEvent,            'podio/models/calendar_event'
   autoload :CalendarMute,             'podio/models/calendar_mute'
   autoload :Category,                 'podio/models/category'
   autoload :Comment,                  'podio/models/comment'

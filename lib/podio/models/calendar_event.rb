@@ -1,4 +1,4 @@
-class Podio::Calendar < ActivePodio::Base
+class Podio::CalendarEvent < ActivePodio::Base
   property :type, :string
   property :id, :integer
   property :group, :string
