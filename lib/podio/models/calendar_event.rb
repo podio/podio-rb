@@ -13,6 +13,18 @@ class Podio::CalendarEvent < ActivePodio::Base
   
   class << self
 
+    def find_all(options = {})
+      list Podio.connection.get { |req|
+        req.url('/calendar/', options)
+      }.body
+    end
+    
+    def find_all_for_space(space_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/calendar/space/#{space_id}/", options)
+      }.body      
+    end
+
     def find_summary
       response = Podio.connection.get("/calendar/summary").body
       response['today']['events'] = list(response['today']['events'])
