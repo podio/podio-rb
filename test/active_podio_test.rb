@@ -284,10 +284,10 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:test_id => 42)
     assert_equal 42.hash, @test.hash
   end
-  
+
   test 'should return attributes for as_json' do
     @test = TestModel.new(:test_id => 42)
-    assert_equal({:string=>nil, :test_id=>42, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
+    assert_equal({:id=> 42, :string=>nil, :test_id=>42, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
   end
   
 end

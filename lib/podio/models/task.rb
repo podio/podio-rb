@@ -112,6 +112,10 @@ class Podio::Task < ActivePodio::Base
       Podio.connection.put("/task/#{id}/due_date", {:due_date => due_date}).status
     end
 
+    def update_due_on(id, due_on)
+      Podio.connection.put("/task/#{id}/due_on", {:due_on => due_on}).status
+    end
+
     def update_assignee(id, user_id)
       Podio.connection.post("/task/#{id}/assign", {:responsible => user_id}).status
     end

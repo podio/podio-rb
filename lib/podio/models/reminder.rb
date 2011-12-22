@@ -5,17 +5,25 @@ class Podio::Reminder < ActivePodio::Base
   alias_method :id, :reminder_id
   
   class << self
-    def delete(id)
-      Podio.connection.delete("/reminder/#{id}").body
+    def delete(ref_type, ref_id)
+      Podio.connection.delete("/reminder/#{ref_type}/#{ref_id}").body
     end
     
-    def snooze(id)
-      Podio.connection.post("/reminder/#{id}/snooze").body
+    def snooze(ref_type, ref_id)
+      Podio.connection.post("/reminder/#{ref_type}/#{ref_id}/snooze").body
     end
 
-    def update(id, attributes)
+    def create(ref_type, ref_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/reminder/#{ref_type}/#{ref_id}"
+        req.body = attributes
+      end
+      response.status
+    end
+
+    def update(ref_type, ref_id, attributes)
       response = Podio.connection.put do |req|
-        req.url "/reminder/#{id}"
+        req.url "/reminder/#{ref_type}/#{ref_id}"
         req.body = attributes
       end
       response.status

@@ -8,6 +8,7 @@ class Podio::Contact < Podio::Profile
   property :type, :string # user, space, connection - blank probably means it's a real user / Podio member
   property :link, :string
   property :last_seen_on, :datetime
+  property :rights, :array
 
   alias_method :id, :user_id
 

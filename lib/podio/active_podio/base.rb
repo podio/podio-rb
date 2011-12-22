@@ -5,8 +5,8 @@ module ActivePodio
   class Base
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
-    
-    class_inheritable_accessor :valid_attributes, :associations
+
+    class_attribute :valid_attributes, :associations
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
@@ -23,7 +23,15 @@ module ActivePodio
         else
           is_association_hash = value.is_a?(Hash) && self.associations.present? && self.associations.has_key?(key.to_sym) && self.associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
           if valid_attributes.include?(key.to_sym) || is_association_hash
-            value = self.send(key.to_sym).attributes if is_association_hash # Initialize nested object to get correctly casted values set back
+            # Initialize nested object to get correctly casted values set back, unless the given values are all blank
+            if is_association_hash
+              attributes = self.send(key.to_sym).attributes
+              if any_values_present_recursive?(attributes.values)
+                value = attributes
+              else
+                value = nil
+              end
+            end
             self.send(:[]=, key.to_sym, value)
           end
         end
@@ -55,8 +63,7 @@ module ActivePodio
     def []=(attribute, value)
       @attributes ||= {}
       @attributes[attribute.to_sym] = value
-      # @belongs_to[:model][@belongs_to[:as]] = @attributes if @belongs_to.present?
-      if @belongs_to.present?
+      if @belongs_to.present? && value.present?
         @belongs_to[:model][@belongs_to[:as]] ||= {}
         @belongs_to[:model][@belongs_to[:as]][attribute.to_sym] = value
       end
@@ -72,7 +79,11 @@ module ActivePodio
     end
     
     def as_json(options={})
-      self.attributes
+      if self.respond_to?(:id)
+        self.attributes.merge(:id => self.id)
+      else
+        self.attributes
+       end
     end
     
     private
@@ -87,6 +98,16 @@ module ActivePodio
           klass = "Podio::#{klass_name}".constantize
         end
         return klass
+      end
+      
+      def any_values_present_recursive?(values)
+        values.any? do |value|
+          if value.respond_to?(:values)
+            any_values_present_recursive?(value.values)
+          else
+            value.present?
+          end
+        end
       end
 
     class << self
@@ -133,6 +154,10 @@ module ActivePodio
             end
           end
           instance
+        end
+
+        self.send(:define_method, "clear_#{name}") do
+          self.instance_variable_set("@#{name}_has_one_instance", nil)
         end
       end
     
@@ -263,7 +288,7 @@ module ActivePodio
             
             # TODO: This should eventually be done on all date times
             # This option is a temporary fix while API transitions to UTC only
-            if options[:convert_incoming_local_datetime_to_utc] && !@values_from_api
+            if options[:convert_incoming_local_datetime_to_utc] && value.present? && !@values_from_api
               value = value.try(:to_datetime) unless value.is_a?(DateTime)
               value = Time.zone.local_to_utc(value)
             end
@@ -285,7 +310,13 @@ module ActivePodio
             self[name.to_sym] = if value.is_a?(Date)
               value.try(:to_s, :db)
             else
-              value.try(:to_s)
+              value = value.try(:to_s)
+              if defined?(I18n) && value.present? && !(value =~ /^\d{4}-\d{2}-\d{2}$/) # If we have I18n available, assume that we are in Rails and try to convert the string to a date to convert it to ISO 8601
+                value_as_date = Date.strptime(value, I18n.t('date.formats.default')) rescue nil
+                value_as_date.nil? ? value.try(:to_s) : value_as_date.try(:to_s, :db)
+              else
+                value
+              end
             end
           end
         end
@@ -349,6 +380,17 @@ module ActivePodio
     
           self.send(:define_method, "default_#{name.to_s.singularize}") do
             self[name.to_sym].try(:first).presence
+          end
+
+          self.send(:define_method, "default_#{name.to_s.singularize}=") do |value|
+            if self[name.to_sym].try(:first).present?
+              self[name.to_sym][0] = value
+            else
+              self[name.to_sym] = [value]
+            end
+
+            self[name.to_sym].compact!
+
           end
         end
     end

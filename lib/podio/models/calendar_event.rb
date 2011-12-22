@@ -1,4 +1,4 @@
-class Podio::Calendar < ActivePodio::Base
+class Podio::CalendarEvent < ActivePodio::Base
   property :type, :string
   property :id, :integer
   property :group, :string
@@ -12,6 +12,18 @@ class Podio::Calendar < ActivePodio::Base
   has_one :org, :class => 'Organization'
   
   class << self
+
+    def find_all(options = {})
+      list Podio.connection.get { |req|
+        req.url('/calendar/', options)
+      }.body
+    end
+    
+    def find_all_for_space(space_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/calendar/space/#{space_id}/", options)
+      }.body      
+    end
 
     def find_summary
       response = Podio.connection.get("/calendar/summary").body
