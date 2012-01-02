@@ -2,8 +2,7 @@
 class Podio::NotificationGroup < ActivePodio::Base
   property :context, :hash
   property :notifications, :hash
-  property :link, :string
-  delegate_to_hash :context, :ref, :data, :comment_count
+  delegate_to_hash :context, :ref, :data, :comment_count, :link
   
   class << self
     def find_all(options={})
