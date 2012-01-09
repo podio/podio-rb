@@ -10,6 +10,8 @@ module ActivePodio
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
+    Base.associations = {}
+
     def initialize(attributes = {}, options = {})
       self.valid_attributes ||= []
       attributes ||= {}
@@ -83,9 +85,9 @@ module ActivePodio
         self.attributes.merge(:id => self.id)
       else
         self.attributes
-       end
+      end
     end
-    
+
     private
     
       def klass_for_association(options)
@@ -138,7 +140,6 @@ module ActivePodio
     
       # Wraps a single hash provided from the API in the given model
       def has_one(name, options = {})
-        self.associations ||= {}
         self.associations[name] = :has_one
 
         self.send(:define_method, name) do
@@ -163,7 +164,6 @@ module ActivePodio
     
       # Wraps a collection of hashes from the API to a collection of the given model
       def has_many(name, options = {})
-        self.associations ||= {}
         self.associations[name] = :has_many
 
         self.send(:define_method, name) do
