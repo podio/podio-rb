@@ -21,7 +21,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :ratings, :hash
   property :user_rating, :array
   property :screenshots, :array
-  property :info, :hash
+  property :video, :string
   
   has_many :children, :class => 'AppStoreShare'
   has_one :author, :class => 'ByLine'
