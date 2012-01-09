@@ -6,11 +6,9 @@ module ActivePodio
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
 
-    class_attribute :valid_attributes, :associations
+    class_attribute :valid_attributes, :_associations
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
-
-    Base.associations = {}
 
     def initialize(attributes = {}, options = {})
       self.valid_attributes ||= []
@@ -23,7 +21,7 @@ module ActivePodio
         if self.respond_to?("#{key}=".to_sym)
           self.send("#{key}=".to_sym, value)
         else
-          is_association_hash = value.is_a?(Hash) && self.associations.present? && self.associations.has_key?(key.to_sym) && self.associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
+          is_association_hash = value.is_a?(Hash) && self._associations.present? && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
           if valid_attributes.include?(key.to_sym) || is_association_hash
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
@@ -115,7 +113,7 @@ module ActivePodio
     class << self
       
       public
-      
+
       # Defines the the supported attributes of the model
       def property(name, type = :string, options = {})
         self.valid_attributes ||= []
@@ -140,7 +138,8 @@ module ActivePodio
     
       # Wraps a single hash provided from the API in the given model
       def has_one(name, options = {})
-        self.associations[name] = :has_one
+        self._associations ||= {}
+        self._associations[name] = :has_one
 
         self.send(:define_method, name) do
           klass = klass_for_association(options)
@@ -164,7 +163,8 @@ module ActivePodio
     
       # Wraps a collection of hashes from the API to a collection of the given model
       def has_many(name, options = {})
-        self.associations[name] = :has_many
+        self._associations ||= {}
+        self._associations[name] = :has_many
 
         self.send(:define_method, name) do
           klass = klass_for_association(options)
