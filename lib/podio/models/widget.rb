@@ -6,6 +6,7 @@ class Podio::Widget < ActivePodio::Base
   property :title, :string
   property :config, :string
   property :ref, :hash
+  property :rights, :array
   
   class << self
     def create(ref_type, ref_id, attributes)

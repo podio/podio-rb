@@ -18,7 +18,8 @@ class Podio::Organization < ActivePodio::Base
   property :contact_count, :integer
   property :billing_interval, :integer
   property :rights, :array
-  property :verified_domain, :string
+  property :verified_domain, :string # TODO: Remove this, it's deprecated
+  property :domains, :array
   property :rank, :integer
   property :contract_status, :string
   property :type, :string
