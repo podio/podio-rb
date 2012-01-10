@@ -87,6 +87,13 @@ class Podio::Item < ActivePodio::Base
     def find_previous(current_item_id, time = nil)
       find_next_or_previous(:previous, current_item_id, time)
     end
+
+    def find_app_values(app_id)
+      response = Podio.connection.get { |req|
+        req.url("/item/app/#{app_id}/values")
+      }
+      response.body
+    end
     
     def find_field_top(field_id, options={:limit => 8})
       list Podio.connection.get { |req|
