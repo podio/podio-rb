@@ -49,6 +49,10 @@ class Podio::Contract < ActivePodio::Base
     self.class.delete(self.id)
   end
 
+  def end(attributes)
+    self.class.end(self.id, attributes)
+  end
+
   handle_api_errors_for :update, :delete, :create_payment # Call must be made after the methods to handle have been defined
 
   class << self
@@ -87,6 +91,15 @@ class Podio::Contract < ActivePodio::Base
 
     def start(contract_id)
       Podio.connection.post("/contract/#{contract_id}/start").body
+    end
+
+    def end(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{contract_id}/end"
+        req.body = attributes
+      end
+
+      response.body
     end
 
     def delete(id)
