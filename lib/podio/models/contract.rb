@@ -19,6 +19,8 @@ class Podio::Contract < ActivePodio::Base
   property :next_period_end, :datetime, :convert_timezone => false
   property :invoice_interval, :integer
   property :invoicing_mode, :string
+  property :ended_reason, :string
+  property :ended_comment, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
