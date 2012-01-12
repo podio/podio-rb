@@ -13,7 +13,7 @@ class Podio::ItemField < ActivePodio::Base
         req.url "/item/#{item_id}/value/#{field_id}"
         req.body = values
       end
-      response.status
+      response.body
     end    
   end
 end
