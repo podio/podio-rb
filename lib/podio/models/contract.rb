@@ -55,7 +55,7 @@ class Podio::Contract < ActivePodio::Base
     self.class.end(self.id, attributes)
   end
 
-  handle_api_errors_for :update, :delete, :create_payment # Call must be made after the methods to handle have been defined
+  handle_api_errors_for :update, :delete, :create_payment, :end # Call must be made after the methods to handle have been defined
 
   class << self
     def find(contract_id)
