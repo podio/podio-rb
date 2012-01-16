@@ -7,6 +7,8 @@ class Podio::Search < ActivePodio::Base
   property :space, :hash
   property :org, :hash
   property :app, :hash
+  property :search_id, :integer
+  property :rank, :integer
   
   has_one :created_by, :class => 'ByLine'
   
@@ -28,7 +30,11 @@ class Podio::Search < ActivePodio::Base
       end
 
       list response.body
-    end    
+    end
+
+    def rank(search_id, rank)
+      Podio.connection.post("/search/#{search_id}/#{rank}/clicked").status
+    end
   end
   
 end
