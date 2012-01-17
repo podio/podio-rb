@@ -107,5 +107,9 @@ class Podio::Application < ActivePodio::Base
     def delete(id)
       Podio.connection.delete("/app/#{id}").body
     end
+
+    def install_on_mobile(id)
+      Podio.connection.post("/mobile/install_app/#{id}").body
+    end
   end
 end
