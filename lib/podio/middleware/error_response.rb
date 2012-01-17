@@ -27,6 +27,8 @@ module Podio
             raise ConflictError.new(env[:body], env[:status], env[:url])
           when 410
             raise GoneError.new(env[:body], env[:status], env[:url])
+          when 420
+            raise RateLimitError.new(env[:body], env[:status], env[:url])
           when 500
             raise ServerError.new(env[:body], env[:status], env[:url])
           when 502, 503

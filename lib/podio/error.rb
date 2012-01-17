@@ -17,5 +17,6 @@ module Podio
   class NotFoundError < PodioError; end
   class ConflictError < PodioError; end
   class GoneError < PodioError; end
+  class RateLimitError < PodioError; end
   class UnavailableError < PodioError; end
 end
