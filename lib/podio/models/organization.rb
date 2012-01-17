@@ -24,24 +24,25 @@ class Podio::Organization < ActivePodio::Base
   property :contract_status, :string
   property :type, :string
   property :segment, :string
+  property :segment_size, :integer
 
   has_one :created_by, :class => 'ByLine'
 
   alias_method :id, :org_id
 
   def create
-    attributes = Organization.create(:name => name, :logo => logo)
+    attributes = Organization.create(:name => name, :logo => logo, :segment_size => segment_size)
     self.org_id = attributes['org_id']
     self.url = attributes['url']
     self.url_label = attributes['url_label']
   end
 
   def update
-    Organization.update(id, {:name => name, :logo => logo, :url_label => url_label, :billing_interval => billing_interval})
+    Organization.update(id, {:name => name, :logo => logo, :url_label => url_label, :billing_interval => billing_interval, :segment_size => segment_size})
   end
-  
-  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined  
-  
+
+  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
+
   class << self
     def update(id, attributes)
       response = Podio.connection.put do |req|
@@ -90,13 +91,13 @@ class Podio::Organization < ActivePodio::Base
     def get_member_count(id)
       Podio.connection.get("/org/#{id}/member/count").body
     end
-    
+
     def get_login_report(id, options = {})
       Podio.connection.get { |req|
         req.url("/org/#{id}/report/login/", options)
       }.body
     end
-    
+
     def update_billing_profile(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/org/#{id}/billing"
@@ -108,6 +109,6 @@ class Podio::Organization < ActivePodio::Base
     def upgrade(id)
       Podio.connection.post("/org/#{id}/upgrade").body
     end
-    
+
   end
 end
