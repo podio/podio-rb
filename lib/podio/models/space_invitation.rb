@@ -1,6 +1,6 @@
 class Podio::SpaceInvitation < ActivePodio::Base
   include ActivePodio::Updatable
-  
+
   property :space_id, :integer
   property :role, :string
   property :subject, :string
@@ -10,6 +10,9 @@ class Podio::SpaceInvitation < ActivePodio::Base
   property :mails, :array
   property :profiles, :array
   property :activation_code, :integer
+  property :context_ref_type, :string # Write
+  property :context_ref_id, :integer # Write
+  property :context, :hash # Read
 
   def save
     self.class.create(self.space_id, self.role, self.attributes.except(:contacts))
@@ -22,9 +25,9 @@ class Podio::SpaceInvitation < ActivePodio::Base
   def accept(invite_code)
     self.class.accept(invite_code)
   end
-  
+
   handle_api_errors_for :save, :save_member, :accept # Call must be made after the methods to handle have been defined
-  
+
   class << self
     def create(space_id, role, attributes={})
       response = Podio.connection.post do |req|
@@ -73,6 +76,6 @@ class Podio::SpaceInvitation < ActivePodio::Base
     def find_member(invite_code)
       member Podio.connection.get("/space/membership?invite_code=#{ERB::Util.url_encode(invite_code)}").body
     end
-    
+
   end
 end
