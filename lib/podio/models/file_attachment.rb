@@ -7,17 +7,21 @@ class Podio::FileAttachment < ActivePodio::Base
   property :size, :integer
   property :context, :hash
   property :created_on, :datetime
-  
+
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_many :replaces, :class => 'FileAttachment'
-  
+
   alias_method :id, :file_id
 
   def image?
     ['image/png', 'image/jpeg', 'image/gif', 'image/bmp'].include?(self.mimetype)
   end
-  
+
+  def api_friendly_ref_type
+    'file'
+  end
+
   class << self
     # Accepts an open file stream along with a file name and uploads the file to Podio
     def upload(file_stream, file_name)
@@ -50,11 +54,11 @@ class Podio::FileAttachment < ActivePodio::Base
     def copy(id)
       Podio.connection.post("/file/#{id}/copy").body['file_id']
     end
-    
+
     def delete(id)
       Podio.connection.delete("/file/#{id}")
     end
-    
+
     def find(id)
       member Podio.connection.get("/file/#{id}").body
     end
@@ -86,7 +90,7 @@ class Podio::FileAttachment < ActivePodio::Base
         req.url("/file/space/#{space_id}/latest/", options)
       }.body
     end
-    
+
     def replace(old_file_id, new_file_id)
       Podio.connection.post { |req|
         req.url "/file/#{new_file_id}/replace"
@@ -100,12 +104,12 @@ class Podio::FileAttachment < ActivePodio::Base
         req.body = { :description => description }
       }.body
     end
-    
-    
+
+
     #
     # Obsolete way of uploading files, use upload method instead
     #
-    
+
     # Uploading a file is a two-step operation
     # First, the file must be created to get a file id and the path to move it to
     def create(name, content_type)
@@ -116,11 +120,11 @@ class Podio::FileAttachment < ActivePodio::Base
 
       response.body
     end
-    
+
     # Then, when the file has been moved, it must be marked as available
     def set_available(id)
       Podio.connection.post "/file/#{id}/available"
     end
-    
+
   end
 end

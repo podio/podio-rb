@@ -111,6 +111,11 @@ module ActivePodio
       result
     end
 
+    # Override this in models where the class name doesn't match the ref type
+    def api_friendly_ref_type
+      self.class.name.downcase
+    end
+
     private
 
       def klass_for_association(options)

@@ -22,10 +22,10 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :user_rating, :array
   property :screenshots, :array
   property :video, :string
-  
+
   has_many :children, :class => 'AppStoreShare'
   has_one :author, :class => 'ByLine'
-  
+
   alias_method :id, :share_id
 
   def create
@@ -37,7 +37,11 @@ class Podio::AppStoreShare < ActivePodio::Base
   end
 
   handle_api_errors_for :create, :install  # Call must be made after the methods to handle have been defined
-  
+
+  def api_friendly_ref_type
+    'share'
+  end
+
   class << self
     def create(attributes)
       response = Podio.connection.post do |req|
