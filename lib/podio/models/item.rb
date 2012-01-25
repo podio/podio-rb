@@ -22,6 +22,7 @@ class Podio::Item < ActivePodio::Base
   property :subscribed, :boolean
   property :user_ratings, :hash
   property :link, :string
+  property :invite, :hash
 
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'
