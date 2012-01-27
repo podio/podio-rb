@@ -80,6 +80,21 @@ class Podio::Item < ActivePodio::Base
         req.url("/item/app/#{app_id}/", options)
       }.body
     end
+
+    def find_by_filter_id(app_id, filter_id, attributes)
+      collection Podio.connection.post { |req|
+        req.url "/item/app/#{app_id}/filter/#{filter_id}/"
+        req.body = attributes
+      }.body
+    end
+
+    def find_by_filter_values(app_id, filter_values, attributes={})
+      attributes[:filters] = filter_values
+      collection Podio.connection.post { |req|
+        req.url "/item/app/#{app_id}/filter/"
+        req.body = attributes
+      }.body
+    end
     
     def find_next(current_item_id, time = nil)
       find_next_or_previous(:next, current_item_id, time)
