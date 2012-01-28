@@ -22,6 +22,10 @@ class Podio::Filter < ActivePodio::Base
       }.body
     end
 
+    def find(id)
+      member Podio.connection.get("/filter/#{id}").body
+    end
+
     def delete(filter_id)
       Podio.connection.delete("/filter/#{filter_id}").status
     end
