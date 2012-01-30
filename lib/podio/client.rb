@@ -72,8 +72,21 @@ module Podio
       @oauth_token
     end
 
+    # Sign in with SSO
+    def authenticate_with_sso(attributes)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'sso', :client_id => api_key, :client_secret => api_secret
+        req.body = attributes
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+
+      [@oauth_token, response['new_user_created']]
+    end
+
     # Sign in with an OpenID, only available for Podio
-    def authenticate_with_sso(identifier, type)
+    def authenticate_with_openid(identifier, type)
       response = @oauth_connection.post do |req|
         req.url '/oauth/token_by_openid', :grant_type => type, :client_id => api_key, :client_secret => api_secret, :identifier => identifier
       end
