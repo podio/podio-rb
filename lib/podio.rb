@@ -99,6 +99,7 @@ module Podio
   autoload :ItemDiff,                 'podio/models/item_diff'
   autoload :ItemField,                'podio/models/item_field'
   autoload :ItemRevision,             'podio/models/item_revision'
+  autoload :LinkedAccount,            'podio/models/linked_account'
   autoload :Meeting,                  'podio/models/meeting'
   autoload :MeetingParticipant,       'podio/models/meeting_participiant'
   autoload :News,                     'podio/models/news'
