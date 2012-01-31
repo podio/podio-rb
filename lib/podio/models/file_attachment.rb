@@ -91,6 +91,12 @@ class Podio::FileAttachment < ActivePodio::Base
       }.body
     end
 
+    def find_for_google(linked_account_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/file/google/#{linked_account_id}/", options)
+      }.body
+    end
+
     def replace(old_file_id, new_file_id)
       Podio.connection.post { |req|
         req.url "/file/#{new_file_id}/replace"
