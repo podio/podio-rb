@@ -11,7 +11,6 @@ class Podio::Meeting < ActivePodio::Base
   property :location, :string
   property :agenda, :string
   property :notes, :string
-  property :transcript, :string
   property :external_id, :string
   property :external_url, :string
   property :external_phone, :string
@@ -61,15 +60,7 @@ class Podio::Meeting < ActivePodio::Base
     self.class.delete(self.id)
   end
 
-  def start
-    self.class.start(self.id)
-  end
-
-  def stop
-    self.class.stop(self.id)
-  end
-
-  handle_api_errors_for :create, :destroy, :start, :stop # Call must be made after the methods to handle have been defined
+  handle_api_errors_for :create, :destroy # Call must be made after the methods to handle have been defined
 
   class << self
     def create(attributes)
@@ -101,14 +92,6 @@ class Podio::Meeting < ActivePodio::Base
 
     def delete(id)
       Podio.connection.delete("/meeting/#{id}").status
-    end
-
-    def start(id)
-      Podio.connection.post("/meeting/#{id}/start").body
-    end
-
-    def stop(id)
-      Podio.connection.post("/meeting/#{id}/stop").body
     end
 
     def find(id)
