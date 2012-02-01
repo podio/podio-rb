@@ -43,6 +43,15 @@ class Podio::FileAttachment < ActivePodio::Base
       member response.body
     end
 
+    def upload_from_resource(linked_account_id, resource_id)
+      response = Podio.client.connection.post do |req|
+        req.url "/file/google/#{linked_account_id}/"
+        req.body = { :resource_id => resource_id }
+      end
+
+      member response.body
+    end
+
     # Attach a file to an existing reference
     def attach(id, ref_type, ref_id)
       Podio.connection.post do |req|
