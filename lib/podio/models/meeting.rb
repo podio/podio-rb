@@ -22,7 +22,7 @@ class Podio::Meeting < ActivePodio::Base
   property :link, :string
   property :ref, :hash
   property :space_id, :integer
-  
+
   # For creation only
   property :ref_id, :integer
   property :ref_type, :string
@@ -35,9 +35,11 @@ class Podio::Meeting < ActivePodio::Base
   has_many :participants, :class => 'MeetingParticipant'
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
+  has_one :reminder, :class => 'Reminder'
+  has_one :recurrence, :class => 'Recurrence'
 
   alias_method :id, :meeting_id
-  
+
   def create
     compacted_attributes = remove_nil_values(self.attributes)
     created_model = if(self.ref_type.present? && self.ref_id.present?)
@@ -45,7 +47,7 @@ class Podio::Meeting < ActivePodio::Base
     else
       self.class.create(compacted_attributes)
     end
-    
+
     self.attributes = created_model.attributes
   end
 
@@ -54,7 +56,7 @@ class Podio::Meeting < ActivePodio::Base
     updated_model = self.class.update(self.id, compacted_attributes)
     self.attributes = updated_model.attributes
   end
-  
+
   def destroy
     self.class.delete(self.id)
   end
