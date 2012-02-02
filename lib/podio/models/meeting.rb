@@ -108,5 +108,29 @@ class Podio::Meeting < ActivePodio::Base
         req.url('/meeting/', options)
       }.body
     end
+
+    def find_summary
+      response = Podio.connection.get("/meeting/summary").body
+      response['past']['tasks'] = list(response['past']['meetings'])
+      response['today']['tasks'] = list(response['today']['meetings'])
+      response['other']['tasks'] = list(response['other']['meetings'])
+      response
+    end
+
+    def find_summary_for_reference(ref_type, ref_id)
+      response = Podio.connection.get("/meeting/#{ref_type}/#{ref_id}/summary").body
+      response['past']['tasks'] = list(response['past']['meetings'])
+      response['today']['tasks'] = list(response['today']['meetings'])
+      response['other']['tasks'] = list(response['other']['meetings'])
+      response
+    end
+    
+    def find_personal_summary
+      response = Podio.connection.get("/meeting/personal/summary").body
+      response['past']['tasks'] = list(response['past']['meetings'])
+      response['today']['tasks'] = list(response['today']['meetings'])
+      response['other']['tasks'] = list(response['other']['meetings'])
+      response
+    end
   end
 end
