@@ -113,7 +113,7 @@ class Podio::Meeting < ActivePodio::Base
       response = Podio.connection.get("/meeting/summary").body
       response['past']['tasks'] = list(response['past']['meetings'])
       response['today']['tasks'] = list(response['today']['meetings'])
-      response['other']['tasks'] = list(response['other']['meetings'])
+      response['future']['tasks'] = list(response['future']['meetings'])
       response
     end
 
@@ -121,15 +121,15 @@ class Podio::Meeting < ActivePodio::Base
       response = Podio.connection.get("/meeting/#{ref_type}/#{ref_id}/summary").body
       response['past']['tasks'] = list(response['past']['meetings'])
       response['today']['tasks'] = list(response['today']['meetings'])
-      response['other']['tasks'] = list(response['other']['meetings'])
+      response['future']['tasks'] = list(response['future']['meetings'])
       response
     end
-    
+
     def find_personal_summary
       response = Podio.connection.get("/meeting/personal/summary").body
       response['past']['tasks'] = list(response['past']['meetings'])
       response['today']['tasks'] = list(response['today']['meetings'])
-      response['other']['tasks'] = list(response['other']['meetings'])
+      response['future']['tasks'] = list(response['future']['meetings'])
       response
     end
   end
