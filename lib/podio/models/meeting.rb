@@ -7,8 +7,8 @@ class Podio::Meeting < ActivePodio::Base
   property :starts_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :ends_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :participant_ids, :array
-  property :is_remote, :boolean
-  property :status, :string
+  property :plugin, :string
+  property :plugin_data, :hash
   property :location, :string
   property :agenda, :string
   property :notes, :string
@@ -30,8 +30,6 @@ class Podio::Meeting < ActivePodio::Base
 
   has_one :created_by, :class => 'User'
   has_one :created_via, :class => 'Via'
-  has_one :deleted_by, :class => 'User'
-  has_one :deleted_via, :class => 'Via'
   has_many :participants, :class => 'MeetingParticipant'
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'

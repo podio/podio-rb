@@ -6,8 +6,12 @@ class Podio::LinkedAccount < ActivePodio::Base
 
   class << self
 
-    def find_all(provider, scope)
-      list Podio.connection.get("/linked_account/?provider=#{provider}&scope=#{scope}").body
+    def find_all(provider, scope = nil)
+      options = { :provider => provider }
+      options[:scope] = scope if scope.present?
+      list Podio.connection.get { |req|
+        req.url("/linked_account/", options)
+      }.body
     end
 
   end
