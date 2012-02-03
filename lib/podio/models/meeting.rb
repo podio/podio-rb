@@ -97,8 +97,10 @@ class Podio::Meeting < ActivePodio::Base
       member Podio.connection.get("/meeting/#{id}").body
     end
 
-    def find_for_reference(ref_type, ref_id)
-      list Podio.connection.get("/meeting/#{ref_type}/#{ref_id}/").body
+    def find_for_reference(ref_type, ref_id, options={})
+      list Podio.connection.get { |req| 
+        req.url("/meeting/#{ref_type}/#{ref_id}/", options)
+      }.body
     end
 
     def find_all(options={})
