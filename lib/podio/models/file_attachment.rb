@@ -1,6 +1,8 @@
 class Podio::FileAttachment < ActivePodio::Base
   property :file_id, :integer
   property :link, :string
+  property :perma_link, :string
+  property :thumbnail_link, :string
   property :name, :string
   property :description, :string
   property :mimetype, :string
@@ -13,6 +15,10 @@ class Podio::FileAttachment < ActivePodio::Base
   has_many :replaces, :class => 'FileAttachment'
 
   alias_method :id, :file_id
+
+  def has_thumbnail?
+    self.thumbnail_link.present?
+  end
 
   def image?
     ['image/png', 'image/jpeg', 'image/gif', 'image/bmp'].include?(self.mimetype)
