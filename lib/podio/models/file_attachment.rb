@@ -3,6 +3,7 @@ class Podio::FileAttachment < ActivePodio::Base
   property :link, :string
   property :perma_link, :string
   property :thumbnail_link, :string
+  property :hosted_by, :string
   property :name, :string
   property :description, :string
   property :mimetype, :string
