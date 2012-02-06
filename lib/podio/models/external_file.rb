@@ -19,7 +19,7 @@ class Podio::ExternalFile < ActivePodio::Base
 
     def create_from_external_file_id(linked_account_id, external_file_id)
       response = Podio.client.connection.post do |req|
-        req.url "/file/linked_account#{linked_account_id}/"
+        req.url "/file/linked_account/#{linked_account_id}/"
         req.body = { :external_file_id => external_file_id }
       end
 
