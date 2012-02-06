@@ -89,12 +89,14 @@ module ActivePodio
         end
 
         unless options[:nested] == false
-          self._associations.each do |name, type|
-            case type
-            when :has_one
-              result[name] = self.send(name).as_json(options.except(:methods))
-            when :has_many
-              result[name] = self.send(name).collect { |assoc| assoc.as_json(options.except(:methods)) }
+          if self._associations.respond_to?(:each)
+            self._associations.each do |name, type|
+              case type
+              when :has_one
+                result[name] = self.send(name).as_json(options.except(:methods))
+              when :has_many
+                result[name] = self.send(name).collect { |assoc| assoc.as_json(options.except(:methods)) }
+              end
             end
           end
         end
