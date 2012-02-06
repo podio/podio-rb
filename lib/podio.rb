@@ -89,6 +89,7 @@ module Podio
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
   autoload :Embed,                    'podio/models/embed'
+  autoload :ExternalFile,             'podio/models/external_file'
   autoload :FileAttachment,           'podio/models/file_attachment'
   autoload :Filter,                   'podio/models/filter'
   autoload :Form,                     'podio/models/form'
