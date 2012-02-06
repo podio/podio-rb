@@ -98,7 +98,7 @@ class Podio::Meeting < ActivePodio::Base
     end
 
     def find_for_reference(ref_type, ref_id, options={})
-      list Podio.connection.get { |req| 
+      list Podio.connection.get { |req|
         req.url("/meeting/#{ref_type}/#{ref_id}/", options)
       }.body
     end
@@ -132,5 +132,15 @@ class Podio::Meeting < ActivePodio::Base
       response['future']['tasks'] = list(response['future']['meetings'])
       response
     end
+
+    def set_participation_status(id, status)
+      response = Podio.connection.post do |req|
+        req.url "/meeting/#{id}/status"
+        req.body = { :status => status }
+      end
+
+      response.status
+    end
+
   end
 end
