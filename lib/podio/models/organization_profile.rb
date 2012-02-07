@@ -4,6 +4,7 @@ class Podio::OrganizationProfile < ActivePodio::Base
 
   property :org_id, :integer
   property :avatar, :integer
+  property :image, :hash
   property :name, :string
   property :mail, :array
   property :phone, :array
