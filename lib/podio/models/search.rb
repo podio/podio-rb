@@ -21,12 +21,33 @@ class Podio::Search < ActivePodio::Base
       end
 
       list response.body
-    end    
+    end
 
-    def in_space(space_id, words)
+    def globally(words, attributes={})
+      attributes[:query] = words
+      response = Podio.connection.post do |req|
+        req.url "/search/"
+        req.body = attributes
+      end
+
+      list response.body
+    end
+
+    def in_space(space_id, words, attributes={})
+      attributes[:query] = words
       response = Podio.connection.post do |req|
         req.url "/search/space/#{space_id}/"
-        req.body = words
+        req.body = attributes
+      end
+
+      list response.body
+    end
+
+    def in_app(app_id, words, attributes={})
+      attributes[:query] = words
+      response = Podio.connection.post do |req|
+        req.url "/search/app/#{app_id}/"
+        req.body = attributes
       end
 
       list response.body
