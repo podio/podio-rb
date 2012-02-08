@@ -14,5 +14,14 @@ class Podio::LinkedAccount < ActivePodio::Base
       }.body
     end
 
+    def create(attributes)
+      response = Podio.connection.post do |req|
+        req.url '/linked_account/'
+        req.body = attributes
+      end
+
+      member response.body
+    end
+
   end
 end
