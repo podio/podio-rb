@@ -14,6 +14,8 @@ class Podio::SpaceInvitation < ActivePodio::Base
   property :context_ref_id, :integer # Write
   property :context, :hash # Read
 
+  has_one :user, :class => 'User'
+
   def save
     self.class.create(self.space_id, self.role, self.attributes.except(:contacts))
   end
