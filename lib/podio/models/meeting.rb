@@ -2,6 +2,7 @@ class Podio::Meeting < ActivePodio::Base
   include ActivePodio::Updatable, HasReference
 
   property :meeting_id, :integer
+  property :rights, :array
   property :title, :string
   property :start_date, :date
   property :starts_on, :datetime, :convert_incoming_local_datetime_to_utc => true
