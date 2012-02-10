@@ -12,6 +12,8 @@ class Podio::Meeting < ActivePodio::Base
   property :location, :string
   property :agenda, :string
   property :notes, :string
+  property :subscribed, :bool
+  property :liked, :integer
   property :external_id, :string
   property :external_url, :string
   property :external_phone, :string
