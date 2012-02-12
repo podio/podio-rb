@@ -53,8 +53,10 @@ class Podio::Meeting < ActivePodio::Base
   end
 
   def update
-    compacted_attributes = remove_nil_values(self.attributes)
-    updated_model = self.class.update(self.id, compacted_attributes)
+    # compacted_attributes = remove_nil_values(self.attributes)
+    # updated_model = self.class.update(self.id, compacted_attributes)
+    # self.attributes = updated_model.attributes
+    updated_model = self.class.update(self.id, self.attributes)
     self.attributes = updated_model.attributes
   end
 
