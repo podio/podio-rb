@@ -3,6 +3,7 @@ class Podio::LinkedAccount < ActivePodio::Base
   property :label, :string
   property :provider, :string
 
+  alias_method :id, :linked_account_id
 
   class << self
 
@@ -21,6 +22,10 @@ class Podio::LinkedAccount < ActivePodio::Base
       end
 
       member response.body
+    end
+
+    def delete(id)
+      Podio.connection.delete("/linked_account/#{id}").status
     end
 
   end
