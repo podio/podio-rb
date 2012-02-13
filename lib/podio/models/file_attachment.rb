@@ -10,6 +10,7 @@ class Podio::FileAttachment < ActivePodio::Base
   property :size, :integer
   property :context, :hash
   property :created_on, :datetime
+  property :rights, :array
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
