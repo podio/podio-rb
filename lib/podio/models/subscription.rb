@@ -2,7 +2,7 @@ class Podio::Subscription < ActivePodio::Base
   property :started_on, :datetime
   property :notifications, :integer
   property :ref, :hash
-  
+
   class << self
     def find(id)
       member Podio.connection.get("/subscription/#{id}").body
@@ -22,6 +22,10 @@ class Podio::Subscription < ActivePodio::Base
 
     def delete_by_reference(ref_type, ref_id)
       Podio.connection.delete("/subscription/#{ref_type}/#{ref_id}")
-    end    
+    end
+
+    def find_subscribers_by_reference(ref_type, ref_id)
+      User.list Podio.connection.get("/subscription/#{ref_type}/#{ref_id}/").body
+    end
   end
 end
