@@ -65,7 +65,7 @@ module Podio
 
   autoload :Client,                   'podio/client'
   autoload :ResponseWrapper,          'podio/response_wrapper'
-                                      
+
   autoload :Action,                   'podio/models/action'
   autoload :ActivationStatus,         'podio/models/activation_status'
   autoload :Activity,                 'podio/models/activity'
@@ -118,6 +118,7 @@ module Podio
   autoload :QuestionOption,           'podio/models/question_option'
   autoload :Rating,                   'podio/models/rating'
   autoload :Recurrence,               'podio/models/recurrence'
+  autoload :Referral,                 'podio/models/referral'
   autoload :Reminder,                 'podio/models/reminder'
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'
