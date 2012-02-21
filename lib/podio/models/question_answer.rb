@@ -1,5 +1,6 @@
 class Podio::QuestionAnswer < ActivePodio::Base
   property :question_option_id, :integer
 
-  has_one :user, :class => 'User'
+  # the key is called user, but the API actually returns a Profile/Contact
+  has_one :user, :class => 'Contact'
 end
