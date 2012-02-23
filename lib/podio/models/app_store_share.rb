@@ -68,6 +68,21 @@ class Podio::AppStoreShare < ActivePodio::Base
     def find_all_private_for_org(org_id)
       list Podio.connection.get("/app_store/org/#{org_id}/").body['shares']
     end
+
+    def find_all_recommended_for_area(area, options = {})
+      list Podio.connection.get { |req|
+        req.url("/app_store/recommended/#{area}/", options)
+      }.body['shares']
+    end
+
+    def set_recommended_for_area(area, share_ids)
+      response = Podio.connection.put do |req|
+        req.url "/app_store/recommended/#{area}/"
+        req.body = share_ids
+      end
+
+      response.status
+    end
   end
 end
 

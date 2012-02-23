@@ -54,18 +54,19 @@ module Podio
     end
   end
 
-  class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at, :reference, :refreshed)
+  class OAuthToken < Struct.new(:access_token, :refresh_token, :expires_at, :expires_in, :reference, :refreshed)
     def initialize(params = {})
       self.access_token  = params['access_token']
       self.refresh_token = params['refresh_token']
       self.reference     = params['ref']
       self.expires_at    = Time.now + params['expires_in'] if params['expires_in']
+      self.expires_in    = params['expires_in'] if params['expires_in']
     end
   end
 
   autoload :Client,                   'podio/client'
   autoload :ResponseWrapper,          'podio/response_wrapper'
-                                      
+
   autoload :Action,                   'podio/models/action'
   autoload :ActivationStatus,         'podio/models/activation_status'
   autoload :Activity,                 'podio/models/activity'
@@ -118,6 +119,7 @@ module Podio
   autoload :QuestionOption,           'podio/models/question_option'
   autoload :Rating,                   'podio/models/rating'
   autoload :Recurrence,               'podio/models/recurrence'
+  autoload :Referral,                 'podio/models/referral'
   autoload :Reminder,                 'podio/models/reminder'
   autoload :Search,                   'podio/models/search'
   autoload :Space,                    'podio/models/space'
