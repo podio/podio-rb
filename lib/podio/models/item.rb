@@ -110,6 +110,15 @@ class Podio::Item < ActivePodio::Base
       }
       response.body
     end
+
+    def calculate(app_id, config)
+      response = Podio.connection.post do |req|
+        req.url "/item/app/#{app_id}/calculate"
+        req.body = config
+      end
+
+      response.body
+    end
     
     def find_field_top(field_id, options={:limit => 8})
       list Podio.connection.get { |req|
