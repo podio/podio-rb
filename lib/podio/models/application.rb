@@ -19,25 +19,29 @@ class Podio::Application < ActivePodio::Base
   # When app is returned as part of large collection (e.g. for stream), some config properties is moved to the main object
   property :name, :string
   property :item_name, :string
-  
+
   has_one :integration, :class => 'Integration'
 
   alias_method :id, :app_id
   delegate_to_hash :config, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?, :usage
-  
+
   def name
     self[:name] || self.config['name']
   end
-  
+
   def item_name
     self[:item_name] || self.config['item_name']
   end
-  
+
   class << self
     def find(app_id)
       member Podio.connection.get("/app/#{app_id}").body
     end
-    
+
+    def find_by_url_label(space_id, url_label)
+      member Podio.connection.get("/app/space/#{space_id}/#{url_label}").body
+    end
+
     def find_all(options={})
       list Podio.connection.get { |req|
         req.url("/app/", options)
@@ -75,7 +79,7 @@ class Podio::Application < ActivePodio::Base
 
       response.body
     end
-    
+
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/app/"
@@ -95,7 +99,7 @@ class Podio::Application < ActivePodio::Base
     def delete_field(app_id, field_id)
       Podio.connection.delete("/app/#{app_id}/field/#{field_id}").status
     end
-    
+
     def deactivate(id)
       Podio.connection.post("/app/#{id}/deactivate").body
     end
@@ -103,7 +107,7 @@ class Podio::Application < ActivePodio::Base
     def activate(id)
       Podio.connection.post("/app/#{id}/activate").body
     end
-    
+
     def delete(id)
       Podio.connection.delete("/app/#{id}").body
     end
