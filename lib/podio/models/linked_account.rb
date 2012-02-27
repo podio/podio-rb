@@ -7,8 +7,9 @@ class Podio::LinkedAccount < ActivePodio::Base
 
   class << self
 
-    def find_all(provider, capability = nil)
-      options = { :provider => provider }
+    def find_all(provider = nil, capability = nil)
+      options = {}
+      options[:provider] = provider if provider.present?
       options[:capability] = capability if capability.present?
       list Podio.connection.get { |req|
         req.url("/linked_account/", options)
