@@ -12,9 +12,7 @@ class Podio::Search < ActivePodio::Base
   
   has_one :created_by, :class => 'ByLine'
   has_one :app, :class => 'Application'
-  has_one :org, :class => 'Organization'
-  has_one :space, :class => 'Space'
-  
+
   class << self
     def in_org(org_id, words)
       response = Podio.connection.post do |req|
