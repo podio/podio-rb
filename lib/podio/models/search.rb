@@ -4,14 +4,13 @@ class Podio::Search < ActivePodio::Base
   property :title, :string
   property :created_on, :datetime
   property :link, :string
-  property :space, :hash
-  property :org, :hash
-  property :app, :hash
   property :search_id, :integer
   property :rank, :integer
-  
+
   has_one :created_by, :class => 'ByLine'
   has_one :app, :class => 'Application'
+  has_one :org, :class => 'Organization'
+  has_one :space, :class => 'Space'
 
   class << self
     def in_org(org_id, words)
@@ -57,5 +56,5 @@ class Podio::Search < ActivePodio::Base
       Podio.connection.post("/search/#{search_id}/#{rank}/clicked").status
     end
   end
-  
+
 end
