@@ -8,11 +8,12 @@ class Podio::User < ActivePodio::Base
   property :old_password, :string
   property :new_password, :string
   property :flags, :array
+  property :betas, :array
   property :created_on, :datetime
   property :name, :string
   property :link, :string
   property :avatar, :integer
-  property :profile_id, :integer  
+  property :profile_id, :integer
   property :type, :string
 
   has_many :mails, :class => 'UserMail'
@@ -25,7 +26,7 @@ class Podio::User < ActivePodio::Base
   property :marketo_cookie, :string
 
   alias_method :id, :user_id
-  
+
   class << self
     def current
       member Podio.connection.get("/user/").body
@@ -73,7 +74,7 @@ class Podio::User < ActivePodio::Base
     def get_property(name)
       Podio.connection.get("/user/property/#{name}").body['value']
     end
-    
+
     def set_property(name, value)
       Podio.connection.put("/user/property/#{name}", {:value => value}).status
     end
@@ -115,6 +116,6 @@ class Podio::User < ActivePodio::Base
 
     def delete
       Podio.connection.delete("/user/").status
-    end    
+    end
   end
 end
