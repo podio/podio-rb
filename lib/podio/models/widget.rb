@@ -4,7 +4,7 @@ class Podio::Widget < ActivePodio::Base
   property :ref_id, :integer
   property :type, :string
   property :title, :string
-  property :config, :string
+  property :config, :hash
   property :ref, :hash
   property :rights, :array
   property :data, :hash
