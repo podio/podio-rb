@@ -11,7 +11,7 @@ class Podio::Item < ActivePodio::Base
 
   has_one :initial_revision, :class => 'ItemRevision'
   has_one :current_revision, :class => 'ItemRevision'
-  
+
   # Also included in the full Get item
   property :ratings, :hash
   property :conversations, :array
@@ -24,6 +24,9 @@ class Podio::Item < ActivePodio::Base
   property :link, :string
   property :invite, :hash
 
+  # Get items
+  property :comment_count, :integer
+
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
@@ -31,7 +34,7 @@ class Podio::Item < ActivePodio::Base
 
   # For inserting/updating
   property :file_ids, :array
-  
+
   alias_method :id, :item_id
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
@@ -57,7 +60,7 @@ class Podio::Item < ActivePodio::Base
 
         {:fields => fields, :file_ids => file_ids, :tags => tags }
       end
-  
+
   class << self
     def find(id)
       member Podio.connection.get("/item/#{id}").body
@@ -95,7 +98,7 @@ class Podio::Item < ActivePodio::Base
         req.body = attributes
       }.body
     end
-    
+
     def find_next(current_item_id, time = nil)
       find_next_or_previous(:next, current_item_id, time)
     end
@@ -119,13 +122,13 @@ class Podio::Item < ActivePodio::Base
 
       response.body
     end
-    
+
     def find_field_top(field_id, options={:limit => 8})
       list Podio.connection.get { |req|
         req.url("/item/field/#{field_id}/top/", options)
       }.body
     end
-    
+
     def xlsx(app_id, options={})
       response = Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/xlsx/", options)
@@ -147,7 +150,7 @@ class Podio::Item < ActivePodio::Base
 
       response.body['item_id']
     end
-    
+
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/item/#{id}"
@@ -155,17 +158,17 @@ class Podio::Item < ActivePodio::Base
       end
       response.status
     end
-    
+
     def delete(id)
       Podio.connection.delete("/item/#{id}").body
     end
-    
+
     protected
-    
+
       def time_options(time)
         time.present? ? { 'time' => (time.is_a?(String) ? time : time.to_s(:db)) } : {}
       end
-      
+
       def find_next_or_previous(operation, current_item_id, time)
         member Podio.connection.get { |req|
           req.url("/item/#{current_item_id}/#{operation}", time_options(time))
