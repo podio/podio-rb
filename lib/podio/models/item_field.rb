@@ -4,9 +4,10 @@ class Podio::ItemField < ActivePodio::Base
   property :external_id, :string
   property :label, :string
   property :values, :array
+  property :config, :hash
 
   alias_method :id, :field_id
-  
+
   class << self
     def update(item_id, field_id, values)
       response = Podio.connection.put do |req|
@@ -14,6 +15,6 @@ class Podio::ItemField < ActivePodio::Base
         req.body = values
       end
       response.body
-    end    
+    end
   end
 end

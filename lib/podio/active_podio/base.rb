@@ -147,8 +147,17 @@ module ActivePodio
           json_value = case ruby_value.class.name
           when "DateTime", "Time"
             ruby_value.iso8601
-          else
+          when "Array"
+            ruby_value.collect { |rv| json_friendly_value(rv, options) }
+          when "Hash"
+            ruby_value.each { |key, value| ruby_value[key] = json_friendly_value(value, options) }
             ruby_value
+          else
+            if ruby_value.kind_of?(ActivePodio::Base)
+              ruby_value.as_json(options)
+            else
+              ruby_value
+            end
           end
         else
           ruby_value
@@ -216,7 +225,7 @@ module ActivePodio
           instances = self.instance_variable_get("@#{name}_has_many_instances")
           unless instances.present?
             property = options[:property] || name.to_sym
-            if self[property].present?
+            if self[property].present? && self[property].respond_to?(:map)
               instances = self[property].map { |attributes| klass.new(attributes) }
               self.instance_variable_set("@#{name}_has_many_instances", instances)
             else
