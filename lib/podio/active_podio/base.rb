@@ -6,7 +6,7 @@ module ActivePodio
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
 
-    class_attribute :valid_attributes, :_associations, :_properties
+    class_attribute :valid_attributes, :_associations, :_properties, :json_attributes
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
@@ -84,7 +84,7 @@ module ActivePodio
       result.merge!(:id => self.id) if self.respond_to?(:id)
 
       if options[:formatted]
-        self.valid_attributes.each do |name|
+        (self.valid_attributes + (self.json_attributes || [])).uniq.each do |name|
           result[name] = json_friendly_value(self.send(name), options)
         end
 
@@ -313,6 +313,11 @@ module ActivePodio
 
           alias_method_chain method_name, :api_errors_handled
         end
+      end
+
+      def output_attribute_as_json(*attributes)
+        self.json_attributes ||= []
+        self.json_attributes += attributes
       end
 
       private
