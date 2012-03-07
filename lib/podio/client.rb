@@ -72,6 +72,17 @@ module Podio
       @oauth_token
     end
 
+    # Sign in with an transfer token, only available for Podio
+    def authenticate_with_transfer_token(transfer_token)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'transfer_token', :client_id => api_key, :client_secret => api_secret, :transfer_token => transfer_token
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     # Sign in with SSO
     def authenticate_with_sso(attributes)
       response = @oauth_connection.post do |req|
@@ -96,6 +107,7 @@ module Podio
       @oauth_token
     end
 
+    # reconfigure the client with a different access token
     def oauth_token=(new_oauth_token)
       @oauth_token = new_oauth_token.is_a?(Hash) ? OAuthToken.new(new_oauth_token) : new_oauth_token
       configure_oauth
