@@ -14,5 +14,18 @@ class Podio::Importer < ActivePodio::Base
       list Podio.connection.get("/importer/#{file_id}/column/").body
     end
 
+    def get_info(file_id)
+      Podio.connection.get("/importer/#{file_id}/info").body
+    end
+
+    def preview(file_id, row, options)
+      response = Podio.connection.post do |req|
+        req.url = "/importer/#{file_id}/preview/#{row}"
+        req.body = options
+      end
+
+      response.body
+    end
+
   end
 end
