@@ -13,5 +13,12 @@ module ActivePodio
         hash
       end
     end
+
+    def remove_only_nil_values(input_hash)
+      input_hash.inject({}) do |hash, (key, value)|
+        hash[key] = value unless value.nil?
+        hash
+      end
+    end
   end
 end
