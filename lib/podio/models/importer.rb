@@ -20,7 +20,7 @@ class Podio::Importer < ActivePodio::Base
 
     def preview(file_id, row, options)
       response = Podio.connection.post do |req|
-        req.url = "/importer/#{file_id}/preview/#{row}"
+        req.url "/importer/#{file_id}/preview/#{row}"
         req.body = options
       end
 
