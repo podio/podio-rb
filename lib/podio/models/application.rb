@@ -50,6 +50,12 @@ class Podio::Application < ActivePodio::Base
       }.body
     end
 
+    def find_all_for_current_user(options={})
+      list Podio.connection.get { |req|
+        req.url("/app/v2/", options)
+      }.body
+    end
+
     def find_top(options={})
       list Podio.connection.get { |req|
         req.url("/app/top/", options)
