@@ -74,6 +74,7 @@ module Podio
   autoload :Application,              'podio/models/application'
   autoload :ApplicationEmail,         'podio/models/application_email'
   autoload :ApplicationField,         'podio/models/application_field'
+  autoload :Batch,                    'podio/models/batch'
   autoload :Bulletin,                 'podio/models/bulletin'
   autoload :ByLine,                   'podio/models/by_line'
   autoload :CalendarEvent,            'podio/models/calendar_event'
