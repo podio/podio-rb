@@ -92,8 +92,7 @@ module Podio
 
       @oauth_token = OAuthToken.new(response.body)
       configure_oauth
-
-      [@oauth_token, response['new_user_created']]
+      [@oauth_token, response.body['new_user_created']]
     end
 
     # Sign in with an OpenID, only available for Podio
