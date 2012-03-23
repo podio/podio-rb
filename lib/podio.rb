@@ -139,6 +139,7 @@ module Podio
   autoload :UserMail,                 'podio/models/user_mail'
   autoload :UserStatus,               'podio/models/user_status'
   autoload :Via,                      'podio/models/via'
+  autoload :View,                     'podio/models/view'
   autoload :Widget,                   'podio/models/widget'
 
 end
