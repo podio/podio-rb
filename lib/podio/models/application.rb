@@ -36,8 +36,10 @@ class Podio::Application < ActivePodio::Base
   end
 
   class << self
-    def find(app_id)
-      member Podio.connection.get("/app/#{app_id}").body
+    def find(app_id, options = {})
+      member Podio.connection.get { |req|
+        req.url("/app/#{app_id}", options)
+      }.body
     end
 
     def find_by_url_label(space_id, url_label)
