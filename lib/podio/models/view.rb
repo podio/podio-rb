@@ -40,5 +40,12 @@ class Podio::View < ActivePodio::Base
 
       response.body['view_id']
     end
+
+    def update_last(app_id, attributes)
+      Podio.connection.put do |req|
+        req.url "/view/app/#{app_id}/last"
+        req.body = attributes
+      end
+    end
   end
 end
