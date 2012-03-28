@@ -21,6 +21,7 @@ class Podio::Contract < ActivePodio::Base
   property :invoicing_mode, :string
   property :ended_reason, :string
   property :ended_comment, :string
+  property :billing_mail, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
