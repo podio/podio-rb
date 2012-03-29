@@ -49,7 +49,7 @@ class Podio::SpaceMember < ActivePodio::Base
     end
 
     def accept_membership_request(space_id, space_member_request_id)
-      Podio.connection.put("/space/#{space_id}/member_request/#{space_member_request_id}/").status
+      Podio.connection.put("/space/#{space_id}/member_request/#{space_member_request_id}").status
     end
   end
 end
