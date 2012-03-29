@@ -10,7 +10,7 @@ class Podio::SpaceMember < ActivePodio::Base
   delegate :user_id, :name, :to => :user
 
   alias_method :id, :user_id
-  
+
   class << self
     def find_all_for_role(space_id, role)
       list Podio.connection.get { |req|
@@ -35,13 +35,21 @@ class Podio::SpaceMember < ActivePodio::Base
     def end_membership(space_id, user_id)
       Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
-    
+
     def find_top_contacts(space_id)
       result = Podio.connection.get("/space/#{space_id}/member/top/").body
       %w(employee external).each do |section|
         result[section]['profiles'].map! { |profile| Contact.new(profile) } if result[section].present? && result[section]['profiles'].present?
       end
       result
+    end
+
+    def request_membership(space_id)
+      Podio.connection.post("/space/#{space_id}/member_request/").status
+    end
+
+    def accept_membership_request(space_id, space_member_request_id)
+      Podio.connection.put("/space/#{space_id}/member_request/#{space_member_request_id}/").status
     end
   end
 end
