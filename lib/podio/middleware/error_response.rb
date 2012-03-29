@@ -20,7 +20,11 @@ module Podio
               raise AuthorizationError.new(env[:body], env[:status], env[:url])
             end
           when 403
-            raise AuthorizationError.new(env[:body], env[:status], env[:url])
+            if env[:body]['error'] == 'requestable_forbidden'
+              raise RequestableAuthorizationError.new(env[:body], env[:status], env[:url])
+            else
+              raise AuthorizationError.new(env[:body], env[:status], env[:url])
+            end
           when 404
             raise NotFoundError.new(env[:body], env[:status], env[:url])
           when 409
