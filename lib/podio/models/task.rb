@@ -168,7 +168,7 @@ class Podio::Task < ActivePodio::Base
 
     def find_summary_for_org(org_id, limit=nil)
       response = Podio.connection.get("/task/org/#{org_id}/summary" + 
-                                      ((limit != nil) ? "?limit=#{limit}" : "").body
+                                      ((limit != nil) ? "?limit=#{limit}" : "")).body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
