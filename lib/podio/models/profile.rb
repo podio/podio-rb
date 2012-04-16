@@ -110,7 +110,13 @@ class Podio::Profile < ActivePodio::Base
         req.url("/contact/connection/#{connection_type}", options)
       }.body
     end
-    
+
+    def find_all_for_linked_account(id, options={})
+      list Podio.connection.get { |req|
+        req.url("/contact/linked_account/#{id}", options)
+      }.body
+    end
+
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/billing").body
     end

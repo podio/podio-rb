@@ -10,6 +10,7 @@ class Podio::Contact < Podio::Profile
   property :link, :string
   property :last_seen_on, :datetime
   property :rights, :array
+  property :external_id, :string
 
   alias_method :id, :user_id
 
