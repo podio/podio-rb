@@ -13,6 +13,7 @@ class Podio::SpaceInvitation < ActivePodio::Base
   property :context_ref_type, :string # Write
   property :context_ref_id, :integer # Write
   property :context, :hash # Read
+  property :external_contacts, :hash
 
   has_one :user, :class => 'User'
 
