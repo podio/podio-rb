@@ -136,6 +136,13 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
+    def export(app_id, exporter, options={})
+      response = Podio.connection.post { |req|
+        req.url "/item/app/#{app_id}/export/#{exporter}"
+        req.body = options
+      }.body
+    end
+
     def search_field(field_id, options={})
       list Podio.connection.get { |req|
         req.url("/item/field/#{field_id}/find", options)
