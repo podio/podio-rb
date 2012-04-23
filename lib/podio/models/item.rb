@@ -23,6 +23,7 @@ class Podio::Item < ActivePodio::Base
   property :user_ratings, :hash
   property :link, :string
   property :invite, :hash
+  property :participants, :hash
 
   # Get items
   property :comment_count, :integer
