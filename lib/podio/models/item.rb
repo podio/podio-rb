@@ -171,6 +171,14 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.delete("/item/#{id}").body
     end
 
+    def set_participation(id, status)
+      response = Podio.connection.put do |req|
+        req.url "/item/#{id}/participation"
+        req.body = { :status => status }
+      end
+      response.status
+    end
+
     protected
 
       def time_options(time)
