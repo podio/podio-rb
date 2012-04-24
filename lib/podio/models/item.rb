@@ -24,6 +24,7 @@ class Podio::Item < ActivePodio::Base
   property :link, :string
   property :invite, :hash
   property :participants, :hash
+  property :linked_account_id, :integer
 
   # Get items
   property :comment_count, :integer
