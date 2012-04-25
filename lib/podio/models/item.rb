@@ -35,6 +35,7 @@ class Podio::Item < ActivePodio::Base
   has_many :shares, :class => 'AppStoreShare'
   has_one :reminder, :class => 'Reminder'
   has_one :recurrence, :class => 'Recurrence'
+  has_one :linked_account_data, :class => 'LinkedAccountData'
 
   # For inserting/updating
   property :file_ids, :array
