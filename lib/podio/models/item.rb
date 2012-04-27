@@ -120,8 +120,10 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
-    def find_references_by_field(item_id, field_id)
-      list Podio.connection.get("/item/#{item_id}/reference/field/#{field_id}").body
+    def find_references_by_field(item_id, field_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/item/#{item_id}/reference/field/#{field_id}", options)
+      }.body
     end
 
     def calculate(app_id, config)
