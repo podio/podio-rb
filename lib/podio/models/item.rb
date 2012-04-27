@@ -44,15 +44,15 @@ class Podio::Item < ActivePodio::Base
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
   def create
-    self.item_id = Item.create(self.app_id, prepare_item_values(self))
+    self.item_id = self.class.create(self.app_id, prepare_item_values(self))
   end
 
   def destroy
-    Item.delete(self.id)
+    self.class.delete(self.id)
   end
 
   def update
-    Item.update(self.id, prepare_item_values(self))
+    self.class.update(self.id, prepare_item_values(self))
   end
 
   handle_api_errors_for :create, :update
