@@ -1,5 +1,5 @@
 class Podio::Meeting < ActivePodio::Base
-  include ActivePodio::Updatable, HasReference
+  include ActivePodio::Updatable
 
   property :meeting_id, :integer
   property :rights, :array
