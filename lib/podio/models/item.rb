@@ -182,6 +182,10 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.delete("/item/#{id}").body
     end
 
+    def delete_ref(id)
+      Podio.connection.delete("/item/#{id}/ref").body
+    end
+
     def set_participation(id, status)
       response = Podio.connection.put do |req|
         req.url "/item/#{id}/participation"
