@@ -80,6 +80,14 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.get("/item/#{id}/basic").body
     end
 
+    def find_basic_by_field(item_id, field_id)
+      member Podio.connection.get("/item/#{item_id}/reference/#{field_id}/preview").body
+    end
+
+    def find_basic_hash_by_field(item_id, field_id)
+      Podio.connection.get("/item/#{item_id}/reference/#{field_id}/preview").body
+    end
+
     def find_all_by_external_id(app_id, external_id)
       collection Podio.connection.get("/item/app/#{app_id}/v2/?external_id=#{external_id}").body
     end
