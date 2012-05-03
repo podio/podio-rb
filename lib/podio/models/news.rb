@@ -3,6 +3,7 @@ class Podio::News < ActivePodio::Base
   property :title, :string
   property :content, :string
   property :link, :string
+  property :more, :boolean
   property :priority, :integer
   property :target_group, :string
   property :locale, :string
