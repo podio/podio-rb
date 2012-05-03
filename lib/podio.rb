@@ -2,6 +2,7 @@ require 'faraday'
 require 'active_support/core_ext'
 
 require 'podio/error'
+require 'podio/middleware/request_hook'
 require 'podio/middleware/json_request'
 #require 'podio/middleware/date_conversion'
 require 'podio/middleware/logger'
@@ -36,6 +37,18 @@ module Podio
 
     def connection
       client ? client.connection : nil
+    end
+  end
+
+  class Hooks
+    @@before_request_hooks = []
+
+    def self.add_before_request_hook &proc
+      @@before_request_hooks << proc
+    end
+
+    def self.before_request_hooks
+      @@before_request_hooks
     end
   end
 

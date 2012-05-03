@@ -25,6 +25,13 @@ class ClientTest < Test::Unit::TestCase
   
     assert_equal 'OAuth2 access', podio.connection.headers['authorization']
   end
+
+  test 'should allow to specify ssl params for faraday' do
+    ssl_settings = { :verify => false }
+    podio = Podio::Client.new(:ssl => ssl_settings)
+
+    assert_equal podio.connection.ssl, ssl_settings
+  end
   
   test 'should get an access token' do
     client = Podio.client
@@ -76,6 +83,19 @@ class ClientTest < Test::Unit::TestCase
 
     podio.oauth_token = {'access_token' => 'access', 'refresh_token' => 'refresh'}
     assert_equal 'OAuth2 access', podio.connection.headers['authorization']
+  end
+
+  test 'should allow to modify the request using before request hooks' do
+    login_as(:professor)
+    Podio::Hooks.add_before_request_hook do |env|
+      env[:request_headers][:hook] = "true"
+    end
+
+    podio = Podio::Client.new
+    assert_nil podio.connection.headers['Hook']
+
+    response = Podio.connection.get("/org/")
+    assert_equal "true", response.env[:request_headers]['Hook']
   end
 
   test 'should be able to make arbitrary requests' do
