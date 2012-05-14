@@ -12,7 +12,7 @@ module ActivePodio
 
     def initialize(attributes = {}, options = {})
       self.valid_attributes ||= []
-      attributes ||= {}
+      attributes = {} if attributes.blank?
       self.attributes = Hash[*self.valid_attributes.collect { |n| [n.to_sym, nil] }.flatten].merge(attributes.symbolize_keys)
 
       @values_from_api = options[:values_from_api] # Used to determine if date times should be converted from local to utc, or are already utc
