@@ -3,14 +3,12 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :id, :integer
   property :group, :string
   property :title, :string
+  property :description, :string
+  property :location, :string
   property :start, :datetime, :convert_timezone => false
   property :end, :datetime, :convert_timezone => false
   property :link, :string
-  
-  has_one :app, :class => 'Application'
-  has_one :space, :class => 'Space'
-  has_one :org, :class => 'Organization'
-  
+
   class << self
 
     def find_all(options = {})
@@ -18,11 +16,11 @@ class Podio::CalendarEvent < ActivePodio::Base
         req.url('/calendar/', options)
       }.body
     end
-    
+
     def find_all_for_space(space_id, options={})
       list Podio.connection.get { |req|
         req.url("/calendar/space/#{space_id}/", options)
-      }.body      
+      }.body
     end
 
     def find_summary
@@ -52,6 +50,6 @@ class Podio::CalendarEvent < ActivePodio::Base
       response['upcoming']['events'] = list(response['upcoming']['events'])
       response
     end
-      
+
   end
 end
