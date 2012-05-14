@@ -7,7 +7,6 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :description, :string
   property :abstract, :string
   property :language, :string
-  property :featured, :boolean
   property :features, :array
   property :filters, :array
   property :integration, :string
