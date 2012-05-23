@@ -113,14 +113,6 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    def find_next(current_item_id, time = nil)
-      find_next_or_previous(:next, current_item_id, time)
-    end
-
-    def find_previous(current_item_id, time = nil)
-      find_next_or_previous(:previous, current_item_id, time)
-    end
-
     def find_app_values(app_id)
       response = Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/values")
