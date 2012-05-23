@@ -125,5 +125,9 @@ class Podio::User < ActivePodio::Base
     def delete
       Podio.connection.delete("/user/").status
     end
+
+    def internal_source
+      Podio.connection.get("/user/source").body
+    end
   end
 end
