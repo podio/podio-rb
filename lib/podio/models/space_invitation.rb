@@ -68,17 +68,16 @@ class Podio::SpaceInvitation < ActivePodio::Base
       response.body
     end
 
+    def find_member(invite_code)
+      member Podio.connection.get("/space/membership?invite_code=#{invite_code}").body
+    end
+
     def decline_member(invite_code)
       Podio.connection.delete("/space/membership?invite_code=#{invite_code}").status
     end
 
-    def find(invite_code)
-      member Podio.connection.get("/space/invite/status?invite_code=#{ERB::Util.url_encode(invite_code)}").body
+    def claim_member(invite_code)
+      Podio.connection.post("/space/membership/claim?invite_code=#{invite_code}").status
     end
-
-    def find_member(invite_code)
-      member Podio.connection.get("/space/membership?invite_code=#{ERB::Util.url_encode(invite_code)}").body
-    end
-
   end
 end
