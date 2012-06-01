@@ -7,7 +7,11 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :location, :string
   property :status, :string
   property :start, :datetime, :convert_timezone => false
+  property :start_date, :date
+  property :start_time, :string
   property :end, :datetime, :convert_timezone => false
+  property :end_date, :date
+  property :end_time, :string
   property :link, :string
 
   class << self
