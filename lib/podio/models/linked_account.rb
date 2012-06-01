@@ -2,6 +2,7 @@ class Podio::LinkedAccount < ActivePodio::Base
   property :linked_account_id, :integer
   property :label, :string
   property :provider, :string
+  property :provider_humanized_name, :string
 
   alias_method :id, :linked_account_id
 
