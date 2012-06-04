@@ -8,7 +8,7 @@ class Podio::AccountProvider < ActivePodio::Base
 
     def find_all(options = {})
       list Podio.connection.get { |req|
-        req.url("/linked_account/provider", options)
+        req.url("/linked_account/provider/", options)
       }.body
     end
 
