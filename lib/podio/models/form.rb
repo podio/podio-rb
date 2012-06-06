@@ -12,9 +12,9 @@ class Podio::Form < ActivePodio::Base
   property :field_ids, :array
 
   alias_method :id, :form_id
-  delegate_to_hash :settings, :captcha, :text, :theme, :setter => true
+  delegate_to_hash :settings, :captcha, :text, :theme, :css, :setter => true
   delegate_to_hash :text, :submit, :success, :heading, :description, :setter => true
-  
+
   class << self
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
