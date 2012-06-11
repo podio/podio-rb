@@ -28,6 +28,12 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
+    def find_all_for_app(app_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/calendar/app/#{app_id}/", options)
+      }.body
+    end
+
     def find_summary
       response = Podio.connection.get("/calendar/summary").body
       response['today']['events'] = list(response['today']['events'])
