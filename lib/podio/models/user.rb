@@ -87,6 +87,15 @@ class Podio::User < ActivePodio::Base
       Podio.connection.put("/user/property/#{name}", hash).status
     end
 
+    def set_properties(attributes)
+      response = Podio.connection.put do |req|
+        req.url '/user/property/'
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     def remove_property(name)
       Podio.connection.delete("/user/property/#{name}", {}).status
     end
