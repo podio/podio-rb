@@ -18,6 +18,13 @@ class Podio::SpaceMember < ActivePodio::Base
       }.body
     end
 
+    def find_membership(space_id, user_id)
+      response = Podio.connection.get { |req|
+        req.url("/space/#{space_id}/member/#{user_id}")
+      }
+      response.body
+    end
+
     def find_all_ended(space_id)
       list Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/ended/")
