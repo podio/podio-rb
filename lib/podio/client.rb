@@ -171,6 +171,7 @@ module Podio
 
     def configure_trusted_connection
       conn = @connection.dup
+      conn.options[:client] = self
       conn.headers.delete('authorization')
       conn.basic_auth(api_key, api_secret)
       conn
