@@ -1,6 +1,6 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection, :raw_connection
+    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection, :raw_connection, :trusted_connection
     attr_accessor :stubs, :current_http_client
 
     def initialize(options = {})
@@ -137,6 +137,7 @@ module Podio
       @connection = configure_connection
       @raw_connection = configure_connection(true)
       @oauth_connection = configure_oauth_connection
+      @trusted_connection = configure_trusted_connection
     end
 
     def configure_connection(raw=false)
@@ -165,6 +166,13 @@ module Podio
       conn.options[:client] = self
       conn.headers.delete('authorization')
       conn.headers.delete('X-Podio-Dry-Run') if @test_mode # oauth requests don't really work well in test mode
+      conn
+    end
+
+    def configure_trusted_connection
+      conn = @connection.dup
+      conn.headers.delete('authorization')
+      conn.basic_auth(api_key, api_secret)
       conn
     end
 
