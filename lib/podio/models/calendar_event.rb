@@ -34,8 +34,10 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
-    def find_summary
-      response = Podio.connection.get("/calendar/summary").body
+    def find_summary(options = {})
+      response = Podio.connection.get do |req|
+        req.url("/calendar/summary", options)
+      end.body
       response['today']['events'] = list(response['today']['events'])
       response['upcoming']['events'] = list(response['upcoming']['events'])
       response
