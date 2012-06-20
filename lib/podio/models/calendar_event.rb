@@ -34,6 +34,12 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
+    def get_calendars_for_linked_acc(acc_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/calendar/export/linked_account/#{acc_id}/available", options)
+      }.body
+    end
+
     def find_summary(options = {})
       response = Podio.connection.get do |req|
         req.url("/calendar/summary", options)
