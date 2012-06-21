@@ -70,5 +70,22 @@ class Podio::CalendarEvent < ActivePodio::Base
       response
     end
 
+    def set_reference_export(linked_account_id, ref_type, ref_id, attributes={})
+      response = Podio.connection.put do |req|
+        req.url "/calendar/export/linked_account/#{linked_account_id}/#{ref_type}/#{ref_id}"
+        req.body = attributes
+      end
+      response.status
+    end
+
+    def set_global_export(linked_account_id, attributes={})
+      response = Podio.connection.put do |req|
+        req.url "/calendar/export/linked_account/#{linked_account_id}"
+        req.body = attributes
+      end
+      response.status
+    end
+
   end
+
 end
