@@ -23,7 +23,7 @@ class Podio::Profile < ActivePodio::Base
   property :skill, :array
   property :linkedin, :string
   property :twitter, :string
-  
+
   property :app_store_about, :string
   property :app_store_organization, :string
   property :app_store_location, :string
@@ -32,7 +32,7 @@ class Podio::Profile < ActivePodio::Base
 
   property :last_seen_on, :datetime
   property :is_employee, :boolean
-  
+
   alias_method :employee?, :is_employee
 
   class << self
@@ -68,8 +68,11 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
-    def find(profile_id)
-      result = Podio.connection.get("/contact/#{profile_id}/v2").body
+    def find(profile_id, options = {})
+      result = Podio.connection.get do |req|
+        req.url("/contact/#{profile_id}/v2", options)
+      end.body
+
       if result.is_a?(Array)
         return list result
       else
@@ -100,7 +103,7 @@ class Podio::Profile < ActivePodio::Base
 
       list Podio.connection.get { |req|
         req.url("/contact/connection/#{connection_id}", options)
-      }.body      
+      }.body
     end
 
     def find_all_for_connection_type(connection_type, options={})
@@ -144,12 +147,12 @@ class Podio::Profile < ActivePodio::Base
     def skills(options)
       Podio.connection.get { |req|
         req.url("/contact/skill/", options)
-      }.body      
+      }.body
     end
 
     def totals_by_space(space_id, options = {})
       options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
-      
+
       Podio.connection.get { |req|
         req.url("/contact/space/#{space_id}/totals/", options)
       }.body
@@ -163,7 +166,7 @@ class Podio::Profile < ActivePodio::Base
 
       response.body
     end
-    
+
     def delete_contact(profile_id)
       Podio.connection.delete("/contact/#{profile_id}").body
     end
@@ -176,6 +179,6 @@ class Podio::Profile < ActivePodio::Base
 
       response.body
     end
-    
+
   end
 end
