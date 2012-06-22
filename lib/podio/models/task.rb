@@ -8,6 +8,7 @@ class Podio::Task < ActivePodio::Base
   property :description, :string
   property :private, :boolean
   property :due_date, :date
+  property :due_time, :time
   property :due_on, :datetime, :convert_incoming_local_datetime_to_utc => true
   property :responsible, :hash
   property :space_id, :integer
@@ -34,14 +35,14 @@ class Podio::Task < ActivePodio::Base
   has_one :deleted_via, :class => 'Via'
   has_one :completed_via, :class => 'Via'
   has_one :assignee, :class => 'User', :property => :responsible
-  has_many :label_list, :class => 'TaskLabel', :property => :labels 
+  has_many :label_list, :class => 'TaskLabel', :property => :labels
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_one :reminder, :class => 'Reminder'
   has_one :recurrence, :class => 'Recurrence'
 
   alias_method :id, :task_id
-  
+
   def create
     compacted_attributes = remove_nil_values(self.attributes)
     if(self.ref_type.present? && self.ref_id.present?)
@@ -50,7 +51,7 @@ class Podio::Task < ActivePodio::Base
       self.task_id = self.class.create(compacted_attributes)
     end
   end
-  
+
   def destroy
     self.class.delete(self.id)
   end
@@ -116,8 +117,8 @@ class Podio::Task < ActivePodio::Base
       Podio.connection.put("/task/#{id}/due_date", {:due_date => due_date}).status
     end
 
-    def update_due_on(id, due_on)
-      Podio.connection.put("/task/#{id}/due_on", {:due_on => due_on}).status
+    def update_due_on(id, options)
+      Podio.connection.put("/task/#{id}/due_on", options).status
     end
 
     def update_assignee(id, user_id)
@@ -178,7 +179,7 @@ class Podio::Task < ActivePodio::Base
         req.url('/task/', options)
       }.body
     end
-    
+
     def find_summary
       response = Podio.connection.get("/task/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -188,14 +189,14 @@ class Podio::Task < ActivePodio::Base
     end
 
     def find_summary_for_org(org_id, limit=nil)
-      response = Podio.connection.get("/task/org/#{org_id}/summary" + 
+      response = Podio.connection.get("/task/org/#{org_id}/summary" +
                                       ((limit != nil) ? "?limit=#{limit}" : "")).body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
-      response      
+      response
     end
-    
+
     def find_summary_for_reference(ref_type, ref_id)
       response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -203,7 +204,7 @@ class Podio::Task < ActivePodio::Base
       response['other']['tasks'] = list(response['other']['tasks'])
       response
     end
-    
+
     def find_personal_summary
       response = Podio.connection.get("/task/personal/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -211,6 +212,6 @@ class Podio::Task < ActivePodio::Base
       response['other']['tasks'] = list(response['other']['tasks'])
       response
     end
-    
+
   end
 end

@@ -178,6 +178,8 @@ module ActivePodio
           define_datetime_accessor(name, options)
         when :date
           define_date_accessor(name)
+        when :time
+          define_time_accessor(name)
         when :integer
           define_integer_accessor(name)
         when :boolean
@@ -380,6 +382,21 @@ module ActivePodio
                 value
               end
             end
+          end
+        end
+
+        def define_time_accessor(name)
+          self.send(:define_method, name) do
+            self[name.to_sym]
+          end
+
+          self.send(:define_method, "#{name}=") do |value|
+            time = if value.is_a?(DateTime) || value.is_a?(Time)
+              value
+            else
+              Time.strptime(value, I18n.t('time.formats.timeonly')) rescue Time.strptime(value, '%H:%M:%S') rescue value
+            end
+            self[name.to_sym] = time.respond_to?(:strftime) ? time.strftime('%H:%M') : time.presence
           end
         end
 
