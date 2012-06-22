@@ -59,6 +59,10 @@ class Podio::Task < ActivePodio::Base
     self.class.update_reference(self.id, ref_type, ref_id)
   end
 
+  def delete_reference
+    self.class.delete_reference(self.id)
+  end
+
   def update_labels(label_ids)
     self.class.update_labels(self.id, label_ids)
   end
@@ -123,7 +127,11 @@ class Podio::Task < ActivePodio::Base
     def update_reference(id, ref_type, ref_id)
       Podio.connection.put("/task/#{id}/ref", {:ref_type => ref_type, :ref_id => ref_id}).status
     end
-    
+
+    def delete_reference(task_id)
+      Podio.connection.delete("/task/#{task_id}/ref").status
+    end
+
     def update_labels(id, label_ids)
       Podio.connection.put("/task/#{id}/label/", label_ids).status
     end
