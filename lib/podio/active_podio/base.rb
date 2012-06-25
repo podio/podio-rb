@@ -360,7 +360,7 @@ module ActivePodio
             self[name.to_sym] = if value.is_a?(DateTime)
               value.try(:to_s, :db)
             else
-              value.try(:to_s)
+              value.try(:to_s).try(:presence)
             end
           end
         end
@@ -377,9 +377,9 @@ module ActivePodio
               value = value.try(:to_s)
               if defined?(I18n) && value.present? && !(value =~ /^\d{4}-\d{2}-\d{2}$/) # If we have I18n available, assume that we are in Rails and try to convert the string to a date to convert it to ISO 8601
                 value_as_date = Date.strptime(value, I18n.t('date.formats.default')) rescue nil
-                value_as_date.nil? ? value.try(:to_s) : value_as_date.try(:to_s, :db)
+                value_as_date.nil? ? value : value_as_date.try(:to_s, :db)
               else
-                value
+                value.try(:presence)
               end
             end
           end
