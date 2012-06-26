@@ -194,6 +194,10 @@ class Podio::Item < ActivePodio::Base
       response.status
     end
 
+    def cleanup_field_values(app_id)
+      Podio.connection.post("/item/app/#{app_id}/cleanup_field_values").body
+    end
+
     protected
 
       def time_options(time)
