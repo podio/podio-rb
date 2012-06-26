@@ -106,6 +106,14 @@ class Podio::Application < ActivePodio::Base
       response.status
     end
 
+    def install(app_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/app/#{app_id}/install"
+        req.body = attributes
+      end
+      response.body['app_id']
+    end
+
     def delete_field(app_id, field_id)
       Podio.connection.delete("/app/#{app_id}/field/#{field_id}").status
     end
