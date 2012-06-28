@@ -4,6 +4,7 @@ class Podio::Application < ActivePodio::Base
   property :original_revision, :integer
   property :status, :string
   property :icon, :string
+  property :icon_id, :integer
   property :space_id, :integer
   property :owner_id, :integer
   property :owner, :hash

@@ -16,6 +16,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :author_apps, :integer
   property :author_packs, :integer
   property :icon, :string
+  property :icon_id, :integer
   property :comments, :array
   property :ratings, :hash
   property :user_rating, :array
