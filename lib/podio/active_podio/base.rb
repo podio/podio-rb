@@ -33,8 +33,8 @@ module ActivePodio
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
               self.send(:[]=, key.to_sym, value) if self.send(key.to_sym).nil? # If not set by constructor, set here to get typed values back
-              attributes = self.send(key.to_sym).attributes
-              if any_values_present_recursive?(attributes.values)
+              attributes = self.send(key.to_sym).try(:attributes)
+              if attributes.present? && any_values_present_recursive?(attributes.values)
                 value = attributes
               else
                 value = nil
