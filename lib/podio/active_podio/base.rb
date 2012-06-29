@@ -17,14 +17,22 @@ module ActivePodio
 
       @values_from_api = options[:values_from_api] # Used to determine if date times should be converted from local to utc, or are already utc
 
+      self.initialize_attributes(attributes)
+
+      @belongs_to = options[:belongs_to] # Allows has_one associations to communicate their changed content back to their parent model
+      @values_from_api = false
+    end
+
+    def initialize_attributes(attributes)
       attributes.each do |key, value|
         if self.respond_to?("#{key}=".to_sym)
           self.send("#{key}=".to_sym, value)
         else
-          is_association_hash = value.is_a?(Hash) && self._associations.present? && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && self.send(key.to_sym).respond_to?(:attributes)
+          is_association_hash = value.is_a?(Hash) && self._associations.present? && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && (self.send(key.to_sym).respond_to?(:attributes) || self.send(key.to_sym).nil?)
           if valid_attributes.include?(key.to_sym) || is_association_hash
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
+              self.send(:[]=, key.to_sym, value) if self.send(key.to_sym).nil? # If not set by constructor, set here to get typed values back
               attributes = self.send(key.to_sym).attributes
               if any_values_present_recursive?(attributes.values)
                 value = attributes
@@ -36,9 +44,6 @@ module ActivePodio
           end
         end
       end
-
-      @belongs_to = options[:belongs_to] # Allows has_one associations to communicate their changed content back to their parent model
-      @values_from_api = false
     end
 
     def persisted?
