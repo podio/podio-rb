@@ -1,6 +1,6 @@
 module Podio
   class Client
-    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection, :raw_connection, :trusted_connection
+    attr_reader :api_url, :api_key, :api_secret, :oauth_token, :connection, :trusted_connection
     attr_accessor :stubs, :current_http_client
 
     def initialize(options = {})
