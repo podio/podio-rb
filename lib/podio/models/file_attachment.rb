@@ -33,9 +33,10 @@ class Podio::FileAttachment < ActivePodio::Base
   class << self
     # Accepts an open file stream along with a file name and uploads the file to Podio
     def upload(file_stream, file_name)
-      response = Podio.client.raw_connection.post do |req|
+      response = Podio.client.connection.post do |req|
         req.options[:timeout] = 1200
         req.url "/file/v2/"
+        req.headers['Content-Type'] = 'multipart/form-data'
         req.body = {:source => Faraday::UploadIO.new(file_stream, nil, nil), :filename => file_name}
       end
 
@@ -72,7 +73,7 @@ class Podio::FileAttachment < ActivePodio::Base
     end
 
     def find_raw(id)
-      Podio.client.raw_connection.get("/file/#{id}/raw").body
+      Podio.client.connection.get("/file/#{id}/raw").body
     end
 
     def find_for_app(app_id, options={})

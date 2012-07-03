@@ -42,7 +42,9 @@ module Podio
     # sign in as a user using the server side flow
     def authenticate_with_auth_code(authorization_code, redirect_uri)
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token', :grant_type => 'authorization_code', :client_id => api_key, :client_secret => api_secret, :code => authorization_code, :redirect_uri => redirect_uri
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'authorization_code', :client_id => api_key, :client_secret => api_secret, :code => authorization_code, :redirect_uri => redirect_uri}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -53,7 +55,9 @@ module Podio
     # Sign in as a user using credentials
     def authenticate_with_credentials(username, password)
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token', :grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -64,7 +68,9 @@ module Podio
     # Sign in as an app
     def authenticate_with_app(app_id, app_token)
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token', :grant_type => 'app', :client_id => api_key, :client_secret => api_secret, :app_id => app_id, :app_token => app_token
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'app', :client_id => api_key, :client_secret => api_secret, :app_id => app_id, :app_token => app_token}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -75,7 +81,9 @@ module Podio
     # Sign in with an transfer token, only available for Podio
     def authenticate_with_transfer_token(transfer_token)
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token', :grant_type => 'transfer_token', :client_id => api_key, :client_secret => api_secret, :transfer_token => transfer_token
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'transfer_token', :client_id => api_key, :client_secret => api_secret, :transfer_token => transfer_token}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -98,7 +106,9 @@ module Podio
     # Sign in with an OpenID, only available for Podio
     def authenticate_with_openid(identifier, type)
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token_by_openid', :grant_type => type, :client_id => api_key, :client_secret => api_secret, :identifier => identifier
+        req.url '/oauth/token_by_openid'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => type, :client_id => api_key, :client_secret => api_secret, :identifier => identifier}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -114,7 +124,9 @@ module Podio
 
     def refresh_access_token
       response = @oauth_connection.post do |req|
-        req.url '/oauth/token', :grant_type => 'refresh_token', :refresh_token => oauth_token.refresh_token, :client_id => api_key, :client_secret => api_secret
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'refresh_token', :refresh_token => oauth_token.refresh_token, :client_id => api_key, :client_secret => api_secret}
       end
 
       @oauth_token = OAuthToken.new(response.body)
@@ -135,15 +147,15 @@ module Podio
 
     def setup_connections
       @connection = configure_connection
-      @raw_connection = configure_connection(true)
       @oauth_connection = configure_oauth_connection
       @trusted_connection = configure_trusted_connection
     end
 
-    def configure_connection(raw=false)
+    def configure_connection
       Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
-        builder.use Middleware::JsonRequest unless raw
-        builder.use Faraday::Request::Multipart if raw
+        builder.use Middleware::JsonRequest
+        builder.use Faraday::Request::Multipart
+        builder.use Faraday::Request::UrlEncoded
         builder.use Middleware::OAuth2
         builder.use Middleware::Logger
 
@@ -179,7 +191,6 @@ module Podio
 
     def configure_oauth
       @connection = configure_connection
-      @raw_connection = configure_connection(true)
     end
   end
 end
