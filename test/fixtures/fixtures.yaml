@@ -6,29 +6,29 @@
     :user_id: 3
   :professor: 
     :mail: professor@planetexpress.com
-    :password: professor
+    :password: professor_$ecur3Pwd
     :user_id: 4
   :fry: 
     :mail: fry@planetexpress.com
-    :password: fry
+    :password: fry_$ecur3Pwd
     :user_id: 5
   :leela: 
     :mail: leela@planetexpress.com
-    :password: leela
+    :password: leela_$ecur3Pwd
     :user_id: 6
   :bender: 
     :mail: bender@planetexpress.com
-    :password: killallhumans
+    :password: killallhumans_$ecur3Pwd
     :user_id: 7
   :amy: 
     :mail: amy@planetexpress.com
-    :password: amy
+    :password: amy_$ecur3Pwd
     :user_id: 8
   :zoidberg: 
     :mail: zoidberg@planetexpress.com
-    :password: zoidberg
+    :password: zoidberg_$ecur3Pwd
     :user_id: 9
   :hermes: 
     :mail: hermes@planetexpress.com
-    :password: hermes
+    :password: hermes_$ecur3Pwd
     :user_id: 10

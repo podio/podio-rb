@@ -6,7 +6,7 @@ module Podio
       def on_complete(env)
         response = "['#{Faraday::Utils.normalize_path(env[:url])}', :#{env[:method]}, #{env[:status]}, #{env[:response_headers]}, '#{env[:body]}']"
 
-        filename = Digest::MD5.hexdigest(env[:url].request_uri)
+        filename = Digest::MD5.hexdigest("#{env[:url].request_uri}-#{env[:body]}")
         ::File.open("#{filename}.rack", 'w') { |f| f.write(response) }
       end
     end
