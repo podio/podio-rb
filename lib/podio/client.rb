@@ -17,7 +17,6 @@ module Podio
         @stubs = Faraday::Adapter::Test::Stubs.new
       end
       @test_mode   = options[:test_mode]
-      @record_mode = options[:record_mode]
 
       setup_connections
     end
@@ -165,7 +164,6 @@ module Podio
         # builder.use Middleware::DateConversion
         builder.use Middleware::ErrorResponse
         builder.use Middleware::JsonResponse
-        builder.use Middleware::ResponseRecorder if @record_mode
       end
     end
 

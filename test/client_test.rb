@@ -27,10 +27,12 @@ class ClientTest < Test::Unit::TestCase
   end
   
   test 'should get an access token' do
+    Podio.client.stubs.post('/oauth/token') {[200, {}, {"access_token" => "a3345189a07b478284356c8b0b3c54d5", "expires_in" => 28799, "refresh_token" => "cdca6acfeb374598ba2790c9e5283b21"}]}
+
     client = Podio.client
     client.oauth_token = nil
     assert_nil client.oauth_token
-  
+
     user = fixtures[:users][:professor]
     client.authenticate_with_credentials(user[:mail], user[:password])
   
@@ -39,9 +41,13 @@ class ClientTest < Test::Unit::TestCase
   end
 
   test 'should be able to refresh access token' do
+    Podio.client.stubs.post('/oauth/token') {[200, {}, {"access_token" => "a3345189a07b478284356c8b0b3c54d5", "expires_in" => 28799, "refresh_token" => "cdca6acfeb374598ba2790c9e5283b21"}]}
+
     login_as(:fry)
     client = Podio.client
     old_token = client.oauth_token.dup
+
+    Podio.client.stubs.post('/oauth/token') {[200, {}, {"access_token" => "efb7614007ae426481de69310ec14953", "expires_in" => 28799, "refresh_token" => "cdca6acfeb374598ba2790c9e5283b21"}]}
 
     client.refresh_access_token
 
@@ -50,11 +56,12 @@ class ClientTest < Test::Unit::TestCase
   end
 
   test 'should automatically refresh an expired token' do
-    # this token is already expired in the test database
-    # Podio.client.oauth_token = Podio::OAuthToken.new('access_token' => '30da4594eef93528c11df7fb5deb989cd629ea7060a1ce1ced628d19398214c942bcfe0334cf953ef70a80ea1afdfd80183d5c75d19c1f5526ca4c6f6f3471ef', 'refresh_token' => '82e7a11ae187f28a25261599aa6229cd89f8faee48cba18a75d70efae88ba665ced11d43143b7f5bebb31a4103662b851dd2db1879a3947b843259479fccfad3', 'expires_in' => -10)
+    Podio.client.stubs.post('/oauth/token') {[200, {}, {"access_token" => "a3345189a07b478284356c8b0b3c54d5", "expires_in" => 28799, "refresh_token" => "cdca6acfeb374598ba2790c9e5283b21"}]}
 
     login_as(:professor)
     Podio.client.reset
+
+    Podio.client.stubs.get('/org/') {[200, {}, [{"status" => "active"}]]}
 
     assert_nothing_raised do
       response = Podio.connection.get("/org/")
@@ -80,6 +87,9 @@ class ClientTest < Test::Unit::TestCase
 
   test 'should be able to make arbitrary requests' do
     login_as(:professor)
+
+    Podio.client.stubs.get('/org/') {[200, {}, [{"status" => "active"}]]}
+
     response = Podio.connection.get("/org/")
     assert_equal 200, response.status
     assert response.body.is_a?(Array)

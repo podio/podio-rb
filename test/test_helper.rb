@@ -2,14 +2,10 @@ require 'test/unit'
 
 require 'podio'
 
-ENABLE_STUBS  = ENV['ENABLE_STUBS'] == 'true'
-ENABLE_RECORD = ENV['ENABLE_RECORD'] == 'true'
-
 class Test::Unit::TestCase
 
   def setup
     set_podio_client
-    stub_responses if ENABLE_STUBS
   end
 
   # test "verify something" do
@@ -33,8 +29,7 @@ class Test::Unit::TestCase
       :api_url      => 'http://api-sandbox.podio.dev',
       :api_key      => 'sandbox@podio.com',
       :api_secret   => 'sandbox_secret',
-      :enable_stubs => ENABLE_STUBS && !ENABLE_RECORD,
-      :record_mode  => ENABLE_RECORD,
+      :enable_stubs => true,
       :test_mode    => true
     )
   end
@@ -47,24 +42,6 @@ class Test::Unit::TestCase
     Podio.client.reset
   end
 
-  def stub_responses
-    folder_name = self.class.name.underscore.gsub('_test', '')
-    current_folder = File.join(File.dirname(__FILE__), 'fixtures', folder_name)
-
-    if File.exists?(current_folder)
-      Dir.foreach(current_folder) do |filename|
-        next unless filename.include?('.rack')
-
-        rack_response = eval(File.read(File.join(current_folder, filename)))
-
-        url    = rack_response.shift
-        method = rack_response.shift
-
-        Podio.client.stubs.send(method, url) { rack_response }
-      end
-    end
-  end
-  
   def fixtures
     @fixtures ||= YAML.load_file(File.join(File.dirname(__FILE__), 'fixtures', 'fixtures.yaml'))
   end
