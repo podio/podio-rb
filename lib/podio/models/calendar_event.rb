@@ -84,6 +84,10 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
+    def stop_reference_export(linked_account_id, ref_type, ref_id)
+      Podio.connection.delete("/calendar/export/linked_account/#{linked_account_id}/#{ref_type}/#{ref_id}").status
+    end
+
     def set_global_export(linked_account_id, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/export/linked_account/#{linked_account_id}"
@@ -96,6 +100,10 @@ class Podio::CalendarEvent < ActivePodio::Base
       list Podio.connection.get { |req|
         req.url("/calendar/export/")
       }.body
+    end
+
+    def stop_global_export(linked_account_id)
+      Podio.connection.delete("/calendar/export/linked_account/#{linked_account_id}").status
     end
 
   end
