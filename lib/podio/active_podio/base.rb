@@ -372,7 +372,7 @@ module ActivePodio
 
         def define_date_accessor(name)
           self.send(:define_method, name) do
-            self[name.to_sym].try(:to_date)
+            self[name.to_sym].try(:to_date) rescue nil
           end
 
           self.send(:define_method, "#{name}=") do |value|
