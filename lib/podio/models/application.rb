@@ -134,5 +134,16 @@ class Podio::Application < ActivePodio::Base
     def install_on_mobile(id)
       Podio.connection.post("/mobile/install_app/#{id}").body
     end
+
+    def features(options)
+      Podio.connection.get { |req|
+        req.url("/app/features/", options)
+      }.body
+    end
+
+    def dependencies(id)
+      Podio.connection.get("/app/#{id}/dependencies/").body
+    end
+
   end
 end
