@@ -70,6 +70,7 @@ module Podio
   autoload :ActivationStatus,         'podio/models/activation_status'
   autoload :Activity,                 'podio/models/activity'
   autoload :AppStoreShare,            'podio/models/app_store_share'
+  autoload :AppStoreCategory,         'podio/models/app_store_category'
   autoload :Application,              'podio/models/application'
   autoload :ApplicationEmail,         'podio/models/application_email'
   autoload :ApplicationField,         'podio/models/application_field'
