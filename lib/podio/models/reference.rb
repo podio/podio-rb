@@ -11,8 +11,10 @@ class Podio::Reference < ActivePodio::Base
   has_one :created_via, :class => 'Via'
 
   class << self
-    def find(ref_type, ref_id)
-      member Podio.connection.get("/reference/#{ref_type}/#{ref_id}").body
+    def find(ref_type, ref_id, options = {})
+      member Podio.connection.get { |req|
+        req.url("/reference/#{ref_type}/#{ref_id}", options)
+      }.body
     end
   end
 end
