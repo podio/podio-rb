@@ -122,6 +122,7 @@ module Podio
   autoload :QuestionOption,           'podio/models/question_option'
   autoload :Rating,                   'podio/models/rating'
   autoload :Recurrence,               'podio/models/recurrence'
+  autoload :Reference,                'podio/models/reference'
   autoload :Referral,                 'podio/models/referral'
   autoload :Reminder,                 'podio/models/reminder'
   autoload :Search,                   'podio/models/search'
