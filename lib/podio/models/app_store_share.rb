@@ -12,18 +12,17 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :integration, :string
   property :categories, :hash
   property :org, :hash
-  property :author, :hash
   property :author_apps, :integer
   property :author_packs, :integer
   property :icon, :string
   property :icon_id, :integer
-  property :comments, :array
   property :ratings, :hash
   property :user_rating, :array
-  property :screenshots, :array
   property :video, :string
 
   has_many :children, :class => 'AppStoreShare'
+  has_many :screenshots, :class => 'FileAttachment'
+  has_many :comments, :class => 'Comment'
   has_one :author, :class => 'ByLine'
 
   alias_method :id, :share_id
@@ -82,6 +81,10 @@ class Podio::AppStoreShare < ActivePodio::Base
       end
 
       response.status
+    end
+
+    def find_all_by_reference(ref_type, ref_id)
+      list Podio.connection.get("/app_store/#{ref_type}/#{ref_id}/").body
     end
   end
 end
