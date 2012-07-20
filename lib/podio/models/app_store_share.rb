@@ -51,6 +51,13 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.body['share_id']
     end
 
+    def update(id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/app_store/#{id}"
+        req.body = attributes
+      end
+    end
+
     def install(share_id, space_id, dependencies)
       response = Podio.connection.post do |req|
         req.url "/app_store/#{share_id}/install/v2"
