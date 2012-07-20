@@ -29,6 +29,7 @@ class Podio::Item < ActivePodio::Base
 
   # Get items
   property :comment_count, :integer
+  property :task_count, :integer
 
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'
