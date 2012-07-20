@@ -26,6 +26,7 @@ class Podio::Item < ActivePodio::Base
   property :participants, :hash
   property :linked_account_id, :integer
   property :ref, :hash  # linked items
+  property :priority, :float
 
   # Get items
   property :comment_count, :integer
