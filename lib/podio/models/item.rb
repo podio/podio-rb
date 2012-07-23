@@ -200,8 +200,13 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.post("/item/app/#{app_id}/cleanup_field_values").body
     end
 
-    def move_in_card_view(id)
-      Podio.connection.post("/item/#{id}/cardview").body
+    def rearrange(id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/item/#{id}/rearrange"
+        req.body = attributes
+      end
+
+      member response.body
     end
 
     protected
