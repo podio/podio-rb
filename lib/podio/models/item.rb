@@ -200,6 +200,10 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.post("/item/app/#{app_id}/cleanup_field_values").body
     end
 
+    def move_in_card_view(id)
+      Podio.connection.post("/item/#{id}/cardview").body
+    end
+
     protected
 
       def time_options(time)
