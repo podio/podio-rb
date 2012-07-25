@@ -67,6 +67,15 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.body
     end
 
+    def find_own(attributes)
+      response = Podio.connection.get do |req|
+        req.url "/app_store/own/"
+        req.body = attributes
+      end
+
+      list response.body['shares']
+    end
+
     def find(id)
       member Podio.connection.get("/app_store/#{id}/v2").body
     end
