@@ -72,23 +72,15 @@ class Podio::AppStoreShare < ActivePodio::Base
     end
 
     def find_all_own(options = {})
-      response = Podio.connection.get do |req|
+      shares_collection Podio.connection.get { |req|
         req.url "/app_store/own/", options
-      end
-
-      response.body['shares'] = list response.body['shares']
-
-      response.body
+      }.body
     end
 
     def find_all_private_for_org(org_id, options = {})
-      response = Podio.connection.get do |req|
+      shares_collection Podio.connection.get { |req|
         req.url "/app_store/org/#{org_id}/", options
-      end
-
-      response.body['shares'] = list response.body['shares']
-
-      response.body
+      }.body
     end
 
     def find_all_recommended_for_area(area, options = {})
@@ -109,6 +101,33 @@ class Podio::AppStoreShare < ActivePodio::Base
     def find_all_by_reference(ref_type, ref_id)
       list Podio.connection.get("/app_store/#{ref_type}/#{ref_id}/").body
     end
+
+    def find_top(options = {})
+      shares_collection Podio.connection.get { |req|
+        req.url("/app_store/top/", options)
+      }.body
+    end
+
+    def find_all_by_category(category_id, options = {})
+      shares_collection Podio.connection.get { |req|
+        req.url("/app_store/category/#{category_id}/", options)
+      }.body
+    end
+
+    def find_all_by_search(options = {})
+      shares_collection Podio.connection.get { |req|
+        req.url("/app_store/search/", options)
+      }.body
+    end
+
+    private
+
+      def shares_collection(response)
+        result = Struct.new(:all, :total_count).new(response['shares'], response['total'])
+        result.all.map! { |share| new(share, :values_from_api => true) } if result.all.present?
+        result
+      end
+
   end
 end
 
