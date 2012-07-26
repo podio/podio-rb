@@ -76,7 +76,9 @@ class Podio::AppStoreShare < ActivePodio::Base
         req.url "/app_store/own/", options
       end
 
-      list response.body['shares']
+      response.body['shares'] = list response.body['shares']
+
+      response.body
     end
 
     def find_all_private_for_org(org_id, options = {})
@@ -84,7 +86,9 @@ class Podio::AppStoreShare < ActivePodio::Base
         req.url "/app_store/org/#{org_id}/", options
       end
 
-      list response.body['shares']
+      response.body['shares'] = list response.body['shares']
+
+      response.body
     end
 
     def find_all_recommended_for_area(area, options = {})
