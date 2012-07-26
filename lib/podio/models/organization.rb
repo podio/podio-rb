@@ -110,5 +110,9 @@ class Podio::Organization < ActivePodio::Base
       Podio.connection.post("/org/#{id}/upgrade").body
     end
 
+    def find_all_with_private_shares
+      list Podio.connection.get("/app_store/org/").body
+    end
+
   end
 end
