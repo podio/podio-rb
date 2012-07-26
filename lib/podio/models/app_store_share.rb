@@ -67,21 +67,24 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.body
     end
 
-    def find_own(attributes)
+    def find(id)
+      member Podio.connection.get("/app_store/#{id}/v2").body
+    end
+
+    def find_all_own(options = {})
       response = Podio.connection.get do |req|
-        req.url "/app_store/own/"
-        req.body = attributes
+        req.url "/app_store/own/", options
       end
 
       list response.body['shares']
     end
 
-    def find(id)
-      member Podio.connection.get("/app_store/#{id}/v2").body
-    end
+    def find_all_private_for_org(org_id, options = {})
+      response = Podio.connection.get do |req|
+        req.url "/app_store/org/#{org_id}/", options
+      end
 
-    def find_all_private_for_org(org_id)
-      list Podio.connection.get("/app_store/org/#{org_id}/").body['shares']
+      list response.body['shares']
     end
 
     def find_all_recommended_for_area(area, options = {})
