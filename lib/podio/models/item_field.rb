@@ -16,5 +16,9 @@ class Podio::ItemField < ActivePodio::Base
       end
       response.body
     end
+
+    def ical_entry(item_id, field_id)
+      Podio.connection.get("/calendar/item/#{item_id}/field/#{field_id}/ics/").body
+    end
   end
 end
