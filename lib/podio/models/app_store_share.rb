@@ -2,7 +2,6 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :share_id, :integer
   property :type, :string
   property :status, :string
-  property :parents, :hash
   property :name, :string
   property :description, :string
   property :abstract, :string
@@ -21,6 +20,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :video, :string
 
   has_many :children, :class => 'AppStoreShare'
+  has_many :parents, :class => 'AppStoreShare'
   has_many :screenshots, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_one :author, :class => 'ByLine'
