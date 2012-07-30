@@ -10,15 +10,16 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   property :subscription, :boolean
   property :push_notification, :boolean
   property :push_notification_sound, :boolean
+  property :push_notification_browser, :boolean
 
   def self.find_for_current_user
     self.get_groups
   end
-  
+
   def update
     self.class.update_groups(self.attributes)
   end
-  
+
   class << self
     def get_groups()
       member Podio.connection.get { |req|
@@ -36,7 +37,7 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
     def unsubscribe(username)
       Podio.connection.post("/email/unsubscribe/#{username}").status
     end
-    
+
   end
 
 end
