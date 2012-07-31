@@ -23,8 +23,3 @@ class Podio::AppStoreCategory < ActivePodio::Base
     end
   end
 end
-
-
-
-
-
