@@ -30,11 +30,15 @@ class Podio::OrganizationProfile < ActivePodio::Base
     self.class.delete(self.org_id)
   end
 
-  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined  
+  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
 
   class << self
     def find(org_id)
       member Podio.connection.get("/org/#{org_id}/appstore").body
+    end
+
+    def find_by_url(url_label)
+      member Podio.connection.get("/app_store/org/#{url_label}/profile").body
     end
 
     def create(org_id, attributes)
