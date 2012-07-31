@@ -24,6 +24,8 @@ class Podio::AppStoreShare < ActivePodio::Base
   has_many :screenshots, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_one :author, :class => 'ByLine'
+  has_one :space, :class => 'Space'
+  has_one :app, :class => 'Application'
 
   alias_method :id, :share_id
 
