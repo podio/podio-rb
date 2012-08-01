@@ -14,7 +14,7 @@ class Podio::SpaceMember < ActivePodio::Base
 
   class << self
     def find_all_for_role(space_id, role)
-      list Podio.connection.get { |req|t
+      list Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/#{role}/")
       }.body
     end
