@@ -29,6 +29,7 @@ class Podio::OrganizationMember < ActivePodio::Base
       member Podio.connection.get("/org/#{org_id}/member/#{user_id}").body
     end
 
+
     def delete(org_id, user_id)
       Podio.connection.delete("/org/#{org_id}/member/#{user_id}").status
     end

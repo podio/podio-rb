@@ -6,6 +6,7 @@ class Podio::SpaceMember < ActivePodio::Base
   property :ended_on, :datetime
 
   has_one :user, :class => 'User'
+  has_one :space, :class => 'Space'
 
   delegate :user_id, :name, :to => :user
 
@@ -13,7 +14,7 @@ class Podio::SpaceMember < ActivePodio::Base
 
   class << self
     def find_all_for_role(space_id, role)
-      list Podio.connection.get { |req|
+      list Podio.connection.get { |req|t
         req.url("/space/#{space_id}/member/#{role}/")
       }.body
     end
@@ -49,6 +50,10 @@ class Podio::SpaceMember < ActivePodio::Base
         result[section]['profiles'].map! { |profile| Contact.new(profile) } if result[section].present? && result[section]['profiles'].present?
       end
       result
+    end
+
+    def find_memberships_for_user_in_org(org_id, user_id)
+      list Podio.connection.get("/org/#{org_id}/member/#{user_id}/space_member/").body
     end
 
     def request_membership(space_id)
