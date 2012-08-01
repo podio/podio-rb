@@ -3,6 +3,7 @@ class Podio::OrganizationMember < ActivePodio::Base
   property :profile, :hash
   property :admin, :boolean
   property :employee, :boolean
+  property :space_memberships, :integer
 
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
