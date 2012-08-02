@@ -72,8 +72,8 @@ class Podio::Space < ActivePodio::Base
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
 
-    def find_all_spaces_for_org(org_id)
-      list Podio.connection.get("/org/#{org_id}/all_spaces/").body
+    def find_all_spaces_for_org(org_id, options={})
+      list Podio.connection.get("/org/#{org_id}/all_spaces/", options).body
     end
 
     def find_open_for_org(org_id)
