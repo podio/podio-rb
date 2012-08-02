@@ -32,6 +32,12 @@ class Podio::SpaceMember < ActivePodio::Base
       }.body
     end
 
+    def find_all(space_id)
+      list Podio.connection.get { |req|
+        req.url("/space/#{space_id}/member/")
+      }.body
+    end
+
     def update_role(space_id, user_id, role)
       response = Podio.connection.put do |req|
         req.url "/space/#{space_id}/member/#{user_id}"
