@@ -17,6 +17,8 @@ class Podio::Space < ActivePodio::Base
   property :auto_join, :boolean
   property :type, :string
   property :premium, :boolean
+  property :last_activity_on, :datetime
+  property :created_on, :datetime
 
   has_one :created_by, :class => 'ByLine'
 
@@ -68,6 +70,10 @@ class Podio::Space < ActivePodio::Base
 
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
+    end
+
+    def find_all_spaces_for_org(org_id)
+      list Podio.connection.get("/org/#{org_id}/all_spaces/").body
     end
 
     def find_open_for_org(org_id)
