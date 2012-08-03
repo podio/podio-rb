@@ -6,9 +6,10 @@ class Podio::SpaceMember < ActivePodio::Base
   property :ended_on, :datetime
 
   has_one :user, :class => 'User'
+  has_one :contact, :class => 'Contact', :property => :profile
   has_one :space, :class => 'Space'
 
-  delegate :user_id, :name, :to => :user
+  delegate :user_id, :name, :to => :contact
 
   alias_method :id, :user_id
 
