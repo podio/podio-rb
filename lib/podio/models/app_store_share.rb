@@ -33,6 +33,10 @@ class Podio::AppStoreShare < ActivePodio::Base
     self.share_id = self.class.create(self.attributes)
   end
 
+  def destroy
+    self.class.destroy(self.share_id)
+  end
+
   def install(space_id, dependencies)
     self.class.install(self.share_id, space_id, dependencies)
   end
@@ -57,6 +61,12 @@ class Podio::AppStoreShare < ActivePodio::Base
       response = Podio.connection.put do |req|
         req.url "/app_store/#{id}"
         req.body = attributes
+      end
+    end
+
+    def destroy(id)
+      response = Podio.connection.delete do |req|
+        req.url "/app_store/#{id}"
       end
     end
 
