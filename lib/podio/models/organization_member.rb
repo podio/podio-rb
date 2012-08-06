@@ -34,6 +34,10 @@ class Podio::OrganizationMember < ActivePodio::Base
       Podio.connection.delete("/org/#{org_id}/member/#{user_id}").status
     end
 
+    def delete_info(org_id, user_id)
+      Podio.connection.get("/org/#{org_id}/member/#{user_id}/end_member_info").body
+    end
+
     def make_admin(org_id, user_id)
       response = Podio.connection.post do |req|
         req.url "/org/#{org_id}/admin/"
