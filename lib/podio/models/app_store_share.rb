@@ -18,6 +18,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :ratings, :hash
   property :user_rating, :array
   property :video, :string
+  property :rating, :integer
 
   has_many :children, :class => 'AppStoreShare'
   has_many :parents, :class => 'AppStoreShare'
