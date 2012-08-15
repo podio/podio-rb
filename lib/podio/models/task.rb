@@ -161,19 +161,6 @@ class Podio::Task < ActivePodio::Base
       list Podio.connection.get("/task/#{ref_type}/#{ref_id}/").body
     end
 
-    def suggested_ref(query, space_limit, item_limit)
-      response = Podio.connection.post do |req|
-        req.url "/task/suggested_ref/"
-        req.body = {
-            :text => query,
-            :space_limit => space_limit,
-            :item_limit => item_limit
-        }
-      end
-
-      response.body
-    end
-
     def find_all(options={})
       list Podio.connection.get { |req|
         req.url('/task/', options)

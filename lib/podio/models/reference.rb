@@ -16,5 +16,18 @@ class Podio::Reference < ActivePodio::Base
         req.url("/reference/#{ref_type}/#{ref_id}", options)
       }.body
     end
+
+    def search(target, query, limit)
+      response = Podio.connection.post do |req|
+        req.url "/reference/search"
+        req.body = {
+          :target => target,
+          :text => query,
+          :limit => limit
+        }
+      end
+      response.body
+    end
+
   end
 end
