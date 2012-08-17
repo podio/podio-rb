@@ -38,6 +38,14 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
       Podio.connection.post("/email/unsubscribe/#{username}").status
     end
 
+    def get_global_email_as_vcard(name)
+      Podio.connection.get("/email/contact/#{name}/vcard").body
+    end
+
+    def get_ref_email_as_vcard(name, ref_type, ref_id)
+      Podio.connection.get("/email/contact/#{name}/#{ref_type}/#{ref_id}/vcard").body
+    end
+
   end
 
 end
