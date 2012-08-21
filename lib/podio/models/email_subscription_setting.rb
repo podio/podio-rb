@@ -55,7 +55,7 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
 
     def export_ref_contact_to_linked_acc(name, ref_type, ref_id, linked_acc_id)
       Podio.connection.post { |req|
-        req.url "/email/contact/#{name}/#{ref_type}/#{ref_id}/vcard"
+        req.url "/email/contact/#{name}/#{ref_type}/#{ref_id}/export"
         req.body = { :linked_account_id => linked_acc_id }
       }.body
     end
