@@ -96,6 +96,12 @@ class Podio::AppStoreShare < ActivePodio::Base
       }.body
     end
 
+    def find_all_public_for_org(org_url, options = {})
+      shares_collection Podio.connection.get { |req|
+        req.url "/app_store/org/#{org_url}/", options
+      }.body
+    end
+
     def find_all_recommended_for_area(area, options = {})
       list Podio.connection.get { |req|
         req.url("/app_store/recommended/#{area}/", options)
