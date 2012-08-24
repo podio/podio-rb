@@ -8,6 +8,7 @@ class Podio::Contract < ActivePodio::Base
   property :started_on, :datetime
   property :ended_on, :datetime
   property :item_prices, :hash
+  property :item_limits, :hash
   property :payment_id, :string
   property :payment_status, :string
   property :accounting_id, :string
@@ -22,6 +23,7 @@ class Podio::Contract < ActivePodio::Base
   property :ended_reason, :string
   property :ended_comment, :string
   property :billing_mail, :string
+  property :model, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
