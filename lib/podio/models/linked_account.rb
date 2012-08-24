@@ -29,5 +29,12 @@ class Podio::LinkedAccount < ActivePodio::Base
       Podio.connection.delete("/linked_account/#{id}").status
     end
 
+    def update_options(id, attributes)
+      Podio.connection.put do |req|
+        req.url "/linked_account/#{id}/options"
+        req.body = attributes
+      end
+    end
+
   end
 end
