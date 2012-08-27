@@ -209,6 +209,13 @@ class Podio::Item < ActivePodio::Base
       member response.body
     end
 
+    def find_meeting_url(id)
+      response = Podio.connection.get { |req|
+        req.url("/item/#{id}/meeting/url")
+      }
+      response.body
+    end
+
     protected
 
       def time_options(time)
