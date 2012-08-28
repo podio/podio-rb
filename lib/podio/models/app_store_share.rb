@@ -38,8 +38,8 @@ class Podio::AppStoreShare < ActivePodio::Base
     self.class.destroy(self.share_id)
   end
 
-  def install(space_id, dependencies)
-    self.class.install(self.share_id, space_id, dependencies)
+  def install(space_id, dependencies, social = true)
+    self.class.install(self.share_id, space_id, dependencies, social)
   end
 
   handle_api_errors_for :create, :install  # Call must be made after the methods to handle have been defined
@@ -71,10 +71,10 @@ class Podio::AppStoreShare < ActivePodio::Base
       end
     end
 
-    def install(share_id, space_id, dependencies)
+    def install(share_id, space_id, dependencies, social = true)
       response = Podio.connection.post do |req|
         req.url "/app_store/#{share_id}/install/v2"
-        req.body = {:space_id => space_id, :dependencies => dependencies}
+        req.body = {:space_id => space_id, :dependencies => dependencies, :social => social}
       end
 
       response.body
