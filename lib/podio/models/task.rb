@@ -44,11 +44,17 @@ class Podio::Task < ActivePodio::Base
   alias_method :id, :task_id
 
   def create
+    result = self.create_multiple # Could return false if API call failed
+    self.task_id = result.first.id if result
+    result
+  end
+
+  def create_multiple
     compacted_attributes = remove_nil_values(self.attributes)
     if(self.ref_type.present? && self.ref_id.present?)
-      self.task_id = self.class.create_with_ref(self.ref_type, self.ref_id, compacted_attributes)
+      self.class.create_with_ref(self.ref_type, self.ref_id, compacted_attributes)
     else
-      self.task_id = self.class.create(compacted_attributes)
+      self.class.create(compacted_attributes)
     end
   end
 
@@ -80,7 +86,7 @@ class Podio::Task < ActivePodio::Base
     self.class.rank(self.id, previous_task && previous_task.to_i, next_task && next_task.to_i)
   end
 
-  handle_api_errors_for :create, :destroy, :complete, :uncomplete, :update_reference # Call must be made after the methods to handle have been defined
+  handle_api_errors_for :create_multiple, :destroy, :complete, :uncomplete, :update_reference # Call must be made after the methods to handle have been defined
 
   class << self
     def create(attributes)
@@ -89,7 +95,7 @@ class Podio::Task < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['task_id']
+      list [response.body].flatten
     end
 
     def create_with_ref(ref_type, ref_id, attributes)
@@ -98,7 +104,7 @@ class Podio::Task < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['task_id']
+      list [response.body].flatten
     end
 
     def update_description(id, description)
