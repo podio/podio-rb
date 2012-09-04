@@ -128,12 +128,8 @@ module ActivePodio
       def klass_for_association(options)
         klass_name = options[:class]
         raise "Missing class name of associated model. Provide with :class => 'MyClass'." unless klass_name.present?
-        klass = nil
-        begin
-          klass = klass_name.constantize
-        rescue
-          klass = "Podio::#{klass_name}".constantize
-        end
+        klass = klass_name.constantize rescue nil
+        klass = "Podio::#{klass_name}".constantize unless klass.respond_to?(:ancestors) && klass.ancestors.include?(ActivePodio::Base)
         return klass
       end
 
