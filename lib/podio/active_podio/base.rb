@@ -111,7 +111,7 @@ module ActivePodio
 
       if options[:methods]
         options[:methods].each do |name|
-          result[name] = json_friendly_value(self.send(name), options)
+          result[name] = json_friendly_value(self.send(name), options.except(:methods) )
         end
       end
 
@@ -155,7 +155,7 @@ module ActivePodio
             ruby_value
           else
             if ruby_value.kind_of?(ActivePodio::Base)
-              ruby_value.as_json(options)
+              ruby_value.as_json(options.except(:methods))
             else
               ruby_value
             end
