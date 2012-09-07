@@ -124,6 +124,7 @@ module Podio
   autoload :Referral,                 'podio/models/referral'
   autoload :Reminder,                 'podio/models/reminder'
   autoload :Search,                   'podio/models/search'
+  autoload :Share,                    'podio/models/share'
   autoload :Space,                    'podio/models/space'
   autoload :SpaceContact,             'podio/models/space_contact'
   autoload :SpaceInvitation,          'podio/models/space_invitation'
