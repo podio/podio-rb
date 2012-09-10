@@ -26,6 +26,10 @@ class Podio::Batch < ActivePodio::Base
         req.url("/batch/", options)
       }.body
     end
+
+    def find_running(ref_type, ref_id, plugin)
+      list Podio.connection.get("/batch/#{ref_type}/#{ref_id}/#{plugin}/running/").body
+    end
   end
 
 end
