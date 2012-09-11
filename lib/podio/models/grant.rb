@@ -1,11 +1,10 @@
-# TODO: Unfinished code, pending API implementation for correct attribute names
-class Podio::Share < ActivePodio::Base
+class Podio::Grant < ActivePodio::Base
 
   property :ref_type, :string
   property :ref_id, :integer
-  property :contacts, :hash
+  property :people, :hash
+  property :actions, :string
   property :message, :string
-  property :actions, :array
 
   def save
     self.class.create(self.ref_type, self.ref_id, self.attributes)
@@ -15,11 +14,8 @@ class Podio::Share < ActivePodio::Base
 
   class << self
     def create(ref_type, ref_id, attributes={})
-      return true
-
-      # TODO: Make correct call once implemented in the API
       response = Podio.connection.post do |req|
-        req.url "/share/#{ref_type}/#{ref_id}"
+        req.url "/grant/#{ref_type}/#{ref_id}"
         req.body = attributes
       end
 
