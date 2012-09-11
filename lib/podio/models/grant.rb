@@ -3,7 +3,7 @@ class Podio::Grant < ActivePodio::Base
   property :ref_type, :string
   property :ref_id, :integer
   property :people, :hash
-  property :actions, :string
+  property :action, :string
   property :message, :string
 
   def save
