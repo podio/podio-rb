@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency('activesupport', '~> 3.0')
   s.add_dependency('activemodel', '~> 3.0')
   s.add_dependency('multi_json')
+  s.add_development_dependency('rake')
 
   s.description       = <<desc
 The official Ruby wrapper for the Podio API used and maintained by the Podio team

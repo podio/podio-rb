@@ -1,5 +1,7 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem 'rake'
+platforms :jruby do
+  gem 'jruby-openssl', '~> 0.7'
+end
 
 gemspec
