@@ -70,6 +70,13 @@ class Podio::Conversation < ActivePodio::Base
       end
       response.body
     end
+
+    def get_omega_auth_token
+      response = Podio.connection.post do |req|
+        req.url '/conversation/omega/access_token'
+      end
+      response.body
+    end
     
   end
 end
