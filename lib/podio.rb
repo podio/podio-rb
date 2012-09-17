@@ -2,6 +2,7 @@ require 'faraday'
 require 'active_support/core_ext'
 
 require 'podio/error'
+require 'podio/version'
 require 'podio/middleware/json_request'
 require 'podio/middleware/logger'
 require 'podio/middleware/oauth2'

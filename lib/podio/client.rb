@@ -135,7 +135,7 @@ module Podio
 
     def configured_headers
       headers = @headers.dup
-      headers['User-Agent']      = 'Podio Ruby Library'
+      headers['User-Agent']      = "Podio Ruby Library (#{Podio::VERSION})"
       headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
       headers['X-Podio-Dry-Run'] = @test_mode.to_s                      if @test_mode
 
