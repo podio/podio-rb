@@ -6,6 +6,8 @@ class Podio::Grant < ActivePodio::Base
   property :action, :string
   property :message, :string
 
+  has_one :created_by, :class => 'ByLine'
+
   def save
     self.class.create(self.ref_type, self.ref_id, self.attributes)
   end
@@ -20,6 +22,10 @@ class Podio::Grant < ActivePodio::Base
       end
 
       response.body
+    end
+
+    def find_own(ref_type, ref_id)
+      member Podio.connection.get("/grant/#{ref_type}/#{ref_id}/own").body
     end
   end
 end
