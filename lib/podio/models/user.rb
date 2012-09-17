@@ -33,7 +33,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def create(attributes)
-      response = Podio.client.connection.post do |req|
+      response = Podio.client.trusted_connection.post do |req|
         req.url '/user/'
         req.body = attributes
       end
@@ -42,7 +42,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def create_inactive(attributes)
-      response = Podio.connection.post do |req|
+      response = Podio.client.trusted_connection.post do |req|
         req.url '/user/inactive/'
         req.body = attributes
       end
