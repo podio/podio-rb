@@ -33,7 +33,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def create(attributes)
-      response = Podio.client.trusted_connection.post do |req|
+      response = Podio.client.connection.post do |req|
         req.url '/user/'
         req.body = attributes
       end

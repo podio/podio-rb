@@ -135,9 +135,16 @@ module Podio
 
     def configured_headers
       headers = @headers.dup
-      headers['User-Agent']      = "Podio Ruby Library (#{Podio::VERSION})"
-      headers['authorization']   = "OAuth2 #{oauth_token.access_token}" if oauth_token
-      headers['X-Podio-Dry-Run'] = @test_mode.to_s                      if @test_mode
+      headers['User-Agent'] = "Podio Ruby Library (#{Podio::VERSION})"
+      headers['X-Podio-Dry-Run'] = @test_mode.to_s if @test_mode
+
+      if oauth_token
+        # if we have a token, set up Oauth2
+        headers['authorization'] = "OAuth2 #{oauth_token.access_token}"
+      elsif api_key && api_secret
+        # if we have an auth_client, set up public authentication (only works with trusted auth clients)
+        headers['authorization'] = Faraday::Request::BasicAuthentication.header(api_key, api_secret)
+      end
 
       headers
     end

@@ -7,17 +7,28 @@ class ClientTest < Test::Unit::TestCase
     assert_equal Podio::Client, Podio.client.class
     assert_equal 'client_id', Podio.client.api_key
     assert_equal 'client_secret', Podio.client.api_secret
+
+    assert_equal 'Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=', Podio.client.connection.headers['authorization']
   end
-  
+
   test 'should initialize client' do
+    podio = Podio::Client.new()
+
+    assert_equal 'https://api.podio.com', podio.api_url
+    assert_nil podio.connection.headers['authorization']
+  end
+
+  test 'should initialize client with key and secret' do
     podio = Podio::Client.new(:api_url => 'https://new.podio.com', :api_key => 'new_client_id', :api_secret => 'new_client_secret')
   
     assert_equal 'https://new.podio.com', podio.api_url
     assert_equal 'new_client_id', podio.api_key
     assert_equal 'new_client_secret', podio.api_secret
+
+    assert_equal 'Basic bmV3X2NsaWVudF9pZDpuZXdfY2xpZW50X3NlY3JldA==', podio.connection.headers['authorization']
   end
   
-  test 'should setup connection' do
+  test 'should setup connection with existing token' do
     token = Podio::OAuthToken.new('access_token' => 'access', 'refresh_token' => 'refresh')
     podio = Podio::Client.new(:oauth_token => token)
   
