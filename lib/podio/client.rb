@@ -161,7 +161,6 @@ module Podio
         builder.adapter(*default_adapter)
 
         # first response middleware defined get's executed last
-        # builder.use Middleware::DateConversion
         builder.use Middleware::ErrorResponse
         builder.use Middleware::JsonResponse
       end
