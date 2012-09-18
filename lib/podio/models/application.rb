@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/applications
 class Podio::Application < ActivePodio::Base
   property :app_id, :integer
   property :original, :integer
@@ -37,12 +38,14 @@ class Podio::Application < ActivePodio::Base
   end
 
   class << self
+    # https://developers.podio.com/doc/applications/get-app-22349
     def find(app_id, options = {})
       member Podio.connection.get { |req|
         req.url("/app/#{app_id}", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-app-on-space-by-url-label-477105
     def find_by_url_label(space_id, url_label)
       member Podio.connection.get("/app/space/#{space_id}/#{url_label}").body
     end
@@ -53,35 +56,42 @@ class Podio::Application < ActivePodio::Base
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-all-user-apps-5902728
     def find_all_for_current_user(options={})
       list Podio.connection.get { |req|
         req.url("/app/v2/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-top-apps-22476
     def find_top(options={})
       list Podio.connection.get { |req|
         req.url("/app/top/", options)
       }.body
     end
+
+    ## https://developers.podio.com/doc/applications/get-top-apps-for-organization-1671395
     def find_top_for_org(org_id, options={})
       list Podio.connection.get { |req|
         req.url("/app/org/#{org_id}/top/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-apps-by-space-22478
     def find_all_for_space(space_id, options = {})
       list Podio.connection.get { |req|
         req.url("/app/space/#{space_id}/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-calculations-for-app-773005
     def get_calculations(app_id)
       list Podio.connection.get { |req|
         req.url("/app/#{app_id}/calculation/", {})
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/update-app-order-22463
     def update_order(space_id, app_ids = [])
       response = Podio.connection.put do |req|
         req.url "/app/space/#{space_id}/order"
@@ -91,6 +101,7 @@ class Podio::Application < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/applications/add-new-app-22351
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/app/"
@@ -99,6 +110,7 @@ class Podio::Application < ActivePodio::Base
       response.body['app_id']
     end
 
+    # https://developers.podio.com/doc/applications/update-app-22352
     def update(app_id, attributes)
       response = Podio.connection.put do |req|
         req.url "/app/#{app_id}"
@@ -107,6 +119,7 @@ class Podio::Application < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/applications/install-app-22506
     def install(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/app/#{app_id}/install"
@@ -115,18 +128,22 @@ class Podio::Application < ActivePodio::Base
       response.body['app_id']
     end
 
+    # https://developers.podio.com/doc/applications/delete-app-field-22355
     def delete_field(app_id, field_id)
       Podio.connection.delete("/app/#{app_id}/field/#{field_id}").status
     end
 
+    # https://developers.podio.com/doc/applications/deactivate-app-43821
     def deactivate(id)
       Podio.connection.post("/app/#{id}/deactivate").body
     end
 
+    # https://developers.podio.com/doc/applications/activate-app-43822
     def activate(id)
       Podio.connection.post("/app/#{id}/activate").body
     end
 
+    # https://developers.podio.com/doc/applications/delete-app-43693
     def delete(id)
       Podio.connection.delete("/app/#{id}").body
     end
@@ -135,16 +152,19 @@ class Podio::Application < ActivePodio::Base
       Podio.connection.post("/mobile/install_app/#{id}").body
     end
 
+    # https://developers.podio.com/doc/applications/get-features-43648
     def features(options)
       Podio.connection.get { |req|
         req.url("/app/features/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/applications/get-app-dependencies-39159
     def dependencies(id)
       Podio.connection.get("/app/#{id}/dependencies/").body
     end
 
+    # https://developers.podio.com/doc/applications/get-space-app-dependencies-45779
     def space_dependencies(space_id)
       result = Podio.connection.get("/app/space/#{space_id}/dependencies/").body
       result['apps'] = result['apps'].collect { |app| Application.new(app) }

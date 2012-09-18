@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/app-store
 class Podio::AppStoreShare < ActivePodio::Base
   property :share_id, :integer
   property :type, :string
@@ -30,14 +31,17 @@ class Podio::AppStoreShare < ActivePodio::Base
 
   alias_method :id, :share_id
 
+  # https://developers.podio.com/doc/app-market/share-app-22504
   def create
     self.share_id = self.class.create(self.attributes)
   end
 
+  # https://developers.podio.com/doc/app-market/unshare-app-37917
   def destroy
     self.class.destroy(self.share_id)
   end
 
+  # https://developers.podio.com/doc/app-market/install-share-22499
   def install(space_id, dependencies, social = true)
     self.class.install(self.share_id, space_id, dependencies, social)
   end
@@ -49,6 +53,8 @@ class Podio::AppStoreShare < ActivePodio::Base
   end
 
   class << self
+
+    # https://developers.podio.com/doc/app-market/share-app-22504
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/app_store/"
@@ -58,6 +64,7 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.body['share_id']
     end
 
+    # https://developers.podio.com/doc/app-market/update-share-38639
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/app_store/#{id}"
@@ -65,12 +72,14 @@ class Podio::AppStoreShare < ActivePodio::Base
       end
     end
 
+    # https://developers.podio.com/doc/app-market/unshare-app-37917
     def destroy(id)
       response = Podio.connection.delete do |req|
         req.url "/app_store/#{id}"
       end
     end
 
+    # https://developers.podio.com/doc/app-market/install-share-22499
     def install(share_id, space_id, dependencies, social = true)
       response = Podio.connection.post do |req|
         req.url "/app_store/#{share_id}/install/v2"
@@ -84,6 +93,7 @@ class Podio::AppStoreShare < ActivePodio::Base
       member Podio.connection.get("/app_store/#{id}/v2").body
     end
 
+    # https://developers.podio.com/doc/app-market/get-own-shares-38645
     def find_all_own(options = {})
       shares_collection Podio.connection.get { |req|
         req.url "/app_store/own/", options
@@ -102,6 +112,7 @@ class Podio::AppStoreShare < ActivePodio::Base
       }.body
     end
 
+    # https://developers.podio.com/doc/app-market/get-recommended-shares-5340177
     def find_all_recommended_for_area(area, options = {})
       list Podio.connection.get { |req|
         req.url("/app_store/recommended/#{area}/", options)
@@ -117,6 +128,7 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/app-market/get-share-by-reference-45002
     def find_all_by_reference(ref_type, ref_id)
       list Podio.connection.get("/app_store/#{ref_type}/#{ref_id}/").body
     end

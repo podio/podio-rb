@@ -1,5 +1,6 @@
+# https://developers.podio.com/doc/oauth-authorization
 class Podio::OAuth < ActivePodio::Base
-  
+
   class << self
     def authorize(attributes)
       response = Podio.connection.post do |req|
@@ -19,6 +20,7 @@ class Podio::OAuth < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/oauth-authorization/get-access-token-22359
     def get_access_token(attributes)
       response = Podio.connection.post do |req|
         req.url "/oauth/token"
@@ -28,5 +30,5 @@ class Podio::OAuth < ActivePodio::Base
       response.body
     end
   end
-  
+
 end

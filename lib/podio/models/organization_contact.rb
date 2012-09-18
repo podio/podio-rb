@@ -1,10 +1,11 @@
 # Encapsulates a primary contact for an organization, primarily used for billing purposes
+# https://developers.podio.com/doc/contacts
 class Podio::OrganizationContact < Podio::Profile
   include ActivePodio::Updatable
 
   property :org_id, :integer
   property :attention, :string # The name of the primary organization contact
-  
+
   alias_method :id, :org_id
 
   def save

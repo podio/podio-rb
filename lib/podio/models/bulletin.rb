@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/bulletins
 class Podio::Bulletin < ActivePodio::Base
   property :bulletin_id, :integer
   property :title, :string
@@ -12,7 +13,7 @@ class Podio::Bulletin < ActivePodio::Base
   has_one :sent_by, :class => 'ByLine'
 
   alias_method :id, :bulletin_id
-  
+
   class << self
     def create(attributes)
       response = Podio.connection.post do |req|
@@ -32,6 +33,7 @@ class Podio::Bulletin < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/bulletins/get-bulletin-22415
     def find(id, options={})
       member Podio.connection.get("/bulletin/#{id}").body
     end
@@ -40,6 +42,7 @@ class Podio::Bulletin < ActivePodio::Base
       list Podio.connection.get("/bulletin/").body
     end
 
+    # https://developers.podio.com/doc/bulletins/get-bulletins-22512
     def find_all
       list Podio.connection.get("/bulletin/?show_drafts=1").body
     end
@@ -55,6 +58,6 @@ class Podio::Bulletin < ActivePodio::Base
     def send!(id)
       Podio.connection.post("/bulletin/#{id}/send").body
     end
-    
+
   end
 end

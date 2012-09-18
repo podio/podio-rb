@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/oauth-authorization
 class Podio::OAuthClient < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -19,7 +20,7 @@ class Podio::OAuthClient < ActivePodio::Base
   end
 
   handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
-  
+
   class << self
     def create(attributes)
       response = Podio.connection.post do |req|

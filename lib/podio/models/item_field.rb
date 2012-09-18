@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/items
 class Podio::ItemField < ActivePodio::Base
   property :field_id, :integer
   property :type, :string
@@ -9,6 +10,7 @@ class Podio::ItemField < ActivePodio::Base
   alias_method :id, :field_id
 
   class << self
+    # https://developers.podio.com/doc/items/update-item-field-values-22367
     def update(item_id, field_id, values)
       response = Podio.connection.put do |req|
         req.url "/item/#{item_id}/value/#{field_id}"
@@ -17,6 +19,7 @@ class Podio::ItemField < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/calendar/get-item-field-calendar-as-ical-10195681
     def ical_entry(item_id, field_id)
       Podio.connection.get("/calendar/item/#{item_id}/field/#{field_id}/ics/").body
     end

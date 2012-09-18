@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/files
 class Podio::ExternalFile < ActivePodio::Base
   property :external_file_id, :string
   property :name, :string
@@ -16,6 +17,7 @@ class Podio::ExternalFile < ActivePodio::Base
         req.url("/file/linked_account/#{linked_account_id}/", options)
       }.body
     end
+
 
     def create_from_external_file_id(linked_account_id, external_file_id)
       response = Podio.client.connection.post do |req|

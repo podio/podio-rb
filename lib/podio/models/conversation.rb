@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/conversations
 class Podio::Conversation < ActivePodio::Base
   property :conversation_id, :integer
   property :subject, :string
@@ -8,7 +9,7 @@ class Podio::Conversation < ActivePodio::Base
   property :file_ids, :array
   property :embed_id, :integer
   property :embed_file_id, :integer
-  
+
   # When outputting conversation(s)
   property :created_on, :datetime
   has_one :embed, :class => 'Embed'
@@ -18,7 +19,7 @@ class Podio::Conversation < ActivePodio::Base
   has_many :messages, :class => 'ConversationMessage'
   has_many :participants_full, :class => 'ConversationParticipant'
 
-  
+
   alias_method :id, :conversation_id
   alias_method :name, :subject # So tasks can refer to ref.name on all types of references
 
@@ -27,18 +28,21 @@ class Podio::Conversation < ActivePodio::Base
     response = Conversation.create(self.attributes)
     self.conversation_id = response['conversation_id']
   end
-  
+
   handle_api_errors_for :save # Call must be made after the methods to handle have been defined
-  
+
   class << self
+    # https://developers.podio.com/doc/conversations/get-conversation-22369
     def find(conversation_id)
       member Podio.connection.get("/conversation/#{conversation_id}").body
     end
 
+    # https://developers.podio.com/doc/conversations/get-conversations-on-object-22443
     def find_all_for_reference(ref_type, ref_id)
       list Podio.connection.get("/conversation/#{ref_type}/#{ref_id}/").body
     end
 
+    # https://developers.podio.com/doc/conversations/create-conversation-22441
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url '/conversation/'
@@ -47,6 +51,7 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/conversations/create-conversation-on-object-22442
     def create_for_reference(ref_type, ref_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/conversation/#{ref_type}/#{ref_id}/"
@@ -54,7 +59,8 @@ class Podio::Conversation < ActivePodio::Base
       end
       response.body
     end
-    
+
+    # https://developers.podio.com/doc/conversations/reply-to-conversation-22444
     def create_reply(conversation_id, text, file_ids=[], embed_id=nil, embed_file_id=nil)
       response = Podio.connection.post do |req|
         req.url "/conversation/#{conversation_id}/reply"
@@ -62,7 +68,8 @@ class Podio::Conversation < ActivePodio::Base
       end
       response.body['message_id']
     end
-    
+
+    # https://developers.podio.com/doc/conversations/add-participants-384261
     def add_participant(conversation_id, user_id)
       response = Podio.connection.post do |req|
         req.url "/conversation/#{conversation_id}/participant/"
@@ -77,6 +84,6 @@ class Podio::Conversation < ActivePodio::Base
       end
       response.body
     end
-    
+
   end
 end

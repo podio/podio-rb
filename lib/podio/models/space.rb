@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/spaces
 class Podio::Space < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -24,12 +25,14 @@ class Podio::Space < ActivePodio::Base
 
   alias_method :id, :space_id
 
+  # https://developers.podio.com/doc/spaces/create-space-22390
   def create
     response = Space.create(:org_id => org_id, :name => name, :privacy => self.privacy, :auto_join => self.auto_join)
     self.url = response['url']
     self.space_id = response['space_id']
   end
 
+  # https://developers.podio.com/doc/spaces/update-space-22391
   def update
     self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label, :privacy => self.privacy, :auto_join => self.auto_join)
   end
@@ -39,6 +42,7 @@ class Podio::Space < ActivePodio::Base
   end
 
   class << self
+    # https://developers.podio.com/doc/spaces/create-space-22390
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url '/space/'
@@ -48,6 +52,7 @@ class Podio::Space < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/spaces/update-space-22391
     def update(space_id, attributes)
       Podio.connection.put("/space/#{space_id}", attributes).status
     end
@@ -56,14 +61,17 @@ class Podio::Space < ActivePodio::Base
       Podio.connection.delete("/space/#{id}").status
     end
 
+    # https://developers.podio.com/doc/spaces/get-space-22389
     def find(id)
       member Podio.connection.get("/space/#{id}").body
     end
 
+    # https://developers.podio.com/doc/space-members/join-space-1927286
     def join(space_id)
       Podio.connection.post("/space/#{space_id}/join").body
     end
 
+    # https://developers.podio.com/doc/spaces/get-space-by-url-22481
     def find_by_url(url)
       member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
     end
@@ -76,6 +84,7 @@ class Podio::Space < ActivePodio::Base
       list Podio.connection.get("/org/#{org_id}/all_spaces/", options).body
     end
 
+    # https://developers.podio.com/doc/spaces/get-available-spaces-1911961
     def find_open_for_org(org_id)
       list Podio.connection.get("/space/org/#{org_id}/available/").body
     end

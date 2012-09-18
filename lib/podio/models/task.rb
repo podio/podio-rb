@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/tasks
 class Podio::Task < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -43,6 +44,7 @@ class Podio::Task < ActivePodio::Base
 
   alias_method :id, :task_id
 
+  # https://developers.podio.com/doc/tasks/create-task-22419
   def create
     result = self.create_multiple # Could return false if API call failed
     self.task_id = result.first.id if result
@@ -58,30 +60,37 @@ class Podio::Task < ActivePodio::Base
     end
   end
 
+  # https://developers.podio.com/doc/tasks/delete-task-77179
   def destroy
     self.class.delete(self.id)
   end
 
+  # https://developers.podio.com/doc/tasks/update-task-reference-170733
   def update_reference(ref_type, ref_id)
     self.class.update_reference(self.id, ref_type, ref_id)
   end
 
+  # https://developers.podio.com/doc/tasks/remove-task-reference-6146114
   def delete_reference
     self.class.delete_reference(self.id)
   end
 
+  # https://developers.podio.com/doc/tasks/update-task-labels-151769
   def update_labels(label_ids)
     self.class.update_labels(self.id, label_ids)
   end
 
+  # https://developers.podio.com/doc/tasks/complete-task-22432
   def complete
     self.class.complete(self.id)
   end
 
+  # https://developers.podio.com/doc/tasks/incomplete-task-22433
   def uncomplete
     self.class.incomplete(self.id)
   end
 
+  # https://developers.podio.com/doc/tasks/rank-task-81015
   def rank(previous_task, next_task)
     self.class.rank(self.id, previous_task && previous_task.to_i, next_task && next_task.to_i)
   end
@@ -89,6 +98,7 @@ class Podio::Task < ActivePodio::Base
   handle_api_errors_for :create_multiple, :destroy, :complete, :uncomplete, :update_reference # Call must be made after the methods to handle have been defined
 
   class << self
+    # https://developers.podio.com/doc/tasks/create-task-22419
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url "/task/"
@@ -98,6 +108,7 @@ class Podio::Task < ActivePodio::Base
       list [response.body].flatten
     end
 
+    # https://developers.podio.com/doc/tasks/create-task-with-reference-22420
     def create_with_ref(ref_type, ref_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/task/#{ref_type}/#{ref_id}/"
@@ -107,14 +118,17 @@ class Podio::Task < ActivePodio::Base
       list [response.body].flatten
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-description-76982
     def update_description(id, description)
       Podio.connection.put("/task/#{id}/description", {:description => description}).status
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-text-22428
     def update_text(id, text)
       Podio.connection.put("/task/#{id}/text", {:text => text}).status
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-private-22434
     def update_private(id, private_flag)
       Podio.connection.put("/task/#{id}/private", {:private => private_flag}).status
     end
@@ -123,56 +137,69 @@ class Podio::Task < ActivePodio::Base
       Podio.connection.put("/task/#{id}/due_date", {:due_date => due_date}).status
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-due-on-3442633
     def update_due_on(id, options)
       Podio.connection.put("/task/#{id}/due_on", options).status
     end
 
+    # https://developers.podio.com/doc/tasks/assign-task-22412
     def update_assignee(id, user_id)
       Podio.connection.post("/task/#{id}/assign", {:responsible => user_id}).status
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-reference-170733
     def update_reference(id, ref_type, ref_id)
       Podio.connection.put("/task/#{id}/ref", {:ref_type => ref_type, :ref_id => ref_id}).status
     end
 
+    # https://developers.podio.com/doc/tasks/remove-task-reference-6146114
     def delete_reference(task_id)
       Podio.connection.delete("/task/#{task_id}/ref").status
     end
 
+    # https://developers.podio.com/doc/tasks/update-task-labels-151769
     def update_labels(id, label_ids)
       Podio.connection.put("/task/#{id}/label/", label_ids).status
     end
 
+    # https://developers.podio.com/doc/tasks/delete-task-77179
     def delete(id)
       Podio.connection.delete("/task/#{id}").status
     end
 
+    # https://developers.podio.com/doc/tasks/complete-task-22432
     def complete(id)
       Podio.connection.post("/task/#{id}/complete").body
     end
 
+    # https://developers.podio.com/doc/tasks/incomplete-task-22433
     def incomplete(id)
       Podio.connection.post("/task/#{id}/incomplete").body
     end
 
+    # https://developers.podio.com/doc/tasks/rank-task-81015
     def rank(id, before_task_id, after_task_id)
       Podio.connection.post("/task/#{id}/rank", {:before => before_task_id, :after => after_task_id}).body
     end
 
+    # https://developers.podio.com/doc/tasks/get-task-22413
     def find(id)
       member Podio.connection.get("/task/#{id}").body
     end
 
+    # https://developers.podio.com/doc/tasks/get-tasks-with-reference-22426
     def find_for_reference(ref_type, ref_id)
       list Podio.connection.get("/task/#{ref_type}/#{ref_id}/").body
     end
 
+    # https://developers.podio.com/doc/tasks/get-tasks-77949
     def find_all(options={})
       list Podio.connection.get { |req|
         req.url('/task/', options)
       }.body
     end
 
+    # https://developers.podio.com/doc/tasks/get-task-summary-1612017
     def find_summary
       response = Podio.connection.get("/task/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -181,6 +208,7 @@ class Podio::Task < ActivePodio::Base
       response
     end
 
+    # https://developers.podio.com/doc/tasks/get-task-summary-for-organization-1612063
     def find_summary_for_org(org_id, limit=nil)
       response = Podio.connection.get("/task/org/#{org_id}/summary" +
                                       ((limit != nil) ? "?limit=#{limit}" : "")).body
@@ -190,6 +218,7 @@ class Podio::Task < ActivePodio::Base
       response
     end
 
+    # https://developers.podio.com/doc/tasks/get-task-summary-for-reference-1657980
     def find_summary_for_reference(ref_type, ref_id)
       response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
@@ -198,6 +227,7 @@ class Podio::Task < ActivePodio::Base
       response
     end
 
+    # https://developers.podio.com/doc/tasks/get-task-summary-for-personal-1657217
     def find_personal_summary
       response = Podio.connection.get("/task/personal/summary").body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])

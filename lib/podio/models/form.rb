@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/forms
 class Podio::Form < ActivePodio::Base
   property :form_id, :integer
   property :app_id, :integer
@@ -16,6 +17,7 @@ class Podio::Form < ActivePodio::Base
   delegate_to_hash :text, :submit, :success, :heading, :description, :setter => true
 
   class << self
+    # https://developers.podio.com/doc/forms/create-form-53803
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/form/app/#{app_id}/"
@@ -25,6 +27,7 @@ class Podio::Form < ActivePodio::Base
       response.body['form_id']
     end
 
+    # https://developers.podio.com/doc/forms/update-form-53808
     def update(form_id, attributes)
       response = Podio.connection.put do |req|
         req.url "/form/#{form_id}"
@@ -34,20 +37,24 @@ class Podio::Form < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/forms/get-forms-53771
     def find_all_for_app(app_id)
       list Podio.connection.get { |req|
         req.url("/form/app/#{app_id}/")
       }.body
     end
 
+    # https://developers.podio.com/doc/forms/get-form-53754
     def find(form_id)
       member Podio.connection.get("/form/#{form_id}").body
     end
 
+    # https://developers.podio.com/doc/forms/deactivate-form-1107378
     def disable(form_id)
       Podio.connection.post("/form/#{form_id}/deactivate").body
     end
 
+    # https://developers.podio.com/doc/forms/activate-form-1107439
     def enable(form_id)
       Podio.connection.post("/form/#{form_id}/activate").body
     end

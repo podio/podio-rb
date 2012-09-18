@@ -1,4 +1,5 @@
 # Encapsulates a user's membership of a space.
+# https://developers.podio.com/doc/space-members
 class Podio::SpaceMember < ActivePodio::Base
   property :role, :string
   property :invited_on, :datetime
@@ -14,12 +15,14 @@ class Podio::SpaceMember < ActivePodio::Base
   alias_method :id, :user_id
 
   class << self
+    # https://developers.podio.com/doc/space-members/get-space-members-by-role-68043
     def find_all_for_role(space_id, role)
       list Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/#{role}/")
       }.body
     end
 
+    # https://developers.podio.com/doc/space-members/get-space-membership-22397
     def find_membership(space_id, user_id)
       response = Podio.connection.get { |req|
         req.url("/space/#{space_id}/member/#{user_id}")
@@ -33,10 +36,12 @@ class Podio::SpaceMember < ActivePodio::Base
       }.body
     end
 
+    # https://developers.podio.com/doc/space-members/get-active-members-of-space-22395
     def find_all(space_id, options = {})
       list Podio.connection.get("/space/#{space_id}/member/", options).body
     end
 
+    # https://developers.podio.com/doc/space-members/update-space-memberships-22398
     def update_role(space_id, user_id, role)
       response = Podio.connection.put do |req|
         req.url "/space/#{space_id}/member/#{user_id}"
@@ -45,10 +50,12 @@ class Podio::SpaceMember < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/space-members/end-space-memberships-22399
     def end_membership(space_id, user_id)
       Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
 
+    # https://developers.podio.com/doc/space-members/get-top-users-on-space-22461
     def find_top_contacts(space_id)
       result = Podio.connection.get("/space/#{space_id}/member/top/").body
       %w(employee external).each do |section|
@@ -61,10 +68,12 @@ class Podio::SpaceMember < ActivePodio::Base
       list Podio.connection.get("/org/#{org_id}/member/#{user_id}/space_member/").body
     end
 
+    # https://developers.podio.com/doc/space-members/request-space-membership-6146231
     def request_membership(space_id)
       Podio.connection.post("/space/#{space_id}/member_request/").status
     end
 
+    # https://developers.podio.com/doc/space-members/accept-space-membership-request-6146271
     def accept_membership_request(space_id, space_member_request_id)
       Podio.connection.post("/space/#{space_id}/member_request/#{space_member_request_id}/accept").status
     end

@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/widgets
 class Podio::Widget < ActivePodio::Base
   property :widget_id, :integer
   property :ref_type, :string
@@ -8,8 +9,9 @@ class Podio::Widget < ActivePodio::Base
   property :ref, :hash
   property :rights, :array
   property :data, :hash
-  
+
   class << self
+    # https://developers.podio.com/doc/widgets/create-widget-22491
     def create(ref_type, ref_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/widget/#{ref_type}/#{ref_id}/"
@@ -19,6 +21,7 @@ class Podio::Widget < ActivePodio::Base
       response.body['widget_id']
     end
 
+    # https://developers.podio.com/doc/widgets/update-widget-22490
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/widget/#{id}"
@@ -28,10 +31,12 @@ class Podio::Widget < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/widgets/delete-widget-22492
     def delete(id)
       Podio.connection.delete("/widget/#{id}").status
     end
 
+    # https://developers.podio.com/doc/widgets/update-widget-order-22495
     def update_order(ref_type, ref_id, widget_list)
       response = Podio.connection.put do |req|
         req.url "/widget/#{ref_type}/#{ref_id}/order"
@@ -41,10 +46,12 @@ class Podio::Widget < ActivePodio::Base
       response.status
     end
 
+    # https://developers.podio.com/doc/widgets/get-widget-22489
     def find(id)
       member Podio.connection.get("/widget/#{id}").body
     end
 
+    # https://developers.podio.com/doc/widgets/get-widgets-22494
     def find_all_for_reference(ref_type, ref_id)
       list Podio.connection.get("/widget/#{ref_type}/#{ref_id}/display/").body
     end

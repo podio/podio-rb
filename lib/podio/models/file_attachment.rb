@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/files
 class Podio::FileAttachment < ActivePodio::Base
   property :file_id, :integer
   property :link, :string
@@ -32,6 +33,7 @@ class Podio::FileAttachment < ActivePodio::Base
 
   class << self
     # Accepts an open file stream along with a file name and uploads the file to Podio
+    # https://developers.podio.com/doc/files/upload-file-1004361
     def upload(file_stream, file_name)
       response = Podio.client.connection.post do |req|
         req.options[:timeout] = 1200
@@ -53,6 +55,7 @@ class Podio::FileAttachment < ActivePodio::Base
     end
 
     # Attach a file to an existing reference
+    # https://developers.podio.com/doc/files/attach-file-22518
     def attach(id, ref_type, ref_id)
       Podio.connection.post do |req|
         req.url "/file/#{id}/attach"
@@ -60,40 +63,48 @@ class Podio::FileAttachment < ActivePodio::Base
       end
     end
 
+    # https://developers.podio.com/doc/files/copy-file-89977
     def copy(id)
       Podio.connection.post("/file/#{id}/copy").body['file_id']
     end
 
+    # https://developers.podio.com/doc/files/delete-file-22453
     def delete(id)
       Podio.connection.delete("/file/#{id}")
     end
 
+    # https://developers.podio.com/doc/files/get-file-22451
     def find(id)
       member Podio.connection.get("/file/#{id}").body
     end
 
+    # https://developers.podio.com/doc/files/download-file-1004147
     def find_raw(id)
       Podio.client.connection.get("/file/#{id}/raw").body
     end
 
+    # https://developers.podio.com/doc/files/get-files-on-app-22472
     def find_for_app(app_id, options={})
       list Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/files/get-files-on-space-22471
     def find_for_space(space_id, options={})
       list Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/files/get-latest-files-on-app-22473
     def find_latest_for_app(app_id, options={})
       list Podio.connection.get { |req|
         req.url("/file/app/#{app_id}/latest/", options)
       }.body
     end
 
+    # https://developers.podio.com/doc/files/get-latest-files-on-space-22470
     def find_latest_for_space(space_id, options={})
       list Podio.connection.get { |req|
         req.url("/file/space/#{space_id}/latest/", options)
@@ -106,6 +117,7 @@ class Podio::FileAttachment < ActivePodio::Base
       }.body
     end
 
+    # https://developers.podio.com/doc/files/replace-file-22450
     def replace(old_file_id, new_file_id)
       Podio.connection.post { |req|
         req.url "/file/#{new_file_id}/replace"
@@ -113,6 +125,7 @@ class Podio::FileAttachment < ActivePodio::Base
       }.body
     end
 
+    # https://developers.podio.com/doc/files/update-file-22454
     def update(id, description)
       Podio.connection.put { |req|
         req.url "/file/#{file_id}"

@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/users
 class Podio::UserStatus < ActivePodio::Base
   property :user, :hash
   property :profile, :hash
@@ -12,6 +13,7 @@ class Podio::UserStatus < ActivePodio::Base
   has_one :referral, :class => 'Referral'
 
   class << self
+    # https://developers.podio.com/doc/users/get-user-status-22480
     def current
       member Podio.connection.get("/user/status").body
     end

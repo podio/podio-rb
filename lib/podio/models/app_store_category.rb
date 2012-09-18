@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/app-store
 class Podio::AppStoreCategory < ActivePodio::Base
   property :category_id, :integer
   property :name, :string
@@ -7,10 +8,12 @@ class Podio::AppStoreCategory < ActivePodio::Base
 
   class << self
 
+    # https://developers.podio.com/doc/app-market/get-shares-by-category-22498
     def find(category_id)
       member Podio.connection.get("/app_store/category/#{category_id}").body
     end
 
+    # https://developers.podio.com/doc/app-market/get-categories-37009
     def find_all
       categories = Podio.connection.get("/app_store/category/").body
 

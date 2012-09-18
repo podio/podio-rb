@@ -1,12 +1,14 @@
+# https://developers.podio.com/doc/ratings
 class Podio::Rating < ActivePodio::Base
 
   property :rating_id, :integer
   property :type, :string
   property :value, :string
-  
+
   alias_method :id, :rating_id
-  
+
   class << self
+    # https://developers.podio.com/doc/ratings/add-rating-22377
     def create(ref_type, ref_id, rating_type, value)
       response = Podio.connection.post do |req|
         req.url "/rating/#{ref_type}/#{ref_id}/#{rating_type}"
@@ -16,25 +18,30 @@ class Podio::Rating < ActivePodio::Base
       response.body['rating_id']
     end
 
+    # https://developers.podio.com/doc/ratings/get-all-ratings-22376
     def find_all(ref_type, ref_id)
       collection Podio.connection.get("/rating/#{ref_type}/#{ref_id}").body
     end
-    
+
+    # https://developers.podio.com/doc/ratings/get-rating-22407
     def find(ref_type, ref_id, rating_type, user_id)
       Podio.connection.get("/rating/#{ref_type}/#{ref_id}/#{rating_type}/#{user_id}").body['value']
     end
 
+    # https://developers.podio.com/doc/ratings/get-rating-own-84128
     def find_own(ref_type, ref_id, rating_type)
       Podio.connection.get("/rating/#{ref_type}/#{ref_id}/#{rating_type}/self").body['value']
     end
 
+    # https://developers.podio.com/doc/ratings/get-ratings-22375
     def find_all_by_type(ref_type, ref_id, rating_type)
       collection Podio.connection.get("/rating/#{ref_type}/#{ref_id}/#{rating_type}").body
     end
 
+    # https://developers.podio.com/doc/ratings/remove-rating-22342
     def delete(ref_type, ref_id, rating_type)
       Podio.connection.delete("/rating/#{ref_type}/#{ref_id}/#{rating_type}").body
     end
   end
-  
+
 end
