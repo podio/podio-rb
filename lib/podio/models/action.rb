@@ -1,3 +1,4 @@
+# https://developers.podio.com/doc/actions
 class Podio::Action < ActivePodio::Base
   property :action_id, :integer
   property :type, :string
@@ -5,11 +6,12 @@ class Podio::Action < ActivePodio::Base
   property :text, :string
 
   alias_method :id, :action_id
-  
+
   class << self
+    # https://developers.podio.com/doc/actions/get-action-1701120
     def find(id)
       member Podio.connection.get("/action/#{id}").body
     end
   end
-  
+
 end
