@@ -12,8 +12,10 @@ class Podio::ItemField < ActivePodio::Base
   class << self
     # https://developers.podio.com/doc/items/update-item-field-values-22367
     def update(item_id, field_id, values)
+      silent = values[:silent] ? '?silent=1' : ''
+      values.delete(:silent) if values && values[:silent]
       response = Podio.connection.put do |req|
-        req.url "/item/#{item_id}/value/#{field_id}"
+        req.url "/item/#{item_id}/value/#{field_id}#{silent}"
         req.body = values
       end
       response.body
