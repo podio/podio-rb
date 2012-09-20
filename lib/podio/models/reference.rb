@@ -32,5 +32,11 @@ class Podio::Reference < ActivePodio::Base
       response.body
     end
 
+    # https://developers.podio.com/doc/reference/get-users-with-access-to-object-16681010
+    def find_users_with_access(ref_type, ref_id, options = {})
+      Podio.connection.get { |req|
+        req.url(" /reference/#{ref_type}/#{ref_id}/access", options)
+      }.body
+    end
   end
 end

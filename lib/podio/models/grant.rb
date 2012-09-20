@@ -1,3 +1,4 @@
+# TODO: Add documention links for this area once the docs has been made public
 class Podio::Grant < ActivePodio::Base
 
   property :ref_type, :string
@@ -7,6 +8,7 @@ class Podio::Grant < ActivePodio::Base
   property :message, :string
 
   has_one :created_by, :class => 'ByLine'
+  has_one :user, :class => 'Contact'
 
   def save
     self.class.create(self.ref_type, self.ref_id, self.attributes)
@@ -26,6 +28,14 @@ class Podio::Grant < ActivePodio::Base
 
     def find_own(ref_type, ref_id)
       member Podio.connection.get("/grant/#{ref_type}/#{ref_id}/own").body
+    end
+
+    def find_all(ref_type, ref_id)
+      list Podio.connection.get("grant/#{ref_type}/#{ref_id}/").body
+    end
+
+    def delete(ref_type, ref_id, user_id)
+      Podio.connection.delete("grant/#{ref_type}/#{ref_id}/#{user_id}").body
     end
   end
 end
