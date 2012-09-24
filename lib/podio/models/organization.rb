@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/organizations
+# @see https://developers.podio.com/doc/organizations
 class Podio::Organization < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -31,7 +31,7 @@ class Podio::Organization < ActivePodio::Base
 
   alias_method :id, :org_id
 
-  # https://developers.podio.com/doc/organizations/add-new-organization-22385
+  # @see https://developers.podio.com/doc/organizations/add-new-organization-22385
   def create
     attributes = Organization.create(:name => name, :logo => logo, :segment_size => segment_size)
     self.org_id = attributes['org_id']
@@ -39,7 +39,7 @@ class Podio::Organization < ActivePodio::Base
     self.url_label = attributes['url_label']
   end
 
-  # https://developers.podio.com/doc/organizations/update-organization-22386
+  # @see https://developers.podio.com/doc/organizations/update-organization-22386
   def update
     Organization.update(id, {:name => name, :logo => logo, :url_label => url_label, :billing_interval => billing_interval, :segment_size => segment_size})
   end
@@ -47,7 +47,7 @@ class Podio::Organization < ActivePodio::Base
   handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
 
   class << self
-    # https://developers.podio.com/doc/organizations/update-organization-22386
+    # @see https://developers.podio.com/doc/organizations/update-organization-22386
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/org/#{id}"
@@ -60,7 +60,7 @@ class Podio::Organization < ActivePodio::Base
       Podio.connection.delete("/org/#{id}").status
     end
 
-    # https://developers.podio.com/doc/organizations/add-new-organization-22385
+    # @see https://developers.podio.com/doc/organizations/add-new-organization-22385
     def create(attributes)
       response = Podio.connection.post do |req|
         req.url '/org/'
@@ -70,12 +70,12 @@ class Podio::Organization < ActivePodio::Base
       response.body
     end
 
-    # https://developers.podio.com/doc/organizations/get-organization-22383
+    # @see https://developers.podio.com/doc/organizations/get-organization-22383
     def find(id)
       member Podio.connection.get("/org/#{id}").body
     end
 
-    # https://developers.podio.com/doc/organizations/get-organization-by-url-22384
+    # @see https://developers.podio.com/doc/organizations/get-organization-by-url-22384
     def find_by_url(url)
       member Podio.connection.get("/org/url?url=#{url}").body
     end
@@ -87,12 +87,12 @@ class Podio::Organization < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/organizations/get-organizations-22344
+    # @see https://developers.podio.com/doc/organizations/get-organizations-22344
     def find_all
       list Podio.connection.get("/org/").body
     end
 
-    # https://developers.podio.com/doc/organizations/get-organization-statistics-28734
+    # @see https://developers.podio.com/doc/organizations/get-organization-statistics-28734
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics").body
     end

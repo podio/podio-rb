@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/contacts
+# @see https://developers.podio.com/doc/contacts
 class Podio::SpaceContact < Podio::Profile
   include ActivePodio::Updatable
 

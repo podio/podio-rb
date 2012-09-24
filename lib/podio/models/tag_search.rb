@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/tags
+# @see https://developers.podio.com/doc/tags
 class Podio::TagSearch < ActivePodio::Base
   property :id, :integer
   property :type, :string

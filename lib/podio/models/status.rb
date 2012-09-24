@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/status
+# @see https://developers.podio.com/doc/status
 class Podio::Status < ActivePodio::Base
   property :status_id, :integer
   property :value, :string
@@ -28,18 +28,18 @@ class Podio::Status < ActivePodio::Base
 
   alias_method :id, :status_id
 
-  # https://developers.podio.com/doc/status/delete-a-status-message-22339
+  # @see https://developers.podio.com/doc/status/delete-a-status-message-22339
   def destroy
     Status.delete(self.id)
   end
 
   class << self
-    # https://developers.podio.com/doc/status/get-status-message-22337
+    # @see https://developers.podio.com/doc/status/get-status-message-22337
     def find(id)
       member Podio.connection.get("/status/#{id}").body
     end
 
-    # https://developers.podio.com/doc/status/add-new-status-message-22336
+    # @see https://developers.podio.com/doc/status/add-new-status-message-22336
     def create(space_id, attributes=[])
       response = Podio.connection.post do |req|
         req.url "/status/space/#{space_id}/"
@@ -49,7 +49,7 @@ class Podio::Status < ActivePodio::Base
       response.body['status_id']
     end
 
-    # https://developers.podio.com/doc/status/delete-a-status-message-22339
+    # @see https://developers.podio.com/doc/status/delete-a-status-message-22339
     def delete(id)
       Podio.connection.delete("/status/#{id}").body
     end

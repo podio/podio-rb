@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/search
+# @see https://developers.podio.com/doc/search
 class Podio::Search < ActivePodio::Base
   property :type, :string
   property :id, :integer
@@ -14,7 +14,7 @@ class Podio::Search < ActivePodio::Base
   has_one :space, :class => 'Space'
 
   class << self
-    # https://developers.podio.com/doc/search/search-in-organization-22487
+    # @see https://developers.podio.com/doc/search/search-in-organization-22487
     def in_org(org_id, words)
       response = Podio.connection.post do |req|
         req.url "/search/org/#{org_id}/"
@@ -24,7 +24,7 @@ class Podio::Search < ActivePodio::Base
       list response.body
     end
 
-    # https://developers.podio.com/doc/search/search-globally-22488
+    # @see https://developers.podio.com/doc/search/search-globally-22488
     def globally(words, attributes={})
       attributes[:query] = words
       response = Podio.connection.post do |req|
@@ -35,7 +35,7 @@ class Podio::Search < ActivePodio::Base
       list response.body
     end
 
-    # https://developers.podio.com/doc/search/search-in-space-22479
+    # @see https://developers.podio.com/doc/search/search-in-space-22479
     def in_space(space_id, words, attributes={})
       attributes[:query] = words
       response = Podio.connection.post do |req|
@@ -46,7 +46,7 @@ class Podio::Search < ActivePodio::Base
       list response.body
     end
 
-    # https://developers.podio.com/doc/search/search-in-app-4234651
+    # @see https://developers.podio.com/doc/search/search-in-app-4234651
     def in_app(app_id, words, attributes={})
       attributes[:query] = words
       response = Podio.connection.post do |req|

@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/reminders
+# @see https://developers.podio.com/doc/reminders
 class Podio::Reminder < ActivePodio::Base
   property :reminder_id, :integer
   property :remind_delta, :integer
@@ -6,17 +6,17 @@ class Podio::Reminder < ActivePodio::Base
   alias_method :id, :reminder_id
 
   class << self
-    # https://developers.podio.com/doc/reminders/delete-reminder-3315117
+    # @see https://developers.podio.com/doc/reminders/delete-reminder-3315117
     def delete(ref_type, ref_id)
       Podio.connection.delete("/reminder/#{ref_type}/#{ref_id}").body
     end
 
-    # https://developers.podio.com/doc/reminders/snooze-reminder-3321049
+    # @see https://developers.podio.com/doc/reminders/snooze-reminder-3321049
     def snooze(ref_type, ref_id)
       Podio.connection.post("/reminder/#{ref_type}/#{ref_id}/snooze").body
     end
 
-    # https://developers.podio.com/doc/reminders/create-or-update-reminder-3315055
+    # @see https://developers.podio.com/doc/reminders/create-or-update-reminder-3315055
     def create(ref_type, ref_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/reminder/#{ref_type}/#{ref_id}"
@@ -25,7 +25,7 @@ class Podio::Reminder < ActivePodio::Base
       response.status
     end
 
-    # https://developers.podio.com/doc/reminders/create-or-update-reminder-3315055
+    # @see https://developers.podio.com/doc/reminders/create-or-update-reminder-3315055
     def update(ref_type, ref_id, attributes)
       response = Podio.connection.put do |req|
         req.url "/reminder/#{ref_type}/#{ref_id}"

@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/calendar
+# @see https://developers.podio.com/doc/calendar
 class Podio::CalendarEvent < ActivePodio::Base
   property :type, :string
   property :id, :integer
@@ -17,21 +17,21 @@ class Podio::CalendarEvent < ActivePodio::Base
 
   class << self
 
-    # https://developers.podio.com/doc/calendar/get-global-calendar-22458
+    # @see https://developers.podio.com/doc/calendar/get-global-calendar-22458
     def find_all(options = {})
       list Podio.connection.get { |req|
         req.url('/calendar/', options)
       }.body
     end
 
-    # https://developers.podio.com/doc/calendar/get-space-calendar-22459
+    # @see https://developers.podio.com/doc/calendar/get-space-calendar-22459
     def find_all_for_space(space_id, options={})
       list Podio.connection.get { |req|
         req.url("/calendar/space/#{space_id}/", options)
       }.body
     end
 
-    # https://developers.podio.com/doc/calendar/get-app-calendar-22460
+    # @see https://developers.podio.com/doc/calendar/get-app-calendar-22460
     def find_all_for_app(app_id, options={})
       list Podio.connection.get { |req|
         req.url("/calendar/app/#{app_id}/", options)
@@ -44,7 +44,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/calendar/get-calendar-summary-1609256
+    # @see https://developers.podio.com/doc/calendar/get-calendar-summary-1609256
     def find_summary(options = {})
       response = Podio.connection.get do |req|
         req.url("/calendar/summary", options)
@@ -54,7 +54,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       response
     end
 
-    # https://developers.podio.com/doc/calendar/get-calendar-summary-for-space-1609328
+    # @see https://developers.podio.com/doc/calendar/get-calendar-summary-for-space-1609328
     def find_summary_for_space(space_id)
       response = Podio.connection.get("/calendar/space/#{space_id}/summary").body
       response['today']['events'] = list(response['today']['events'])
@@ -69,7 +69,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       response
     end
 
-    # https://developers.podio.com/doc/calendar/get-calendar-summary-for-personal-1657903
+    # @see https://developers.podio.com/doc/calendar/get-calendar-summary-for-personal-1657903
     def find_personal_summary
       response = Podio.connection.get("/calendar/personal/summary").body
       response['today']['events'] = list(response['today']['events'])
@@ -77,7 +77,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       response
     end
 
-    # https://developers.podio.com/doc/calendar/set-reference-export-9183515
+    # @see https://developers.podio.com/doc/calendar/set-reference-export-9183515
     def set_reference_export(linked_account_id, ref_type, ref_id, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/export/linked_account/#{linked_account_id}/#{ref_type}/#{ref_id}"
@@ -86,19 +86,19 @@ class Podio::CalendarEvent < ActivePodio::Base
       response.status
     end
 
-    # https://developers.podio.com/doc/calendar/get-exports-by-reference-7554180
+    # @see https://developers.podio.com/doc/calendar/get-exports-by-reference-7554180
     def get_reference_exports(ref_type, ref_id)
       list Podio.connection.get { |req|
         req.url("/calendar/export/#{ref_type}/#{ref_id}/")
       }.body
     end
 
-    # https://developers.podio.com/doc/calendar/stop-reference-export-9183590
+    # @see https://developers.podio.com/doc/calendar/stop-reference-export-9183590
     def stop_reference_export(linked_account_id, ref_type, ref_id)
       Podio.connection.delete("/calendar/export/linked_account/#{linked_account_id}/#{ref_type}/#{ref_id}").status
     end
 
-    # https://developers.podio.com/doc/calendar/get-global-export-9381099
+    # @see https://developers.podio.com/doc/calendar/get-global-export-9381099
     def set_global_export(linked_account_id, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/export/linked_account/#{linked_account_id}"
@@ -107,7 +107,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       response.status
     end
 
-    # https://developers.podio.com/doc/calendar/get-global-exports-7554169
+    # @see https://developers.podio.com/doc/calendar/get-global-exports-7554169
     def get_global_exports()
       list Podio.connection.get { |req|
         req.url("/calendar/export/")

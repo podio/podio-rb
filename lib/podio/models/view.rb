@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/filters
+# @see https://developers.podio.com/doc/filters
 class Podio::View < ActivePodio::Base
   property :view_id, :integer
   property :name, :string
@@ -15,29 +15,29 @@ class Podio::View < ActivePodio::Base
   has_one :created_by, :class => 'User'
 
   class << self
-    # https://developers.podio.com/doc/views/get-last-view-27663
+    # @see https://developers.podio.com/doc/views/get-last-view-27663
     def find_last(app_id)
       member Podio.connection.get("/view/app/#{app_id}/last").body
     end
 
-    # https://developers.podio.com/doc/views/get-views-27460
+    # @see https://developers.podio.com/doc/views/get-views-27460
     def find_all(app_id)
       list Podio.connection.get { |req|
         req.url("/view/app/#{app_id}/")
       }.body
     end
 
-    # https://developers.podio.com/doc/views/get-view-27450
+    # @see https://developers.podio.com/doc/views/get-view-27450
     def find(id)
       member Podio.connection.get("/view/#{id}").body
     end
 
-    # https://developers.podio.com/doc/views/delete-view-27454
+    # @see https://developers.podio.com/doc/views/delete-view-27454
     def delete(view_id)
       Podio.connection.delete("/view/#{view_id}").status
     end
 
-    # https://developers.podio.com/doc/views/create-view-27453
+    # @see https://developers.podio.com/doc/views/create-view-27453
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/view/app/#{app_id}/"
@@ -47,7 +47,7 @@ class Podio::View < ActivePodio::Base
       response.body['view_id']
     end
 
-    # https://developers.podio.com/doc/views/update-last-view-5988251
+    # @see https://developers.podio.com/doc/views/update-last-view-5988251
     def update_last(app_id, attributes)
       Podio.connection.put do |req|
         req.url "/view/app/#{app_id}/last"

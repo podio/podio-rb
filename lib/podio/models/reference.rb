@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/reference
+# @see https://developers.podio.com/doc/reference
 class Podio::Reference < ActivePodio::Base
 
   property :type, :string
@@ -12,14 +12,14 @@ class Podio::Reference < ActivePodio::Base
   has_one :created_via, :class => 'Via'
 
   class << self
-    # https://developers.podio.com/doc/reference/get-reference-10661022
+    # @see https://developers.podio.com/doc/reference/get-reference-10661022
     def find(ref_type, ref_id, options = {})
       member Podio.connection.get { |req|
         req.url("/reference/#{ref_type}/#{ref_id}", options)
       }.body
     end
 
-    # https://developers.podio.com/doc/reference/search-references-13312595
+    # @see https://developers.podio.com/doc/reference/search-references-13312595
     def search(target, query, limit)
       response = Podio.connection.post do |req|
         req.url "/reference/search"
@@ -32,7 +32,7 @@ class Podio::Reference < ActivePodio::Base
       response.body
     end
 
-    # https://developers.podio.com/doc/reference/get-users-with-access-to-object-16681010
+    # @see https://developers.podio.com/doc/reference/get-users-with-access-to-object-16681010
     def find_users_with_access(ref_type, ref_id, options = {})
       Podio.connection.get { |req|
         req.url(" /reference/#{ref_type}/#{ref_id}/access", options)

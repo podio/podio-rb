@@ -1,5 +1,5 @@
 # Encapsulates a primary contact for an organization, primarily used for billing purposes
-# https://developers.podio.com/doc/contacts
+# @see https://developers.podio.com/doc/contacts
 class Podio::OrganizationContact < Podio::Profile
   include ActivePodio::Updatable
 

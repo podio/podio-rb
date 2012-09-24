@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/files
+# @see https://developers.podio.com/doc/files
 class Podio::ExternalFile < ActivePodio::Base
   property :external_file_id, :string
   property :name, :string

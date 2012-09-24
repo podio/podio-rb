@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/users
+# @see https://developers.podio.com/doc/users
 class Podio::User < ActivePodio::Base
   property :user_id, :integer
   property :mail, :string
@@ -29,7 +29,7 @@ class Podio::User < ActivePodio::Base
   alias_method :id, :user_id
 
   class << self
-    # https://developers.podio.com/doc/users/get-user-22378
+    # @see https://developers.podio.com/doc/users/get-user-22378
     def current
       member Podio.connection.get("/user/").body
     end
@@ -56,7 +56,7 @@ class Podio::User < ActivePodio::Base
       Podio.connection.put("/user/", attributes).status
     end
 
-    # https://developers.podio.com/doc/users/update-profile-22402
+    # @see https://developers.podio.com/doc/users/update-profile-22402
     def update_profile(attributes)
       Podio.connection.put("/user/profile/", attributes).status
     end
@@ -70,7 +70,7 @@ class Podio::User < ActivePodio::Base
       member response.body
     end
 
-    # https://developers.podio.com/doc/organizations/get-organization-admins-81542
+    # @see https://developers.podio.com/doc/organizations/get-organization-admins-81542
     def find_all_admins_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/admin/").body
     end
@@ -83,17 +83,17 @@ class Podio::User < ActivePodio::Base
       Podio.connection.put("/user/property/#{name}", {:value => value}).status
     end
 
-    # https://developers.podio.com/doc/users/get-user-property-29798
+    # @see https://developers.podio.com/doc/users/get-user-property-29798
     def get_property_hash(name)
       Podio.connection.get("/user/property/#{name}").body
     end
 
-    # https://developers.podio.com/doc/users/set-user-property-29799
+    # @see https://developers.podio.com/doc/users/set-user-property-29799
     def set_property_hash(name, hash)
       Podio.connection.put("/user/property/#{name}", hash).status
     end
 
-    # https://developers.podio.com/doc/users/set-user-properties-9052829
+    # @see https://developers.podio.com/doc/users/set-user-properties-9052829
     def set_properties(attributes)
       response = Podio.connection.put do |req|
         req.url '/user/property/'
@@ -103,7 +103,7 @@ class Podio::User < ActivePodio::Base
       response.body
     end
 
-    # https://developers.podio.com/doc/users/delete-user-property-29800
+    # @see https://developers.podio.com/doc/users/delete-user-property-29800
     def remove_property(name)
       Podio.connection.delete("/user/property/#{name}", {}).status
     end

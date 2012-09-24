@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/embeds
+# @see https://developers.podio.com/doc/embeds
 class Podio::Embed < ActivePodio::Base
 
   property :embed_id, :integer
@@ -19,7 +19,7 @@ class Podio::Embed < ActivePodio::Base
 
   class << self
 
-    # https://developers.podio.com/doc/embeds/add-an-embed-726483
+    # @see https://developers.podio.com/doc/embeds/add-an-embed-726483
     def create(url)
       response = Podio.connection.post do |req|
         req.url '/embed/'

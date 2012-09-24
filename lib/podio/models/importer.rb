@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/importer
+# @see https://developers.podio.com/doc/importer
 class Podio::Importer < ActivePodio::Base
 
   class << self
@@ -15,12 +15,12 @@ class Podio::Importer < ActivePodio::Base
       list Podio.connection.get("/importer/#{file_id}/column/").body
     end
 
-    # https://developers.podio.com/doc/importer/get-info-5929504
+    # @see https://developers.podio.com/doc/importer/get-info-5929504
     def get_info(file_id)
       Podio.connection.get("/importer/#{file_id}/info").body
     end
 
-    # https://developers.podio.com/doc/importer/get-preview-5936702
+    # @see https://developers.podio.com/doc/importer/get-preview-5936702
     def preview(file_id, row, options)
       response = Podio.connection.post do |req|
         req.url "/importer/#{file_id}/preview/#{row}"

@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/oauth-authorization
+# @see https://developers.podio.com/doc/oauth-authorization
 class Podio::OAuthClient < ActivePodio::Base
   include ActivePodio::Updatable
 

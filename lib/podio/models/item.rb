@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/items
+# @see https://developers.podio.com/doc/items
 class Podio::Item < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -47,17 +47,17 @@ class Podio::Item < ActivePodio::Base
   alias_method :id, :item_id
   delegate_to_hash :app, :app_id, :app_name, :item_name
 
-  # https://developers.podio.com/doc/items/add-new-item-22362
+  # @see https://developers.podio.com/doc/items/add-new-item-22362
   def create
     self.item_id = self.class.create(self.app_id, prepare_item_values(self))
   end
 
-  # https://developers.podio.com/doc/items/delete-item-22364
+  # @see https://developers.podio.com/doc/items/delete-item-22364
   def destroy
     self.class.delete(self.id)
   end
 
-  # https://developers.podio.com/doc/items/update-item-22363
+  # @see https://developers.podio.com/doc/items/update-item-22363
   def update
     self.class.update(self.id, prepare_item_values(self))
   end
@@ -74,12 +74,12 @@ class Podio::Item < ActivePodio::Base
       end
 
   class << self
-    # https://developers.podio.com/doc/items/get-item-22360
+    # @see https://developers.podio.com/doc/items/get-item-22360
     def find(id)
       member Podio.connection.get("/item/#{id}").body
     end
 
-    # https://developers.podio.com/doc/items/get-item-basic-61768
+    # @see https://developers.podio.com/doc/items/get-item-basic-61768
     def find_basic(id)
       member Podio.connection.get("/item/#{id}/basic").body
     end
@@ -100,14 +100,14 @@ class Podio::Item < ActivePodio::Base
       collection Podio.connection.get("/item/app/#{app_id}/v2/?external_id=#{external_id}").body
     end
 
-    # https://developers.podio.com/doc/items/get-items-27803
+    # @see https://developers.podio.com/doc/items/get-items-27803
     def find_all(app_id, options={})
       collection Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/", options)
       }.body
     end
 
-    # https://developers.podio.com/doc/items/filter-items-by-view-4540284
+    # @see https://developers.podio.com/doc/items/filter-items-by-view-4540284
     def find_by_filter_id(app_id, filter_id, attributes)
       collection Podio.connection.post { |req|
         req.url "/item/app/#{app_id}/filter/#{filter_id}/"
@@ -115,7 +115,7 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/items/filter-items-4496747
+    # @see https://developers.podio.com/doc/items/filter-items-4496747
     def find_by_filter_values(app_id, filter_values, attributes={})
       attributes[:filters] = filter_values
       collection Podio.connection.post { |req|
@@ -124,7 +124,7 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/items/get-app-values-22455
+    # @see https://developers.podio.com/doc/items/get-app-values-22455
     def find_app_values(app_id)
       response = Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/values")
@@ -138,7 +138,7 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/items/calculate-67633
+    # @see https://developers.podio.com/doc/items/calculate-67633
     def calculate(app_id, config)
       response = Podio.connection.post do |req|
         req.url "/item/app/#{app_id}/calculate"
@@ -154,7 +154,7 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/items/get-items-as-xlsx-63233
+    # @see https://developers.podio.com/doc/items/get-items-as-xlsx-63233
     def xlsx(app_id, options={})
       response = Podio.connection.get { |req|
         req.url("/item/app/#{app_id}/xlsx/", options)
@@ -162,7 +162,7 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
-    # https://developers.podio.com/doc/items/export-items-4235696
+    # @see https://developers.podio.com/doc/items/export-items-4235696
     def export(app_id, exporter, options={})
       response = Podio.connection.post { |req|
         req.url "/item/app/#{app_id}/export/#{exporter}"
@@ -170,14 +170,14 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    # https://developers.podio.com/doc/items/find-items-by-field-and-title-22485
+    # @see https://developers.podio.com/doc/items/find-items-by-field-and-title-22485
     def search_field(field_id, options={})
       list Podio.connection.get { |req|
         req.url("/item/field/#{field_id}/find", options)
       }.body
     end
 
-    # https://developers.podio.com/doc/items/add-new-item-22362
+    # @see https://developers.podio.com/doc/items/add-new-item-22362
     def create(app_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/item/app/#{app_id}/"
@@ -187,7 +187,7 @@ class Podio::Item < ActivePodio::Base
       response.body['item_id']
     end
 
-    # https://developers.podio.com/doc/items/update-item-22363
+    # @see https://developers.podio.com/doc/items/update-item-22363
     def update(id, attributes)
       response = Podio.connection.put do |req|
         req.url "/item/#{id}"
@@ -196,17 +196,17 @@ class Podio::Item < ActivePodio::Base
       response.status
     end
 
-    # https://developers.podio.com/doc/items/delete-item-22364
+    # @see https://developers.podio.com/doc/items/delete-item-22364
     def delete(id)
       Podio.connection.delete("/item/#{id}").body
     end
 
-    # https://developers.podio.com/doc/items/delete-item-reference-7302326
+    # @see https://developers.podio.com/doc/items/delete-item-reference-7302326
     def delete_ref(id)
       Podio.connection.delete("/item/#{id}/ref").body
     end
 
-    # https://developers.podio.com/doc/items/set-participation-7156154
+    # @see https://developers.podio.com/doc/items/set-participation-7156154
     def set_participation(id, status)
       response = Podio.connection.put do |req|
         req.url "/item/#{id}/participation"
@@ -228,7 +228,7 @@ class Podio::Item < ActivePodio::Base
       member response.body
     end
 
-    # https://developers.podio.com/doc/items/get-meeting-url-14763260
+    # @see https://developers.podio.com/doc/items/get-meeting-url-14763260
     def find_meeting_url(id)
       response = Podio.connection.get { |req|
         req.url("/item/#{id}/meeting/url")

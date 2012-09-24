@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/conversations
+# @see https://developers.podio.com/doc/conversations
 class Podio::ConversationParticipant < ActivePodio::Base
   property :created_on, :datetime
 

@@ -1,5 +1,5 @@
 # Encapsulates an organization profile, primarily used for in app store
-# https://developers.podio.com/doc/organizations
+# @see https://developers.podio.com/doc/organizations
 class Podio::OrganizationProfile < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -19,17 +19,17 @@ class Podio::OrganizationProfile < ActivePodio::Base
   alias_method :logo, :avatar
   alias_method :logo=, :avatar=
 
-  # https://developers.podio.com/doc/organizations/create-organization-app-store-profile-87819
+  # @see https://developers.podio.com/doc/organizations/create-organization-app-store-profile-87819
   def create
     self.class.create(self.org_id, self.attributes)
   end
 
-  # https://developers.podio.com/doc/organizations/update-organization-app-store-profile-87805
+  # @see https://developers.podio.com/doc/organizations/update-organization-app-store-profile-87805
   def update
     self.class.update(self.org_id, self.attributes)
   end
 
-  # https://developers.podio.com/doc/organizations/delete-organization-app-store-profile-87808
+  # @see https://developers.podio.com/doc/organizations/delete-organization-app-store-profile-87808
   def destroy
     self.class.delete(self.org_id)
   end
@@ -37,7 +37,7 @@ class Podio::OrganizationProfile < ActivePodio::Base
   handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
 
   class << self
-    # https://developers.podio.com/doc/organizations/get-organization-app-store-profile-87799
+    # @see https://developers.podio.com/doc/organizations/get-organization-app-store-profile-87799
     def find(org_id)
       member Podio.connection.get("/org/#{org_id}/appstore").body
     end
@@ -46,7 +46,7 @@ class Podio::OrganizationProfile < ActivePodio::Base
       member Podio.connection.get("/app_store/org/#{url_label}/profile").body
     end
 
-    # https://developers.podio.com/doc/organizations/create-organization-app-store-profile-87819
+    # @see https://developers.podio.com/doc/organizations/create-organization-app-store-profile-87819
     def create(org_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/org/#{org_id}/appstore"
@@ -56,7 +56,7 @@ class Podio::OrganizationProfile < ActivePodio::Base
       response.body
     end
 
-    # https://developers.podio.com/doc/organizations/update-organization-app-store-profile-87805
+    # @see https://developers.podio.com/doc/organizations/update-organization-app-store-profile-87805
     def update(org_id, attributes)
       response = Podio.connection.put do |req|
         req.url "/org/#{org_id}/appstore"
@@ -65,7 +65,7 @@ class Podio::OrganizationProfile < ActivePodio::Base
       response.status
     end
 
-    # https://developers.podio.com/doc/organizations/delete-organization-app-store-profile-87808
+    # @see https://developers.podio.com/doc/organizations/delete-organization-app-store-profile-87808
     def delete(org_id)
       Podio.connection.delete("/org/#{org_id}/appstore").status
     end

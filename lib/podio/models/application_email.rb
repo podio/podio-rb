@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/email
+# @see https://developers.podio.com/doc/email
 class Podio::ApplicationEmail < ActivePodio::Base
   include ActivePodio::Updatable
 
@@ -6,14 +6,14 @@ class Podio::ApplicationEmail < ActivePodio::Base
   property :mappings, :hash
 
   class << self
-    # https://developers.podio.com/doc/email/get-app-email-configuration-622338
+    # @see https://developers.podio.com/doc/email/get-app-email-configuration-622338
     def get_app_configuration(app_id)
       member Podio.connection.get { |req|
         req.url("/email/app/#{app_id}", {})
       }.body
     end
 
-    # https://developers.podio.com/doc/email/update-app-email-configuration-622851
+    # @see https://developers.podio.com/doc/email/update-app-email-configuration-622851
     def update_app_configuration(app_id, options)
       Podio.connection.put { |req|
         req.url "/email/app/#{app_id}"

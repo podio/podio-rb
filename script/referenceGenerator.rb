@@ -31,7 +31,8 @@ YARD.parse("../lib/podio/models/#{path}")
 
 YARD::Registry.all(:class).each do |klass|
   klass.meths(:visibility => :public).each do |meth|
-    match = meth.docstring.match(/https:\/\/developers.podio.com\/doc\/([^0-9]+)([0-9]+)/)
+    link = meth.tag('see').name if meth.has_tag?('see')
+    match = link.match(/https:\/\/developers.podio.com\/doc\/([^0-9]+)([0-9]+)/) if link
     if match
       item_id = match[2].to_i
 

@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/notifications
+# @see https://developers.podio.com/doc/notifications
 class Podio::Notification < ActivePodio::Base
   property :notification_id, :integer
   property :user, :hash
@@ -29,22 +29,22 @@ class Podio::Notification < ActivePodio::Base
       member Podio.connection.get("/notification/#{id}").body
     end
 
-    # https://developers.podio.com/doc/notifications/mark-notification-as-viewed-22436
+    # @see https://developers.podio.com/doc/notifications/mark-notification-as-viewed-22436
     def mark_as_viewed(id)
       Podio.connection.post("/notification/#{id}/viewed").status
     end
 
-    # https://developers.podio.com/doc/notifications/mark-all-notifications-as-viewed-58099
+    # @see https://developers.podio.com/doc/notifications/mark-all-notifications-as-viewed-58099
     def mark_all_as_viewed
       Podio.connection.post("/notification/viewed").status
     end
 
-    # https://developers.podio.com/doc/notifications/star-notification-295910
+    # @see https://developers.podio.com/doc/notifications/star-notification-295910
     def star(id)
       Podio.connection.post("/notification/#{id}/star").status
     end
 
-    # https://developers.podio.com/doc/notifications/un-star-notification-295911
+    # @see https://developers.podio.com/doc/notifications/un-star-notification-295911
     def unstar(id)
       Podio.connection.delete("/notification/#{id}/star").status
     end

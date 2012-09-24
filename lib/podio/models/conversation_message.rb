@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/conversations
+# @see https://developers.podio.com/doc/conversations
 class Podio::ConversationMessage < ActivePodio::Base
   property :message_id, :integer
   property :embed_id, :integer

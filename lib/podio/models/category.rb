@@ -1,4 +1,4 @@
-# https://developers.podio.com/doc/app-store
+# @see https://developers.podio.com/doc/app-store
 class Podio::Category < ActivePodio::Base
   property :category_id, :integer
   property :type, :string
