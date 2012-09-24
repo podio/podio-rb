@@ -61,6 +61,15 @@ class Podio::User < ActivePodio::Base
       Podio.connection.put("/user/profile/", attributes).status
     end
 
+    # @see https://developers.podio.com/doc/users/update-profile-field-22500
+    def update_profile_field(key, attributes)
+      Podio.connection.put("/user/profile/#{key}", attributes).status
+    end
+
+    def request_call
+      Podio.connection.post("/user/request_call").status
+    end
+
     def activate(attributes)
       response = Podio.connection.post do |req|
         req.url '/user/activate_user'
