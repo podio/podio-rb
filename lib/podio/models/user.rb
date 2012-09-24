@@ -146,5 +146,15 @@ class Podio::User < ActivePodio::Base
     def internal_source
       Podio.connection.get("/user/source").body
     end
+
+    def merge(activation_code)
+      response = Podio.connection.post do |req|
+        req.url '/user/merge'
+        req.body = {:activation_code => activation_code}
+      end
+
+      response.status
+    end
+
   end
 end
