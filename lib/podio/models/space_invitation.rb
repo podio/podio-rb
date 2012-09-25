@@ -77,7 +77,7 @@ class Podio::SpaceInvitation < ActivePodio::Base
     end
 
     def claim_member(invite_code)
-      Podio.connection.post("/space/membership/claim?invite_code=#{invite_code}").status
+      Podio.connection.post("/space/membership/claim?invite_code=#{invite_code}").body
     end
   end
 end
