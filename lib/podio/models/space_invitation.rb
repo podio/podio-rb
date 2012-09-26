@@ -69,11 +69,11 @@ class Podio::SpaceInvitation < ActivePodio::Base
     end
 
     def find_member(invite_code)
-      member Podio.connection.get("/space/membership?invite_code=#{invite_code}").body
+      member Podio.client.trusted_connection.get("/space/membership?invite_code=#{invite_code}").body
     end
 
     def decline_member(invite_code)
-      Podio.connection.delete("/space/membership?invite_code=#{invite_code}").status
+      Podio.client.trusted_connection.delete("/space/membership?invite_code=#{invite_code}").status
     end
 
     def claim_member(invite_code)

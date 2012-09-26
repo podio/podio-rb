@@ -71,7 +71,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def activate(attributes)
-      response = Podio.connection.post do |req|
+      response = Podio.client.trusted_connection.post do |req|
         req.url '/user/activate_user'
         req.body = attributes
       end
@@ -131,7 +131,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def recover(mail)
-      response = Podio.connection.post do |req|
+      response = Podio.client.trusted_connection.post do |req|
         req.url '/user/recover_password'
         req.body = {:mail => mail}
       end
@@ -140,7 +140,7 @@ class Podio::User < ActivePodio::Base
     end
 
     def reset(password, recovery_code)
-      response = Podio.connection.post do |req|
+      response = Podio.client.trusted_connection.post do |req|
         req.url '/user/reset_password'
         req.body = {:password => password, :recovery_code => recovery_code}
       end

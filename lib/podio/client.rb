@@ -104,7 +104,7 @@ module Podio
 
     # Sign in with an OpenID, only available for Podio
     def authenticate_with_openid(identifier, type)
-      response = @oauth_connection.post do |req|
+      response = @trusted_connection.post do |req|
         req.url '/oauth/token_by_openid'
         req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
         req.body = {:grant_type => type, :client_id => api_key, :client_secret => api_secret, :identifier => identifier}
