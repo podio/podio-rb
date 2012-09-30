@@ -10,7 +10,7 @@ class Podio::Embed < ActivePodio::Base
   property :created_on, :datetime
   property :provider_name, :string
   property :embed_html, :string
-  property :embed_height, :boolean
+  property :embed_height, :integer
   property :embed_width, :integer
 
   has_many :files, :class => 'FileAttachment'
