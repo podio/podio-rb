@@ -5,9 +5,10 @@ class Podio::ApplicationField < ActivePodio::Base
   property :external_id, :string
   property :config, :hash
   property :status, :string
+  property :label, :string
 
   alias_method :id, :field_id
-  delegate_to_hash :config, :label, :description, :delta, :settings, :required?, :visible?
+  delegate_to_hash :config, :description, :delta, :settings, :required?, :visible?
   delegate_to_hash :settings, :allowed_values, :referenceable_types, :allowed_currencies, :allowed_mimetypes, :valid_types, :options, :multiple
 
   class << self
