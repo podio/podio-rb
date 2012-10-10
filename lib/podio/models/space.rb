@@ -22,6 +22,7 @@ class Podio::Space < ActivePodio::Base
   property :created_on, :datetime
 
   has_one :created_by, :class => 'ByLine'
+  has_one :org, :class => 'Organization'
 
   alias_method :id, :space_id
 
