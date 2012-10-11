@@ -38,7 +38,11 @@ class Podio::OrganizationMember < ActivePodio::Base
     end
 
     def delete_info(org_id, user_id)
-      Podio.connection.get("/org/#{org_id}/member/#{user_id}/end_member_info").body
+      result = Podio.connection.get("/org/#{org_id}/member/#{user_id}/end_member_info").body
+      %w{ to_promote to_remove to_delete }.each do |type|
+        result[type].collect! { |member| self.klass_from_string('SpaceMember').new(member) } if result[type].present?
+      end
+      result
     end
 
     # @see https://developers.podio.com/doc/organizations/add-organization-admin-50854

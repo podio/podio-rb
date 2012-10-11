@@ -5,6 +5,7 @@ class Podio::SpaceMember < ActivePodio::Base
   property :invited_on, :datetime
   property :started_on, :datetime
   property :ended_on, :datetime
+  property :grants, :integer
 
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
