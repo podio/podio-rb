@@ -128,9 +128,7 @@ module ActivePodio
       def klass_for_association(options)
         klass_name = options[:class]
         raise "Missing class name of associated model. Provide with :class => 'MyClass'." unless klass_name.present?
-        klass = klass_name.constantize rescue nil
-        klass = "Podio::#{klass_name}".constantize unless klass.respond_to?(:ancestors) && klass.ancestors.include?(ActivePodio::Base)
-        return klass
+        return self.class.klass_from_string(klass_name)
       end
 
       def any_values_present_recursive?(values)
@@ -321,6 +319,12 @@ module ActivePodio
       def output_attribute_as_json(*attributes)
         self.json_attributes ||= []
         self.json_attributes += attributes
+      end
+
+      def klass_from_string(klass_name)
+        klass = klass_name.constantize rescue nil
+        klass = "Podio::#{klass_name}".constantize unless klass.respond_to?(:ancestors) && klass.ancestors.include?(ActivePodio::Base)
+        return klass
       end
 
       private

@@ -37,5 +37,9 @@ class Podio::Grant < ActivePodio::Base
     def delete(ref_type, ref_id, user_id)
       Podio.connection.delete("grant/#{ref_type}/#{ref_id}/#{user_id}").body
     end
+
+    def count_by_reference(ref_type, ref_id)
+      Podio.connection.get("/grant/#{ref_type}/#{ref_id}/count").body['count']
+    end
   end
 end
