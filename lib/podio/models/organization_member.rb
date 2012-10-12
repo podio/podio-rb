@@ -37,6 +37,11 @@ class Podio::OrganizationMember < ActivePodio::Base
       Podio.connection.delete("/org/#{org_id}/member/#{user_id}").status
     end
 
+    # @see https://developers.podio.com/doc/organizations/end-organization-membership-19410652
+    def leave(org_id)
+      Podio.connection.post("/org/#{org_id}/leave").status
+    end
+
     def delete_info(org_id, user_id)
       result = Podio.connection.get("/org/#{org_id}/member/#{user_id}/end_member_info").body
       %w{ to_promote to_remove to_delete }.each do |type|
