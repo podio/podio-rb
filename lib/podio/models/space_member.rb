@@ -61,11 +61,6 @@ class Podio::SpaceMember < ActivePodio::Base
       Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
 
-    # @see https://developers.podio.com/doc/organizations/end-organization-membership-19410457
-    def leave(space_id)
-      Podio.connection.post("/space/#{space_id}/leave").status
-    end
-
     # @see https://developers.podio.com/doc/space-members/get-top-users-on-space-22461
     def find_top_contacts(space_id)
       result = Podio.connection.get("/space/#{space_id}/member/top/").body

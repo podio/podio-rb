@@ -72,6 +72,11 @@ class Podio::Space < ActivePodio::Base
       Podio.connection.post("/space/#{space_id}/join").body
     end
 
+    # @see https://developers.podio.com/doc/organizations/end-organization-membership-19410457
+    def leave(space_id)
+      Podio.connection.post("/space/#{space_id}/leave").status
+    end
+
     # @see https://developers.podio.com/doc/spaces/get-space-by-url-22481
     def find_by_url(url)
       member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
