@@ -61,7 +61,7 @@ class Podio::SpaceMember < ActivePodio::Base
       Podio.connection.delete("/space/#{space_id}/member/#{user_id}").status
     end
 
-    # @see hhttps://developers.podio.com/doc/organizations/end-organization-membership-19410457
+    # @see https://developers.podio.com/doc/organizations/end-organization-membership-19410457
     def leave(space_id)
       Podio.connection.post("/space/#{space_id}/leave").status
     end
