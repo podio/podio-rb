@@ -66,6 +66,11 @@ class Podio::User < ActivePodio::Base
       Podio.connection.put("/user/profile/#{key}", attributes).status
     end
 
+    def can_request_call
+      response = Podio.connection.get("/user/request_call")
+      response.body['requestable']
+    end
+
     def request_call
       Podio.connection.post("/user/request_call").status
     end
