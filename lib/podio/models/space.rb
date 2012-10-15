@@ -8,7 +8,8 @@ class Podio::Space < ActivePodio::Base
   property :url_label, :string
   property :org_id, :integer
   property :contact_count, :integer
-  property :members, :integer
+  property :member_count, :integer
+  property :app_count, :integer
   property :role, :string
   property :rights, :array
   property :post_on_new_app, :boolean
