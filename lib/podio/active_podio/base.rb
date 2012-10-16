@@ -6,12 +6,16 @@ module ActivePodio
     extend ActiveModel::Naming, ActiveModel::Callbacks
     include ActiveModel::Conversion
 
-    class_attribute :valid_attributes, :_associations, :_properties, :json_attributes
+    class_attribute :valid_attributes, :json_attributes, :_associations
+
+    self.valid_attributes = []
+    self.json_attributes = []
+    self._associations = {}
+
     attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
     alias_method :propagate_error?, :error_propagate
 
     def initialize(attributes = {}, options = {})
-      self.valid_attributes ||= []
       attributes = {} if attributes.blank?
       self.attributes = Hash[*self.valid_attributes.collect { |n| [n.to_sym, nil] }.flatten].merge(attributes.symbolize_keys)
 
@@ -28,7 +32,7 @@ module ActivePodio
         if self.respond_to?("#{key}=".to_sym)
           self.send("#{key}=".to_sym, value)
         else
-          is_association_hash = value.is_a?(Hash) && self._associations.present? && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && (self.send(key.to_sym).respond_to?(:attributes) || self.send(key.to_sym).nil?)
+          is_association_hash = value.is_a?(Hash) && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && (self.send(key.to_sym).respond_to?(:attributes) || self.send(key.to_sym).nil?)
           if valid_attributes.include?(key.to_sym) || is_association_hash
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
@@ -89,19 +93,17 @@ module ActivePodio
       result.merge!(:id => self.id) if self.respond_to?(:id)
 
       if options[:formatted]
-        (self.valid_attributes + (self.json_attributes || [])).uniq.each do |name|
+        (self.valid_attributes + self.json_attributes).uniq.each do |name|
           result[name] = json_friendly_value(self.send(name), options)
         end
 
         unless options[:nested] == false
-          if self._associations.respond_to?(:each)
-            self._associations.each do |name, type|
-              case type
-              when :has_one
-                result[name] = self.send(name).as_json(options.except(:methods))
-              when :has_many
-                result[name] = self.send(name).collect { |assoc| assoc.as_json(options.except(:methods)) }
-              end
+          self._associations.each do |name, type|
+            case type
+            when :has_one
+              result[name] = self.send(name).as_json(options.except(:methods))
+            when :has_many
+              result[name] = self.send(name).collect { |assoc| assoc.as_json(options.except(:methods)) }
             end
           end
         end
@@ -143,7 +145,7 @@ module ActivePodio
 
       def json_friendly_value(ruby_value, options)
         if options[:formatted]
-          json_value = case ruby_value.class.name
+          case ruby_value.class.name
           when "DateTime", "Time"
             ruby_value.iso8601
           when "Array"
@@ -169,8 +171,7 @@ module ActivePodio
 
       # Defines the the supported attributes of the model
       def property(name, type = :string, options = {})
-        self.valid_attributes ||= []
-        self.valid_attributes << name
+        self.valid_attributes += [name]
 
         case type
         when :datetime
@@ -193,8 +194,7 @@ module ActivePodio
 
       # Wraps a single hash provided from the API in the given model
       def has_one(name, options = {})
-        self._associations ||= {}
-        self._associations[name] = :has_one
+        self._associations = self._associations.merge({name => :has_one})
 
         self.send(:define_method, name) do
           klass = klass_for_association(options)
@@ -218,8 +218,7 @@ module ActivePodio
 
       # Wraps a collection of hashes from the API to a collection of the given model
       def has_many(name, options = {})
-        self._associations ||= {}
-        self._associations[name] = :has_many
+        self._associations = self._associations.merge({name => :has_many})
 
         self.send(:define_method, name) do
           klass = klass_for_association(options)
@@ -317,7 +316,6 @@ module ActivePodio
       end
 
       def output_attribute_as_json(*attributes)
-        self.json_attributes ||= []
         self.json_attributes += attributes
       end
 

@@ -44,8 +44,30 @@ class ActivePodioTest < Test::Unit::TestCase
     
     handle_api_errors_for :save
   end
-  
-  test 'should instansiate model' do
+
+  class TestInheritedModel < TestModel
+    property :subclass_string, :string
+
+    has_one :subclass_assoc, :class => 'ActivePodioTest::TestAssociationModel'
+  end
+
+  test 'inherited models should not pollute the superclass attributes' do
+    super_attributes = TestModel.valid_attributes.dup
+    subclass_attributes = TestInheritedModel.valid_attributes
+
+    assert_equal [:subclass_string], subclass_attributes - super_attributes
+    assert_equal super_attributes, TestModel.valid_attributes
+  end
+
+  test 'inherited models should not pollute the superclass associations' do
+    super_associations = TestModel._associations.dup
+    subclass_associations = TestInheritedModel._associations
+
+    assert_equal [[:subclass_assoc, :has_one]], subclass_associations.to_a - super_associations.to_a
+    assert_equal super_associations, TestModel._associations
+  end
+
+  test 'should instantiate model' do
     @test = TestModel.new
     assert_not_nil @test
   end
@@ -130,7 +152,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:array => ['foo', 'bar'])
     assert_equal 'foo', @test.default_array
   end
-  
+
   test 'should expose has one association' do
     @test = TestModel.new(:association => { :string => 'association string' })
     assert_equal 'association string', @test.association.string
@@ -289,5 +311,4 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:test_id => 42)
     assert_equal({:id=> 42, :string=>nil, :test_id=>42, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.as_json)
   end
-  
 end
