@@ -27,7 +27,12 @@ class Podio::Grant < ActivePodio::Base
     end
 
     def find_own(ref_type, ref_id)
-      member Podio.connection.get("/grant/#{ref_type}/#{ref_id}/own").body
+      response = Podio.connection.get("/grant/#{ref_type}/#{ref_id}/own")
+      if response.status == 200
+        member response.body
+      else
+        nil
+      end
     end
 
     def find_all(ref_type, ref_id)
