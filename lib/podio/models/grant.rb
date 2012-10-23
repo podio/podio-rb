@@ -6,6 +6,7 @@ class Podio::Grant < ActivePodio::Base
   property :people, :hash
   property :action, :string
   property :message, :string
+  property :ref, :hash
 
   has_one :created_by, :class => 'ByLine'
   has_one :user, :class => 'Contact'
