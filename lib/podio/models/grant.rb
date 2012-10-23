@@ -46,5 +46,10 @@ class Podio::Grant < ActivePodio::Base
     def count_by_reference(ref_type, ref_id)
       Podio.connection.get("/grant/#{ref_type}/#{ref_id}/count").body['count']
     end
+
+    def find_for_user_on_space(space_id, user_id)
+      list Podio.connection.get("/grant/space/#{space_id}/user/#{user_id}/").body
+    end
+
   end
 end
