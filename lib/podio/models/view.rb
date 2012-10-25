@@ -9,6 +9,7 @@ class Podio::View < ActivePodio::Base
   property :filters, :hash
   property :layout, :string
   property :fields, :hash
+  property :type, :string
 
   alias_method :id, :view_id
 
