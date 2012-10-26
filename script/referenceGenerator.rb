@@ -32,7 +32,7 @@ YARD.parse("../lib/podio/models/#{path}")
 YARD::Registry.all(:class).each do |klass|
   klass.meths(:visibility => :public).each do |meth|
     link = meth.tag('see').name if meth.has_tag?('see')
-    match = link.match(/https:\/\/developers.podio.com\/doc\/([^0-9]+)([0-9]+)/) if link
+    match = link.match(/https:\/\/developers.podio.com\/doc\/(.+)-([0-9]+)/) if link
     if match
       item_id = match[2].to_i
 
@@ -76,7 +76,11 @@ if update_api
   operations.each do |item_id, data|
     puts "Updating #{item_id}"
     encoded_data = MultiJson.encode(data)
-    Podio::ItemField.update(item_id, 16359339, {:value => encoded_data, :silent => true})
+    begin
+      Podio::ItemField.update(item_id, 16359339, {:value => encoded_data}, {:silent => true})
+    rescue Podio::GoneError
+      puts "    PodioGoneError for this item id"
+    end
   end
 else
   puts operations
