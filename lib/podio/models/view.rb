@@ -47,6 +47,16 @@ class Podio::View < ActivePodio::Base
       response.body['view_id']
     end
 
+    # @see https://developers.podio.com/doc/views/update-view-20069949
+    def update(view_id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/view/#{view_id}"
+        req.body = attributes
+      end
+
+      response.status
+    end
+
     # @see https://developers.podio.com/doc/views/update-last-view-5988251
     def update_last(app_id, attributes)
       Podio.connection.put do |req|
