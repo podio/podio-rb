@@ -6,6 +6,7 @@ class Podio::Contract < ActivePodio::Base
   property :status, :string
   property :created_on, :datetime
   property :started_on, :datetime
+  property :created_via, :string
   property :ended_on, :datetime
   property :item_prices, :hash
   property :item_limits, :hash
