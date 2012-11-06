@@ -22,4 +22,13 @@ class Podio::Contact < Podio::Profile
     self.class.update_contact(self.profile_id, self.attributes)
   end
 
+  class << self
+    def find_external(linked_acc_id, external_contact_id)
+      member Podio.connection.post { |req|
+        req.url "/contact/linked_account/#{linked_acc_id}"
+        req.body = { :external_contact_id => external_contact_id }
+      }.body
+    end
+  end
+
 end
