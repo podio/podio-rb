@@ -21,6 +21,7 @@ class Podio::Space < ActivePodio::Base
   property :premium, :boolean
   property :last_activity_on, :datetime
   property :created_on, :datetime
+  property :is_overdue, :boolean
 
   has_one :created_by, :class => 'ByLine'
   has_one :org, :class => 'Organization'
@@ -101,6 +102,10 @@ class Podio::Space < ActivePodio::Base
         req.url "/space/org/#{org_id}/url/validate"
         req.body = {:url_label => url_label}
       }.body
+    end
+
+    def find_debtor_profile(space_id)
+      Podio.connection.get("/space/#{space_id}/debtor").body
     end
 
   end
