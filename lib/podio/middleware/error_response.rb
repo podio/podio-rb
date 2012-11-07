@@ -19,6 +19,8 @@ module Podio
             else
               raise AuthorizationError.new(env[:body], env[:status], env[:url])
             end
+          when 402
+            raise PaymentRequiredError.new(env[:body], env[:status], env[:url])
           when 403
             if env[:body]['error'] == 'requestable_forbidden'
               raise RequestableAuthorizationError.new(env[:body], env[:status], env[:url])

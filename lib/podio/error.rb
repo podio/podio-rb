@@ -19,7 +19,7 @@ module Podio
   class GoneError < PodioError; end
   class RateLimitError < PodioError; end
   class UnavailableError < PodioError; end
-  class PaymentAuthorizationError < AuthorizationError; end
+  class PaymentRequiredError < AuthorizationError; end
 
   class RequestableAuthorizationError < AuthorizationError
     attr_reader :request_access_info
