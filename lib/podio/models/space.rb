@@ -104,8 +104,8 @@ class Podio::Space < ActivePodio::Base
       }.body
     end
 
-    def find_debtor_profile(space_id)
-      Podio.connection.get("/space/#{space_id}/debtor").body
+    def get_overdue_info(space_id)
+      Podio.connection.get("/space/#{space_id}/overdue").body
     end
 
   end
