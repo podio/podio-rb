@@ -26,6 +26,7 @@ class Podio::Organization < ActivePodio::Base
   property :type, :string
   property :segment, :string
   property :segment_size, :integer
+  property :grants_count, :integer
 
   has_one :created_by, :class => 'ByLine'
 
