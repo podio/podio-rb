@@ -60,8 +60,10 @@ class Podio::Grant < ActivePodio::Base
     end
 
     # https://hoist.podio.com/api/item/22330891
-    def find_own_on_org(org_id)
-      list Podio.connection.get("/grant/org/#{org_id}/own/").body
+    def find_own_on_org(org_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/grant/org/#{org_id}/own/", options)
+      }.body
     end
 
   end
