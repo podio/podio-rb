@@ -12,6 +12,7 @@ class Podio::Contract < ActivePodio::Base
   property :item_limits, :hash
   property :payment_id, :string
   property :payment_status, :string
+  property :payment_provider, :string
   property :accounting_id, :string
   property :full, :boolean
   property :premium_emp_network, :boolean
