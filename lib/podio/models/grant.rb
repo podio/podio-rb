@@ -1,4 +1,3 @@
-# TODO: Add documention links for this area once the docs has been made public
 class Podio::Grant < ActivePodio::Base
 
   property :ref_type, :string
@@ -30,8 +29,10 @@ class Podio::Grant < ActivePodio::Base
     end
 
     # https://hoist.podio.com/api/item/16490748
-    def find_own(ref_type, ref_id)
-      response = Podio.connection.get("/grant/#{ref_type}/#{ref_id}/own")
+    def find_own(ref_type, ref_id, options = {})
+      response = Podio.connection.get { |req|
+        req.url("/grant/#{ref_type}/#{ref_id}/own", options)
+      }
       if response.status == 200
         member response.body
       else
@@ -40,8 +41,10 @@ class Podio::Grant < ActivePodio::Base
     end
 
     # https://hoist.podio.com/api/item/16491464
-    def find_all(ref_type, ref_id)
-      list Podio.connection.get("grant/#{ref_type}/#{ref_id}/").body
+    def find_all(ref_type, ref_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("grant/#{ref_type}/#{ref_id}/", options)
+      }.body
     end
 
     # https://hoist.podio.com/api/item/16496711
@@ -55,8 +58,10 @@ class Podio::Grant < ActivePodio::Base
     end
 
     # https://hoist.podio.com/api/item/19389786
-    def find_for_user_on_space(space_id, user_id)
-      list Podio.connection.get("/grant/space/#{space_id}/user/#{user_id}/").body
+    def find_for_user_on_space(space_id, user_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/grant/space/#{space_id}/user/#{user_id}/", options)
+      }.body
     end
 
     # https://hoist.podio.com/api/item/22330891
