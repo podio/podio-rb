@@ -26,6 +26,7 @@ class Podio::Contract < ActivePodio::Base
   property :ended_comment, :string
   property :billing_mail, :string
   property :model, :string
+  property :unpaid_due_date, :datetime
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
