@@ -14,6 +14,7 @@ class Podio::Contract < ActivePodio::Base
   property :payment_status, :string
   property :payment_provider, :string
   property :accounting_id, :string
+  property :accounting_provider, :string
   property :full, :boolean
   property :premium_emp_network, :boolean
   property :premium_spaces, :array
