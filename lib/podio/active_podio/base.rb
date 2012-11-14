@@ -99,11 +99,19 @@ module ActivePodio
 
         unless options[:nested] == false
           self._associations.each do |name, type|
+            nested_options = options.except(:methods)
+            if options[:methods].present? && options[:methods].respond_to?(:find)
+              methods_hash = options[:methods].find { |method| method.is_a?(Hash) }
+              if methods_hash.present?
+                nested_methods = methods_hash[name]
+                nested_options.merge!(:methods => nested_methods) if nested_methods.present?
+              end
+            end
             case type
             when :has_one
-              result[name] = self.send(name).as_json(options.except(:methods))
+              result[name] = self.send(name).as_json(nested_options)
             when :has_many
-              result[name] = self.send(name).collect { |assoc| assoc.as_json(options.except(:methods)) }
+              result[name] = self.send(name).collect { |assoc| assoc.as_json(nested_options) }
             end
           end
         end
@@ -113,7 +121,7 @@ module ActivePodio
 
       if options[:methods]
         options[:methods].each do |name|
-          result[name] = json_friendly_value(self.send(name), options.except(:methods) )
+          result[name] = json_friendly_value(self.send(name), options.except(:methods) ) unless name.is_a?(Hash)
         end
       end
 
