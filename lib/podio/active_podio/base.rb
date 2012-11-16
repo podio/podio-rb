@@ -72,7 +72,7 @@ module ActivePodio
     def []=(attribute, value)
       @attributes ||= {}
       @attributes[attribute.to_sym] = value
-      if @belongs_to.present? && value.present?
+      if @belongs_to.present? && @belongs_to[:model].present? && @belongs_to[:as].present? && value.present?
         @belongs_to[:model][@belongs_to[:as]] ||= {}
         @belongs_to[:model][@belongs_to[:as]][attribute.to_sym] = value
       end
@@ -133,6 +133,10 @@ module ActivePodio
       self.class.name.downcase
     end
 
+    def parent_model
+      @belongs_to[:model] if @belongs_to.present?
+    end
+
     private
 
       def klass_for_association(options)
@@ -171,6 +175,7 @@ module ActivePodio
         else
           ruby_value
         end
+
       end
 
     class << self
@@ -234,7 +239,7 @@ module ActivePodio
           unless instances.present?
             property = options[:property] || name.to_sym
             if self[property].present? && self[property].respond_to?(:map)
-              instances = self[property].map { |attributes| klass.new(attributes) }
+              instances = self[property].map { |attributes| klass.new(attributes, :belongs_to => { :model => self }) }
               self.instance_variable_set("@#{name}_has_many_instances", instances)
             else
               instances = []
