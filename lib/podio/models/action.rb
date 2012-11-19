@@ -5,6 +5,8 @@ class Podio::Action < ActivePodio::Base
   property :data, :hash
   property :text, :string
 
+  has_many :comments, :class => 'Comment'
+
   alias_method :id, :action_id
 
   class << self

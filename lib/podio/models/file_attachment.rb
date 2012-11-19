@@ -16,6 +16,7 @@ class Podio::FileAttachment < ActivePodio::Base
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_many :replaces, :class => 'FileAttachment'
+  has_many :comments, :class => 'Comment'
 
   alias_method :id, :file_id
 
