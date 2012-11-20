@@ -183,8 +183,8 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-22413
-    def find(id)
-      member Podio.connection.get("/task/#{id}").body
+    def find(id, options = {})
+      member Podio.connection.get("/task/#{id}", options).body
     end
 
     # @see https://developers.podio.com/doc/tasks/get-tasks-with-reference-22426
