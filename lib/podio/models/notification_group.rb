@@ -3,7 +3,7 @@
 class Podio::NotificationGroup < ActivePodio::Base
   property :context, :hash
   property :notifications, :hash
-  delegate_to_hash :context, :ref, :data, :comment_count, :link, :space
+  delegate_to_hash :context, :ref, :data, :comment_count, :link, :space, :rights
 
   class << self
     # @see https://developers.podio.com/doc/notifications/get-notifications-290777
