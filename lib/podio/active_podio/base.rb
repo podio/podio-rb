@@ -100,7 +100,7 @@ module ActivePodio
         unless options[:nested] == false
           self._associations.each do |name, type|
             nested_value = self.send(name)
-            if nested_value.present?
+            unless nested_value.nil?
               nested_options = options.except(:methods)
               if options[:methods].present? && options[:methods].respond_to?(:find)
                 methods_hash = options[:methods].find { |method| method.is_a?(Hash) }
