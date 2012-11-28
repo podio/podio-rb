@@ -83,7 +83,7 @@ class Podio::Profile < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/contacts/get-organization-contacts-22401
     def find_all_for_org(org_id, options={})
-      options[:type] ||= 'full'
+      options[:view] ||= 'full'
       options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
 
       list Podio.connection.get { |req|
@@ -93,7 +93,7 @@ class Podio::Profile < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/contacts/get-space-contacts-22414
     def find_all_for_space(space_id, options={})
-      options[:type] ||= 'full'
+      options[:view] ||= 'full'
       options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
 
       list Podio.connection.get { |req|
@@ -103,7 +103,7 @@ class Podio::Profile < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/contacts/get-contacts-by-connection-id-60493
     def find_all_for_connection(connection_id, options={})
-      options[:type] ||= 'full'
+      options[:view] ||= 'full'
 
       list Podio.connection.get { |req|
         req.url("/contact/connection/#{connection_id}", options)
@@ -112,7 +112,7 @@ class Podio::Profile < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/contacts/get-contacts-by-connection-type-60496
     def find_all_for_connection_type(connection_type, options={})
-      options[:type] ||= 'full'
+      options[:view] ||= 'full'
 
       list Podio.connection.get { |req|
         req.url("/contact/connection/#{connection_type}", options)
