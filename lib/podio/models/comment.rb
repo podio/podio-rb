@@ -29,8 +29,9 @@ class Podio::Comment < ActivePodio::Base
     updated_attributes = Comment.create(self.commentable_type, self.commentable_id, self.attributes)
     self.attributes = updated_attributes.symbolize_keys
     self.initialize_attributes(self.attributes)
-    self.comment_id
   end
+
+  handle_api_errors_for :create
 
   class << self
     # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
