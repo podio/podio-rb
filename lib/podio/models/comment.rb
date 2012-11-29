@@ -19,12 +19,17 @@ class Podio::Comment < ActivePodio::Base
   has_many :files, :class => 'FileAttachment'
   has_many :questions, :class => 'Question'
 
+  has_many :granted_users, :class => 'Contact' # Only set when creating new comment
+
   alias_method :id, :comment_id
   attr_accessor :commentable_type, :commentable_id
 
   # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
   def create
-    self.comment_id = Comment.create(commentable_type, commentable_id, attributes)
+    updated_attributes = Comment.create(self.commentable_type, self.commentable_id, self.attributes)
+    self.attributes = updated_attributes.symbolize_keys
+    self.initialize_attributes(self.attributes)
+    self.comment_id
   end
 
   class << self
@@ -35,7 +40,7 @@ class Podio::Comment < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['comment_id']
+      response.body
     end
 
     # @see https://developers.podio.com/doc/comments/update-a-comment-22346
