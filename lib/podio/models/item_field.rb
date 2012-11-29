@@ -23,5 +23,11 @@ class Podio::ItemField < ActivePodio::Base
     def ical_entry(item_id, field_id)
       Podio.connection.get("/calendar/item/#{item_id}/field/#{field_id}/ics/").body
     end
+
+    # @see https://developers.podio.com/doc/items/get-field-ranges-24242866
+    def get_field_ranges(field_id)
+      Podio.connection.get("/item/field/#{field_id}/range").body
+    end
+
   end
 end
