@@ -170,5 +170,9 @@ class Podio::User < ActivePodio::Base
       response.status
     end
 
+    def get_sales_agent_profile
+      Podio.connection.get("/user/sales_agent").body
+    end
+
   end
 end
