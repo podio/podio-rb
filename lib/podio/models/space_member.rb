@@ -26,9 +26,9 @@ class Podio::SpaceMember < ActivePodio::Base
     # @see https://developers.podio.com/doc/space-members/get-space-membership-22397
     def find_membership(space_id, user_id)
       response = Podio.connection.get { |req|
-        req.url("/space/#{space_id}/member/#{user_id}")
+        req.url("/space/#{space_id}/member/#{user_id}/v2")
       }
-      response.body
+      member response.body
     end
 
     def find_all_ended(space_id)
