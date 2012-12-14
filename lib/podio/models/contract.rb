@@ -28,6 +28,8 @@ class Podio::Contract < ActivePodio::Base
   property :billing_mail, :string
   property :model, :string
   property :unpaid_due_date, :datetime
+  property :count_employee, :integer
+  property :count_external, :integer
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
