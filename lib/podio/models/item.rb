@@ -179,9 +179,9 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/add-new-item-22362
-    def create(app_id, attributes)
+    def create(app_id, attributes, options={})
       response = Podio.connection.post do |req|
-        req.url "/item/app/#{app_id}/"
+        req.url("/item/app/#{app_id}/", options)
         req.body = attributes
       end
 
@@ -189,9 +189,9 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/update-item-22363
-    def update(id, attributes)
+    def update(id, attributes, options={})
       response = Podio.connection.put do |req|
-        req.url "/item/#{id}"
+        req.url("/item/#{id}", options)
         req.body = attributes
       end
       response.status
