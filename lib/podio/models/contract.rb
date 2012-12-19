@@ -134,5 +134,14 @@ class Podio::Contract < ActivePodio::Base
 
       response.body
     end
+
+    def change_to_fixed(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{contract_id}/change_to/fixed"
+        req.body = attributes
+      end
+
+      response.status
+    end
   end
 end
