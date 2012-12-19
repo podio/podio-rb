@@ -168,6 +168,8 @@ module ActivePodio
           when "Hash"
             ruby_value.each { |key, value| ruby_value[key] = json_friendly_value(value, options) }
             ruby_value
+          when "BigDecimal"
+            ruby_value.to_f # No Decimal in Javascript, Float is better than String
           else
             if ruby_value.kind_of?(ActivePodio::Base)
               ruby_value.as_json(options.except(:methods))
@@ -205,6 +207,8 @@ module ActivePodio
           define_array_accessors(name)
         when :float
           define_float_accessor(name)
+        when :decimal
+          define_decimal_accessor(name)
         else
           define_generic_accessor(name)
         end
@@ -451,6 +455,24 @@ module ActivePodio
           self.send(:define_method, "#{name}=") do |value|
             if value.present?
               self[name.to_sym] = value.to_f
+            else
+              self[name.to_sym] = nil
+            end
+          end
+        end
+
+        def define_decimal_accessor(name)
+          self.send(:define_method, name) do
+            if self[name.to_sym].present?
+              BigDecimal(self[name.to_sym], 2)
+            else
+              nil
+            end
+          end
+
+          self.send(:define_method, "#{name}=") do |value|
+            if value.present?
+              self[name.to_sym] = BigDecimal(value, 2)
             else
               self[name.to_sym] = nil
             end

@@ -30,7 +30,7 @@ class Podio::Contract < ActivePodio::Base
   property :unpaid_due_date, :datetime
   property :count_employee, :integer
   property :count_external, :integer
-  property :yearly_rebate_factor, :float
+  property :yearly_rebate_factor, :decimal
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
