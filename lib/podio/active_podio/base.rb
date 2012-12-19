@@ -203,6 +203,8 @@ module ActivePodio
           define_boolean_accessors(name)
         when :array
           define_array_accessors(name)
+        when :float
+          define_float_accessor(name)
         else
           define_generic_accessor(name)
         end
@@ -431,6 +433,24 @@ module ActivePodio
           self.send(:define_method, "#{name}=") do |value|
             if value.present?
               self[name.to_sym] = value.to_i
+            else
+              self[name.to_sym] = nil
+            end
+          end
+        end
+
+        def define_float_accessor(name)
+          self.send(:define_method, name) do
+            if self[name.to_sym].present?
+              self[name.to_sym].to_f
+            else
+              nil
+            end
+          end
+
+          self.send(:define_method, "#{name}=") do |value|
+            if value.present?
+              self[name.to_sym] = value.to_f
             else
               self[name.to_sym] = nil
             end
