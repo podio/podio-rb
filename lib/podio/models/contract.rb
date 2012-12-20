@@ -65,7 +65,21 @@ class Podio::Contract < ActivePodio::Base
     self.class.end(self.id, attributes)
   end
 
-  handle_api_errors_for :update, :delete, :create_payment, :end # Call must be made after the methods to handle have been defined
+  def change_to_fixed
+    self.class.change_to_fixed(self.contract_id,
+      :item_limits => {
+        :employee => self.item_limits['employee'],
+        :external => self.item_limits['external']
+      },
+      :invoice_interval => self.invoice_interval
+    )
+  end
+
+  def change_to_variable
+    self.class.change_to_variable(self.contract_id)
+  end
+
+  handle_api_errors_for :update, :delete, :create_payment, :end, :change_to_fixed # Call must be made after the methods to handle have been defined
 
   class << self
     def find(contract_id)
@@ -142,6 +156,11 @@ class Podio::Contract < ActivePodio::Base
         req.body = attributes
       end
 
+      response.status
+    end
+
+    def change_to_variable(contract_id)
+      response = Podio.connection.post("/contract/#{contract_id}/change_to/variable")
       response.status
     end
   end
