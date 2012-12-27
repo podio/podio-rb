@@ -201,7 +201,8 @@ class Podio::Task < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-1612017
     def find_summary
-      response = Podio.connection.get("/task/summary").body
+      response = Podio.connection.get("/task/summary" +
+                                      ((limit != nil) ? "?limit=#{limit}" : "")).body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
@@ -220,7 +221,8 @@ class Podio::Task < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-reference-1657980
     def find_summary_for_reference(ref_type, ref_id)
-      response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary").body
+      response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary" +
+                                      ((limit != nil) ? "?limit=#{limit}" : "")).body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
@@ -229,7 +231,8 @@ class Podio::Task < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-personal-1657217
     def find_personal_summary
-      response = Podio.connection.get("/task/personal/summary").body
+      response = Podio.connection.get("/task/personal/summary" +
+                                      ((limit != nil) ? "?limit=#{limit}" : "")).body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
