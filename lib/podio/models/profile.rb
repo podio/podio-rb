@@ -135,6 +135,11 @@ class Podio::Profile < ActivePodio::Base
       member Podio.connection.get("/contact/user/#{user_id}").body
     end
 
+    # @see https://developers.podio.com/doc/contacts/get-user-contact-60514
+    def find_all_for_users(user_ids)
+      list Podio.connection.get("/contact/user/#{user_ids}").body
+    end
+
     # @see https://developers.podio.com/doc/contacts/get-vcard-213496
     def vcard(profile_id)
       Podio.connection.get("/contact/#{profile_id}/vcard").body
