@@ -121,6 +121,12 @@ module Podio
       configure_oauth
     end
 
+    def locale=(new_locale)
+      @connection.headers['Accept-Language'] = new_locale
+      @oauth_connection.headers['Accept-Language'] = new_locale
+      @trusted_connection.headers['Accept-Language'] = new_locale
+    end
+
     def refresh_access_token
       response = @oauth_connection.post do |req|
         req.url '/oauth/token'
