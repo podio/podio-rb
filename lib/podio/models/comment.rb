@@ -75,5 +75,10 @@ class Podio::Comment < ActivePodio::Base
       list Podio.connection.get("/comment/share/").body
     end
 
+    # @see https://developers.podio.com/doc/comments/get-who-liked-a-comment-29007011
+    def liked_by(id)
+      Podio.connection.get("/comment/#{id}/liked_by/").body.map{|values| Podio::Contact.new(values)}
+    end
+
   end
 end
