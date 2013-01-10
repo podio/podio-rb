@@ -7,6 +7,7 @@ class Podio::Comment < ActivePodio::Base
   property :space_id, :integer
   property :created_on, :datetime
   property :like_count, :integer
+  property :is_liked, :boolean
   property :files, :array # when outputting comments
   property :file_ids, :array # when inputting comments
   property :embed_id, :integer #optional, when inputting comments
