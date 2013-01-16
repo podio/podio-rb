@@ -133,7 +133,7 @@ module ActivePodio
 
     # Override this in models where the class name doesn't match the ref type
     def api_friendly_ref_type
-      self.class.name.downcase
+      self.class.name.demodulize.parameterize
     end
 
     def parent_model
