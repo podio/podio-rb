@@ -42,6 +42,7 @@ class Podio::Item < ActivePodio::Base
   has_one :reminder, :class => 'Reminder'
   has_one :recurrence, :class => 'Recurrence'
   has_one :linked_account_data, :class => 'LinkedAccountData'
+  has_one :application, :class => 'Application', :property => :app
 
   # For inserting/updating
   property :file_ids, :array
