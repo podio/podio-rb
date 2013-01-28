@@ -35,6 +35,7 @@ class Podio::Contract < ActivePodio::Base
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
   has_one :price, :class => 'ContractPrice'
+  has_one :price_v2, :class => 'ContractPriceV2'
   has_many :premium_spaces, :class => 'Space'
 
   alias_method :id, :contract_id
