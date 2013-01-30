@@ -1,6 +1,6 @@
 class Podio::ContractPrice < ActivePodio::Base
   property :total, :float
-  
+
   has_many :users, :class => 'ContractUser'
 
   def premium_employees
@@ -23,10 +23,6 @@ class Podio::ContractPrice < ActivePodio::Base
     items['emp_network'].present?
   end
 
-  def total_for_emp_network
-    items['emp_network']['sub_total']
-  end
-  
   def items
     if @items.nil?
       @items = {}
@@ -36,7 +32,7 @@ class Podio::ContractPrice < ActivePodio::Base
     end
     @items
   end
-  
+
 end
 
 class Podio::ContractPriceItem < ActivePodio::Base
