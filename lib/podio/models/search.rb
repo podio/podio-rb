@@ -16,9 +16,10 @@ class Podio::Search < ActivePodio::Base
   class << self
     # @see https://developers.podio.com/doc/search/search-in-organization-22487
     def in_org(org_id, words)
+      attributes[:query] = words
       response = Podio.connection.post do |req|
         req.url "/search/org/#{org_id}/"
-        req.body = words
+        req.body = attributes
       end
 
       list response.body
