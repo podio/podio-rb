@@ -40,6 +40,10 @@ class Podio::Contract < ActivePodio::Base
 
   alias_method :id, :contract_id
 
+  def price_v2=(attributes)
+    self[:price_v2] = attributes
+  end
+
   def premium_space_ids=(values)
     self[:premium_space_ids] = (values || []).map(&:to_i)
   end
