@@ -45,7 +45,12 @@ class Podio::Rating < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/comments/get-who-liked-a-comment-29007011
     def liked_by(ref_type, ref_id)
-      Podio.connection.get("/#{ref_type}/#{ref_id}/liked_by/").body.map{|values| Podio::Contact.new(values)}
+      Podio.connection.get("/rating/#{ref_type}/#{ref_id}/liked_by/").body.map{|values| Podio::Contact.new(values)}
+    end
+
+    # @see https://developers.podio.com/doc/ratings/get-like-count-32161225
+    def like_count(ref_type, ref_id)
+      Podio.connection.get("/rating/#{ref_type}/#{ref_id}/like_count").body["like_count"]
     end
 
   end
