@@ -9,6 +9,7 @@ class Podio::Status < ActivePodio::Base
   property :ratings, :hash
   property :subscribed, :boolean
   property :user_ratings, :hash
+  property :rights, :array
 
   # Properties for create
   property :file_ids, :array
