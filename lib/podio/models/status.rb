@@ -18,7 +18,7 @@ class Podio::Status < ActivePodio::Base
   property :embed_id, :integer
   property :embed_file_id, :integer
 
-  has_one :created_by, :class => 'Contact'
+  has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
