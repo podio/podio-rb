@@ -137,6 +137,7 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/items/get-references-to-item-by-field-7403920
     def find_references_by_field(item_id, field_id, options = {})
       list Podio.connection.get { |req|
         req.url("/item/#{item_id}/reference/field/#{field_id}", options)
