@@ -106,6 +106,7 @@ module Podio
   autoload :ItemDiff,                 'podio/models/item_diff'
   autoload :ItemField,                'podio/models/item_field'
   autoload :ItemRevision,             'podio/models/item_revision'
+  autoload :DateElection,             'podio/models/date_election'
   autoload :LinkedAccount,            'podio/models/linked_account'
   autoload :LinkedAccountData,        'podio/models/linked_account_data'
   autoload :News,                     'podio/models/news'

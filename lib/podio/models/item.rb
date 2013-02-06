@@ -12,6 +12,7 @@ class Podio::Item < ActivePodio::Base
 
   has_one :initial_revision, :class => 'ItemRevision'
   has_one :current_revision, :class => 'ItemRevision'
+  has_one :date_election, :class => 'DateElection'
 
   # Also included in the full Get item
   property :ratings, :hash
