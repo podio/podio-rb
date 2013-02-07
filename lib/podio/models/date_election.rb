@@ -1,5 +1,7 @@
 class Podio::DateElectionVote < ActivePodio::Base
   property :date_option_id, :integer
+  property :value, :boolean
+
   has_one :user, :class => 'Contact'
 end
 
