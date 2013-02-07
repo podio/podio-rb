@@ -16,10 +16,10 @@ class Podio::DateElection < ActivePodio::Base
   has_many :options, :class => 'DateElectionOption'
 
   class << self
-    def vote(date_election_id, date_option_id)
+    def vote(date_election_id, date_option_id, value)
       Podio.connection.post do |req|
         req.url "/date_election/#{date_election_id}/vote"
-        req.body = {:date_option_id => date_option_id.to_i}
+        req.body = {:date_option_id => date_option_id.to_i, :value => value}
       end
     end
 
