@@ -107,6 +107,10 @@ class Podio::Space < ActivePodio::Base
     def get_overdue_info(space_id)
       Podio.connection.get("/space/#{space_id}/overdue").body
     end
+    
+    def get_count(org_id)
+      Podio.connection.get("/space/org/#{org_id}").body['count']
+    end
 
   end
 end
