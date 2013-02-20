@@ -3,6 +3,7 @@ class Podio::AccountProvider < ActivePodio::Base
   property :connect_link, :string
   property :humanized_name, :string
   property :capabilities, :array
+  property :capability_names, :hash
 
   class << self
 
