@@ -32,6 +32,11 @@ class Podio::Conversation < ActivePodio::Base
   handle_api_errors_for :save # Call must be made after the methods to handle have been defined
 
   class << self
+    # @see https://developers.podio.com/doc/conversations/get-conversations-34822801
+    def find_all
+      list Podio.connection.get("/conversation/").body
+    end
+
     # @see https://developers.podio.com/doc/conversations/get-conversation-22369
     def find(conversation_id)
       member Podio.connection.get("/conversation/#{conversation_id}").body
