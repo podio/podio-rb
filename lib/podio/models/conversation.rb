@@ -12,6 +12,10 @@ class Podio::Conversation < ActivePodio::Base
 
   # When outputting conversation(s)
   property :created_on, :datetime
+  property :excerpt, :string
+  property :last_event_on, :datetime
+  property :starred, :boolean
+  property :unread, :boolean
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
   has_one :created_by, :class => 'ByLine'
