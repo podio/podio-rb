@@ -37,8 +37,10 @@ class Podio::Conversation < ActivePodio::Base
 
   class << self
     # @see https://developers.podio.com/doc/conversations/get-conversations-34822801
-    def find_all
-      list Podio.connection.get("/conversation/").body
+    def find_all(options={})
+      list Podio.connection.get { |req|
+        req.url("/conversation/", options)
+      }.body
     end
 
     # @see https://developers.podio.com/doc/conversations/get-conversation-22369
