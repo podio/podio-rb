@@ -90,6 +90,7 @@ module Podio
   autoload :ContractPriceV2,          'podio/models/contract_price_v2'
   autoload :ContractUser,             'podio/models/contract_user'
   autoload :Conversation,             'podio/models/conversation'
+  autoload :ConversationEvent,        'podio/models/conversation_event'
   autoload :ConversationMessage,      'podio/models/conversation_message'
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
   autoload :DateElection,             'podio/models/date_election'
