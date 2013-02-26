@@ -16,6 +16,8 @@ class Podio::Conversation < ActivePodio::Base
   property :last_event_on, :datetime
   property :starred, :boolean
   property :unread, :boolean
+  property :type, :string
+
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
   has_one :created_by, :class => 'ByLine'
