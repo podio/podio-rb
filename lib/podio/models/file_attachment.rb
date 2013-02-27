@@ -12,6 +12,7 @@ class Podio::FileAttachment < ActivePodio::Base
   property :context, :hash
   property :created_on, :datetime
   property :rights, :array
+  property :subscribed, :boolean
   property :subscribed_count, :integer
 
   has_one :created_by, :class => 'ByLine'

@@ -20,6 +20,7 @@ class Podio::Task < ActivePodio::Base
   property :label_ids, :array # when inputting tasks
   property :labels, :array # when outputting tasks
   property :external_id, :string
+  property :subscribed, :boolean
   property :subscribed_count, :integer
 
   # old references
