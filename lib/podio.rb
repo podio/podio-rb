@@ -100,6 +100,7 @@ module Podio
   autoload :FileAttachment,           'podio/models/file_attachment'
   autoload :Filter,                   'podio/models/filter'
   autoload :Form,                     'podio/models/form'
+  autoload :Friend,                   'podio/models/friend'
   autoload :Grant,                    'podio/models/grant'
   autoload :Hook,                     'podio/models/hook'
   autoload :Importer,                 'podio/models/importer'
