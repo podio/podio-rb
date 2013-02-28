@@ -144,6 +144,13 @@ module ActivePodio
 
       def klass_for_association(options)
         klass_name = options[:class]
+
+        if !klass_name.present? && options[:class_map].present?
+          class_property = options[:class_property] || :type
+          class_property_value = self.send(class_property).try(:to_sym)
+          klass_name = options[:class_map][class_property_value]
+        end
+
         raise "Missing class name of associated model. Provide with :class => 'MyClass'." unless klass_name.present?
         return self.class.klass_from_string(klass_name)
       end
