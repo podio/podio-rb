@@ -3,8 +3,8 @@ class Podio::ConversationEvent < ActivePodio::Base
   property :event_id, :integer
   property :action, :string # message, participant_add, participant_leave
   property :created_on, :datetime
-  property :data, :hash
 
+  has_one :data, :class_property => :action, :class_map => { :message => 'ConversationMessage', :participant_leave => 'User', :participant_add => 'User' }
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
 
