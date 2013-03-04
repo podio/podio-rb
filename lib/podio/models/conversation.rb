@@ -45,6 +45,13 @@ class Podio::Conversation < ActivePodio::Base
       }.body
     end
 
+    # @see https://developers.podio.com/doc/conversations/get-flagged-conversations-35466860
+    def find_all_by_flag(flag, options={})
+      list Podio.connection.get { |req|
+        req.url("/conversation/#{flag}/", options)
+      }.body
+    end
+
     # @see https://developers.podio.com/doc/conversations/get-conversation-22369
     def find(conversation_id)
       member Podio.connection.get("/conversation/#{conversation_id}").body
@@ -98,10 +105,12 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/conversations/get-flagged-conversation-counts-35467925
     def unread_count
       Podio.connection.get("/conversation/unread/count").body['value']
     end
 
+    # @see https://developers.podio.com/doc/conversations/get-flagged-conversation-counts-35467925
     def starred_count
       Podio.connection.get("/conversation/starred/count").body['value']
     end
