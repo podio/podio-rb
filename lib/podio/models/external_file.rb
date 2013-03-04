@@ -19,10 +19,13 @@ class Podio::ExternalFile < ActivePodio::Base
     end
 
 
-    def create_from_external_file_id(linked_account_id, external_file_id)
+    def create_from_external_file_id(linked_account_id, external_file_id, preserve_permissions=false)
       response = Podio.client.connection.post do |req|
         req.url "/file/linked_account/#{linked_account_id}/"
-        req.body = { :external_file_id => external_file_id }
+        req.body = {
+            :external_file_id     => external_file_id,
+            :preserve_permissions => preserve_permissions
+        }
       end
 
       member response.body
