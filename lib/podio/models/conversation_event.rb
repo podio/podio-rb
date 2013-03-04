@@ -11,9 +11,11 @@ class Podio::ConversationEvent < ActivePodio::Base
   alias_method :id, :event_id
 
   class << self
-    # @see https://developers.podio.com/doc/conversations/get-conversations-34822801
-    def find_all(conversation_id)
-      list Podio.connection.get("/conversation/#{conversation_id}/event/").body
+    # @see https://developers.podio.com/doc/conversations/get-conversation-events-35440697
+    def find_all(conversation_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/conversation/#{conversation_id}/event/", options)
+      }.body
     end
   end
 
