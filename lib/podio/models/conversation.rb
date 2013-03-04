@@ -98,5 +98,13 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
 
+    def unread_count
+      Podio.connection.get("/conversation/unread/count").body['value']
+    end
+
+    def starred_count
+      Podio.connection.get("/conversation/starred/count").body['value']
+    end
+
   end
 end
