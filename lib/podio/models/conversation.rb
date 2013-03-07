@@ -90,6 +90,14 @@ class Podio::Conversation < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/conversations/add-participants-384261
+    def add_participants(conversation_id, participants)
+      response = Podio.connection.post do |req|
+        req.url "/conversation/#{conversation_id}/participant/"
+        req.body = { :participants => participants }
+      end
+      response.body
+    end
+
     def add_participant(conversation_id, user_id)
       response = Podio.connection.post do |req|
         req.url "/conversation/#{conversation_id}/participant/"
