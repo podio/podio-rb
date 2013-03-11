@@ -1,5 +1,7 @@
 # @see https://developers.podio.com/doc/conversations
 class Podio::Conversation < ActivePodio::Base
+  include ActivePodio::Updatable
+
   property :conversation_id, :integer
   property :subject, :string
 
@@ -31,8 +33,8 @@ class Podio::Conversation < ActivePodio::Base
 
   def save
     self[:file_ids] ||= []
-    response = Conversation.create(self.attributes)
-    self.conversation_id = response['conversation_id']
+    model = self.class.create(self.attributes)
+    self.attributes = model.attributes
   end
 
   handle_api_errors_for :save # Call must be made after the methods to handle have been defined
@@ -62,13 +64,13 @@ class Podio::Conversation < ActivePodio::Base
       list Podio.connection.get("/conversation/#{ref_type}/#{ref_id}/").body
     end
 
-    # @see https://developers.podio.com/doc/conversations/create-conversation-22441
+    # @see https://developers.podio.com/doc/conversations/create-conversation-v2-37301474
     def create(attributes)
       response = Podio.connection.post do |req|
-        req.url '/conversation/'
+        req.url '/conversation/v2/'
         req.body = attributes
       end
-      response.body
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/conversations/create-conversation-on-object-22442
