@@ -34,6 +34,10 @@ class Podio::ConversationEvent < ActivePodio::Base
       member response.body
     end
 
+    # @see https://developers.podio.com/doc/conversations/get-conversation-event-35628220
+    def find(id)
+      member Podio.connection.get("/conversation/event/#{id}").body
+    end
   end
 
 end
