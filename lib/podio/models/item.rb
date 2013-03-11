@@ -212,6 +212,15 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.delete("/item/#{id}/ref").body
     end
 
+    # @see https://developers.podio.com/doc/items/clone-item-37722742
+    def clone(item_id, options={})
+      response = Podio.connection.post do |req|
+        req.url("/item/#{item_id}/clone", options)
+      end
+
+      response.body['item_id']
+    end
+
     # @see https://developers.podio.com/doc/items/set-participation-7156154
     def set_participation(id, status)
       response = Podio.connection.put do |req|
