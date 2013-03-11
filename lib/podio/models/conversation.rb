@@ -125,5 +125,10 @@ class Podio::Conversation < ActivePodio::Base
       Podio.connection.get("/conversation/starred/count").body['value']
     end
 
+    # @see https://developers.podio.com/doc/conversations/leave-conversation-35483748
+    def leave(conversation_id)
+      Podio.connection.post("/conversation/#{conversation_id}/leave")
+    end
+
   end
 end
