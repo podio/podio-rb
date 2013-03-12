@@ -221,8 +221,10 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-reference-1657980
-    def find_summary_for_reference(ref_type, ref_id)
-      response = Podio.connection.get("/task/#{ref_type}/#{ref_id}/summary").body
+    def find_summary_for_reference(ref_type, ref_id, options = {})
+      response = Podio.connection.get { |req|
+        req.url("/task/#{ref_type}/#{ref_id}/summary", options)
+      }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
