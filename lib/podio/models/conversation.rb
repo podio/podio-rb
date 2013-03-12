@@ -108,6 +108,19 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/conversations/mark-conversation-as-read-35441525
+    def mark_as_read(conversation_id)
+      response = Podio.connection.post do |req|
+        req.url "/conversation/#{conversation_id}/read"
+      end
+      response.status
+    end
+
+    # @see https://developers.podio.com/doc/conversations/mark-conversation-as-unread-35441542
+    def mark_as_unread(conversation_id)
+      Podio.connection.delete("/conversation/#{conversation_id}/read").status
+    end
+
     def get_omega_auth_tokens
       response = Podio.connection.post do |req|
         req.url '/conversation/omega/access_token'
