@@ -121,6 +121,19 @@ class Podio::Conversation < ActivePodio::Base
       Podio.connection.delete("/conversation/#{conversation_id}/read").status
     end
 
+    # @see https://developers.podio.com/doc/conversations/star-conversation-35106944
+    def star(conversation_id)
+      response = Podio.connection.post do |req|
+        req.url "/conversation/#{conversation_id}/star"
+      end
+      response.status
+    end
+
+    # @see https://developers.podio.com/doc/conversations/unstar-conversation-35106990
+    def unstar(conversation_id)
+      Podio.connection.delete("/conversation/#{conversation_id}/star").status
+    end
+
     def get_omega_auth_tokens
       response = Podio.connection.post do |req|
         req.url '/conversation/omega/access_token'
