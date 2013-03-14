@@ -203,6 +203,16 @@ class Podio::Item < ActivePodio::Base
       response.status
     end
 
+    # @see https://developers.podio.com/doc/items/bulk-delete-items-19406111
+    def bulk_delete(app_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url("/item/app/#{app_id}/delete")
+        req.body = attributes
+      end
+
+      response.status
+    end
+
     # @see https://developers.podio.com/doc/items/delete-item-22364
     def delete(id)
       Podio.connection.delete("/item/#{id}").body
