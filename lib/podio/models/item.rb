@@ -22,6 +22,7 @@ class Podio::Item < ActivePodio::Base
   property :refs, :array
   property :tags, :array
   property :subscribed, :boolean
+  property :pinned, :boolean
   property :user_ratings, :hash
   property :link, :string
   property :invite, :hash
