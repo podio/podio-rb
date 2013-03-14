@@ -4,3 +4,4 @@ pkg/*
 .DS_Store
 Gemfile.lock
 script/config.rb
+*.swp
