@@ -108,6 +108,11 @@ class Podio::Conversation < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/conversations/mark-all-conversations-as-read-38080233
+    def mark_all_as_read
+      Podio.connection.post("/conversation/read").status
+    end
+
     # @see https://developers.podio.com/doc/conversations/mark-conversation-as-read-35441525
     def mark_as_read(conversation_id)
       response = Podio.connection.post do |req|
