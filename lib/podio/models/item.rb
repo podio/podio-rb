@@ -33,6 +33,7 @@ class Podio::Item < ActivePodio::Base
   property :excerpt, :string
   property :is_liked, :boolean
   property :like_count, :integer
+  property :push, :hash
 
   # Get items
   property :comment_count, :integer

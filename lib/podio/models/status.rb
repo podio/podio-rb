@@ -13,6 +13,7 @@ class Podio::Status < ActivePodio::Base
   property :is_liked, :boolean
   property :like_count, :integer
   property :subscribed_count, :integer
+  property :push, :hash
 
   # Properties for create
   property :file_ids, :array

@@ -10,6 +10,7 @@ class Podio::UserStatus < ActivePodio::Base
   property :message_unread_count, :integer
   property :flags, :array
   property :betas, :array
+  property :push, :hash
 
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
