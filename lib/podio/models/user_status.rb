@@ -11,6 +11,7 @@ class Podio::UserStatus < ActivePodio::Base
   property :flags, :array
   property :betas, :array
   property :push, :hash
+  property :presence, :hash
 
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile

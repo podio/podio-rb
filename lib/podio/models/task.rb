@@ -23,6 +23,7 @@ class Podio::Task < ActivePodio::Base
   property :subscribed, :boolean
   property :subscribed_count, :integer
   property :push, :hash
+  property :presence, :hash
 
   # old references
   property :ref_type, :string

@@ -15,6 +15,7 @@ class Podio::FileAttachment < ActivePodio::Base
   property :subscribed, :boolean
   property :subscribed_count, :integer
   property :push, :hash
+  property :presence, :hash
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'

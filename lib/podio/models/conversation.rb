@@ -20,6 +20,7 @@ class Podio::Conversation < ActivePodio::Base
   property :unread, :boolean
   property :type, :string
   property :push, :hash
+  property :presence, :hash
 
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
