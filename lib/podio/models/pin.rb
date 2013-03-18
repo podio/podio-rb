@@ -13,7 +13,7 @@ class Podio::Pin < ActivePodio::Base
     end
 
     def create(ref_type, ref_id)
-      Podio.connection.post("/pin/#{ref_type}/#{ref_id}")
+      new(Podio.connection.post("/pin/#{ref_type}/#{ref_id}").body)
     end
 
     def delete(ref_type, ref_id)
