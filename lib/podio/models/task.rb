@@ -242,5 +242,10 @@ class Podio::Task < ActivePodio::Base
       response
     end
 
+    # @see https://developers.podio.com/doc/tasks/get-task-count-38316458
+    def count_by_ref(ref_type, ref_id)
+      Podio.connection.get("/task/#{ref_type}/#{ref_id}/count").body['count']
+    end
+
   end
 end
