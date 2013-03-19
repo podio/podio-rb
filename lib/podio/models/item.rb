@@ -212,7 +212,7 @@ class Podio::Item < ActivePodio::Base
         req.body = attributes
       end
 
-      response.status
+      response.body
     end
 
     # @see https://developers.podio.com/doc/items/delete-item-22364
