@@ -4,6 +4,7 @@ class Podio::Conversation < ActivePodio::Base
 
   property :conversation_id, :integer
   property :subject, :string
+  property :pinned, :boolean
 
   # When inputting conversation
   property :text, :string

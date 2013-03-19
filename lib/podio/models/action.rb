@@ -6,6 +6,7 @@ class Podio::Action < ActivePodio::Base
   property :text, :string
   property :push, :hash
   property :presence, :hash
+  property :pinned, :boolean
 
   has_many :comments, :class => 'Comment'
 

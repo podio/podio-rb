@@ -22,6 +22,7 @@ class Podio::Task < ActivePodio::Base
   property :external_id, :string
   property :subscribed, :boolean
   property :subscribed_count, :integer
+  property :pinned, :boolean
   property :push, :hash
   property :presence, :hash
 

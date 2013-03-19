@@ -8,6 +8,7 @@ class Podio::Status < ActivePodio::Base
   property :alerts, :array
   property :ratings, :hash
   property :subscribed, :boolean
+  property :pinned, :boolean
   property :user_ratings, :hash
   property :rights, :array
   property :is_liked, :boolean
