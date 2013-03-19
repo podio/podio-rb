@@ -16,6 +16,10 @@ class Podio::Pin < ActivePodio::Base
       new(Podio.connection.post("/pin/#{ref_type}/#{ref_id}").body)
     end
 
+    def reorder(ref_type, ref_id, priority)
+      Podio.connection.post("/pin/#{ref_type}/#{ref_id}/reorder", priority)
+    end
+
     def delete(ref_type, ref_id)
       Podio.connection.delete("/pin/#{ref_type}/#{ref_id}")
     end
