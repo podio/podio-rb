@@ -94,13 +94,6 @@ class Podio::Organization < ActivePodio::Base
       list Podio.connection.get("/org/").body
     end
 
-    # @see https://developers.podio.com/doc/organizations/get-organization-statistics-28734
-    def get_statistics(id, options = {})
-      Podio.connection.get { |req|
-        req.url("/org/#{id}/statistics", options)
-      }.body
-    end
-
     def get_member_count(id)
       Podio.connection.get("/org/#{id}/member/count").body
     end
