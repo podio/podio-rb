@@ -12,7 +12,7 @@ module ActivePodio
     self.json_attributes = []
     self._associations = {}
 
-    attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
+    attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate, :error_exception
     alias_method :propagate_error?, :error_propagate
 
     def initialize(attributes = {}, options = {})
@@ -317,7 +317,7 @@ module ActivePodio
       def handle_api_errors_for(*method_names)
         method_names.each do |method_name|
           self.send(:define_method, "#{method_name}_with_api_errors_handled") do |*args|
-            success, code, message, parameters, result = nil
+            success, code, message, parameters, result, exception = nil
             begin
               result = self.send("#{method_name}_without_api_errors_handled", *args)
               success = true
@@ -327,6 +327,7 @@ module ActivePodio
               message     = ex.response_body["error_description"]
               parameters  = ex.response_body["error_parameters"]
               propagate  = ex.response_body["error_propagate"]
+              exception = ex
             end
 
             if success
@@ -336,6 +337,7 @@ module ActivePodio
               @error_message    = message
               @error_parameters = parameters || {}
               @error_propagate  = propagate
+              @error_exception  = exception
               return false
             end
           end
