@@ -3,6 +3,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :share_id, :integer
   property :type, :string
   property :status, :string
+  property :link, :string
   property :name, :string
   property :description, :string
   property :abstract, :string
