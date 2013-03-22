@@ -40,8 +40,6 @@ class Podio::Conversation < ActivePodio::Base
     self.attributes = model.attributes
   end
 
-  handle_api_errors_for :save # Call must be made after the methods to handle have been defined
-
   class << self
     # @see https://developers.podio.com/doc/conversations/get-conversations-34822801
     def find_all(options={})

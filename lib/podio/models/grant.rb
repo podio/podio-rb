@@ -15,8 +15,6 @@ class Podio::Grant < ActivePodio::Base
     self.class.create(self.ref_type, self.ref_id, self.attributes)
   end
 
-  handle_api_errors_for :save
-
   class << self
     # https://hoist.podio.com/api/item/16168841
     def create(ref_type, ref_id, attributes={})

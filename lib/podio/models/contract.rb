@@ -84,8 +84,6 @@ class Podio::Contract < ActivePodio::Base
     self.class.change_to_variable(self.contract_id)
   end
 
-  handle_api_errors_for :update, :delete, :create_payment, :end, :change_to_fixed # Call must be made after the methods to handle have been defined
-
   class << self
     def find(contract_id)
       member Podio.connection.get("/contract/#{contract_id}").body

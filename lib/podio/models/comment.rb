@@ -33,8 +33,6 @@ class Podio::Comment < ActivePodio::Base
     self.initialize_attributes(self.attributes)
   end
 
-  handle_api_errors_for :create
-
   class << self
     # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
     def create(commentable_type, commentable_id, attributes)

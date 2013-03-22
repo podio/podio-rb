@@ -29,8 +29,6 @@ class Podio::SpaceInvitation < ActivePodio::Base
     self.class.accept(invite_code)
   end
 
-  handle_api_errors_for :save, :save_member, :accept # Call must be made after the methods to handle have been defined
-
   class << self
     def create(space_id, role, attributes={})
       response = Podio.connection.post do |req|
