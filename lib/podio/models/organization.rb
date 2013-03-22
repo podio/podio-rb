@@ -46,8 +46,6 @@ class Podio::Organization < ActivePodio::Base
     Organization.update(id, {:name => name, :logo => logo, :url_label => url_label, :billing_interval => billing_interval, :segment_size => segment_size})
   end
 
-  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
-
   class << self
     # @see https://developers.podio.com/doc/organizations/update-organization-22386
     def update(id, attributes)

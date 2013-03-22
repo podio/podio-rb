@@ -100,8 +100,6 @@ class Podio::Task < ActivePodio::Base
     self.class.rank(self.id, previous_task && previous_task.to_i, next_task && next_task.to_i)
   end
 
-  handle_api_errors_for :create_multiple, :destroy, :complete, :uncomplete, :update_reference # Call must be made after the methods to handle have been defined
-
   class << self
     # @see https://developers.podio.com/doc/tasks/create-task-22419
     def create(attributes)

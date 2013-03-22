@@ -71,8 +71,6 @@ class Podio::Item < ActivePodio::Base
     self.class.update(self.id, prepare_item_values(self))
   end
 
-  handle_api_errors_for :create, :update
-
   protected
       def prepare_item_values(item)
         fields = item.fields.collect { |field| field.values.nil? ? nil : { :external_id => field.external_id, :values => field.values } }.compact

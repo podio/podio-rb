@@ -41,8 +41,6 @@ class ActivePodioTest < Test::Unit::TestCase
           }, 500, 'http://api.podio.dev')
       end
     end
-    
-    handle_api_errors_for :save
   end
 
   class TestInheritedModel < TestModel

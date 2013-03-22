@@ -12,8 +12,7 @@ module ActivePodio
     self.json_attributes = []
     self._associations = {}
 
-    attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate, :error_exception
-    alias_method :propagate_error?, :error_propagate
+    attr_accessor :attributes
 
     def initialize(attributes = {}, options = {})
       attributes = {} if attributes.blank?
@@ -307,42 +306,6 @@ module ActivePodio
               self.send(hash_name)[hash_index] = value
             end
           end
-        end
-      end
-
-      # Wraps the given methods in a begin/rescue block
-      # If no error occurs, the return value of the method, or true if nil is returned, is returned
-      # If a Podio::PodioError occurs, the method returns false and the error can be read from the error_message accessor
-      # If another error occurs, it is still raised
-      def handle_api_errors_for(*method_names)
-        method_names.each do |method_name|
-          self.send(:define_method, "#{method_name}_with_api_errors_handled") do |*args|
-            success, code, message, parameters, result, exception = nil
-            begin
-              result = self.send("#{method_name}_without_api_errors_handled", *args)
-              success = true
-            rescue Podio::PodioError => ex
-              success = false
-              code        = ex.response_body["error"]
-              message     = ex.response_body["error_description"]
-              parameters  = ex.response_body["error_parameters"]
-              propagate  = ex.response_body["error_propagate"]
-              exception = ex
-            end
-
-            if success
-              return result || true
-            else
-              @error_code       = code
-              @error_message    = message
-              @error_parameters = parameters || {}
-              @error_propagate  = propagate
-              @error_exception  = exception
-              return false
-            end
-          end
-
-          alias_method_chain method_name, :api_errors_handled
         end
       end
 

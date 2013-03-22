@@ -1,11 +1,25 @@
 module Podio
   class PodioError < StandardError
-    attr_reader :response_body, :response_status, :url
+    attr_reader :response_body, :response_status, :url, :code, :sub_code, :message, :propagate, :parameters
 
     def initialize(response_body, response_status, url)
       @response_body, @response_status, @url = response_body, response_status, url
 
+      @code = response_body["error"]
+      @sub_code = response_body["error_detail"]
+      @message = response_body["error_description"]
+      @propagate = response_body["error_propagate"]
+      @parameters = response_body["error_parameters"]
+
       super(response_body.inspect)
+    end
+    
+    def resolved_message(default_message=nil)
+      if @propagate
+        @message
+      else
+        default_message || "An unexpected error occurred"
+      end
     end
   end
 
@@ -20,13 +34,5 @@ module Podio
   class RateLimitError < PodioError; end
   class UnavailableError < PodioError; end
   class PaymentRequiredError < AuthorizationError; end
-
-  class RequestableAuthorizationError < AuthorizationError
-    attr_reader :request_access_info
-
-    def initialize(response_body, response_status, url)
-      @request_access_info = response_body['error_parameters']
-      super
-    end
-  end
+  class RequestableAuthorizationError < AuthorizationError; end
 end
