@@ -36,6 +36,10 @@ class Podio::FileAttachment < ActivePodio::Base
     'file'
   end
 
+  def raw_data
+    Podio.connection.get(self.link).body
+  end
+
   class << self
     # Accepts an open file stream along with a file name and uploads the file to Podio
     # @see https://developers.podio.com/doc/files/upload-file-1004361
