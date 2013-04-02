@@ -9,9 +9,10 @@ class Podio::Item < ActivePodio::Base
   property :title, :string
   property :fields, :array
   property :rights, :array
+  property :created_on, :datetime
 
-  has_one :initial_revision, :class => 'ItemRevision'
-  has_one :current_revision, :class => 'ItemRevision'
+  has_one :created_by, :class => 'ByLine'
+  has_one :created_via, :class => 'Via'
   has_one :date_election, :class => 'DateElection'
 
   # Also included in the full Get item
