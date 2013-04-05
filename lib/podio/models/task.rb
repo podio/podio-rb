@@ -7,6 +7,7 @@ class Podio::Task < ActivePodio::Base
   property :group, :string
   property :text, :string
   property :description, :string
+  property :rights, :array
   property :private, :boolean
   property :due_date, :date
   property :due_time, :time
