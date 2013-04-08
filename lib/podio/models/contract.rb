@@ -58,6 +58,12 @@ class Podio::Contract < ActivePodio::Base
     self["price"] = pricing
   end
 
+  def calculate_price_v2
+    pricing = self.class.calculate_price_v2(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_space_ids))
+    self.clear_price_v2
+    self["price_v2"] = pricing
+  end
+
   def create_payment(query_string)
     self.class.create_payment(self.contract_id, query_string)
   end
@@ -140,7 +146,16 @@ class Podio::Contract < ActivePodio::Base
         req.url "/contract/#{contract_id}/price"
         req.body = attributes
       end
+    
+      response.body
+    end
 
+    def calculate_price_v2(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{contract_id}/price/v2"
+        req.body = attributes
+      end
+    
       response.body
     end
 
