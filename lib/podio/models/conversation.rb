@@ -30,9 +30,12 @@ class Podio::Conversation < ActivePodio::Base
   has_many :messages, :class => 'ConversationMessage'
   has_many :participants_full, :class => 'ConversationParticipant'
 
-
   alias_method :id, :conversation_id
-  alias_method :name, :subject # So tasks can refer to ref.name on all types of references
+  
+  # So tasks can refer to ref.name on all types of references
+  def name
+    self.subject || self.excerpt
+  end
 
   def save
     self[:file_ids] ||= []
