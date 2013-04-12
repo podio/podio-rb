@@ -88,8 +88,10 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/get-item-basic-61768
-    def find_basic(id)
-      member Podio.connection.get("/item/#{id}/basic").body
+    def find_basic(id, options={})
+      member Podio.connection.get { |req|
+        req.url("/item/app/#{app_id}/basic", options)
+      }.body
     end
 
     def find_basic_hash(id)
