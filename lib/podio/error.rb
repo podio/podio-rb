@@ -5,11 +5,15 @@ module Podio
     def initialize(response_body, response_status, url)
       @response_body, @response_status, @url = response_body, response_status, url
 
-      @code = response_body["error"]
-      @sub_code = response_body["error_detail"]
-      @message = response_body["error_description"]
-      @propagate = response_body["error_propagate"]
-      @parameters = response_body["error_parameters"]
+      if response_body.is_a?(Hash)
+        @code       = response_body["error"]
+        @sub_code   = response_body["error_detail"]
+        @message    = response_body["error_description"]
+        @propagate  = response_body["error_propagate"]
+        @parameters = response_body["error_parameters"]
+      else
+        @message    = response_body.to_s
+      end
 
       super(response_body.inspect)
     end
