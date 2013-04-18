@@ -14,6 +14,7 @@ class Podio::Conversation < ActivePodio::Base
   property :embed_file_id, :integer
 
   # When outputting conversation(s)
+  property :link, :string
   property :created_on, :datetime
   property :excerpt, :string
   property :last_event_on, :datetime
