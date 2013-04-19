@@ -31,6 +31,9 @@ class Podio::Contract < ActivePodio::Base
   property :count_employee, :integer
   property :count_external, :integer
   property :yearly_rebate_factor, :decimal
+  property :mrr, :decimal
+  property :days_overdue, :integer
+  property :overdue_status, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
@@ -105,6 +108,10 @@ class Podio::Contract < ActivePodio::Base
 
     def find_users_for_org(org_id)
       member Podio.connection.get("/contract/org/#{org_id}/user").body
+    end
+
+    def find_all_unpaid
+      list Podio.connection.get("/contract/unpaid/").body
     end
 
     def create(attributes)
