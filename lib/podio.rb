@@ -149,5 +149,6 @@ module Podio
   autoload :Via,                      'podio/models/via'
   autoload :View,                     'podio/models/view'
   autoload :Widget,                   'podio/models/widget'
+  autoload :Live,                     'podio/models/live'
 
 end
