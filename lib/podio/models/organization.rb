@@ -46,6 +46,10 @@ class Podio::Organization < ActivePodio::Base
     Organization.update(id, {:name => name, :logo => logo, :url_label => url_label, :billing_interval => billing_interval, :segment_size => segment_size})
   end
 
+  def sales_agent
+    ::Podio::Profile.find(sales_agent_id)
+  end
+
   class << self
     # @see https://developers.podio.com/doc/organizations/update-organization-22386
     def update(id, attributes)

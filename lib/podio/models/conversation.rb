@@ -32,7 +32,7 @@ class Podio::Conversation < ActivePodio::Base
   has_many :participants_full, :class => 'ConversationParticipant'
 
   alias_method :id, :conversation_id
-  
+
   # So tasks can refer to ref.name on all types of references
   def name
     self.subject || self.excerpt
@@ -67,6 +67,11 @@ class Podio::Conversation < ActivePodio::Base
     # @see https://developers.podio.com/doc/conversations/get-conversations-on-object-22443
     def find_all_for_reference(ref_type, ref_id)
       list Podio.connection.get("/conversation/#{ref_type}/#{ref_id}/").body
+    end
+
+    # @see https://developers.podio.com/doc/conversations/get-existing-direct-conversation-44969910
+    def find_direct_with_user(user_id)
+      member Podio.connection.get("/conversation/direct/#{user_id}").body
     end
 
     # @see https://developers.podio.com/doc/conversations/create-conversation-v2-37301474
