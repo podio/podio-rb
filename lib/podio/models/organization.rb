@@ -47,7 +47,7 @@ class Podio::Organization < ActivePodio::Base
   end
 
   def sales_agent
-    ::Podio::Profile.find(sales_agent_id)
+    ::Podio::Profile.find(sales_agent_id) if sales_agent_id
   end
 
   class << self
