@@ -23,6 +23,7 @@ class Podio::Conversation < ActivePodio::Base
   property :type, :string
   property :push, :hash
   property :presence, :hash
+  property :live, :hash
 
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
