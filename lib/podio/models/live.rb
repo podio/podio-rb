@@ -12,6 +12,14 @@ class Podio::Live < ActivePodio::Base
       member response.body
     end
 
+    def update(id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/live/#{id}/settings"
+        req.body = attributes
+      end
+      response.status
+    end
+
   end
-  
+
 end
