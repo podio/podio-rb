@@ -20,6 +20,10 @@ class Podio::Live < ActivePodio::Base
       response.status
     end
 
+    def delete(id)
+      Podio.connection.delete("/live/#{id}").body
+    end
+
   end
 
 end
