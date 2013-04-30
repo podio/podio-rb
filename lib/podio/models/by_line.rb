@@ -8,4 +8,5 @@ class Podio::ByLine < ActivePodio::Base
   property :name, :string
   property :url, :string
   property :avatar, :integer # Sometimes used by older operations
+  property :last_seen_on, :datetime
 end
