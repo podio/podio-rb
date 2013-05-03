@@ -150,13 +150,6 @@ class Podio::Conversation < ActivePodio::Base
       Podio.connection.delete("/conversation/#{conversation_id}/star").status
     end
 
-    def get_omega_auth_tokens
-      response = Podio.connection.post do |req|
-        req.url '/conversation/omega/access_token'
-      end
-      response.body
-    end
-
     # @see https://developers.podio.com/doc/conversations/get-flagged-conversation-counts-35467925
     def unread_count
       Podio.connection.get("/conversation/unread/count").body['value']

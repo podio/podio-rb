@@ -31,6 +31,14 @@ class Podio::Live < ActivePodio::Base
       Podio.connection.delete("/live/#{id}").body
     end
 
+    def authorize
+      response = Podio.connection.post do |req|
+        req.url "/live/omega/authorize"
+      end
+
+      response.body
+    end
+
   end
 
 end
