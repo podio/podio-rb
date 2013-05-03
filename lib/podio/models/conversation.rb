@@ -23,11 +23,11 @@ class Podio::Conversation < ActivePodio::Base
   property :type, :string
   property :push, :hash
   property :presence, :hash
-  property :live, :hash
 
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
   has_one :created_by, :class => 'ByLine'
+  has_one :live, :class => 'Live'
   has_many :files, :class => 'FileAttachment'
   has_many :messages, :class => 'ConversationMessage'
   has_many :participants_full, :class => 'ConversationParticipant'

@@ -1,4 +1,11 @@
 class Podio::Live < ActivePodio::Base
+  property :status, :string
+  property :presence, :hash
+  property :provider, :string
+  property :push, :hash
+  property :live_id, :integer
+  property :settings, :hash
+  property :ref, :hash
 
   class << self
 
