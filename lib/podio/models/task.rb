@@ -204,8 +204,10 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-1612017
-    def find_summary
-      response = Podio.connection.get("/task/summary").body
+    def find_summary(options={})
+      response = Podio.connection.get { |req| 
+        req.url("/task/summary", options) 
+      }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
@@ -213,9 +215,10 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-organization-1612063
-    def find_summary_for_org(org_id, limit=nil)
-      response = Podio.connection.get("/task/org/#{org_id}/summary" +
-                                      ((limit != nil) ? "?limit=#{limit}" : "")).body
+    def find_summary_for_org(org_id, options={})
+      response = Podio.connection.get { |req| 
+        req.url("/task/org/#{org_id}/summary", options)
+      }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
@@ -223,7 +226,7 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-reference-1657980
-    def find_summary_for_reference(ref_type, ref_id, options = {})
+    def find_summary_for_reference(ref_type, ref_id, options={})
       response = Podio.connection.get { |req|
         req.url("/task/#{ref_type}/#{ref_id}/summary", options)
       }.body
@@ -234,8 +237,10 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-personal-1657217
-    def find_personal_summary
-      response = Podio.connection.get("/task/personal/summary").body
+    def find_personal_summary(options={})
+      response = Podio.connection.get { |req|
+        req.url("/task/personal/summary", options)
+      }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
