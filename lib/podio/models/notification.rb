@@ -1,7 +1,6 @@
 # @see https://developers.podio.com/doc/notifications
 class Podio::Notification < ActivePodio::Base
   property :notification_id, :integer
-  property :user, :hash
   property :type, :string
   property :viewed_on, :datetime
   property :subscription_id, :integer
@@ -19,7 +18,6 @@ class Podio::Notification < ActivePodio::Base
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
-  has_one :user, :class => 'User'
 
   alias_method :id, :notification_id
   delegate_to_hash :data, :field, :value, :role, :message
