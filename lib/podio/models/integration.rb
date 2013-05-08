@@ -42,8 +42,6 @@ class Podio::Integration < ActivePodio::Base
     Integration.refresh(self.app_id)
   end
 
-  handle_api_errors_for :create, :update, :update_mapping
-
   class << self
     # @see https://developers.podio.com/doc/integrations/create-integration-86839
     def create(app_id, attributes)

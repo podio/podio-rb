@@ -3,6 +3,7 @@ class Podio::AppStoreShare < ActivePodio::Base
   property :share_id, :integer
   property :type, :string
   property :status, :string
+  property :link, :string
   property :name, :string
   property :description, :string
   property :abstract, :string
@@ -45,8 +46,6 @@ class Podio::AppStoreShare < ActivePodio::Base
   def install(space_id, dependencies, social = true)
     self.class.install(self.share_id, space_id, dependencies, social)
   end
-
-  handle_api_errors_for :create, :install  # Call must be made after the methods to handle have been defined
 
   def api_friendly_ref_type
     'share'

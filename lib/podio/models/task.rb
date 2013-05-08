@@ -7,6 +7,7 @@ class Podio::Task < ActivePodio::Base
   property :group, :string
   property :text, :string
   property :description, :string
+  property :rights, :array
   property :private, :boolean
   property :due_date, :date
   property :due_time, :time
@@ -20,6 +21,11 @@ class Podio::Task < ActivePodio::Base
   property :label_ids, :array # when inputting tasks
   property :labels, :array # when outputting tasks
   property :external_id, :string
+  property :subscribed, :boolean
+  property :subscribed_count, :integer
+  property :pinned, :boolean
+  property :push, :hash
+  property :presence, :hash
 
   # old references
   property :ref_type, :string
@@ -94,8 +100,6 @@ class Podio::Task < ActivePodio::Base
   def rank(previous_task, next_task)
     self.class.rank(self.id, previous_task && previous_task.to_i, next_task && next_task.to_i)
   end
-
-  handle_api_errors_for :create_multiple, :destroy, :complete, :uncomplete, :update_reference # Call must be made after the methods to handle have been defined
 
   class << self
     # @see https://developers.podio.com/doc/tasks/create-task-22419
@@ -241,6 +245,11 @@ class Podio::Task < ActivePodio::Base
       response['today']['tasks'] = list(response['today']['tasks'])
       response['other']['tasks'] = list(response['other']['tasks'])
       response
+    end
+
+    # @see https://developers.podio.com/doc/tasks/get-task-count-38316458
+    def count_by_ref(ref_type, ref_id)
+      Podio.connection.get("/task/#{ref_type}/#{ref_id}/count").body['count']
     end
 
   end

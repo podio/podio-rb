@@ -9,9 +9,11 @@ class Podio::Item < ActivePodio::Base
   property :title, :string
   property :fields, :array
   property :rights, :array
+  property :created_on, :datetime
 
-  has_one :initial_revision, :class => 'ItemRevision'
-  has_one :current_revision, :class => 'ItemRevision'
+  has_one :created_by, :class => 'ByLine'
+  has_one :created_via, :class => 'Via'
+  has_one :date_election, :class => 'DateElection'
 
   # Also included in the full Get item
   property :ratings, :hash
@@ -21,6 +23,7 @@ class Podio::Item < ActivePodio::Base
   property :refs, :array
   property :tags, :array
   property :subscribed, :boolean
+  property :pinned, :boolean
   property :user_ratings, :hash
   property :link, :string
   property :invite, :hash
@@ -29,10 +32,15 @@ class Podio::Item < ActivePodio::Base
   property :ref, :hash  # linked items
   property :priority, :float
   property :excerpt, :string
+  property :is_liked, :boolean
+  property :like_count, :integer
+  property :push, :hash
+  property :presence, :hash
 
   # Get items
   property :comment_count, :integer
   property :task_count, :integer
+  property :subscribed_count, :integer
 
   has_many :revisions, :class => 'ItemRevision'
   has_many :files, :class => 'FileAttachment'
@@ -41,6 +49,7 @@ class Podio::Item < ActivePodio::Base
   has_one :reminder, :class => 'Reminder'
   has_one :recurrence, :class => 'Recurrence'
   has_one :linked_account_data, :class => 'LinkedAccountData'
+  has_one :application, :class => 'Application', :property => :app
 
   # For inserting/updating
   property :file_ids, :array
@@ -63,8 +72,6 @@ class Podio::Item < ActivePodio::Base
     self.class.update(self.id, prepare_item_values(self))
   end
 
-  handle_api_errors_for :create, :update
-
   protected
       def prepare_item_values(item)
         fields = item.fields.collect { |field| field.values.nil? ? nil : { :external_id => field.external_id, :values => field.values } }.compact
@@ -81,8 +88,10 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/get-item-basic-61768
-    def find_basic(id)
-      member Podio.connection.get("/item/#{id}/basic").body
+    def find_basic(id, options={})
+      member Podio.connection.get { |req|
+        req.url("/item/#{id}/basic", options)
+      }.body
     end
 
     def find_basic_hash(id)
@@ -133,6 +142,15 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/items/get-item-references-22439
+    def find_references(item_id)
+      response = Podio.connection.get { |req|
+        req.url("/item/#{item_id}/reference/")
+      }
+      response.body
+    end            
+
+    # @see https://developers.podio.com/doc/items/get-references-to-item-by-field-7403920
     def find_references_by_field(item_id, field_id, options = {})
       list Podio.connection.get { |req|
         req.url("/item/#{item_id}/reference/field/#{field_id}", options)
@@ -197,6 +215,16 @@ class Podio::Item < ActivePodio::Base
       response.status
     end
 
+    # @see https://developers.podio.com/doc/items/bulk-delete-items-19406111
+    def bulk_delete(app_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url("/item/app/#{app_id}/delete")
+        req.body = attributes
+      end
+
+      response.body
+    end
+
     # @see https://developers.podio.com/doc/items/delete-item-22364
     def delete(id)
       Podio.connection.delete("/item/#{id}").body
@@ -205,6 +233,15 @@ class Podio::Item < ActivePodio::Base
     # @see https://developers.podio.com/doc/items/delete-item-reference-7302326
     def delete_ref(id)
       Podio.connection.delete("/item/#{id}/ref").body
+    end
+
+    # @see https://developers.podio.com/doc/items/clone-item-37722742
+    def clone(item_id, options={})
+      response = Podio.connection.post do |req|
+        req.url("/item/#{item_id}/clone", options)
+      end
+
+      response.body['item_id']
     end
 
     # @see https://developers.podio.com/doc/items/set-participation-7156154

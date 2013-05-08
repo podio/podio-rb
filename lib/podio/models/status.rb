@@ -8,14 +8,21 @@ class Podio::Status < ActivePodio::Base
   property :alerts, :array
   property :ratings, :hash
   property :subscribed, :boolean
+  property :pinned, :boolean
   property :user_ratings, :hash
+  property :rights, :array
+  property :is_liked, :boolean
+  property :like_count, :integer
+  property :subscribed_count, :integer
+  property :push, :hash
+  property :presence, :hash
 
   # Properties for create
   property :file_ids, :array
   property :embed_id, :integer
   property :embed_file_id, :integer
 
-  has_one :created_by, :class => 'Contact'
+  has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'

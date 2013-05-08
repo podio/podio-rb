@@ -119,6 +119,24 @@ class Podio::Application < ActivePodio::Base
       response.status
     end
 
+    # @see https://developers.podio.com/doc/applications/update-app-description-33569973
+    def update_description(app_id, description)
+      response = Podio.connection.put do |req|
+        req.url "/app/#{app_id}/description"
+        req.body = {:description => description}
+      end
+      response.status
+    end
+
+    # @see https://developers.podio.com/doc/applications/update-app-usage-33570086
+    def update_usage(app_id, usage)
+      response = Podio.connection.put do |req|
+        req.url "/app/#{app_id}/usage"
+        req.body = {:usage => usage}
+      end
+      response.status
+    end
+
     # @see https://developers.podio.com/doc/applications/install-app-22506
     def install(app_id, attributes)
       response = Podio.connection.post do |req|

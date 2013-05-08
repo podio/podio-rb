@@ -15,6 +15,10 @@ class Podio::Subscription < ActivePodio::Base
       member Podio.connection.get("/subscription/#{ref_type}/#{ref_id}").body
     end
 
+    def find_all_by_reference(ref_type, ref_id)
+      list Podio.connection.get("/subscription/#{ref_type}/#{ref_id}/").body
+    end
+
     # @see https://developers.podio.com/doc/subscriptions/subscribe-22409
     def create(ref_type, ref_id)
       Podio.connection.post("/subscription/#{ref_type}/#{ref_id}").body['subscription_id']

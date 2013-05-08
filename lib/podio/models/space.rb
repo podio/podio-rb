@@ -22,6 +22,7 @@ class Podio::Space < ActivePodio::Base
   property :last_activity_on, :datetime
   property :created_on, :datetime
   property :is_overdue, :boolean
+  property :push, :hash
 
   has_one :created_by, :class => 'ByLine'
   has_one :org, :class => 'Organization'
@@ -106,6 +107,10 @@ class Podio::Space < ActivePodio::Base
 
     def get_overdue_info(space_id)
       Podio.connection.get("/space/#{space_id}/overdue").body
+    end
+    
+    def get_count(org_id)
+      Podio.connection.get("/space/org/#{org_id}").body['count']
     end
 
   end

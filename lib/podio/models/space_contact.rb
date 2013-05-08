@@ -19,6 +19,4 @@ class Podio::SpaceContact < Podio::Profile
   def destroy
     self.class.delete_contact(self.profile_id)
   end
-
-  handle_api_errors_for :create, :update # Call must be made after the methods to handle have been defined
 end

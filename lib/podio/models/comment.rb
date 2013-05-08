@@ -6,6 +6,8 @@ class Podio::Comment < ActivePodio::Base
   property :external_id, :string
   property :space_id, :integer
   property :created_on, :datetime
+  property :like_count, :integer
+  property :is_liked, :boolean
   property :files, :array # when outputting comments
   property :file_ids, :array # when inputting comments
   property :embed_id, :integer #optional, when inputting comments
@@ -30,8 +32,6 @@ class Podio::Comment < ActivePodio::Base
     self.attributes = updated_attributes.symbolize_keys
     self.initialize_attributes(self.attributes)
   end
-
-  handle_api_errors_for :create
 
   class << self
     # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
@@ -72,6 +72,11 @@ class Podio::Comment < ActivePodio::Base
     def find_recent_for_share
       #Internal
       list Podio.connection.get("/comment/share/").body
+    end
+
+    # @see https://developers.podio.com/doc/comments/get-who-liked-a-comment-29007011
+    def liked_by(id)
+      Podio.connection.get("/comment/#{id}/liked_by/").body.map{|values| Podio::Contact.new(values)}
     end
 
   end

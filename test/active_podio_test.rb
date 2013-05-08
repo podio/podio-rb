@@ -30,19 +30,6 @@ class ActivePodioTest < Test::Unit::TestCase
     delegate_to_hash :prefixed_hash_property, :key3, :prefix => true
     delegate_to_hash :hash_property_with_setter, :key4, :setter => true
     delegate_to_hash :prefixed_hash_property_with_setter, :key5, :setter => true, :prefix => true
-    
-    
-    def save(exception_class = nil)
-      if exception_class
-        raise exception_class.new({
-          'error' => 'test status',
-          'error_description' => 'test desc',
-          'error_parameters' => 'test parms'
-          }, 500, 'http://api.podio.dev')
-      end
-    end
-    
-    handle_api_errors_for :save
   end
 
   class TestInheritedModel < TestModel
@@ -220,22 +207,24 @@ class ActivePodioTest < Test::Unit::TestCase
     @test.key4 = 'new'
     assert_equal 'new', @test.key4
   end
-  
-  test 'should handle non failing api requests' do
-    @test = TestModel.new
-    assert @test.save
+    
+  test 'should instantiate exception properly' do
+    exc = Podio::BadRequestError.new(
+      {
+        "error" => "forbidden",
+        "error_detail" => nil,
+        "error_description" => "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at support@podio.com.",
+        "error_parameters" => {"foo" => "bar"},
+        "error_propagate" => false
+      }, 400, "https://api.podio.com/foo/bar")
+       
+    assert_equal exc.code, "forbidden"
+    assert_equal exc.sub_code, nil
+    assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at support@podio.com."
+    assert_equal exc.propagate, false
+    assert_equal exc.parameters["foo"], "bar"
   end
-
-  [Podio::BadRequestError, Podio::AuthorizationError].each do |exception_class|
-    test "should handle failing api requests with #{exception_class.name} exception" do
-      @test = TestModel.new
-      assert_equal false, @test.save(exception_class)
-      assert_equal 'test status', @test.error_code
-      assert_equal 'test desc', @test.error_message
-      assert_equal 'test parms', @test.error_parameters
-    end
-  end
-  
+ 
   test 'should return instance from member' do
     assert TestModel.member(:string => 'string').instance_of?(TestModel)
   end

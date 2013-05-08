@@ -12,6 +12,10 @@ class Podio::FileAttachment < ActivePodio::Base
   property :context, :hash
   property :created_on, :datetime
   property :rights, :array
+  property :subscribed, :boolean
+  property :subscribed_count, :integer
+  property :push, :hash
+  property :presence, :hash
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
@@ -30,6 +34,10 @@ class Podio::FileAttachment < ActivePodio::Base
 
   def api_friendly_ref_type
     'file'
+  end
+
+  def raw_data
+    Podio.connection.get(self.link).body
   end
 
   class << self

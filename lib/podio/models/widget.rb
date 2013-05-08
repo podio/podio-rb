@@ -9,6 +9,10 @@ class Podio::Widget < ActivePodio::Base
   property :ref, :hash
   property :rights, :array
   property :data, :hash
+  property :x, :integer
+  property :y, :integer
+  property :rows, :integer
+  property :cols, :integer
 
   class << self
     # @see https://developers.podio.com/doc/widgets/create-widget-22491

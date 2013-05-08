@@ -31,13 +31,21 @@ class Podio::Contract < ActivePodio::Base
   property :count_employee, :integer
   property :count_external, :integer
   property :yearly_rebate_factor, :decimal
+  property :mrr, :decimal
+  property :days_overdue, :integer
+  property :overdue_status, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
   has_one :price, :class => 'ContractPrice'
+  has_one :price_v2, :class => 'ContractPriceV2'
   has_many :premium_spaces, :class => 'Space'
 
   alias_method :id, :contract_id
+
+  def price_v2=(attributes)
+    self[:price_v2] = attributes
+  end
 
   def premium_space_ids=(values)
     self[:premium_space_ids] = (values || []).map(&:to_i)
@@ -51,6 +59,12 @@ class Podio::Contract < ActivePodio::Base
     pricing = self.class.calculate_price(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_space_ids))
     self.clear_price
     self["price"] = pricing
+  end
+
+  def calculate_price_v2
+    pricing = self.class.calculate_price_v2(self.contract_id, self.attributes.slice(:full, :premium_emp_network, :premium_space_ids))
+    self.clear_price_v2
+    self["price_v2"] = pricing
   end
 
   def create_payment(query_string)
@@ -79,8 +93,6 @@ class Podio::Contract < ActivePodio::Base
     self.class.change_to_variable(self.contract_id)
   end
 
-  handle_api_errors_for :update, :delete, :create_payment, :end, :change_to_fixed # Call must be made after the methods to handle have been defined
-
   class << self
     def find(contract_id)
       member Podio.connection.get("/contract/#{contract_id}").body
@@ -96,6 +108,10 @@ class Podio::Contract < ActivePodio::Base
 
     def find_users_for_org(org_id)
       member Podio.connection.get("/contract/org/#{org_id}/user").body
+    end
+
+    def find_all_unpaid
+      list Podio.connection.get("/contract/unpaid/").body
     end
 
     def create(attributes)
@@ -137,7 +153,16 @@ class Podio::Contract < ActivePodio::Base
         req.url "/contract/#{contract_id}/price"
         req.body = attributes
       end
+    
+      response.body
+    end
 
+    def calculate_price_v2(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{contract_id}/price/v2"
+        req.body = attributes
+      end
+    
       response.body
     end
 

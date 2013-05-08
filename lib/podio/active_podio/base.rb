@@ -12,8 +12,7 @@ module ActivePodio
     self.json_attributes = []
     self._associations = {}
 
-    attr_accessor :attributes, :error_code, :error_message, :error_parameters, :error_propagate
-    alias_method :propagate_error?, :error_propagate
+    attr_accessor :attributes
 
     def initialize(attributes = {}, options = {})
       attributes = {} if attributes.blank?
@@ -133,7 +132,7 @@ module ActivePodio
 
     # Override this in models where the class name doesn't match the ref type
     def api_friendly_ref_type
-      self.class.name.downcase
+      self.class.name.demodulize.parameterize
     end
 
     def parent_model
@@ -144,6 +143,13 @@ module ActivePodio
 
       def klass_for_association(options)
         klass_name = options[:class]
+
+        if !klass_name.present? && options[:class_map].present?
+          class_property = options[:class_property] || :type
+          class_property_value = self.send(class_property).try(:to_sym)
+          klass_name = options[:class_map][class_property_value]
+        end
+
         raise "Missing class name of associated model. Provide with :class => 'MyClass'." unless klass_name.present?
         return self.class.klass_from_string(klass_name)
       end
@@ -300,40 +306,6 @@ module ActivePodio
               self.send(hash_name)[hash_index] = value
             end
           end
-        end
-      end
-
-      # Wraps the given methods in a begin/rescue block
-      # If no error occurs, the return value of the method, or true if nil is returned, is returned
-      # If a Podio::PodioError occurs, the method returns false and the error can be read from the error_message accessor
-      # If another error occurs, it is still raised
-      def handle_api_errors_for(*method_names)
-        method_names.each do |method_name|
-          self.send(:define_method, "#{method_name}_with_api_errors_handled") do |*args|
-            success, code, message, parameters, result = nil
-            begin
-              result = self.send("#{method_name}_without_api_errors_handled", *args)
-              success = true
-            rescue Podio::PodioError => ex
-              success = false
-              code        = ex.response_body["error"]
-              message     = ex.response_body["error_description"]
-              parameters  = ex.response_body["error_parameters"]
-              propagate  = ex.response_body["error_propagate"]
-            end
-
-            if success
-              return result || true
-            else
-              @error_code       = code
-              @error_message    = message
-              @error_parameters = parameters || {}
-              @error_propagate  = propagate
-              return false
-            end
-          end
-
-          alias_method_chain method_name, :api_errors_handled
         end
       end
 

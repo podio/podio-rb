@@ -8,9 +8,8 @@ class Podio::User < ActivePodio::Base
   property :password, :string
   property :old_password, :string
   property :new_password, :string
-  property :flags, :array
-  property :betas, :array
   property :created_on, :datetime
+  property :activated_on, :datetime
   property :name, :string
   property :link, :string
   property :avatar, :integer

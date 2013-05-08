@@ -4,6 +4,7 @@ class Podio::ItemDiff < ActivePodio::Base
   property :type, :string
   property :external_id, :string
   property :label, :string
+  property :config, :hash
   property :from, :array
   property :to, :array
 
