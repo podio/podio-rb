@@ -40,6 +40,10 @@ class Podio::Live < ActivePodio::Base
       response.body
     end
 
+    def get_servers
+      Podio.connection.get("/live/servers").body
+    end
+
   end
 
 end
