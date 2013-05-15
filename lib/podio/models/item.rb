@@ -106,6 +106,10 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.get("/item/#{item_id}/reference/#{field_id}/preview").body
     end
 
+    def find_by_external_id(app_id, external_id)
+      member Podio.connection.get("/item/app/#{app_id}/external_id/#{external_id}").body
+    end
+
     def find_all_by_external_id(app_id, external_id)
       collection Podio.connection.get("/item/app/#{app_id}/v2/?external_id=#{external_id}").body
     end
@@ -142,6 +146,15 @@ class Podio::Item < ActivePodio::Base
       response.body
     end
 
+    # @see https://developers.podio.com/doc/items/get-item-references-22439
+    def find_references(item_id)
+      response = Podio.connection.get { |req|
+        req.url("/item/#{item_id}/reference/")
+      }
+      response.body
+    end            
+
+    # @see https://developers.podio.com/doc/items/get-references-to-item-by-field-7403920
     def find_references_by_field(item_id, field_id, options = {})
       list Podio.connection.get { |req|
         req.url("/item/#{item_id}/reference/field/#{field_id}", options)
