@@ -4,7 +4,7 @@ class Podio::ConversationEvent < ActivePodio::Base
   property :action, :string # message, participant_add, participant_leave
   property :created_on, :datetime
 
-  has_one :data, :class_property => :action, :class_map => { :message => 'ConversationMessage', :participant_leave => 'User', :participant_add => 'User', :live_start => 'Live', :live_end => 'Live' }
+  has_one :data, :class_property => :action, :class_map => { :message => 'ConversationMessage', :participant_leave => 'User', :participant_add => 'User', :live_start => 'Live', :live_end => 'Live', :subject_change => 'User' }
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
 
@@ -38,6 +38,14 @@ class Podio::ConversationEvent < ActivePodio::Base
     def find(id)
       member Podio.connection.get("/conversation/event/#{id}").body
     end
-  end
 
+    def change_subject(conversation_id, subject)
+      response = Podio.connection.put do |req|
+        req.url "/conversation/#{conversation_id}/subject"
+        req.body = { :subject => subject }
+      end
+      
+      member response.body
+    end
+  end
 end
