@@ -38,6 +38,14 @@ class Podio::ConversationEvent < ActivePodio::Base
     def find(id)
       member Podio.connection.get("/conversation/event/#{id}").body
     end
-  end
 
+    def change_subject(conversation_id, subject)
+      response = Podio.connection.put do |req|
+        req.url "/conversation/#{conversation_id}/subject"
+        req.body = { :subject => subject }
+      end
+      
+      member response.body
+    end
+  end
 end
