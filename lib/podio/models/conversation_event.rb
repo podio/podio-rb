@@ -4,7 +4,7 @@ class Podio::ConversationEvent < ActivePodio::Base
   property :action, :string # message, participant_add, participant_leave
   property :created_on, :datetime
 
-  has_one :data, :class_property => :action, :class_map => { :message => 'ConversationMessage', :participant_leave => 'User', :participant_add => 'User', :live_start => 'Live', :live_end => 'Live' }
+  has_one :data, :class_property => :action, :class_map => { :message => 'ConversationMessage', :participant_leave => 'User', :participant_add => 'User', :live_start => 'Live', :live_end => 'Live', :live_accept => 'Live', :live_decline => 'Live', :subject_change => 'User' }
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
 
