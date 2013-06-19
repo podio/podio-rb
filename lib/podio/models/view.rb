@@ -1,6 +1,6 @@
 # @see https://developers.podio.com/doc/filters
 class Podio::View < ActivePodio::Base
-  property :view_id, :integer
+  property :view_id, :string
   property :name, :string
   property :created_on, :datetime
   property :items, :integer
@@ -29,8 +29,10 @@ class Podio::View < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/views/get-view-27450
-    def find(id)
-      member Podio.connection.get("/view/#{id}").body
+    def find(id, app_id=nil)
+      path = app_id ? "/app/#{app_id}/view/#{id}" : "/view/#{id}"
+
+      member Podio.connection.get(path).body
     end
 
     # @see https://developers.podio.com/doc/views/delete-view-27454
