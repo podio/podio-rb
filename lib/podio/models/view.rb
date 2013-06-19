@@ -22,9 +22,9 @@ class Podio::View < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/views/get-views-27460
-    def find_all(app_id)
+    def find_all(app_id, options={})
       list Podio.connection.get { |req|
-        req.url("/view/app/#{app_id}/")
+        req.url("/view/app/#{app_id}/", options)
       }.body
     end
 
