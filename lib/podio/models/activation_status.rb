@@ -3,6 +3,7 @@ class Podio::ActivationStatus < ActivePodio::Base
   property :status, :string
   property :mail, :string
   property :space_count, :integer
+  property :internal_source, :hash
 
   class << self
     def find(activation_code)
