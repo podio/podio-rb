@@ -30,7 +30,7 @@ class Podio::View < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/views/get-view-27450
     def find(id, app_id=nil)
-      path = app_id ? "/app/#{app_id}/view/#{id}" : "/view/#{id}"
+      path = app_id ? "/view/app/#{app_id}/#{id}" : "/view/#{id}"
 
       member Podio.connection.get(path).body
     end

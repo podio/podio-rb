@@ -11,7 +11,7 @@ class Podio::Task < ActivePodio::Base
   property :private, :boolean
   property :due_date, :date
   property :due_time, :time
-  property :due_on, :datetime, :convert_incoming_local_datetime_to_utc => true
+  property :due_on, :datetime
   property :responsible, :hash
   property :space_id, :integer
   property :link, :string
@@ -205,8 +205,8 @@ class Podio::Task < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-1612017
     def find_summary(options={})
-      response = Podio.connection.get { |req| 
-        req.url("/task/summary", options) 
+      response = Podio.connection.get { |req|
+        req.url("/task/summary", options)
       }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])
       response['today']['tasks'] = list(response['today']['tasks'])
@@ -216,7 +216,7 @@ class Podio::Task < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/tasks/get-task-summary-for-organization-1612063
     def find_summary_for_org(org_id, options={})
-      response = Podio.connection.get { |req| 
+      response = Podio.connection.get { |req|
         req.url("/task/org/#{org_id}/summary", options)
       }.body
       response['overdue']['tasks'] = list(response['overdue']['tasks'])

@@ -32,7 +32,7 @@ class Podio::Widget < ActivePodio::Base
         req.body = attributes
       end
 
-      response.status
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/widgets/delete-widget-22492

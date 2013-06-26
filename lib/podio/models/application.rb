@@ -6,6 +6,7 @@ class Podio::Application < ActivePodio::Base
   property :status, :string
   property :icon, :string
   property :icon_id, :integer
+  property :pinned, :boolean
   property :space_id, :integer
   property :owner_id, :integer
   property :owner, :hash
