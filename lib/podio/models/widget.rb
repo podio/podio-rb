@@ -22,7 +22,7 @@ class Podio::Widget < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['widget_id']
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/widgets/update-widget-22490
