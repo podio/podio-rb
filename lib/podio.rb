@@ -82,6 +82,8 @@ module Podio
   autoload :CalendarMute,             'podio/models/calendar_mute'
   autoload :Category,                 'podio/models/category'
   autoload :Comment,                  'podio/models/comment'
+  autoload :Condition,                'podio/models/condition'
+  autoload :ConditionSet,             'podio/models/condition_set'
   autoload :Connection,               'podio/models/connection'
   autoload :Contact,                  'podio/models/contact'
   autoload :Contract,                 'podio/models/contract'
