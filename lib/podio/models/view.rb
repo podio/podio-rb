@@ -47,7 +47,7 @@ class Podio::View < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['view_id']
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/views/update-view-20069949
