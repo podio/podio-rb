@@ -5,6 +5,7 @@ class Podio::Item < ActivePodio::Base
   # Included Get Item basic
   property :item_id, :integer
   property :app, :hash
+  property :app_item_id, :integer
   property :external_id, :string
   property :title, :string
   property :fields, :array

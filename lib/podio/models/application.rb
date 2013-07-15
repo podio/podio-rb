@@ -28,7 +28,7 @@ class Podio::Application < ActivePodio::Base
   has_one :integration, :class => 'Integration'
 
   alias_method :id, :app_id
-  delegate_to_hash :config, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?, :usage, :default_view
+  delegate_to_hash :config, :allow_edit?, :allow_attachments?, :allow_comments?, :description, :visible?, :usage, :default_view, :show_app_item_id?
 
   def name
     self[:name] || self.config['name']
