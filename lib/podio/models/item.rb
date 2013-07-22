@@ -95,10 +95,6 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
-    def find_basic_hash(id)
-      Podio.connection.get("/item/#{id}/basic").body
-    end
-
     def find_basic_by_field(item_id, field_id)
       member Podio.connection.get("/item/#{item_id}/reference/#{field_id}/preview").body
     end
