@@ -6,6 +6,7 @@ class Podio::Item < ActivePodio::Base
   property :item_id, :integer
   property :app, :hash
   property :app_item_id, :integer
+  property :app_item_id_formatted, :string
   property :external_id, :string
   property :title, :string
   property :fields, :array
