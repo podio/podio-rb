@@ -83,5 +83,9 @@ class Podio::SpaceMember < ActivePodio::Base
     def accept_membership_request(space_id, space_member_request_id)
       Podio.connection.post("/space/#{space_id}/member_request/#{space_member_request_id}/accept").status
     end
+
+    def get_members_count(space_id)
+      Podio.connection.get("/space/#{space_id}/member/total").body
+    end
   end
 end
