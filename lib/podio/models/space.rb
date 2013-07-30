@@ -4,6 +4,7 @@ class Podio::Space < ActivePodio::Base
 
   property :space_id, :integer
   property :name, :string
+  property :description, :string
   property :url, :string
   property :url_label, :string
   property :org_id, :integer
@@ -38,7 +39,15 @@ class Podio::Space < ActivePodio::Base
 
   # @see https://developers.podio.com/doc/spaces/update-space-22391
   def update
-    self.class.update(self.space_id, :name => self.name, :post_on_new_app => self.post_on_new_app, :post_on_new_member => self.post_on_new_member, :url_label => self.url_label, :privacy => self.privacy, :auto_join => self.auto_join)
+    self.class.update(space_id,
+      :name               => name,
+      :post_on_new_app    => post_on_new_app,
+      :post_on_new_member => post_on_new_member,
+      :url_label          => url_label,
+      :privacy            => privacy,
+      :auto_join          => auto_join,
+      :description        => description
+    )
   end
 
   def delete
