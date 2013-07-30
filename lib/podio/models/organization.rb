@@ -92,10 +92,6 @@ class Podio::Organization < ActivePodio::Base
       list Podio.connection.get("/org/").body
     end
 
-    def get_member_count(id)
-      Podio.connection.get("/org/#{id}/member/count").body
-    end
-
     def get_login_report(id, options = {})
       Podio.connection.get { |req|
         req.url("/org/#{id}/report/login/", options)
@@ -118,5 +114,8 @@ class Podio::Organization < ActivePodio::Base
       list Podio.connection.get("/app_store/org/").body
     end
 
+    def get_statistics(id)
+      Podio.connection.get("/org/#{id}/statistics/v2").body
+    end
   end
 end

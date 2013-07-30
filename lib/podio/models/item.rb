@@ -5,6 +5,8 @@ class Podio::Item < ActivePodio::Base
   # Included Get Item basic
   property :item_id, :integer
   property :app, :hash
+  property :app_item_id, :integer
+  property :app_item_id_formatted, :string
   property :external_id, :string
   property :title, :string
   property :fields, :array
@@ -87,15 +89,15 @@ class Podio::Item < ActivePodio::Base
       member Podio.connection.get("/item/#{id}").body
     end
 
+    def find_by_app_item_id(app_id, app_item_id)
+      member Podio.connection.get("/app/#{app_id}/item/#{app_item_id}").body
+    end
+
     # @see https://developers.podio.com/doc/items/get-item-basic-61768
     def find_basic(id, options={})
       member Podio.connection.get { |req|
         req.url("/item/#{id}/basic", options)
       }.body
-    end
-
-    def find_basic_hash(id)
-      Podio.connection.get("/item/#{id}/basic").body
     end
 
     def find_basic_by_field(item_id, field_id)

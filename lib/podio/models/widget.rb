@@ -13,6 +13,7 @@ class Podio::Widget < ActivePodio::Base
   property :y, :integer
   property :rows, :integer
   property :cols, :integer
+  property :allowed_refs, :array
 
   class << self
     # @see https://developers.podio.com/doc/widgets/create-widget-22491
