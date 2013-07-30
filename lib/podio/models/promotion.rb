@@ -1,5 +1,6 @@
 class Podio::Promotion < ActivePodio::Base
   property :promotion_id, :integer
+  property :name, :string
   property :status, :string
   property :display_type, :string
   property :display_data, :hash
