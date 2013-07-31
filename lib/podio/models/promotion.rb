@@ -51,6 +51,16 @@ class Podio::Promotion < ActivePodio::Base
     def delete(promotion_id)
       Podio.connection.delete("/promotion/#{promotion_id}")
     end
+
+    def find_for_context(context_name)
+      result = Podio.connection.get("/promotion/#{context_name}")
+
+      if result.body.present?
+        member(result.body)
+      else
+        nil
+      end
+    end
   end
 
 end
