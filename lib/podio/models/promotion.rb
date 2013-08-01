@@ -61,6 +61,10 @@ class Podio::Promotion < ActivePodio::Base
         nil
       end
     end
+
+    def close(promotion_id)
+      Podio.connection.post("/promotion/#{promotion_id}/end")
+    end
   end
 
 end
