@@ -69,12 +69,6 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
-    def top_active_for_space(space_id, options = {})
-      list Podio.connection.get { |req|
-        req.url("/contact/space/#{space_id}/top_active/", options)
-      }.body
-    end
-
     def find(profile_id, options = {})
       result = Podio.connection.get do |req|
         req.url("/contact/#{profile_id}/v2", options)

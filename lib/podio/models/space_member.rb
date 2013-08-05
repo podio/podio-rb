@@ -70,6 +70,11 @@ class Podio::SpaceMember < ActivePodio::Base
       result
     end
 
+    def find_top_active(space_id, options = {})
+      response = Podio.connection.get("/space/#{space_id}/member/top_active/", options)
+      response.body.map { |profile| Contact.new(profile) }
+    end
+
     def find_memberships_for_user_in_org(org_id, user_id)
       list Podio.connection.get("/org/#{org_id}/member/#{user_id}/space_member/").body
     end
