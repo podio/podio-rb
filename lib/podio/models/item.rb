@@ -61,7 +61,9 @@ class Podio::Item < ActivePodio::Base
 
   # @see https://developers.podio.com/doc/items/add-new-item-22362
   def create
-    self.item_id = self.class.create(self.app_id, prepare_item_values(self))
+    model = self.class.create(self.app_id, prepare_item_values(self))
+    self.attributes = model.attributes
+    self
   end
 
   # @see https://developers.podio.com/doc/items/delete-item-22364
@@ -209,7 +211,7 @@ class Podio::Item < ActivePodio::Base
         req.body = attributes
       end
 
-      response.body['item_id']
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/items/update-item-22363
