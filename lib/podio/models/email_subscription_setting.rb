@@ -3,7 +3,6 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   include ActivePodio::Updatable
 
   property :digest, :boolean
-  property :bulletin, :boolean
   property :reference, :boolean
   property :message, :boolean
   property :reminder, :boolean

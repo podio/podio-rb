@@ -76,7 +76,6 @@ module Podio
   autoload :ApplicationField,         'podio/models/application_field'
   autoload :AccountProvider,          'podio/models/account_provider'
   autoload :Batch,                    'podio/models/batch'
-  autoload :Bulletin,                 'podio/models/bulletin'
   autoload :ByLine,                   'podio/models/by_line'
   autoload :CalendarEvent,            'podio/models/calendar_event'
   autoload :CalendarMute,             'podio/models/calendar_mute'
