@@ -62,8 +62,12 @@ class Podio::Promotion < ActivePodio::Base
       end
     end
 
-    def close(promotion_id)
+    def end(promotion_id)
       Podio.connection.post("/promotion/#{promotion_id}/end")
+    end
+
+    def click(promotion_id)
+      Podio.connection.post("/promotion/#{promotion_id}/click")
     end
   end
 
