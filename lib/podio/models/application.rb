@@ -190,5 +190,9 @@ class Podio::Application < ActivePodio::Base
       result
     end
 
+    def regenerate_apptoken(app_id)
+      Podio.connection.post("/app/#{app_id}/token/regenerate").body
+    end
+
   end
 end
