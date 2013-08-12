@@ -52,6 +52,10 @@ class Podio::Promotion < ActivePodio::Base
       Podio.connection.delete("/promotion/#{promotion_id}")
     end
 
+    def stats(promotion_id)
+      Podio.connection.get("/promotion/#{promotion_id}/stats").body
+    end
+
     def find_for_context(context_name)
       result = Podio.connection.get("/promotion/#{context_name}")
 
