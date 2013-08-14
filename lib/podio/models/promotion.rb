@@ -56,6 +56,13 @@ class Podio::Promotion < ActivePodio::Base
       Podio.connection.get("/promotion/#{promotion_id}/stats").body
     end
 
+    def assign(promotion_id, user_id, body)
+      Podio.connection.post { |req|
+        req.url("/promotion/#{promotion_id}/assign/#{user_id}")
+        req.body = body
+      }
+    end
+
     def find_for_context(context_name)
       result = Podio.connection.get("/promotion/#{context_name}")
 
