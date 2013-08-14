@@ -16,6 +16,7 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :end_date, :date
   property :end_time, :string
   property :link, :string
+  property :app, :hash
 
   class << self
 
