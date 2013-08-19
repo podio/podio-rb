@@ -7,7 +7,10 @@ class Podio::Action < ActivePodio::Base
   property :push, :hash
   property :presence, :hash
   property :pinned, :boolean
+  property :created_on, :datetime
 
+  has_one :created_by, :class => 'ByLine'
+  has_one :created_via, :class => 'Via'
   has_many :comments, :class => 'Comment'
 
   alias_method :id, :action_id
