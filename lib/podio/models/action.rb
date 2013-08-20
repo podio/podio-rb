@@ -8,6 +8,13 @@ class Podio::Action < ActivePodio::Base
   property :presence, :hash
   property :pinned, :boolean
   property :created_on, :datetime
+  property :subscribed, :boolean
+  property :is_liked, :boolean
+  property :like_count, :integer
+  property :subscribed_count, :integer
+  property :push, :hash
+  property :presence, :hash
+  property :rights, :array
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
