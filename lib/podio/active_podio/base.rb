@@ -33,9 +33,18 @@ module ActivePodio
         else
           is_association_hash = value.is_a?(Hash) && self._associations.has_key?(key.to_sym) && self._associations[key.to_sym] == :has_one && (self.send(key.to_sym).respond_to?(:attributes) || self.send(key.to_sym).nil?)
           if valid_attributes.include?(key.to_sym) || is_association_hash
+
             # Initialize nested object to get correctly casted values set back, unless the given values are all blank
             if is_association_hash
-              self.send(:[]=, key.to_sym, value) if self.send(key.to_sym).nil? # If not set by constructor, set here to get typed values back
+              # Merge existing values with given values and do recursive initalize call to get values casted correctly
+              if self.send(key.to_sym).present?
+                existing_attributes = self.send(key.to_sym).try(:attributes) || {}
+                value.reverse_merge!(existing_attributes)
+                self.send(key.to_sym).initialize_attributes(value)
+              else
+                self.send(:[]=, key.to_sym, value)
+              end
+
               attributes = self.send(key.to_sym).try(:attributes)
               if attributes.present? && any_values_present_recursive?(attributes.values)
                 value = attributes
