@@ -9,7 +9,6 @@ class Podio::Contact < Podio::Profile
   property :link, :string
   property :last_seen_on, :datetime
   property :rights, :array
-  property :status, :string
 
   # Only available for external contacts
   property :external_id, :string
