@@ -45,30 +45,6 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
-    def top(options={})
-      list Podio.connection.get { |req|
-        req.url("/contact/top/", options)
-      }.body
-    end
-
-    def top_for_space(space_id, options={})
-      list Podio.connection.get { |req|
-        req.url("/contact/space/#{space_id}/top/", options)
-      }.body
-    end
-
-    def top_for_org(org_id, options={})
-      list Podio.connection.get { |req|
-        req.url("/contact/org/#{org_id}/top/", options)
-      }.body
-    end
-
-    def top_for_personal(options={})
-      list Podio.connection.get { |req|
-        req.url("/contact/personal/top/", options)
-      }.body
-    end
-
     def find(profile_id, options = {})
       result = Podio.connection.get do |req|
         req.url("/contact/#{profile_id}/v2", options)
