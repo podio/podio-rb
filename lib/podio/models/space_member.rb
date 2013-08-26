@@ -1,6 +1,7 @@
 # Encapsulates a user's membership of a space.
 # @see https://developers.podio.com/doc/space-members
 class Podio::SpaceMember < ActivePodio::Base
+  property :employee, :boolean
   property :role, :string
   property :invited_on, :datetime
   property :started_on, :datetime
@@ -14,6 +15,14 @@ class Podio::SpaceMember < ActivePodio::Base
   delegate :user_id, :name, :to => :contact
 
   alias_method :id, :user_id
+  
+  def employee?
+    employee
+  end
+  
+  def external?
+    !employee
+  end
 
   class << self
     # @see https://developers.podio.com/doc/space-members/get-space-members-by-role-68043
