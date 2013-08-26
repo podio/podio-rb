@@ -166,15 +166,6 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
-    # @see https://developers.podio.com/doc/contacts/get-space-contact-totals-67508
-    def totals_by_space(space_id, options = {})
-      options[:exclude_self] = (options[:exclude_self] == false ? "0" : "1" )
-
-      Podio.connection.get { |req|
-        req.url("/contact/space/#{space_id}/totals/", options)
-      }.body
-    end
-
     # @see https://developers.podio.com/doc/contacts/create-space-contact-65590
     def create_space_contact(space_id, attributes)
       response = Podio.connection.post do |req|
