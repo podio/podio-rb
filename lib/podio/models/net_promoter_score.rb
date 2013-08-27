@@ -7,6 +7,8 @@ class Podio::NetPromoterScore < ActivePodio::Base
   property :feedback, :string
   property :country_code, :string
 
+  alias_method :id, :nps_id
+
   class << self
     def create(attributes=[])
       member Podio.connection.post { |req|
