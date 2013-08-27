@@ -8,6 +8,14 @@ class Podio::NetPromoterScore < ActivePodio::Base
   property :country_code, :string
 
   class << self
+    def create(attributes=[])
+      response = Podio.connection.post do |req|
+        req.url "/nps/"
+        req.body = attributes
+      end
+
+      response.body['nps_id']
+    end
   end
 
 end
