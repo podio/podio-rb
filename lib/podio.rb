@@ -112,6 +112,7 @@ module Podio
   autoload :ItemRevision,             'podio/models/item_revision'
   autoload :LinkedAccount,            'podio/models/linked_account'
   autoload :LinkedAccountData,        'podio/models/linked_account_data'
+  autoload :NetPromoterScore,         'podio/models/net_promoter_score'
   autoload :News,                     'podio/models/news'
   autoload :Notification,             'podio/models/notification'
   autoload :NotificationGroup,        'podio/models/notification_group'
