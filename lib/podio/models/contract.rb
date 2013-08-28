@@ -4,6 +4,7 @@ class Podio::Contract < ActivePodio::Base
   property :contract_id, :integer
   property :org_id, :integer
   property :status, :string
+  property :blocked, :boolean
   property :created_on, :datetime
   property :started_on, :datetime
   property :created_via, :string
