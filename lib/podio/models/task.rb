@@ -103,9 +103,9 @@ class Podio::Task < ActivePodio::Base
 
   class << self
     # @see https://developers.podio.com/doc/tasks/create-task-22419
-    def create(attributes)
+    def create(attributes, options = {})
       response = Podio.connection.post do |req|
-        req.url "/task/"
+        req.url("/task/", options)
         req.body = attributes
       end
 
@@ -113,13 +113,23 @@ class Podio::Task < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tasks/create-task-with-reference-22420
-    def create_with_ref(ref_type, ref_id, attributes)
+    def create_with_ref(ref_type, ref_id, attributes, options = {})
       response = Podio.connection.post do |req|
-        req.url "/task/#{ref_type}/#{ref_id}/"
+        req.url("/task/#{ref_type}/#{ref_id}/", options)
         req.body = attributes
       end
 
       list [response.body].flatten
+    end
+
+    # @see https://developers.podio.com/doc/tasks/update-task-10583674
+    def update(id, attributes, options = {})
+      response = Podio.connection.put do |req|
+        req.url("/task/#{id}", options)
+        req.body = attributes
+      end
+
+      member response.body
     end
 
     # @see https://developers.podio.com/doc/tasks/update-task-description-76982
