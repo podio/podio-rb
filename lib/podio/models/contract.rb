@@ -95,6 +95,10 @@ class Podio::Contract < ActivePodio::Base
     self.class.change_to_variable(self.contract_id)
   end
 
+  def unblock
+    self.class.unblock(self.contract_id)
+  end
+
   class << self
     def find(contract_id)
       member Podio.connection.get("/contract/#{contract_id}").body
@@ -188,6 +192,11 @@ class Podio::Contract < ActivePodio::Base
 
     def change_to_variable(contract_id)
       response = Podio.connection.post("/contract/#{contract_id}/change_to/variable")
+      response.status
+    end
+
+    def unblock(contract_id)
+      response = Podio.connection.post("/contract/#{contract_id}/unblock")
       response.status
     end
   end
