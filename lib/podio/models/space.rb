@@ -94,6 +94,10 @@ class Podio::Space < ActivePodio::Base
       member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
     end
 
+    def find_by_url_slug(org_slug, space_slug)
+      member Podio.connection.get("/space/url", :org_slug => org_slug, :space_slug => space_slug).body
+    end
+
     def find_all_for_org(org_id)
       list Podio.connection.get("/org/#{org_id}/space/").body
     end
