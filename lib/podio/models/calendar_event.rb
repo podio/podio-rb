@@ -1,7 +1,8 @@
 # @see https://developers.podio.com/doc/calendar
 class Podio::CalendarEvent < ActivePodio::Base
-  property :type, :string
-  property :id, :integer
+  property :uid, :string
+  property :ref_type, :string
+  property :ref_id, :integer
   property :group, :string
   property :title, :string
   property :description, :string
