@@ -17,6 +17,7 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :end_time, :string
   property :link, :string
   property :app, :hash
+  property :source, :string
 
   class << self
 
@@ -24,6 +25,12 @@ class Podio::CalendarEvent < ActivePodio::Base
     def find_all(options = {})
       list Podio.connection.get { |req|
         req.url('/calendar/', options)
+      }.body
+    end
+
+    def find_all_for_linked_account(linked_account_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/calendar/linked_account/#{linked_account_id}/", options)
       }.body
     end
 
