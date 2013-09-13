@@ -115,6 +115,19 @@ module Podio
       @oauth_token
     end
 
+    # Sign in with an activation code, only available for Podio
+    def authenticate_with_activation_code(activation_code)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token'
+        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        req.body = {:grant_type => 'activation_code', :client_id => api_key, :client_secret => api_secret, :activation_code => activation_code}
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     # reconfigure the client with a different access token
     def oauth_token=(new_oauth_token)
       @oauth_token = new_oauth_token.is_a?(Hash) ? OAuthToken.new(new_oauth_token) : new_oauth_token
