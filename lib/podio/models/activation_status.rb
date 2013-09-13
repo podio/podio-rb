@@ -2,6 +2,8 @@ class Podio::ActivationStatus < ActivePodio::Base
   property :user_id, :integer
   property :status, :string
   property :mail, :string
+  property :name, :string
+  property :has_valid_password, :boolean
   property :space_count, :integer
   property :internal_source, :hash
 
