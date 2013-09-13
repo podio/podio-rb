@@ -3,7 +3,6 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :uid, :string
   property :ref_type, :string
   property :ref_id, :integer
-  property :group, :string
   property :title, :string
   property :description, :string
   property :location, :string
