@@ -18,6 +18,8 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :link, :string
   property :app, :hash
   property :source, :string
+  
+  alias_method :id, :uid
 
   class << self
 
@@ -46,6 +48,24 @@ class Podio::CalendarEvent < ActivePodio::Base
       list Podio.connection.get { |req|
         req.url("/calendar/app/#{app_id}/", options)
       }.body
+    end
+
+    # @see 
+    def move_event(uid, attributes={})
+      response = Podio.connection.post do |req|
+        req.url "/calendar/event/#{uid}/move"
+        req.body = attributes
+      end
+      response.status
+    end
+
+    # @see 
+    def update_event_duration(uid, attributes={})
+      response = Podio.connection.put do |req|
+        req.url "/calendar/event/#{uid}/duration"
+        req.body = attributes
+      end
+      response.status
     end
 
     def get_calendars_for_linked_acc(acc_id, options={})
