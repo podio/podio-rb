@@ -77,24 +77,6 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
-    # @see https://developers.podio.com/doc/contacts/get-contacts-by-connection-id-60493
-    def find_all_for_connection(connection_id, options={})
-      options[:view] ||= 'full'
-
-      list Podio.connection.get { |req|
-        req.url("/contact/connection/#{connection_id}", options)
-      }.body
-    end
-
-    # @see https://developers.podio.com/doc/contacts/get-contacts-by-connection-type-60496
-    def find_all_for_connection_type(connection_type, options={})
-      options[:view] ||= 'full'
-
-      list Podio.connection.get { |req|
-        req.url("/contact/connection/#{connection_type}", options)
-      }.body
-    end
-
     # @see https://developers.podio.com/doc/contacts/get-linked-account-contacts-6214688
     def find_all_for_linked_account(id, options={})
       list Podio.connection.get { |req|
