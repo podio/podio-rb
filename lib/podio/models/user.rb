@@ -173,5 +173,14 @@ class Podio::User < ActivePodio::Base
       Podio.connection.get("/user/sales_agent").body
     end
 
+    def resend_signup_email(mail)
+      response = Podio.connection.post do |req|
+        req.url '/user/resend_signup_email'
+        req.body = {:mail => mail}
+      end
+
+      response.status
+    end
+
   end
 end
