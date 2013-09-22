@@ -30,20 +30,6 @@ class Podio::Experiment < ActivePodio::Base
       response.body['variation']
     end
 
-    def update_variation_for_subject(identifier, experiment, variation)
-      Podio.connection.put do |req|
-        req.url "/experiment/#{experiment}/subject/#{identifier}"
-        req.body = {:variation => variation}
-      end
-    end
-
-    def update_variation_for_user(user_id, experiment, variation)
-      Podio.connection.put do |req|
-        req.url "/experiment/#{experiment}/user/#{user_id}"
-        req.body = {:variation => variation}
-      end
-    end
-
     def find_all
       Podio.connection.get('/experiment/').body
     end
@@ -58,6 +44,13 @@ class Podio::Experiment < ActivePodio::Base
 
     def deactivate_variation(experiment, variation)
       Podio.connection.post("/experiment/#{experiment}/variation/#{variation}/deactivate")
+    end
+
+    def assign_variation(experiment, variation, attributes)
+      Podio.connection.post do |req|
+        req.url "/experiment/#{experiment}/variation/#{variation}/assign"
+        req.body = attributes
+      end
     end
 
   end
