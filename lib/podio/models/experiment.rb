@@ -2,7 +2,7 @@ class Podio::Experiment < ActivePodio::Base
 
   class << self
 
-    def create(attributes)
+    def create_subject(attributes)
       response = Podio.client.trusted_connection.post do |req|
         req.url '/experiment/subject/'
         req.body = attributes
@@ -31,33 +31,33 @@ class Podio::Experiment < ActivePodio::Base
     end
 
     def update_variation_for_subject(identifier, experiment, variation)
-      Podio.client.trusted_connection.put do |req|
+      Podio.connection.put do |req|
         req.url "/experiment/#{experiment}/subject/#{identifier}"
         req.body = {:variation => variation}
       end
     end
 
     def update_variation_for_user(user_id, experiment, variation)
-      Podio.client.trusted_connection.put do |req|
+      Podio.connection.put do |req|
         req.url "/experiment/#{experiment}/user/#{user_id}"
         req.body = {:variation => variation}
       end
     end
 
-    def find_experiments()
-      Podio.client.trusted_connection.get('/experiment/')
+    def find_all
+      Podio.connection.get('/experiment/').body
     end
 
     def create_variation(experiment, variation)
-      Podio.client.trusted_connection.post("/experiment/#{experiment}/variation/#{variation}")
+      Podio.connection.post("/experiment/#{experiment}/variation/#{variation}")
     end
 
     def activate_variation(experiment, variation)
-      Podio.client.trusted_connection.post("/experiment/#{experiment}/variation/#{variation}/activate")
+      Podio.connection.post("/experiment/#{experiment}/variation/#{variation}/activate")
     end
 
     def deactivate_variation(experiment, variation)
-      Podio.client.trusted_connection.post("/experiment/#{experiment}/variation/#{variation}/deactivate")
+      Podio.connection.post("/experiment/#{experiment}/variation/#{variation}/deactivate")
     end
 
   end
