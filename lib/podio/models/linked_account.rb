@@ -1,5 +1,6 @@
 class Podio::LinkedAccount < ActivePodio::Base
   property :linked_account_id, :integer
+  property :status, :string
   property :label, :string
   property :provider, :string
   property :provider_humanized_name, :string
