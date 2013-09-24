@@ -87,6 +87,7 @@ module Podio
   autoload :Contact,                  'podio/models/contact'
   autoload :Contract,                 'podio/models/contract'
   autoload :ContractAccounting,       'podio/models/contract_accounting'
+  autoload :ContractEvent,            'podio/models/contract_event'
   autoload :ContractPrice,            'podio/models/contract_price'
   autoload :ContractPriceV2,          'podio/models/contract_price_v2'
   autoload :ContractUser,             'podio/models/contract_user'
