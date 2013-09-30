@@ -5,4 +5,7 @@ class Podio::UserMail < ActivePodio::Base
   property :primary, :boolean
   property :disabled, :boolean
 
+  def self.validate(mail)
+    Podio.client.trusted_connection.post("/user/mail_validation", :mail => mail).body
+  end
 end
