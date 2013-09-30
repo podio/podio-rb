@@ -4,44 +4,51 @@ module Podio
   module Middleware
     class ErrorResponse < Faraday::Response::Middleware
       def on_complete(env)
-        case env[:status]
+        error_class = case env[:status]
           when 200, 204
             # pass
           when 400
-            if env[:body]['error'] == 'invalid_grant'
-              raise InvalidGrantError.new(env[:body], env[:status], env[:url])
+            case env[:body]['error']
+            when 'invalid_grant'
+              InvalidGrantError
+            when 'rate_limit.remote'
+              RemoteRateLimitError
             else
-              raise BadRequestError.new(env[:body], env[:status], env[:url])
+              BadRequestError
             end
           when 401
-            if env[:body]['error_description'] =~ /expired_token/
-              raise TokenExpired.new(env[:body], env[:status], env[:url])
+            if env[:body]['error'] =~ /expired_token/
+              TokenExpired
             else
-              raise AuthorizationError.new(env[:body], env[:status], env[:url])
+              AuthorizationError
             end
           when 402
-            raise PaymentRequiredError.new(env[:body], env[:status], env[:url])
+            PaymentRequiredError
           when 403
             if env[:body]['error'] == 'requestable_forbidden'
-              raise RequestableAuthorizationError.new(env[:body], env[:status], env[:url])
+              RequestableAuthorizationError
             else
-              raise AuthorizationError.new(env[:body], env[:status], env[:url])
+              AuthorizationError
             end
           when 404
-            raise NotFoundError.new(env[:body], env[:status], env[:url])
+            NotFoundError
           when 409
-            raise ConflictError.new(env[:body], env[:status], env[:url])
+            ConflictError
           when 410
-            raise GoneError.new(env[:body], env[:status], env[:url])
+            GoneError
           when 420
-            raise RateLimitError.new(env[:body], env[:status], env[:url])
+            RateLimitError
           when 500
-            raise ServerError.new(env[:body], env[:status], env[:url])
+            ServerError
           when 502, 503
-            raise UnavailableError.new(env[:body], env[:status], env[:url])
+            UnavailableError
           else
-            # anything else is something unexpected, so raise it
-            raise ServerError.new(env[:body], env[:status], env[:url])
+            # anything else is something unexpected, so it
+            ServerError
+        end
+
+        if error_class
+          raise error_class.new(env[:body], env[:status], env[:url])
         end
       end
     end
