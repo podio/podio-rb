@@ -17,7 +17,7 @@ module Podio
               BadRequestError
             end
           when 401
-            if env[:body]['error'] =~ /expired_token/
+            if env[:body]['error_description'] =~ /expired_token/
               TokenExpired
             else
               AuthorizationError
