@@ -194,5 +194,12 @@ class Podio::Application < ActivePodio::Base
       Podio.connection.post("/app/#{app_id}/token/regenerate").body
     end
 
+    # @see https://developers.podio.com/doc/applications/get-icon-suggestions-82045764
+    def search_icons(query)
+      Podio.connection.get { |req|
+        req.url("/app/icon/search", {:query => query})
+      }.body
+    end
+
   end
 end
