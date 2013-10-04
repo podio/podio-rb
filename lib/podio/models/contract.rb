@@ -108,6 +108,10 @@ class Podio::Contract < ActivePodio::Base
       list Podio.connection.get("/contract/").body
     end
 
+    def find_all_my_offers
+      list Podio.connection.get("/contract/offered/").body
+    end
+
     def find_for_org(org_id)
       list Podio.connection.get("/contract/org/#{org_id}/").body
     end
