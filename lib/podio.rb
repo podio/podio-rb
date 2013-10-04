@@ -142,6 +142,7 @@ module Podio
   autoload :Status,                   'podio/models/status'
   autoload :StreamMute,               'podio/models/stream_mute'
   autoload :StreamObject,             'podio/models/stream_object'
+  autoload :StreamActivityGroup,      'podio/models/stream_activity_group'
   autoload :Subscription,             'podio/models/subscription'
   autoload :Tag,                      'podio/models/tag'
   autoload :TagSearch,                'podio/models/tag_search'
