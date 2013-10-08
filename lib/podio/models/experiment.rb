@@ -53,5 +53,19 @@ class Podio::Experiment < ActivePodio::Base
       end
     end
 
+    def combined(supported_variations_map, identifier=nil, attributes={})
+      connection = Podio.client.oauth_token ? Podio.client.connection : Podio.client.trusted_connection
+
+      body = {
+        "experiments" => supported_variations_map
+      }
+
+      body["identifier"] = identifier if identifier.present?
+
+      connection.post do |req|
+        req.url "/experiment/combined"
+        req.body = body
+      end.body
+    end
   end
 end
