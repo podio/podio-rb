@@ -63,8 +63,8 @@ class Podio::Promotion < ActivePodio::Base
       }
     end
 
-    def find_for_context(context_name)
-      result = Podio.connection.get("/promotion/#{context_name}")
+    def find_for_context(context_name, options = {})
+      result = Podio.connection.get("/promotion/#{context_name}", options)
 
       if result.body.present?
         member(result.body)
