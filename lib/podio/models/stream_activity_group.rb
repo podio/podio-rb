@@ -11,6 +11,8 @@ class Podio::StreamActivityGroup < ActivePodio::Base
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
 
+  has_many :authors, :class => 'ByLine'
+
   class << self
 
     def find_by_ref(ref_type, ref_id, options = {})
