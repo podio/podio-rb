@@ -359,7 +359,11 @@ module ActivePodio
               value = if value.is_a?(DateTime)
                 Time.zone.local_to_utc(value)
               else
-                Time.zone.parse(value).try(:utc).try(:to_datetime)
+                begin
+                  Time.zone.parse(value).try(:utc).try(:to_datetime)
+                rescue TZInfo::AmbiguousTime
+                  nil
+                end
               end
             end
 
