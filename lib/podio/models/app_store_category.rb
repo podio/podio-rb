@@ -10,7 +10,7 @@ class Podio::AppStoreCategory < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/app-market/get-shares-by-category-22498
     def find(category_id)
-      member Podio.connection.get("/app_store/category/#{category_id}").body
+      member Podio.connection.get("/app_store/category/#{category_id}/v2").body
     end
 
     # @see https://developers.podio.com/doc/app-market/get-categories-37009

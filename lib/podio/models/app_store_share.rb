@@ -93,21 +93,21 @@ class Podio::AppStoreShare < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/app-market/get-own-shares-38645
-    def find_all_own(options = {})
+    def find_all_own(share_type, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url "/app_store/own/", options
+        req.url "/app_store/#{share_type}/own/", options
       }.body
     end
 
-    def find_all_private_for_org(org_id, options = {})
+    def find_all_private_for_org(share_type, org_id, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url "/app_store/org/#{org_id}/", options
+        req.url "/app_store/#{share_type}/org/#{org_id}/", options
       }.body
     end
 
-    def find_all_public_for_org(org_url, options = {})
+    def find_all_public_for_org(share_type, org_url, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url "/app_store/org/#{org_url}/", options
+        req.url "/app_store/#{share_type}/org/#{org_url}/", options
       }.body
     end
 
@@ -132,21 +132,21 @@ class Podio::AppStoreShare < ActivePodio::Base
       list Podio.connection.get("/app_store/#{ref_type}/#{ref_id}/").body
     end
 
-    def find_top(options = {})
+    def find_top(share_type, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url("/app_store/top/", options)
+        req.url("/app_store/#{share_type}/top/", options)
       }.body
     end
 
-    def find_all_by_category(category_id, options = {})
+    def find_all_by_category(share_type, category_id, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url("/app_store/category/#{category_id}/", options)
+        req.url("/app_store/#{share_type}/category/#{category_id}/", options)
       }.body
     end
 
-    def find_all_by_search(options = {})
+    def find_all_by_search(share_type, options = {})
       shares_collection Podio.connection.get { |req|
-        req.url("/app_store/search/", options)
+        req.url("/app_store/#{share_type}/search/", options)
       }.body
     end
 

@@ -35,7 +35,7 @@ class Podio::Subscription < ActivePodio::Base
     end
 
     def find_subscribers_by_reference(ref_type, ref_id)
-      User.list Podio.connection.get("/subscription/#{ref_type}/#{ref_id}/").body
+      User.list Podio.connection.get("/subscription/#{ref_type}/#{ref_id}/subscriber").body
     end
   end
 end
