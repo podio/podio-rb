@@ -185,7 +185,7 @@ class Podio::Application < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/applications/get-space-app-dependencies-45779
     def space_dependencies(space_id)
-      result = Podio.connection.get("/app/space/#{space_id}/dependencies/").body
+      result = Podio.connection.get("/space/#{space_id}/dependencies/").body
       result['apps'] = result['apps'].collect { |app| Application.new(app) }
       result
     end
