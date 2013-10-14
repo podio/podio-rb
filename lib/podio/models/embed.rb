@@ -7,8 +7,6 @@ class Podio::Embed < ActivePodio::Base
   property :type, :string
   property :title, :string
   property :description, :string
-  property :created_on, :datetime
-  property :provider_name, :string
   property :embed_html, :string
   property :embed_height, :integer
   property :embed_width, :integer
