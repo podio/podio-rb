@@ -4,8 +4,7 @@ class Podio::StreamActivityGroup < ActivePodio::Base
   property :kind, :string
   property :type, :string
   property :created_on, :datetime
-  property :data, :hash # kind = single
-  property :activities, :array # kind = creator || type
+  property :activities, :array
 
   has_one :data_ref, :class => 'Reference'
   has_one :created_by, :class => 'ByLine'
