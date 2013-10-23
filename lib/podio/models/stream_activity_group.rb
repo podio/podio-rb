@@ -16,7 +16,7 @@ class Podio::StreamActivityGroup < ActivePodio::Base
 
     def find_by_ref(ref_type, ref_id, options = {})
       list Podio.connection.get { |req|
-        req.url("/stream/#{ref_type}/#{ref_id}/v3", options)
+        req.url("/stream/#{ref_type}/#{ref_id}/activity_group", options)
       }.body
     end
 
