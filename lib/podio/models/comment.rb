@@ -13,6 +13,8 @@ class Podio::Comment < ActivePodio::Base
   property :embed_id, :integer #optional, when inputting comments
   property :embed_file_id, :integer #optional, when inputting comments
 
+  has_one :ref, :class => 'Reference'
+
   has_one :embed, :class => 'Embed'
   has_one :embed_file, :class => 'FileAttachment'
 
