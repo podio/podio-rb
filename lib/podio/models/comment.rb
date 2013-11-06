@@ -24,22 +24,23 @@ class Podio::Comment < ActivePodio::Base
   has_many :questions, :class => 'Question'
 
   has_many :granted_users, :class => 'Contact' # Only set when creating new comment
+  has_many :invited_users, :class => 'Contact' # Only set when creating new comment
 
   alias_method :id, :comment_id
   attr_accessor :commentable_type, :commentable_id
 
   # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
-  def create
-    updated_attributes = Comment.create(self.commentable_type, self.commentable_id, self.attributes)
+  def create(options={})
+    updated_attributes = Comment.create(self.commentable_type, self.commentable_id, self.attributes, options)
     self.attributes = updated_attributes.symbolize_keys
     self.initialize_attributes(self.attributes)
   end
 
   class << self
     # @see https://developers.podio.com/doc/comments/add-comment-to-object-22340
-    def create(commentable_type, commentable_id, attributes)
+    def create(commentable_type, commentable_id, attributes, options={})
       response = Podio.connection.post do |req|
-        req.url "/comment/#{commentable_type}/#{commentable_id}"
+        req.url("/comment/#{commentable_type}/#{commentable_id}", options)
         req.body = attributes
       end
 

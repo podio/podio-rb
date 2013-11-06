@@ -1,6 +1,7 @@
 module Podio
   class PodioError < StandardError
-    attr_reader :response_body, :response_status, :url, :code, :sub_code, :message, :propagate, :parameters
+    attr_reader :response_body, :response_status, :url, :code, :sub_code, :message, :parameters
+    attr_accessor :propagate
 
     def initialize(response_body, response_status, url)
       @response_body, @response_status, @url = response_body, response_status, url
@@ -17,7 +18,7 @@ module Podio
 
       super(response_body.inspect)
     end
-    
+
     def resolved_message(default_message=nil)
       if @propagate
         @message
