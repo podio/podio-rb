@@ -47,9 +47,9 @@ class Podio::Status < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/status/add-new-status-message-22336
-    def create(space_id, attributes=[])
+    def create(space_id, attributes=[], options={})
       response = Podio.connection.post do |req|
-        req.url "/status/space/#{space_id}/"
+        req.url("/status/space/#{space_id}/", options)
         req.body = attributes
       end
 
