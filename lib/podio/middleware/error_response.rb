@@ -11,8 +11,6 @@ module Podio
             case env[:body]['error']
             when 'invalid_grant'
               InvalidGrantError
-            when 'rate_limit.remote'
-              RemoteRateLimitError
             else
               BadRequestError
             end

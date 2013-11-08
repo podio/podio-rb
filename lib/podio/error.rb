@@ -37,7 +37,6 @@ module Podio
   class ConflictError < PodioError; end
   class GoneError < PodioError; end
   class RateLimitError < PodioError; end
-  class RemoteRateLimitError < PodioError; end
   class UnavailableError < PodioError; end
   class PaymentRequiredError < AuthorizationError; end
   class RequestableAuthorizationError < AuthorizationError; end
