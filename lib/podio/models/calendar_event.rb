@@ -60,9 +60,27 @@ class Podio::CalendarEvent < ActivePodio::Base
     end
 
     # @see 
+    def move_event_external(linked_account_id, uid, attributes={})
+      response = Podio.connection.post do |req|
+        req.url "/calendar/linked_account/#{linked_account_id}/event/#{uid}/move"
+        req.body = attributes
+      end
+      response.status
+    end
+
+    # @see 
     def update_event_duration(uid, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/event/#{uid}/duration"
+        req.body = attributes
+      end
+      response.status
+    end
+
+    # @see 
+    def update_event_duration_external(linked_account_id, uid, attributes={})
+      response = Podio.connection.put do |req|
+        req.url "/calendar/linked_account/#{linked_account_id}/event/#{uid}/duration"
         req.body = attributes
       end
       response.status
