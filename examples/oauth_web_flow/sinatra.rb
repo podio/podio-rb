@@ -18,11 +18,12 @@ require 'sinatra'
 require 'podio'
 
 
-# CHANGE this this to make this example work
-Podio.setup(
-  :api_key    => 'YOUR_API_KEY',
-  :api_secret => 'YOUR_API_SECRET'
-)
+before do
+  Podio.setup(
+    :api_key    => 'YOUR_API_KEY',       # CHANGE this this to make this example work
+    :api_secret => 'YOUR_API_SECRET'     # CHANGE this this to make this example work
+  )
+end
 
 get '/' do
   %(<p>Update the <code>Podio.setup</code> call in the sinatra app and <a href="/auth/podio">try to authorize</a>.</p>)
@@ -50,6 +51,6 @@ end
 
 def redirect_uri(path='/auth/podio/callback')
   uri = URI.parse(request.url)
-  uri.path  = path
+  uri.path = path
   uri.to_s
 end
