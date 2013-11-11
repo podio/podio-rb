@@ -4,6 +4,7 @@ class Podio::Item < ActivePodio::Base
 
   # Included Get Item basic
   property :item_id, :integer
+  property :revision, :integer
   property :app, :hash
   property :app_item_id, :integer
   property :app_item_id_formatted, :string
@@ -156,7 +157,7 @@ class Podio::Item < ActivePodio::Base
         req.url("/item/#{item_id}/reference/")
       }
       response.body
-    end            
+    end
 
     # @see https://developers.podio.com/doc/items/get-references-to-item-by-field-7403920
     def find_references_by_field(item_id, field_id, options = {})
