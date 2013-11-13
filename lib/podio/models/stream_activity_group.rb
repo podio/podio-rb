@@ -23,15 +23,15 @@ class Podio::StreamActivityGroup < ActivePodio::Base
       }.body
     end
 
-    def find_by_event_id(ref_type, ref_id, event_id)
+    def find_by_event_id(ref_type, ref_id, event_id, options={})
       member Podio.connection.get { |req|
-        req.url("/stream/#{ref_type}/#{ref_id}/group/#{event_id}")
+        req.url("/stream/#{ref_type}/#{ref_id}/group/#{event_id}", options)
       }.body
     end
 
-    def find_for_data_ref(ref_type, ref_id, data_ref_type, data_ref_id)
+    def find_for_data_ref(ref_type, ref_id, data_ref_type, data_ref_id, options={})
       member Podio.connection.get { |req|
-        req.url("/stream/#{ref_type}/#{ref_id}/activity_group/#{data_ref_type}/#{data_ref_id}")
+        req.url("/stream/#{ref_type}/#{ref_id}/activity_group/#{data_ref_type}/#{data_ref_id}", options)
       }.body
     end
 
