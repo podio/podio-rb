@@ -88,8 +88,10 @@ class Podio::AppStoreShare < ActivePodio::Base
       response.body
     end
 
-    def find(id)
-      member Podio.connection.get("/app_store/#{id}/v2").body
+    def find(id, options = {})
+      member Podio.connection.get { |req|
+        req.url "/app_store/#{id}/v2", options
+      }.body
     end
 
     # @see https://developers.podio.com/doc/app-market/get-own-shares-38645
