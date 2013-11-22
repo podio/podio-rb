@@ -56,7 +56,7 @@ class Podio::CalendarEvent < ActivePodio::Base
         req.url "/calendar/event/#{uid}/move"
         req.body = attributes
       end
-      response.status
+      member response.body
     end
 
     # @see 
@@ -65,7 +65,7 @@ class Podio::CalendarEvent < ActivePodio::Base
         req.url "/calendar/linked_account/#{linked_account_id}/event/#{CGI.escape(uid)}/move"
         req.body = attributes
       end
-      response.status
+      member response.body
     end
 
     # @see 
@@ -74,7 +74,7 @@ class Podio::CalendarEvent < ActivePodio::Base
         req.url "/calendar/event/#{uid}/duration"
         req.body = attributes
       end
-      response.status
+      member response.body
     end
 
     # @see 
@@ -83,7 +83,7 @@ class Podio::CalendarEvent < ActivePodio::Base
         req.url "/calendar/linked_account/#{linked_account_id}/event/#{CGI.escape(uid)}/duration"
         req.body = attributes
       end
-      response.status
+      member response.body
     end
 
     def get_calendars_for_linked_acc(acc_id, options={})
