@@ -3,6 +3,7 @@ class Podio::Reference < ActivePodio::Base
 
   property :type, :string
   property :id, :integer
+  property :type_name, :string
   property :title, :string
   property :link, :string
   property :data, :hash
