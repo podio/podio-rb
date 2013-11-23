@@ -7,6 +7,8 @@ class Podio::Notification < ActivePodio::Base
   property :created_on, :datetime
   property :data, :hash
   property :starred, :boolean
+  property :text, :string
+  property :text_short, :string
 
   # Only available when getting a single notification
   property :space, :hash
