@@ -5,9 +5,7 @@ platforms :jruby do
 end
 
 platforms :rbx do
-  gem 'rubysl-singleton', '~> 2.0.0'
-  gem 'rubysl-test-unit', '~> 2.0.3'
-  gem 'rubysl-prettyprint', '~> 2.0.2'
+  gem 'rubysl', '~> 2.0.15'
 end
 
 gemspec
