@@ -97,6 +97,7 @@ module Podio
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
   autoload :DateElection,             'podio/models/date_election'
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
+  autoload :EmailContact,             'podio/models/email_contact'
   autoload :Embed,                    'podio/models/embed'
   autoload :Experiment,               'podio/models/experiment'
   autoload :ExternalFile,             'podio/models/external_file'
