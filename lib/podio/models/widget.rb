@@ -64,7 +64,7 @@ class Podio::Widget < ActivePodio::Base
     # @see https://developers.podio.com/doc/widgets/clone-widget-105850650
     def clone(id, attributes)
       response = Podio.connection.post do |req|
-        req.url "/widget/#{widget_id}/clone"
+        req.url "/widget/#{id}/clone"
         req.body = attributes
       end
 
