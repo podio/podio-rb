@@ -109,12 +109,14 @@ module Podio
   autoload :Hook,                     'podio/models/hook'
   autoload :Importer,                 'podio/models/importer'
   autoload :Integration,              'podio/models/integration'
+  autoload :Invoice,                  'podio/models/invoice'
   autoload :Item,                     'podio/models/item'
   autoload :ItemDiff,                 'podio/models/item_diff'
   autoload :ItemField,                'podio/models/item_field'
   autoload :ItemRevision,             'podio/models/item_revision'
   autoload :LinkedAccount,            'podio/models/linked_account'
   autoload :LinkedAccountData,        'podio/models/linked_account_data'
+  autoload :Live,                     'podio/models/live'
   autoload :NetPromoterScore,         'podio/models/net_promoter_score'
   autoload :Notification,             'podio/models/notification'
   autoload :NotificationGroup,        'podio/models/notification_group'
@@ -155,6 +157,5 @@ module Podio
   autoload :Via,                      'podio/models/via'
   autoload :View,                     'podio/models/view'
   autoload :Widget,                   'podio/models/widget'
-  autoload :Live,                     'podio/models/live'
 
 end
