@@ -121,5 +121,10 @@ class Podio::Organization < ActivePodio::Base
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics/v2").body
     end
+    
+    def find_for_user(user_id)
+      list Podio.connection.get("/org/user/#{user_id}/").body
+    end
+  
   end
 end
