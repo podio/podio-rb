@@ -7,7 +7,7 @@ module Podio
       require 'multi_json'
 
       def on_complete(env)
-        if env[:body].is_a?(String) && is_json?(env) && env[:status] < 500
+        if env[:body].is_a?(String) && is_json?(env) && env[:status] != 500
           env[:body] = parse(env[:body])
         end
       end
