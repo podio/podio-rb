@@ -113,7 +113,7 @@ All unsuccessful responses returned by the API (everything that has a 4xx or 5xx
       puts exc.url                # uri of the API request
 
       # you normally want this one, a human readable error description
-      puts exc.response_body['error_description']
+      puts exc.message
     end
 
 On instance methods, however, exceptions are handled in a way similar to ActiveRecord. These methods returns a boolean indicating if the API request succeeded or not, and makes the code, description and parameters available when the request fails:
@@ -146,9 +146,6 @@ Full Example
       puts org.url
     end
 
-Note on Heroku Usage
---------------------
-If you plan on using podio-rb on Heroku please note that only the 1.9.2 stack has been tested. Specifically, bamboo-mri-1.9.2 is recommended, while 1.8.7 is still stock on Heroku. Refer to their documentation for information on how to migrate your dynos 
 
 Meta
 ----
