@@ -20,8 +20,8 @@ Gem::Specification.new do |s|
   s.has_rdoc          = false
 
   s.add_dependency('faraday', '~> 0.8.0')
-  s.add_dependency('activesupport', '~> 3.0')
-  s.add_dependency('activemodel', '~> 3.0')
+  s.add_dependency('activesupport', '>= 3.0')
+  s.add_dependency('activemodel', '>= 3.0')
   s.add_dependency('multi_json')
 
   s.add_development_dependency('rake')
