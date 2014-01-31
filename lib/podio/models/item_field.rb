@@ -10,6 +10,12 @@ class Podio::ItemField < ActivePodio::Base
   alias_method :id, :field_id
 
   class << self
+
+    # @see https://developers.podio.com/doc/items/get-item-field-values-22368
+    def find_values(item_id, field_id)
+      Podio.connection.get("/item/#{item_id}/value/#{field_id}").body
+    end
+
     # @see https://developers.podio.com/doc/items/update-item-field-values-22367
     def update(item_id, field_id, values, options = {})
       response = Podio.connection.put do |req|
