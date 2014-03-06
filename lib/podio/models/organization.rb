@@ -92,8 +92,10 @@ class Podio::Organization < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/organizations/get-organizations-22344
-    def find_all
-      list Podio.connection.get("/org/").body
+    def find_all(options={})
+      list Podio.connection.get { |req|
+        req.url("/org/", options)
+      }.body
     end
 
     def get_login_report(id, options = {})
