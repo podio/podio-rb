@@ -3,6 +3,7 @@ class Podio::Application < ActivePodio::Base
   property :app_id, :integer
   property :original, :integer
   property :original_revision, :integer
+  property :current_revision, :integer
   property :status, :string
   property :icon, :string
   property :icon_id, :integer
