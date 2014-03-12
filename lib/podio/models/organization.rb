@@ -80,8 +80,12 @@ class Podio::Organization < ActivePodio::Base
       member Podio.connection.get("/org/url?url=#{url}").body
     end
 
-    def find_by_url_slug(org_slug)
-      member Podio.connection.get('/org/url', :org_slug => org_slug).body
+    def find_by_url_slug(org_slug, options={})
+      options['org_slug'] = org_slug
+
+      member Podio.connection.get { |req|
+        req.url('/org/url', options)
+      }.body
     end
 
     def validate_url_label(url_label)
