@@ -28,6 +28,10 @@ class Podio::Organization < ActivePodio::Base
   property :segment_size, :integer
   property :grants_count, :integer
   property :allow_add_space, :boolean
+  property :item_limit, :integer
+  property :item_usage, :integer
+  property :price_plans, :hash
+  property :current_price_plan, :hash
 
   has_one :created_by, :class => 'ByLine'
 
@@ -127,10 +131,10 @@ class Podio::Organization < ActivePodio::Base
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics/v2").body
     end
-    
+
     def find_for_user(user_id)
       list Podio.connection.get("/org/user/#{user_id}/").body
     end
-  
+
   end
 end
