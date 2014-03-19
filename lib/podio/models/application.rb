@@ -52,8 +52,10 @@ class Podio::Application < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/applications/get-app-by-org-label-space-label-and-app-label-91708386
-    def find_by_org_space_and_app_labels(org_label, space_label, app_label)
-      member Podio.connection.get("/app/org/#{org_label}/space/#{space_label}/#{app_label}").body
+    def find_by_org_space_and_app_labels(org_label, space_label, app_label, options={})
+      member Podio.connection.get { |req|
+        req.url("/app/org/#{org_label}/space/#{space_label}/#{app_label}", options)
+      }.body
     end
 
     def find_all(options={})
