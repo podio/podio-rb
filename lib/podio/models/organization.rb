@@ -28,6 +28,10 @@ class Podio::Organization < ActivePodio::Base
   property :segment_size, :integer
   property :grants_count, :integer
   property :allow_add_space, :boolean
+  property :item_limit, :integer
+  property :item_usage, :integer
+  property :price_plans, :hash
+  property :current_price_plan, :hash
 
   has_one :created_by, :class => 'ByLine'
 
@@ -80,8 +84,12 @@ class Podio::Organization < ActivePodio::Base
       member Podio.connection.get("/org/url?url=#{url}").body
     end
 
-    def find_by_url_slug(org_slug)
-      member Podio.connection.get('/org/url', :org_slug => org_slug).body
+    def find_by_url_slug(org_slug, options={})
+      options['org_slug'] = org_slug
+
+      member Podio.connection.get { |req|
+        req.url('/org/url', options)
+      }.body
     end
 
     def validate_url_label(url_label)
@@ -92,8 +100,10 @@ class Podio::Organization < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/organizations/get-organizations-22344
-    def find_all
-      list Podio.connection.get("/org/").body
+    def find_all(options={})
+      list Podio.connection.get { |req|
+        req.url("/org/", options)
+      }.body
     end
 
     def get_login_report(id, options = {})
@@ -121,5 +131,10 @@ class Podio::Organization < ActivePodio::Base
     def get_statistics(id)
       Podio.connection.get("/org/#{id}/statistics/v2").body
     end
+
+    def find_for_user(user_id)
+      list Podio.connection.get("/org/user/#{user_id}/").body
+    end
+
   end
 end

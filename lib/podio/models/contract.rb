@@ -104,8 +104,8 @@ class Podio::Contract < ActivePodio::Base
   end
 
   class << self
-    def find(contract_id)
-      member Podio.connection.get("/contract/#{contract_id}").body
+    def find(contract_id, options={})
+      member Podio.connection.get("/contract/#{contract_id}", options).body
     end
 
     def find_all_mine

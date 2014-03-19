@@ -60,5 +60,15 @@ class Podio::Widget < ActivePodio::Base
     def find_all_for_reference(ref_type, ref_id)
       list Podio.connection.get("/widget/#{ref_type}/#{ref_id}/display/").body
     end
+    
+    # @see https://developers.podio.com/doc/widgets/clone-widget-105850650
+    def clone(id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/widget/#{id}/clone"
+        req.body = attributes
+      end
+
+      member response.body
+    end
   end
 end

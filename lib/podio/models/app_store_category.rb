@@ -14,8 +14,8 @@ class Podio::AppStoreCategory < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/app-market/get-categories-37009
-    def find_all
-      categories = Podio.connection.get("/app_store/category/").body
+    def find_all(options = {})
+      categories = Podio.connection.get("/app_store/category/", options).body
 
       categories.each do | key, value |
         categories[key] = list value
