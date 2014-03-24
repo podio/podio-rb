@@ -8,6 +8,7 @@ class Podio::Form < ActivePodio::Base
   property :fields, :array
   property :attachments, :boolean
   property :status, :string
+  property :item_capacity, :boolean
 
   # Deprecated
   property :field_ids, :array
