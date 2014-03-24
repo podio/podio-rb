@@ -137,7 +137,7 @@ class Podio::Organization < ActivePodio::Base
     end
 
     def change_to_user_model(id)
-      Podio.connection.get("/org/#{id}/change_to_user_model").body
+      Podio.connection.post("/org/#{id}/change_to_user_model").body
     end
 
   end
