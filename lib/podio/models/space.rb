@@ -75,8 +75,8 @@ class Podio::Space < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/spaces/get-space-22389
-    def find(id)
-      member Podio.connection.get("/space/#{id}").body
+    def find(id, params={})
+      member Podio.connection.get("/space/#{id}", params).body
     end
 
     # @see https://developers.podio.com/doc/space-members/join-space-1927286
@@ -94,8 +94,9 @@ class Podio::Space < ActivePodio::Base
       member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
     end
 
-    def find_by_url_slug(org_slug, space_slug)
-      member Podio.connection.get("/space/url", :org_slug => org_slug, :space_slug => space_slug).body
+    def find_by_url_slug(org_slug, space_slug, params={})
+      params = params.merge(:org_slug => org_slug, :space_slug => space_slug)
+      member Podio.connection.get("/space/url", params).body
     end
 
     def find_all_for_org(org_id)
