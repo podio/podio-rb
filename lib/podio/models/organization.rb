@@ -75,8 +75,10 @@ class Podio::Organization < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/organizations/get-organization-22383
-    def find(id)
-      member Podio.connection.get("/org/#{id}").body
+    def find(id, options={})
+      member Podio.connection.get { |req|
+        req.url("/org/#{id}", options)
+      }.body
     end
 
     # @see https://developers.podio.com/doc/organizations/get-organization-by-url-22384
