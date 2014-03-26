@@ -2,6 +2,7 @@ class Podio::ContractPriceV2 < ActivePodio::Base
 
   has_one :employee, :class => 'ContractPriceItemV2'
   has_one :external, :class => 'ContractPriceItemV2'
+  has_one :item,     :class => 'ContractPriceItemV2'
 
   def total
     self.employee.sub_total + self.external.sub_total
