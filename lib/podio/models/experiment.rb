@@ -1,4 +1,12 @@
 class Podio::Experiment < ActivePodio::Base
+  class Podio::Variation < ActivePodio::Base
+    property :name, :string
+    property :weight, :integer
+    property :active, :boolean
+  end
+
+  property :name, :string
+  has_many :variations, :class => 'Variation'
 
   class << self
 
@@ -31,7 +39,7 @@ class Podio::Experiment < ActivePodio::Base
     end
 
     def find_all
-      Podio.connection.get('/experiment/').body
+      list Podio.connection.get('/experiment/').body
     end
 
     def create_variation(experiment, variation)
@@ -44,6 +52,13 @@ class Podio::Experiment < ActivePodio::Base
 
     def deactivate_variation(experiment, variation)
       Podio.connection.post("/experiment/#{experiment}/variation/#{variation}/deactivate")
+    end
+
+    def update_variation_weight(experiment, variation, weight)
+      Podio.connection.post do |req|
+        req.url "/experiment/#{experiment}/variation/#{variation}/weight"
+        req.body = { weight: weight }
+      end
     end
 
     def assign_variation(experiment, variation, attributes)
