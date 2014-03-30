@@ -69,6 +69,7 @@ module Podio
   autoload :Action,                   'podio/models/action'
   autoload :ActivationStatus,         'podio/models/activation_status'
   autoload :Activity,                 'podio/models/activity'
+  autoload :Answer,                   'podio/models/answer'
   autoload :AppStoreShare,            'podio/models/app_store_share'
   autoload :AppStoreCategory,         'podio/models/app_store_category'
   autoload :Application,              'podio/models/application'
@@ -156,6 +157,8 @@ module Podio
   autoload :UserStatus,               'podio/models/user_status'
   autoload :Via,                      'podio/models/via'
   autoload :View,                     'podio/models/view'
+  autoload :Vote,                     'podio/models/vote'
+  autoload :Voting,                   'podio/models/voting'
   autoload :Widget,                   'podio/models/widget'
 
 end
