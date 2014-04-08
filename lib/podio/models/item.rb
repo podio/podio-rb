@@ -88,8 +88,10 @@ class Podio::Item < ActivePodio::Base
 
   class << self
     # @see https://developers.podio.com/doc/items/get-item-22360
-    def find(id)
-      member Podio.connection.get("/item/#{id}").body
+    def find(id, options = {})
+      member Podio.connection.get { |req|
+        req.url("/item/#{id}", options)
+      }.body
     end
 
     def find_by_app_item_id(app_id, app_item_id)
