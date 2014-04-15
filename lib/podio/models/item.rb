@@ -53,6 +53,7 @@ class Podio::Item < ActivePodio::Base
   has_one :recurrence, :class => 'Recurrence'
   has_one :linked_account_data, :class => 'LinkedAccountData'
   has_one :application, :class => 'Application', :property => :app
+  has_one :grant, :class => 'Grant'
 
   # For inserting/updating
   property :file_ids, :array
