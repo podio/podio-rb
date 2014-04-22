@@ -57,7 +57,7 @@ class Podio::Experiment < ActivePodio::Base
     def update_variation_weight(experiment, variation, weight)
       Podio.connection.post do |req|
         req.url "/experiment/#{experiment}/variation/#{variation}/weight"
-        req.body = { weight: weight }
+        req.body = { "weight" => weight }
       end
     end
 
