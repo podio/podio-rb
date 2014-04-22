@@ -127,6 +127,10 @@ class Podio::Space < ActivePodio::Base
       Podio.connection.get("/space/org/#{org_id}").body['count']
     end
 
+    def get_available_seats(space_id)
+      Podio.connection.get("/space/#{space_id}/available").body
+    end
+
   end
 end
 
