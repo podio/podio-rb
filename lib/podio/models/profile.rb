@@ -34,6 +34,8 @@ class Podio::Profile < ActivePodio::Base
   property :last_seen_on, :datetime
   property :is_employee, :boolean
 
+  property :push, :hash
+
   alias_method :employee?, :is_employee
 
   class << self
