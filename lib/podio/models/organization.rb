@@ -32,6 +32,7 @@ class Podio::Organization < ActivePodio::Base
   property :item_usage, :integer
   property :price_plans, :hash
   property :current_price_plan, :hash
+  property :price_plans_variation, :string
 
   has_one :created_by, :class => 'ByLine'
 
