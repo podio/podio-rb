@@ -67,5 +67,10 @@ class Podio::View < ActivePodio::Base
         req.body = attributes
       end
     end
+
+    # @see https://developers.podio.com/doc/views/make-default-155388326
+    def make_default(view_id)
+      Podio.connection.post("/view/#{view_id}/default").status
+    end
   end
 end
