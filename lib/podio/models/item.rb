@@ -138,10 +138,10 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/filter-items-4496747
-    def find_by_filter_values(app_id, filter_values, attributes={})
+    def find_by_filter_values(app_id, filter_values, attributes={}, options={})
       attributes[:filters] = filter_values
       collection Podio.connection.post { |req|
-        req.url "/item/app/#{app_id}/filter/"
+        req.url("/item/app/#{app_id}/filter/", options)
         req.body = attributes
       }.body
     end
