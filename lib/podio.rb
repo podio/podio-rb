@@ -115,6 +115,7 @@ module Podio
   autoload :ItemDiff,                 'podio/models/item_diff'
   autoload :ItemField,                'podio/models/item_field'
   autoload :ItemRevision,             'podio/models/item_revision'
+  autoload :ItemTransaction,          'podio/models/item_transaction'
   autoload :LinkedAccount,            'podio/models/linked_account'
   autoload :LinkedAccountData,        'podio/models/linked_account_data'
   autoload :Live,                     'podio/models/live'
