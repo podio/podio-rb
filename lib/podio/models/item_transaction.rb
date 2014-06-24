@@ -4,6 +4,8 @@ class Podio::ItemTransaction < ActivePodio::Base
   property :reason, :string
   property :amount, :integer
 
+  property :text, :string
+
   property :created_on, :datetime
 
   property :ratings, :hash
@@ -20,4 +22,13 @@ class Podio::ItemTransaction < ActivePodio::Base
 
   alias_method :id, :item_transaction_id
 
+  class << self
+
+    def find(id)
+      member Podio.connection.get { |req|
+        req.url("/item_accounting/transaction/#{id}")
+      }.body
+    end
+
+  end
 end
