@@ -16,7 +16,6 @@ class Podio::Item < ActivePodio::Base
 
   has_one :created_by, :class => 'ByLine'
   has_one :created_via, :class => 'Via'
-  has_one :date_election, :class => 'DateElection'
 
   # Also included in the full Get item
   property :ratings, :hash
