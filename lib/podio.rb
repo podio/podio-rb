@@ -1,4 +1,5 @@
 require 'faraday'
+require 'active_support'
 require 'active_support/core_ext'
 
 require 'podio/error'
