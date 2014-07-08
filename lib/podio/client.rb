@@ -177,7 +177,9 @@ module Podio
     end
 
     def configure_connection
-      Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:client => self}) do |builder|
+      # binding.pry
+      Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:oauth => self}) do |builder|
+      # Faraday::Connection.new(:url => api_url, :headers => configured_headers, :client => self) do |builder|
         builder.use Middleware::JsonRequest
         builder.use Faraday::Request::Multipart
         builder.use Faraday::Request::UrlEncoded
