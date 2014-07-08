@@ -177,9 +177,7 @@ module Podio
     end
 
     def configure_connection
-      # binding.pry
-      Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => {:oauth => self}) do |builder|
-      # Faraday::Connection.new(:url => api_url, :headers => configured_headers, :client => self) do |builder|
+      Faraday::Connection.new(:url => api_url, :headers => configured_headers) do |builder|
         builder.use Middleware::JsonRequest
         builder.use Faraday::Request::Multipart
         builder.use Faraday::Request::UrlEncoded
@@ -200,7 +198,6 @@ module Podio
 
     def configure_oauth_connection
       conn = @connection.dup
-      conn.options[:oauth] = self
       conn.headers.delete('authorization')
       conn.headers.delete('X-Podio-Dry-Run') if @test_mode # oauth requests don't really work well in test mode
       conn
@@ -208,7 +205,6 @@ module Podio
 
     def configure_trusted_connection
       conn = @connection.dup
-      conn.options[:oauth] = self
       conn.headers.delete('authorization')
       conn.basic_auth(api_key, api_secret)
       conn
