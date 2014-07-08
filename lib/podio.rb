@@ -101,6 +101,7 @@ module Podio
   autoload :EmailContact,             'podio/models/email_contact'
   autoload :Embed,                    'podio/models/embed'
   autoload :Experiment,               'podio/models/experiment'
+  autoload :Extension,                'podio/models/extension'
   autoload :ExternalFile,             'podio/models/external_file'
   autoload :FileAttachment,           'podio/models/file_attachment'
   autoload :Filter,                   'podio/models/filter'
