@@ -200,7 +200,7 @@ module Podio
 
     def configure_oauth_connection
       conn = @connection.dup
-      conn.options[:client] = self
+      conn.options[:oauth] = self
       conn.headers.delete('authorization')
       conn.headers.delete('X-Podio-Dry-Run') if @test_mode # oauth requests don't really work well in test mode
       conn
@@ -208,7 +208,7 @@ module Podio
 
     def configure_trusted_connection
       conn = @connection.dup
-      conn.options[:client] = self
+      conn.options[:oauth] = self
       conn.headers.delete('authorization')
       conn.basic_auth(api_key, api_secret)
       conn
