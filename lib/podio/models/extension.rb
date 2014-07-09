@@ -1,6 +1,9 @@
 class Podio::Extension < ActivePodio::Base
   property :name, :string
   property :installation_url, :string
+  property :status, :string
+
+  has_one :user, :class => 'User'
 
   class << self
     def create(attributes, options={})
