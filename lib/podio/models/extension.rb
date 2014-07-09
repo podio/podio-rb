@@ -18,9 +18,9 @@ class Podio::Extension < ActivePodio::Base
       }.body
     end
 
-    def find_all_for_user(user_id, options = {})
+    def find_all_for_current_user(options = {})
       list Podio.connection.get { |req|
-        req.url("/extension/user/#{user_id}", options)
+        req.url("/extension/user/", options)
       }.body
     end
 
