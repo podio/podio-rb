@@ -1,7 +1,8 @@
 class Podio::Extension < ActivePodio::Base
+  property :extension_id, :integer
   property :name, :string
   property :installation_url, :string
-  property :status, :string
+  property :state, :string
 
   has_one :user, :class => 'User'
 
