@@ -18,8 +18,26 @@ class Podio::Extension < ActivePodio::Base
       }.body
     end
 
+    def find_all_for_user(user_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/extension/user/#{user_id}", options)
+      }.body
+    end
+
     def find(id)
       member Podio.connection.get("/extension/#{id}").body
+    end
+
+    def update(id, attributes, options={})
+      response = Podio.connection.put do |req|
+        req.url("/extension/#{id}", options)
+        req.body = attributes
+      end
+      response.status
+    end
+
+    def delete(id)
+      Podio.connection.delete("/extension/#{id}").body
     end
 
   end
