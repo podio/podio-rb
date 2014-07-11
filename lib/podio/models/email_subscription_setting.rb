@@ -11,6 +11,8 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   property :push_notification, :boolean
   property :push_notification_sound, :boolean
   property :push_notification_browser, :boolean
+  property :user, :boolean
+  property :bulletin, :boolean
 
   def self.find_for_current_user
     self.get_groups
