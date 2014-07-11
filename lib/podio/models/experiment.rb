@@ -58,6 +58,10 @@ class Podio::Experiment < ActivePodio::Base
       Podio.connection.post("/experiment/#{experiment}/variation/#{variation}/deactivate")
     end
 
+    def delete_variation(experiment, variation)
+      Podio.connection.delete("/experiment/#{experiment}/variation/#{variation}")
+    end
+
     def update_variation_weight(experiment, variation, weight)
       Podio.connection.post do |req|
         req.url "/experiment/#{experiment}/variation/#{variation}/weight"
