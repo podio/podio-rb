@@ -3,12 +3,13 @@ class Podio::Extension < ActivePodio::Base
   property :name, :string
   property :installation_url, :string
   property :status, :string
+  property :created_on, :datetime
+  property :ratings, :hash
 
   # Publisher
   property :publisher_name, :string
   property :publisher_url, :string
   property :publisher_mail, :string
-  property :logo_id, :integer
 
   # Price
   property :price_model, :string
@@ -16,9 +17,16 @@ class Podio::Extension < ActivePodio::Base
   property :price_to, :integer
   property :price_desc, :string
 
+  # Writing
   property :main_screenshot_id, :integer
+  property :logo_id, :integer
+  # Reading
+  has_one :main_screenshot, :class => 'FileAttachment'
+  has_one :logo, :class => 'FileAttachment'
 
   has_one :user, :class => 'User'
+  has_many :other_screenshots, :class => 'FileAttachment'
+
 
   class << self
     def create(attributes, options={})
