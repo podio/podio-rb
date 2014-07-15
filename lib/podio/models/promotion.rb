@@ -13,6 +13,8 @@ class Podio::Promotion < ActivePodio::Base
   property :sleep, :integer
   property :condition_set_ids, :array
 
+  has_many :condition_sets, :class => 'ConditionSet'
+
   alias_method :id, :promotion_id
 
   class << self
