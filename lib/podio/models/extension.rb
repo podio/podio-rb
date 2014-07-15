@@ -4,6 +4,20 @@ class Podio::Extension < ActivePodio::Base
   property :installation_url, :string
   property :status, :string
 
+  # Publisher
+  property :publisher_name, :string
+  property :publisher_url, :string
+  property :publisher_mail, :string
+  property :logo_id, :integer
+
+  # Price
+  property :price_model, :string
+  property :price_from, :integer
+  property :price_to, :integer
+  property :price_desc, :string
+
+  property :main_screenshot_id, :integer
+
   has_one :user, :class => 'User'
 
   class << self
