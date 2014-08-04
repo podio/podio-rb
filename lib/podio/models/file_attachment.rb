@@ -96,6 +96,13 @@ class Podio::FileAttachment < ActivePodio::Base
       Podio.client.connection.get("/file/#{id}/raw").body
     end
 
+    # @see https://developers.podio.com/doc/files/get-files-4497983
+    def get_all(options={})
+      list Podio.connection.get { |req|
+        req.url("/file/", options)
+      }.body
+    end
+
     # @see https://developers.podio.com/doc/files/get-files-on-app-22472
     def find_for_app(app_id, options={})
       list Podio.connection.get { |req|
