@@ -7,6 +7,8 @@ module Podio
         error_class = case env[:status]
           when 200, 204
             # pass
+          when 304
+            # pass
           when 400
             case env[:body]['error']
             when 'invalid_grant'
