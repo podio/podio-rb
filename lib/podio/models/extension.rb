@@ -5,6 +5,8 @@ class Podio::Extension < ActivePodio::Base
   property :status, :string
   property :created_on, :datetime
   property :ratings, :hash
+  property :description, :string
+  property :url_label, :string
 
   # Publisher
   property :publisher_name, :string
