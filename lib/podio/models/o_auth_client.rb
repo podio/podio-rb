@@ -8,6 +8,7 @@ class Podio::OAuthClient < ActivePodio::Base
   property :secret, :string
   property :url, :string
   property :domain, :string
+  property :scope, :array
 
   alias_method :id, :auth_client_id
 
