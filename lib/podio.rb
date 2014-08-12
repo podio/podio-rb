@@ -125,6 +125,7 @@ module Podio
   autoload :NotificationGroup,        'podio/models/notification_group'
   autoload :OAuth,                    'podio/models/o_auth'
   autoload :OAuthClient,              'podio/models/o_auth_client'
+  autoload :OAuthScope,               'podio/models/o_auth_scope'
   autoload :Organization,             'podio/models/organization'
   autoload :OrganizationContact,      'podio/models/organization_contact'
   autoload :OrganizationMember,       'podio/models/organization_member'
