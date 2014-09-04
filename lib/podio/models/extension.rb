@@ -46,6 +46,18 @@ class Podio::Extension < ActivePodio::Base
       }.body
     end
 
+    def find_overview(options = {})
+      response = Podio.connection.get { |req|
+        req.url("/extension/overview", options)
+      }.body
+
+      response['popular'] = list(response['popular'])
+      response['staffpicks'] = list(response['staffpicks'])
+      response['recent'] = list(response['recent'])
+
+      response
+    end
+
     def find_all_for_current_user(options = {})
       list Podio.connection.get { |req|
         req.url("/extension/user/", options)
