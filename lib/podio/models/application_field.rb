@@ -19,12 +19,12 @@ class Podio::ApplicationField < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/applications/update-an-app-field-22356
     def update(app_id, field_id, attributes)
-      Podio.connection.put("/app/#{app_id}/field/#{field_id}", attributes).status
+      Podio.connection.put("/app/#{app_id}/field/#{field_id}", attributes).body
     end
 
     # @see https://developers.podio.com/doc/applications/add-new-app-field-22354
     def create(app_id, attributes)
-      Podio.connection.post("/app/#{app_id}/field/", attributes).status
+      Podio.connection.post("/app/#{app_id}/field/", attributes).body
     end
 
   end
