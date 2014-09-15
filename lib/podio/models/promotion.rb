@@ -5,11 +5,10 @@ class Podio::Promotion < ActivePodio::Base
   property :display_type, :string
   property :display_data, :hash
   property :context, :string
-  property :contextual, :boolean
   property :priority, :integer
   property :max_views, :integer
-  property :max_uses, :integer
-  property :max_duration, :integer
+  property :max_duration, :boolean
+  property :end_on_use, :boolean
   property :sleep, :integer
   property :condition_set_ids, :array
 
