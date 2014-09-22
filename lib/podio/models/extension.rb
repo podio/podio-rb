@@ -46,6 +46,12 @@ class Podio::Extension < ActivePodio::Base
       }.body
     end
 
+    def find_all_by_status(status, options = {})
+      list Podio.connection.get { |req|
+        req.url("/extension/status/#{status}", options)
+      }.body
+    end
+
     def find_overview(options = {})
       response = Podio.connection.get { |req|
         req.url("/extension/overview", options)
