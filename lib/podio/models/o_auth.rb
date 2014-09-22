@@ -1,6 +1,5 @@
 # @see https://developers.podio.com/doc/oauth-authorization
 class Podio::OAuth < ActivePodio::Base
-
   class << self
     def authorize(attributes)
       response = Podio.connection.post do |req|
@@ -29,6 +28,14 @@ class Podio::OAuth < ActivePodio::Base
 
       response.body
     end
-  end
 
+    # @see https://developers.podio.com/doc/oauth-authorization/invalidate-grant-7997965
+    def invalidate_grant
+      response = Podio.connection.post do |req|
+        req.url '/oauth/grant/invalidate'
+      end
+
+      response.status
+    end
+  end
 end
