@@ -97,6 +97,7 @@ module Podio
   autoload :ConversationEvent,        'podio/models/conversation_event'
   autoload :ConversationMessage,      'podio/models/conversation_message'
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
+  autoload :Device,                   'podio/models/device'
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
   autoload :EmailContact,             'podio/models/email_contact'
   autoload :Embed,                    'podio/models/embed'
