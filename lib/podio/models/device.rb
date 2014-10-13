@@ -5,7 +5,7 @@ class Podio::Device < ActivePodio::Base
   property :token, :string
 
   class << self
-    def find_for_user(user_id)
+    def find_all_for_user(user_id)
       list Podio.connection.get("/mobile/user/#{user_id}").body
     end
     
