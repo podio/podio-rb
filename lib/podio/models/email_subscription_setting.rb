@@ -29,6 +29,12 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
         req.url("/email/group/", {})
       }.body
     end
+    
+    def find_for_user(user_id, client_type)
+      member Podio.connection.get { |req|
+        req.url("/user/#{user_id}/setting/#{client_type}/", {})
+      }.body
+    end
 
     # @see https://developers.podio.com/doc/email/update-groups-333981
     def update_groups(options)
