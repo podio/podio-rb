@@ -35,6 +35,7 @@ class Podio::Contract < ActivePodio::Base
   property :mrr, :decimal
   property :days_overdue, :integer
   property :overdue_status, :string
+  property :tier, :string
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
