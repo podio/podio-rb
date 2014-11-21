@@ -22,6 +22,7 @@ class Podio::Organization < ActivePodio::Base
   property :verified_domain, :string # TODO: Remove this, it's deprecated
   property :domains, :array
   property :rank, :integer
+  property :tier, :string
   property :contract_status, :string
   property :type, :string
   property :segment, :string
