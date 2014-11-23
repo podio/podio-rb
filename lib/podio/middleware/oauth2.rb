@@ -4,12 +4,12 @@ module Podio
   module Middleware
     class OAuth2 < Faraday::Middleware
       def call(env)
-        podio_client = env[:request][:client]
         orig_env = env.dup
 
         begin
           @app.call(env)
         rescue TokenExpired
+          podio_client = Podio::Client.client
           podio_client.refresh_access_token
 
           # new access token needs to be put into the header

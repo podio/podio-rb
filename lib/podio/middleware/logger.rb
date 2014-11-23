@@ -7,7 +7,7 @@ module Podio
         # Preserve request body
         env[:request_body] = env[:body] if env[:body]
 
-        env[:request][:client].log(env) do
+        Podio::Client.client.log(env) do
           @app.call(env)
         end
       end
