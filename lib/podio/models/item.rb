@@ -184,6 +184,11 @@ class Podio::Item < ActivePodio::Base
       }.body
     end
 
+    # @see https://developers.podio.com/doc/items/get-item-count-34819997
+    def item_count(app_id)
+      Podio.connection.get("/item/app/#{app_id}/count/").body
+    end
+
     # @see https://developers.podio.com/doc/items/get-items-as-xlsx-63233
     def xlsx(app_id, options={})
       response = Podio.connection.get { |req|
