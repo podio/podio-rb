@@ -16,6 +16,7 @@ class Podio::Application < ActivePodio::Base
   property :fields, :array
   property :subscribed, :boolean
   property :integration, :hash
+  property :layouts, :hash
   property :rights, :array
   property :link, :string
   property :url_add, :string
