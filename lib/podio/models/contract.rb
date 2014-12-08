@@ -213,5 +213,9 @@ class Podio::Contract < ActivePodio::Base
       response = Podio.connection.post("/contract/#{contract_id}/unblock")
       response.status
     end
+
+    def get_prices
+      Podio.connection.get('/contract/price/').body
+    end
   end
 end
