@@ -7,6 +7,7 @@ class Podio::Contract < ActivePodio::Base
   property :blocked, :boolean
   property :created_on, :datetime
   property :started_on, :datetime
+  property :reconciled_until, :datetime
   property :created_via, :string
   property :ended_on, :datetime
   property :item_prices, :hash
@@ -161,7 +162,7 @@ class Podio::Contract < ActivePodio::Base
         req.url "/contract/#{contract_id}/price"
         req.body = attributes
       end
-    
+
       response.body
     end
 
