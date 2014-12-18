@@ -26,7 +26,11 @@ class Podio::ContractPriceItem < ActivePodio::Base
   property :quantity, :integer # Number of users
 
   def sub_total
-    (self.quantity*self.price).to_f
+    if self.quantity
+      (self.quantity*self.price).to_f
+    else
+      0.to_f
+    end
   end
 
 end
