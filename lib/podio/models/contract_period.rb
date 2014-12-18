@@ -4,6 +4,12 @@ class Podio::ContractPeriod < ActivePodio::Base
   property :prices, :hash
   property :quantities, :hash
   property :total_mrr, :decimal
+  property :mrr, :hash
+  property :rebate, :hash
+  property :saved_mrr, :float
+  property :list_prices, :hash
+  property :invoice_interval, :integer
+  property :tier, :string
 
   has_many :users, :class => 'ContractUser'
 
