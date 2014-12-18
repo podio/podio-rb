@@ -26,8 +26,10 @@ class Podio::ContractPrice < ActivePodio::Base
   def items
     if @items.nil?
       @items = {}
-      self[:items].each do |key, attributes|
-        @items[key] = Podio::ContractPriceItem.new(attributes)
+      if self[:items]
+        self[:items].each do |key, attributes|
+          @items[key] = Podio::ContractPriceItem.new(attributes)
+        end
       end
     end
     @items
