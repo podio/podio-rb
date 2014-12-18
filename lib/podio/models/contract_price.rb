@@ -1,44 +1,32 @@
 class Podio::ContractPrice < ActivePodio::Base
-  property :total, :float
 
-  has_many :users, :class => 'ContractUser'
+  has_one :employee, :class => 'ContractPriceItem'
+  has_one :external, :class => 'ContractPriceItem'
+  has_one :item,     :class => 'ContractPriceItem'
 
-  def premium_employees
-    users.select { |u| u['items']['employee'].present? }
+  def total
+    self.employee.sub_total + self.external.sub_total
   end
 
-  def emp_network_employees
-    users.select { |u| u['items']['emp_network'].present? }
-  end
-
-  def premium_employees?
-    items['employee'].present?
-  end
-
-  def total_for_premium_employees
-    items['employee']['sub_total']
-  end
-
-  def emp_network?
-    items['emp_network'].present?
-  end
-
-  def items
-    if @items.nil?
-      @items = {}
-      if self[:items]
-        self[:items].each do |key, attributes|
-          @items[key] = Podio::ContractPriceItem.new(attributes)
-        end
+  class << self
+    def calculate(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{contract_id}/price"
+        req.body = attributes
       end
-    end
-    @items
-  end
 
+      member response.body
+    end
+
+  end
 end
 
 class Podio::ContractPriceItem < ActivePodio::Base
-  property :sub_total, :float
-  property :quantity, :integer
-  property :already_paid, :integer
+  property :price, :float # Price per user
+  property :quantity, :integer # Number of users
+
+  def sub_total
+    (self.quantity*self.price).to_f
+  end
+
 end
