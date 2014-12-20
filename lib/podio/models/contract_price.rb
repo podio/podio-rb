@@ -43,7 +43,7 @@ class Podio::ContractPriceItem < ActivePodio::Base
   property :mrr, :float #The MRR on the rebated price
 
   def sub_total
-    mrr
+    self.mrr
   end
 
 end
