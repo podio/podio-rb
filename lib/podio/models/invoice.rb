@@ -22,6 +22,19 @@ class Podio::Invoice < ActivePodio::Base
     def find_by_contract(contract_id)
       list Podio.connection.get("/invoice/contract/#{contract_id}/").body
     end
+    
+    def invoice_contract(contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/invoice/contract/#{contract_id}/invoice"
+        req.body = attributes
+      end
+      
+      if response.status == 200
+        member response.body
+      else
+        nil
+      end
+    end
 
     def pay(invoice_id)
       Podio.connection.post("/invoice/#{invoice_id}/pay").status
