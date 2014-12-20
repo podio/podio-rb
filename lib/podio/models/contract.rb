@@ -97,6 +97,10 @@ class Podio::Contract < ActivePodio::Base
   def unblock
     self.class.unblock(self.contract_id)
   end
+  
+  def tier_prices
+    self.class.get_tier_prices(self.contract_id)
+  end
 
   def make_external_free
     self.class.make_external_free(self.contract_id)
@@ -208,7 +212,11 @@ class Podio::Contract < ActivePodio::Base
       response.status
     end
 
-    def get_prices
+    def get_tier_prices(contract_id)
+      Podio.connection.get("/contract/#{contract_id}/price/tier").body
+    end
+
+    def get_list_prices
       Podio.connection.get('/contract/price/').body
     end
   end
