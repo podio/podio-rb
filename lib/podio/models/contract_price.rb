@@ -17,7 +17,7 @@ class Podio::ContractPrice < ActivePodio::Base
   end
 
   def total
-    self.mrr
+    self.employee.sub_total + self.external.sub_total
   end
 
   class << self
@@ -43,7 +43,11 @@ class Podio::ContractPriceItem < ActivePodio::Base
   property :mrr, :float #The MRR on the rebated price
 
   def sub_total
-    self.mrr
+    if self.quantity
+      (self.quantity*self.price).to_f
+    else
+      0.to_f
+    end
   end
 
 end
