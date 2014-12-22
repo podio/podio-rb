@@ -66,11 +66,10 @@ class Podio::Tag < ActivePodio::Base
     # @see https://developers.podio.com/doc/tags/remove-tag-22465
     def delete(tagable_type, tagable_id, attributes)
       response = Podio.connection.delete do |req|
-        req.url "/tag/#{tagable_type}/#{tagable_id}/"
-        req.body = attributes
+        req.url("/tag/#{tagable_type}/#{tagable_id}/", attributes)
       end
 
-      response.body
+      response.status
     end
   end
 end
