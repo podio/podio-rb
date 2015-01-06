@@ -131,9 +131,9 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/filter-items-by-view-4540284
-    def find_by_filter_id(app_id, filter_id, attributes)
+    def find_by_filter_id(app_id, filter_id, attributes, options={})
       collection Podio.connection.post { |req|
-        req.url "/item/app/#{app_id}/filter/#{filter_id}/"
+        req.url("/item/app/#{app_id}/filter/#{filter_id}/", options)
         req.body = attributes
       }.body
     end
