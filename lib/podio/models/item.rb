@@ -49,6 +49,7 @@ class Podio::Item < ActivePodio::Base
   has_many :files, :class => 'FileAttachment'
   has_many :comments, :class => 'Comment'
   has_many :shares, :class => 'AppStoreShare'
+  has_one :current_revision, :class => 'ItemRevision'
   has_one :reminder, :class => 'Reminder'
   has_one :recurrence, :class => 'Recurrence'
   has_one :linked_account_data, :class => 'LinkedAccountData'
