@@ -14,6 +14,7 @@ class Podio::Application < ActivePodio::Base
   property :owner, :hash
   property :config, :hash
   property :fields, :array
+  property :votings, :array
   property :subscribed, :boolean
   property :integration, :hash
   property :layouts, :hash
