@@ -130,6 +130,7 @@ module Podio
   autoload :Organization,             'podio/models/organization'
   autoload :OrganizationContact,      'podio/models/organization_contact'
   autoload :OrganizationMember,       'podio/models/organization_member'
+  autoload :OrganizationMembership,   'podio/models/organization_membership'
   autoload :OrganizationProfile,      'podio/models/organization_profile'
   autoload :Pin,                      'podio/models/pin'
   autoload :Profile,                  'podio/models/profile'
