@@ -18,7 +18,8 @@ class Podio::CalendarEvent < ActivePodio::Base
   property :link, :string
   property :app, :hash
   property :source, :string
-  
+  property :color, :string
+
   alias_method :id, :uid
 
   class << self
@@ -50,7 +51,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       }.body
     end
 
-    # @see 
+    # @see
     def move_event(uid, attributes={})
       response = Podio.connection.post do |req|
         req.url "/calendar/event/#{uid}/move"
@@ -59,7 +60,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       member response.body
     end
 
-    # @see 
+    # @see
     def move_event_external(linked_account_id, uid, attributes={})
       response = Podio.connection.post do |req|
         req.url "/calendar/linked_account/#{linked_account_id}/event/#{CGI.escape(uid)}/move"
@@ -68,7 +69,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       member response.body
     end
 
-    # @see 
+    # @see
     def update_event_duration(uid, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/event/#{uid}/duration"
@@ -77,7 +78,7 @@ class Podio::CalendarEvent < ActivePodio::Base
       member response.body
     end
 
-    # @see 
+    # @see
     def update_event_duration_external(linked_account_id, uid, attributes={})
       response = Podio.connection.put do |req|
         req.url "/calendar/linked_account/#{linked_account_id}/event/#{CGI.escape(uid)}/duration"
