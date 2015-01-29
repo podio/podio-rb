@@ -6,3 +6,4 @@ Gemfile.lock
 script/config.rb
 *.swp
 .idea
+tags
