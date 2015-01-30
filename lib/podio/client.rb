@@ -11,6 +11,7 @@ module Podio
       @oauth_token = options[:oauth_token]
       @headers = options[:custom_headers] || {}
       @adapter = options[:adapter] || Faraday.default_adapter
+      @request_options = options[:request_options] || {}
 
       if options[:enable_stubs]
         @enable_stubs = true
@@ -177,7 +178,7 @@ module Podio
     end
 
     def configure_connection
-      Faraday::Connection.new(:url => api_url, :headers => configured_headers) do |builder|
+      Faraday::Connection.new(:url => api_url, :headers => configured_headers, :request => @request_options) do |builder|
         builder.use Middleware::JsonRequest
         builder.use Faraday::Request::Multipart
         builder.use Faraday::Request::UrlEncoded
