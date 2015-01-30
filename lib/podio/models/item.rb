@@ -244,8 +244,13 @@ class Podio::Item < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/items/delete-item-22364
-    def delete(id)
-      Podio.connection.delete("/item/#{id}").body
+    def delete(id, attributes={}, options={})
+      response = Podio.connection.delete do |req|
+        req.url("/item/#{id}", options)
+        req.body = attributes
+      end
+
+      response.body
     end
 
     # @see https://developers.podio.com/doc/items/delete-item-reference-7302326
