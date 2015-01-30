@@ -49,18 +49,18 @@ class Podio::Tag < ActivePodio::Base
     end
 
     # @see https://developers.podio.com/doc/tags/get-objects-on-app-with-tag-22469
-    def find_for_app(app_id, attributes)
-      list Podio.connection.get("/tag/app/#{app_id}/search/", attributes).body
+    def find_tagged_objects_on_app(app_id, attributes)
+      Podio.connection.get("/tag/app/#{app_id}/search/", attributes).body
     end
 
     # @see https://developers.podio.com/doc/tags/get-objects-on-space-with-tag-22468
-    def find_for_space(space_id, attributes)
-      list Podio.connection.get("/tag/space/#{space_id}/search/", attributes).body
+    def find_tagged_objects_on_space(space_id, attributes)
+      Podio.connection.get("/tag/space/#{space_id}/search/", attributes).body
     end
 
     # @see https://developers.podio.com/doc/tags/get-objects-on-organization-with-tag-48478
-    def find_for_org(org_id, attributes)
-      list Podio.connection.get("/tag/org/#{org_id}/search/", attributes).body
+    def find_tagged_objects_on_org(org_id, attributes)
+      Podio.connection.get("/tag/org/#{org_id}/search/", attributes).body
     end
 
     # @see https://developers.podio.com/doc/tags/remove-tag-22465
