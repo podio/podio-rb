@@ -18,6 +18,7 @@ class Podio::Space < ActivePodio::Base
   property :subscribed, :boolean
   property :privacy, :string
   property :auto_join, :boolean
+  property :archived, :boolean
   property :type, :string
   property :premium, :boolean
   property :last_activity_on, :datetime
