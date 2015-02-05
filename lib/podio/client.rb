@@ -53,11 +53,14 @@ module Podio
     end
 
     # Sign in as a user using credentials
-    def authenticate_with_credentials(username, password)
+    def authenticate_with_credentials(username, password, offering_id=nil)
+      body = {:grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password}
+      body[:offering_id] = offering_id if offering_id.present?
+
       response = @oauth_connection.post do |req|
         req.url '/oauth/token'
         req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        req.body = {:grant_type => 'password', :client_id => api_key, :client_secret => api_secret, :username => username, :password => password}
+        req.body = body
       end
 
       @oauth_token = OAuthToken.new(response.body)
