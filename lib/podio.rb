@@ -81,6 +81,7 @@ module Podio
   autoload :ByLine,                   'podio/models/by_line'
   autoload :CalendarEvent,            'podio/models/calendar_event'
   autoload :CalendarMute,             'podio/models/calendar_mute'
+  autoload :Campaign,                 'podio/models/campaign'
   autoload :Category,                 'podio/models/category'
   autoload :Comment,                  'podio/models/comment'
   autoload :Condition,                'podio/models/condition'
@@ -164,6 +165,7 @@ module Podio
   autoload :View,                     'podio/models/view'
   autoload :Vote,                     'podio/models/vote'
   autoload :Voting,                   'podio/models/voting'
+  autoload :Voucher,                  'podio/models/voucher'
   autoload :Widget,                   'podio/models/widget'
 
 end
