@@ -80,5 +80,9 @@ class Podio::Campaign < ActivePodio::Base
         req.url("/campaign/", options)
       }.body
     end
+
+    def find_usage(id)
+      Podio.connection.get("/campaign/#{id}/usage").body
+    end
   end
 end
