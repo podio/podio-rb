@@ -58,5 +58,11 @@ class Podio::Voucher < ActivePodio::Base
         req.url("/campaign/#{campaign_id}/voucher", options)
       }.body
     end
+
+    def export(campaign_id, options = {})
+      Podio.connection.get { |req|
+        req.url("/campaign/#{campaign_id}/voucher/export", options)
+      }.body
+    end
   end
 end
