@@ -10,17 +10,18 @@ class Podio::Campaign < ActivePodio::Base
   property :rebate_config, :hash
   property :duration_type, :string
   property :duration_config, :hash
-  property :usage, :integer
+  property :usages, :integer
 
   alias_method :id, :campaign_id
 
   def create
     result = self.class.create(self.attributes)
-    self.attributes[:campaign_id] = result['campaign_id']
+    self.update_attributes(result.attributes)
   end
 
   def update
-    self.class.update(self.promotion_id, self.attributes)
+    result = self.class.update(self.campaign_id, self.attributes)
+    self.update_attributes(result.attributes)
   end
 
   def activate
@@ -45,21 +46,17 @@ class Podio::Campaign < ActivePodio::Base
 
   class << self
     def create(attributes)
-      response = Podio.connection.post do |req|
+      member Podio.connection.post { |req|
         req.url "/campaign/"
         req.body = attributes
-      end
-
-      response.status
+      }.body
     end
 
     def update(id, attributes)
-      response = Podio.connection.put do |req|
+      member Podio.connection.put { |req|
         req.url "/campaign/#{id}"
         req.body = attributes
-      end
-
-      response.status
+      }.body
     end
 
     def delete(id)
