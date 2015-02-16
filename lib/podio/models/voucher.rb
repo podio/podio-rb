@@ -1,4 +1,6 @@
 class Podio::Voucher < ActivePodio::Base
+  include ActivePodio::Updatable
+  
   property :campaign_id, :integer
   property :voucher_id, :integer
   property :code, :string
@@ -7,23 +9,33 @@ class Podio::Voucher < ActivePodio::Base
 
   alias_method :id, :voucher_id
 
+  def create
+    result = self.class.create(self.attributes)
+    self.update_attributes(result.attributes)
+  end
+
+  def update
+    result = self.class.update(self.voucher_id, self.attributes)
+    self.update_attributes(result.attributes)
+  end
+
+  def delete
+    self.class.delete(self.voucher_id)
+  end
+
   class << self
     def create(attributes)
-      response = Podio.connection.post do |req|
-        req.url "/campaign/#{self.campaign_id}/voucher"
+      member Podio.connection.post { |req|
+        req.url "/campaign/#{attributes[:campaign_id]}/voucher"
         req.body = attributes
-      end
-
-      response.status
+      }.body
     end
 
     def update(id, attributes)
-      response = Podio.connection.put do |req|
+      member Podio.connection.put { |req|
         req.url "/campaign/voucher/#{id}"
         req.body = attributes
-      end
-
-      response.status
+      }.body
     end
 
     def delete(id)
@@ -35,7 +47,7 @@ class Podio::Voucher < ActivePodio::Base
     end
 
     def find_all(campaign_id, options = {})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/campaign/#{campaign_id}/voucher", options)
       }.body
     end
