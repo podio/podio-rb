@@ -30,6 +30,13 @@ class Podio::Voucher < ActivePodio::Base
         req.body = attributes
       }.body
     end
+    
+    def generate(attributes)
+      Podio.connection.post { |req|
+        req.url "/campaign/#{attributes[:campaign_id]}/voucher/generate"
+        req.body = attributes
+      }.status
+    end
 
     def update(id, attributes)
       member Podio.connection.put { |req|
