@@ -1,4 +1,6 @@
 class Podio::Campaign < ActivePodio::Base
+  include ActivePodio::Updatable
+  
   property :campaign_id, :integer
   property :name, :string
   property :description, :string
@@ -8,8 +10,38 @@ class Podio::Campaign < ActivePodio::Base
   property :rebate_config, :hash
   property :duration_type, :string
   property :duration_config, :hash
+  property :usage, :integer
 
   alias_method :id, :campaign_id
+
+  def create
+    result = self.class.create(self.attributes)
+    self.attributes[:campaign_id] = result['campaign_id']
+  end
+
+  def update
+    self.class.update(self.promotion_id, self.attributes)
+  end
+
+  def activate
+    self.class.activate(self.campaign_id)
+  end
+
+  def deactivate
+    self.class.deactivate(self.campaign_id)
+  end
+
+  def delete
+    self.class.delete(self.campaign_id)
+  end
+
+  def active?
+    self.status == 'active'
+  end
+
+  def inactive?
+    self.status == 'inactive'
+  end
 
   class << self
     def create(attributes)
@@ -34,12 +66,20 @@ class Podio::Campaign < ActivePodio::Base
       Podio.connection.delete("/campaign/#{id}").status
     end
 
+    def activate(id)
+      Podio.connection.post("/campaign/#{id}/activate").status
+    end
+
+    def deactivate(id)
+      Podio.connection.post("/campaign/#{id}/deactivate").status
+    end
+
     def find(id)
       member Podio.connection.get("/campaign/#{id}").body
     end
 
     def find_all(options = {})
-      collection Podio.connection.get { |req|
+      list Podio.connection.get { |req|
         req.url("/campaign/", options)
       }.body
     end
