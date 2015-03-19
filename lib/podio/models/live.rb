@@ -40,23 +40,6 @@ class Podio::Live < ActivePodio::Base
       Podio.connection.post("/live/#{id}/decline").status
     end
 
-    def authorize(attributes)
-      response = Podio.connection.post do |req|
-        req.url "/live/omega/authorize"
-        req.body = attributes
-      end
-
-      response.body
-    end
-
-    def authorize_all
-      Podio.connection.post("/live/omega/authorize/all").body
-    end
-
-    def get_servers
-      Podio.connection.get("/live/servers").body
-    end
-
   end
 
 end
