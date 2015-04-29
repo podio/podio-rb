@@ -4,7 +4,6 @@ class Podio::PromotionGroup < ActivePodio::Base
   property :name, :string
   property :description, :string
   property :status, :string
-  property :member_ids, :array
 
   alias_method :id, :promotion_group_id
 
