@@ -17,7 +17,9 @@ Configuration
 
 The main way of using the Podio library is via a singleton client, which you set up like this:
 
-    Podio.setup(:api_key => 'YOUR_API_KEY', :api_secret => 'YOUR_API_SECRET')
+```ruby
+Podio.setup(:api_key => 'YOUR_API_KEY', :api_secret => 'YOUR_API_SECRET')
+```
 
 This initializes a `Podio::Client` object and assigns it to a thread-local, which is used by all methods in this library.
 
@@ -31,58 +33,66 @@ After the configuration you need to authenticate against the API. The client sup
 
 The default OAuth flow to be used when you authenticate Podio users from your web application. See the `sinatra.rb` in the examples folder.
 
-    # Redirect the user to the authorize url
-    Podio.client.authorize_url(:redirect_uri => redirect_uri)
+```ruby
+# Redirect the user to the authorize url
+Podio.client.authorize_url(:redirect_uri => redirect_uri)
 
-    # In the callback you get the authorization_code
-    # wich you use to get the access token
-    Podio.client.authenticate_with_auth_code(params[:code], redirect_uri)
+# In the callback you get the authorization_code
+# wich you use to get the access token
+Podio.client.authenticate_with_auth_code(params[:code], redirect_uri)
+```
 
 ### Username and Password Flow
 
 If you're writing a batch job or are just playing around with the API, this is the easiest to get started. Do not use this for authenticating users other than yourself, the web server flow is meant for that.
 
-    Podio.client.authenticate_with_credentials('USERNAME', 'PASSWORD')
-
+```ruby
+Podio.client.authenticate_with_credentials('USERNAME', 'PASSWORD')
+```
 
 Basic Usage
 -----------
 
 After you configured the `Podio.client` singleton you can use all of the wrapper functions to do API requests. The functions are organized into models corresponding to the official API documentation, although most API areas have multiple models associated. The method follow a common naming pattern that should be familiar to ActiveRecord users. For example:
 
-    # Getting an item
-    Podio::Item.find(42)
+```ruby
+# Getting an item
+Podio::Item.find(42)
 
-    # Posting a status message on space with id 23
-    Podio::Status.create(23, {:value => 'This is the text of the status message'})
+# Posting a status message on space with id 23
+Podio::Status.create(23, {:value => 'This is the text of the status message'})
+```
 
 If there is a method missing or you want to do something special, you can use the Faraday connection directly. This allows you to do arbitrary HTTP requests to the Podio API with authentication, JSON parsing and error handling already taken care of. The same examples would look like this:
 
-    # Getting an item
-    response = Podio.connection.get('/item/42')
-    response.body
+```ruby
+# Getting an item
+response = Podio.connection.get('/item/42')
+response.body
 
-    # Posting a status message on space with id 23
-    response = Podio.connection.post do |req|
-      req.url '/status/space/23/'
-      req.body = {:value => 'This is the text of the status message'}
-    end
-    response.body
+# Posting a status message on space with id 23
+response = Podio.connection.post do |req|
+  req.url '/status/space/23/'
+  req.body = {:value => 'This is the text of the status message'}
+end
+response.body
+```
 
 All the wrapped methods either return a single model instance, an array of instances, or a simple Struct in case of pagination:
 
-    # Find all items in an app (paginated)
-    items = Podio::Item.find_all(app_id, :limit => 20)
+```ruby
+# Find all items in an app (paginated)
+items = Podio::Item.find_all(app_id, :limit => 20)
 
-    # get count of returned items in this call
-    items.count
+# get count of returned items in this call
+items.count
 
-    # get the returned items in an array
-    items.all
+# get the returned items in an array
+items.all
 
-    # get count of all items in this app
-    items.total_count
-
+# get count of all items in this app
+items.total_count
+```
 
 Active Podio
 ------------
@@ -91,61 +101,66 @@ The Podio API is based on REST requests passing JSON back and forth, but we have
 
 While the models can be used directly from this gem, we encourage everyone using Podio in a Rails project to add models that extend the standard models:
 
-    class Item < Podio::Item # Inherits from the base model in the Podio gem
+```ruby
+class Item < Podio::Item # Inherits from the base model in the Podio gem
 
-      # Your custom methods, e.g.:
-      def application
-        @app_instance ||= Application.find(self.app_id)
-      end
-    end
-
+  # Your custom methods, e.g.:
+  def application
+    @app_instance ||= Application.find(self.app_id)
+  end
+end
+```
 
 Error Handling
 --------------
 
 All unsuccessful responses returned by the API (everything that has a 4xx or 5xx HTTP status code) will throw exceptions. All exceptions inherit from `Podio::PodioError` and have three additional properties which give you more information about the error:
 
-    begin
-      Podio::Space.create({:name => 'New Space', :org_id => 42})
-    rescue Podio::BadRequestError => exc
-      puts exc.response_body      # parsed JSON response from the API
-      puts exc.response_status    # status code of the response
-      puts exc.url                # uri of the API request
+```ruby
+begin
+  Podio::Space.create({:name => 'New Space', :org_id => 42})
+rescue Podio::BadRequestError => exc
+  puts exc.response_body      # parsed JSON response from the API
+  puts exc.response_status    # status code of the response
+  puts exc.url                # uri of the API request
 
-      # you normally want this one, a human readable error description
-      puts exc.message
-    end
+  # you normally want this one, a human readable error description
+  puts exc.message
+end
+```
 
 On instance methods, however, exceptions are handled in a way similar to ActiveRecord. These methods returns a boolean indicating if the API request succeeded or not, and makes the code, description and parameters available when the request fails:
 
-    @space_contact = SpaceContact.new({:name => 'The Dude', :birthdate => 50.years.ago})
-    if @space_contact.create
-      # Success
-    else
-      # Error, check:
-      # @space_contact.error_code
-      # @space_contact.error_message
-      # @space_contact.error_parameters
-    end
-
+```ruby
+@space_contact = SpaceContact.new({:name => 'The Dude', :birthdate => 50.years.ago})
+if @space_contact.create
+  # Success
+else
+  # Error, check:
+  # @space_contact.error_code
+  # @space_contact.error_message
+  # @space_contact.error_parameters
+end
+```
 
 Full Example
 ------------
 
-    require 'rubygems'
-    require 'podio'
+```ruby
+require 'rubygems'
+require 'podio'
 
-    Podio.setup(:api_key => 'YOUR_API_KEY', :api_secret => 'YOUR_API_SECRET')
-    Podio.client.authenticate_with_credentials('YOUR_PODIO_ACCOUNT', 'YOUR_PODIO_PASSWORD')
+Podio.setup(:api_key => 'YOUR_API_KEY', :api_secret => 'YOUR_API_SECRET')
+Podio.client.authenticate_with_credentials('YOUR_PODIO_ACCOUNT', 'YOUR_PODIO_PASSWORD')
 
-    # Print a list of organizations I'm a member of
-    my_orgs = Podio::Organization.find_all
+# Print a list of organizations I'm a member of
+my_orgs = Podio::Organization.find_all
 
-    my_orgs.each do |org|
-      puts org.name
-      puts org.url
-    end
-
+my_orgs.each do |org|
+  puts org.name
+  puts org.url
+end
+```
 
 Meta
 ----
