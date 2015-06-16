@@ -90,6 +90,7 @@ module Podio
   autoload :Contact,                  'podio/models/contact'
   autoload :Contract,                 'podio/models/contract'
   autoload :ContractAccounting,       'podio/models/contract_accounting'
+  autoload :ContractAttribution,      'podio/models/contract_attribution'
   autoload :ContractEvent,            'podio/models/contract_event'
   autoload :ContractPeriod,           'podio/models/contract_period'
   autoload :ContractPrice,            'podio/models/contract_price'
