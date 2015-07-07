@@ -7,9 +7,14 @@ module Podio
       require 'multi_json'
 
       def on_complete(env)
-        if env[:body].is_a?(String) && is_json?(env) && env[:status] != 500
+        if env[:body].is_a?(String) && is_json?(env) && should_unmarshal?(env) && env[:status] != 500
           env[:body] = parse(env[:body])
         end
+      end
+
+      def should_unmarshal?(env)
+        # don't unmarshal data from the API with a content-disposition header.
+        not env[:response_headers]['content-disposition'] =~ /filename=/
       end
 
       def is_json?(env)

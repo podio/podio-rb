@@ -105,4 +105,18 @@ class ClientTest < Test::Unit::TestCase
     assert_equal 200, response.status
     assert response.body.is_a?(Array)
   end
+
+  test 'should be able to handle bad json files' do
+    login_as(:professor)
+
+    Podio.client.stubs.get('/file/1/raw') {[200,
+        {'content-disposition' => 'inline; filename="horrible.json"',
+         'content-type'=> 'application/json'},
+         '[ this is really bad json {"status" => "active"}]']}
+
+    response = Podio.connection.get('/file/1/raw')
+    assert_equal 200, response.status
+    puts "#{response.body.class}"
+    assert response.body.is_a?(String)
+  end
 end
