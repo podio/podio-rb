@@ -29,7 +29,7 @@ class Podio::OrganizationMember < ActivePodio::Base
 
     def export(org_id, options = {})
       Podio.connection.get { |req|
-        req.url("/org/#{org_id}/member/export_members", options)
+        req.url("/org/#{org_id}/member/export", options)
       }.body
     end
 
