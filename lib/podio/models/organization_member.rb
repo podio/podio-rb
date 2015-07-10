@@ -27,6 +27,12 @@ class Podio::OrganizationMember < ActivePodio::Base
       }.body
     end
 
+    def export(org_id, options = {})
+      Podio.connection.get { |req|
+        req.url("/org/#{org_id}/member/export", options)
+      }.body
+    end
+
     # @see https://developers.podio.com/doc/organizations/get-organization-member-50908
     def find(org_id, user_id)
       member Podio.connection.get("/org/#{org_id}/member/#{user_id}").body
