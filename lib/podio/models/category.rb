@@ -30,7 +30,7 @@ class Podio::Category < ActivePodio::Base
     end
 
     def find(id)
-      member Podio.connection.get("/app_store/category/#{id}").body
+      member Podio.connection.get("/app_store/category/#{id}/v2").body
     end
 
     def find_all(options = {})
