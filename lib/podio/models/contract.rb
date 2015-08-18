@@ -102,10 +102,6 @@ class Podio::Contract < ActivePodio::Base
     self.class.get_tier_prices(self.contract_id)
   end
 
-  def make_external_free
-    self.class.make_external_free(self.contract_id)
-  end
-
   class << self
     def find(contract_id, options={})
       member Podio.connection.get("/contract/#{contract_id}", options).body
@@ -204,11 +200,6 @@ class Podio::Contract < ActivePodio::Base
 
     def unblock(contract_id)
       response = Podio.connection.post("/contract/#{contract_id}/unblock")
-      response.status
-    end
-
-    def make_external_free(contract_id)
-      response = Podio.connection.post("/contract/#{contract_id}/external_free")
       response.status
     end
 
