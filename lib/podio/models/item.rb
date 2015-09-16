@@ -279,9 +279,9 @@ class Podio::Item < ActivePodio::Base
       Podio.connection.post("/item/app/#{app_id}/cleanup_field_values").body
     end
 
-    def rearrange(id, attributes)
+    def rearrange(id, attributes, options = {})
       response = Podio.connection.post do |req|
-        req.url "/item/#{id}/rearrange"
+        req.url("/item/#{id}/rearrange", options)
         req.body = attributes
       end
 
