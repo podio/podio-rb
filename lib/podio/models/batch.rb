@@ -14,6 +14,7 @@ class Podio::Batch < ActivePodio::Base
   has_one :file, :class => 'FileAttachment'
   has_one :app, :class => 'Application'
   has_one :space, :class => 'Space'
+  has_one :ref, :class => 'Reference'
 
   alias_method :id, :batch_id
 
