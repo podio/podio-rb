@@ -1,6 +1,7 @@
 # @see https://developers.podio.com/doc/files
 class Podio::FileAttachment < ActivePodio::Base
   property :file_id, :integer
+  property :external_file_id, :integer
   property :link, :string
   property :link_target, :string
   property :perma_link, :string
