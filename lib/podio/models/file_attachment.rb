@@ -68,6 +68,18 @@ class Podio::FileAttachment < ActivePodio::Base
       member response.body
     end
 
+    def create_from_external_file_id(linked_account_id, external_file_id, preserve_permissions=false, options={})
+      response = Podio.client.connection.post do |req|
+        req.url("/file/linked_account/#{linked_account_id}/", options)
+        req.body = {
+            :external_file_id     => external_file_id,
+            :preserve_permissions => preserve_permissions
+        }
+      end
+
+      member response.body
+    end
+
     # Attach a file to an existing reference
     # @see https://developers.podio.com/doc/files/attach-file-22518
     def attach(id, ref_type, ref_id)
