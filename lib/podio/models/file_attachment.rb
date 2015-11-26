@@ -1,6 +1,7 @@
 # @see https://developers.podio.com/doc/files
 class Podio::FileAttachment < ActivePodio::Base
   property :file_id, :integer
+  property :external_file_id, :integer
   property :link, :string
   property :link_target, :string
   property :perma_link, :string
@@ -62,6 +63,18 @@ class Podio::FileAttachment < ActivePodio::Base
       response = Podio.client.connection.post do |req|
         req.url "/file/from_url/"
         req.body = {:url => url}
+      end
+
+      member response.body
+    end
+
+    def create_from_external_file_id(linked_account_id, external_file_id, preserve_permissions=false, options={})
+      response = Podio.client.connection.post do |req|
+        req.url("/file/linked_account/#{linked_account_id}/", options)
+        req.body = {
+            :external_file_id     => external_file_id,
+            :preserve_permissions => preserve_permissions
+        }
       end
 
       member response.body
