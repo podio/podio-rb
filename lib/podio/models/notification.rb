@@ -34,6 +34,11 @@ class Podio::Notification < ActivePodio::Base
       Podio.connection.post("/notification/#{id}/viewed").status
     end
 
+    # @see https://developers.podio.com/doc/notifications/mark-notifications-as-viewed-by-ref-553653
+    def mark_as_viewed_by_ref(type, id)
+      Podio.connection.post("/notification/#{type}/#{id}/viewed").status
+    end
+
     # @see https://developers.podio.com/doc/notifications/mark-all-notifications-as-viewed-58099
     def mark_all_as_viewed
       Podio.connection.post("/notification/viewed").status
