@@ -9,4 +9,8 @@ platforms :rbx do
   gem 'rubysl-test-unit', '~> 2.0.3'
 end
 
+platforms :ruby_22 do
+  gem 'test-unit-minitest'
+end
+
 gemspec
