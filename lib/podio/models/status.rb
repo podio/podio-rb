@@ -43,7 +43,7 @@ class Podio::Status < ActivePodio::Base
 
   class << self
     # @see https://developers.podio.com/doc/status/get-status-message-22337
-    def find(id, params)
+    def find(id, params={})
       member Podio.connection.get("/status/#{id}", params).body
     end
 
