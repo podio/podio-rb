@@ -16,6 +16,7 @@ class Podio::Status < ActivePodio::Base
   property :subscribed_count, :integer
   property :push, :hash
   property :presence, :hash
+  property :last_edit_on, :datetime
 
   # Properties for create
   property :file_ids, :array
@@ -42,8 +43,8 @@ class Podio::Status < ActivePodio::Base
 
   class << self
     # @see https://developers.podio.com/doc/status/get-status-message-22337
-    def find(id)
-      member Podio.connection.get("/status/#{id}").body
+    def find(id, params)
+      member Podio.connection.get("/status/#{id}", params).body
     end
 
     # @see https://developers.podio.com/doc/status/add-new-status-message-22336
