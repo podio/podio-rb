@@ -78,7 +78,7 @@ class Podio::Integration < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/integrations/get-available-fields-86890
     def find_available_fields_for(app_id)
-      list Podio.connection.get("/integration/#{app_id}/field/").body
+      Podio.connection.get("/integration/#{app_id}/field/").body
     end
 
     # @see https://developers.podio.com/doc/integrations/delete-integration-86876
