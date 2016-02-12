@@ -4,6 +4,7 @@ class Podio::ApplicationEmail < ActivePodio::Base
 
   property :attachments, :boolean
   property :mappings, :hash
+  property :field_options, :hash
 
   class << self
     # @see https://developers.podio.com/doc/email/get-app-email-configuration-622338
