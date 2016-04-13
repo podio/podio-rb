@@ -1,18 +1,12 @@
 sudo: false
 rvm:
-  - 1.8.7
-  - 1.9.2
   - 1.9.3
+  - 2.0
   - 2.1
-  - rbx
+  - 2.2
+  - 2.3
 notifications:
   email:
-    - fabricius@podio.com
     - munz@podio.com
     - marc.hoegh@podio.com
     - domo@podio.com
-before_install:
-  # update the broken bundler at Travis
-  # see https://github.com/bundler/bundler/issues/3558#issuecomment-171347979
-  # and https://github.com/increments/qiita-markdown/pull/24
-  - gem update bundler
