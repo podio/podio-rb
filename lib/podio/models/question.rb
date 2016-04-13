@@ -1,9 +1,10 @@
 class Podio::Question < ActivePodio::Base
-
   property :question_id, :integer
   property :text, :string
   property :ref, :hash
+  property :answer_counts, :hash
 
+  has_one :answer_by_current_user, :class => 'QuestionAnswer'
   has_many :answers, :class => 'QuestionAnswer'
   has_many :options, :class => 'QuestionOption'
 
@@ -24,9 +25,8 @@ class Podio::Question < ActivePodio::Base
         req.url "/question/#{question_id}/#{ref_type}/#{ref_id}/"
         req.body = {:question_option_id => question_option_id }
       end
-      
+
       response.status
     end
-
   end
 end
