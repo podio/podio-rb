@@ -86,6 +86,13 @@ class Podio::Profile < ActivePodio::Base
       }.body
     end
 
+    # @see https://developers.podio.com/doc/contacts/get-contacts-22400
+    def find_all(options = {})
+      Podio.connection.get { |req|
+        req.url("/contact/", options)
+      }.body
+    end
+
     def find_for_org(org_id)
       member Podio.connection.get("/org/#{org_id}/billing").body
     end
