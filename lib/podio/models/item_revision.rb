@@ -17,5 +17,12 @@ class Podio::ItemRevision < ActivePodio::Base
     def find_all_by_item_id(item_id)
       list Podio.connection.get("/item/#{item_id}/revision/").body
     end
+
+    # @see https://developers.podio.com/doc/items/revert-to-revision-194362682
+    def revert_to_revision(item_id, revision_id, options={})
+      collection Podio.connection.post { |req|
+        req.url("/item/#{item_id}/revision/#{revision_id}/revert_to", options)
+      }.body
+    end
   end
 end
