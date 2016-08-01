@@ -20,7 +20,7 @@ class Podio::ItemRevision < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/items/revert-to-revision-194362682
     def revert_to_revision(item_id, revision_id, options={})
-      collection Podio.connection.post { |req|
+      member Podio.connection.post { |req|
         req.url("/item/#{item_id}/revision/#{revision_id}/revert_to", options)
       }.body
     end
