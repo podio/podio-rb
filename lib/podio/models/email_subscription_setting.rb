@@ -13,6 +13,8 @@ class Podio::EmailSubscriptionSetting < ActivePodio::Base
   property :push_notification_browser, :boolean
   property :user, :boolean
   property :bulletin, :boolean
+  property :meeting_update_as_organizer, :boolean
+  property :meeting_update, :boolean
 
   def self.find_for_current_user
     self.get_groups
