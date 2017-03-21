@@ -23,8 +23,10 @@ class Podio::Promotion < ActivePodio::Base
       }.body
     end
 
-    def find(promotion_id)
-      member Podio.connection.get("/promotion/#{promotion_id}").body
+    def find(promotion_id, options={})
+      member Podio.connection.get { |req|
+        req.url("/promotion/#{promotion_id}", options)
+      }.body
     end
 
     def create(attributes)
