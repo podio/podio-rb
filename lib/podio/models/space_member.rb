@@ -74,7 +74,7 @@ class Podio::SpaceMember < ActivePodio::Base
     def find_top_contacts(space_id, options = {})
       result = Podio.connection.get("/space/#{space_id}/member/top/", options).body
       %w(employee external).each do |section|
-        result[section]['profiles'].map! { |profile| Contact.new(profile) } if result[section].present? && result[section]['profiles'].present?
+        result[section]['profiles'].map! { |profile| Podio::Contact.new(profile) } if result[section].present? && result[section]['profiles'].present?
       end
       result
     end
