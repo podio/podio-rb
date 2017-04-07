@@ -1,6 +1,7 @@
 require 'test/unit'
 
 require 'podio'
+require 'yaml'
 
 class Test::Unit::TestCase
 
