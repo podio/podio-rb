@@ -18,14 +18,14 @@ class ActivePodioTest < Test::Unit::TestCase
     property :integer, :integer
     property :boolean, :boolean
     property :array, :array
-    
+
     has_one :association, :class => 'ActivePodioTest::TestAssociationModel'
     has_one :different_association, :class => 'ActivePodioTest::TestAssociationModel', :property => :other_association
     has_many :associations, :class => 'ActivePodioTest::TestAssociationModel'
     has_many :different_associations, :class => 'ActivePodioTest::TestAssociationModel', :property => :other_associations
-    
+
     alias_method :id, :test_id
-    
+
     delegate_to_hash :hash_property, :key1, :key2, :really?
     delegate_to_hash :prefixed_hash_property, :key3, :prefix => true
     delegate_to_hash :hash_property_with_setter, :key4, :setter => true
@@ -58,7 +58,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new
     assert_not_nil @test
   end
-  
+
   test 'should support string property' do
     @test = TestModel.new(:string => 'string')
     assert_equal 'string', @test.string
@@ -68,7 +68,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:hash_property => { :key => 'value' })
     assert_equal({ :key => 'value' }, @test.hash_property)
   end
-  
+
   test 'should store given datetime as a db string internally' do
     @test = TestModel.new(:datetime => DateTime.new(2011, 6, 7, 22, 5, 0))
     assert_equal '2011-06-07 22:05:00', @test[:datetime]
@@ -88,7 +88,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:date => '2011-06-07')
     assert_equal Date.new(2011, 6, 7), @test.date
   end
-  
+
   test 'should store given integer string as integer internally' do
     @test = TestModel.new(:integer => "42")
     assert_equal 42, @test[:integer]
@@ -98,7 +98,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:integer => "")
     assert_nil @test.integer
   end
-  
+
   [true, 'true', 1, '1', 'yes'].each do |boolean_value|
     test "should store and expose given boolean value #{boolean_value} (#{boolean_value.class.name}) as true" do
       @test = TestModel.new(:boolean => boolean_value)
@@ -112,7 +112,7 @@ class ActivePodioTest < Test::Unit::TestCase
       assert_equal false, @test.boolean
     end
   end
-  
+
   test "should expose singular array getter" do
     @test = TestModel.new(:array => ['foo', 'bar'])
     assert_equal ['foo', 'bar'], @test.array
@@ -171,7 +171,7 @@ class ActivePodioTest < Test::Unit::TestCase
     assert_equal 'other association 1', @test.different_associations[0].string
     assert_equal 'other association 2', @test.different_associations[1].string
   end
-  
+
   test 'should expose getter methods defined by delegate to hash' do
     @test = TestModel.new(:hash_property => {'key1' => 'value1', 'key2' => 'value2', 'really' => true})
     assert_equal 'value1', @test.key1
@@ -207,24 +207,24 @@ class ActivePodioTest < Test::Unit::TestCase
     @test.key4 = 'new'
     assert_equal 'new', @test.key4
   end
-    
+
   test 'should instantiate exception properly' do
     exc = Podio::BadRequestError.new(
       {
         "error" => "forbidden",
         "error_detail" => nil,
-        "error_description" => "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at support@podio.com.",
+        "error_description" => "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://help.podio.com.",
         "error_parameters" => {"foo" => "bar"},
         "error_propagate" => false
       }, 400, "https://api.podio.com/foo/bar")
-       
+
     assert_equal exc.code, "forbidden"
     assert_equal exc.sub_code, nil
-    assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at support@podio.com."
+    assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://help.podio.com."
     assert_equal exc.propagate, false
     assert_equal exc.parameters["foo"], "bar"
   end
- 
+
   test 'should return instance from member' do
     assert TestModel.member(:string => 'string').instance_of?(TestModel)
   end
@@ -236,7 +236,7 @@ class ActivePodioTest < Test::Unit::TestCase
     assert_equal 'first', instances.first.string
     assert_equal 'last', instances.last.string
   end
-  
+
   test 'should return struct with count, total and array from collection' do
     struct = TestModel.collection('items' => [{:string => 'first'}, {:string => 'last'}], 'filtered' => 10, 'total' => 50)
     assert_equal 2, struct.all.length
@@ -244,7 +244,7 @@ class ActivePodioTest < Test::Unit::TestCase
     assert_equal 10, struct.count
     assert_equal 50, struct.total_count
   end
-  
+
   test 'should be new record without id' do
     @test = TestModel.new
     assert @test.new_record?
@@ -264,7 +264,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:test_id => 42)
     assert @test.persisted?
   end
-  
+
   test 'should return id as to_param' do
     @test = TestModel.new(:test_id => 42)
     assert_equal '42', @test.to_param
@@ -274,7 +274,7 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestAssociationModel.new
     assert_nil @test.to_param
   end
-  
+
   test 'should initialize nil attributes when constructed without given attributes' do
     @test = TestModel.new
     assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil}, @test.attributes)
@@ -284,13 +284,13 @@ class ActivePodioTest < Test::Unit::TestCase
     @test = TestModel.new(:unknown => 'attribute')
     assert_equal({:string=>nil, :test_id=>nil, :hash_property=>nil, :prefixed_hash_property=>nil, :hash_property_with_setter=>nil, :prefixed_hash_property_with_setter=>nil, :datetime=>nil, :date=>nil, :integer=>nil, :boolean=>nil, :array=>nil, :unknown => 'attribute'}, @test.attributes)
   end
-  
+
   test 'should use id for ==' do
     @test1 = TestModel.new(:test_id => 42)
     @test2 = TestModel.new(:test_id => 42)
     assert @test1 == @test2
   end
-  
+
   test 'should use hashed id for hash' do
     @test = TestModel.new(:test_id => 42)
     assert_equal 42.hash, @test.hash
