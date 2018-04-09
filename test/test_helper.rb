@@ -1,27 +1,14 @@
-require 'test/unit'
-
 require 'podio'
 
-class Test::Unit::TestCase
+require 'yaml'
+require 'active_support'
+require 'minitest/autorun'
 
+ActiveSupport::TestCase.test_order = :sorted
+
+class ActiveSupport::TestCase
   def setup
     set_podio_client
-  end
-
-  # test "verify something" do
-  #   ...
-  # end
-  def self.test(name, &block)
-    test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
-    defined = instance_method(test_name) rescue false
-    raise "#{test_name} is already defined in #{self}" if defined
-    if block_given?
-      define_method(test_name, &block)
-    else
-      define_method(test_name) do
-        flunk "No implementation provided for #{name}"
-      end
-    end
   end
 
   def set_podio_client

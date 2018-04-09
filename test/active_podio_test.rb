@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ActivePodioTest < Test::Unit::TestCase
+class ActivePodioTest < ActiveSupport::TestCase
 
   class TestAssociationModel < ActivePodio::Base
     property :string, :string
@@ -219,7 +219,7 @@ class ActivePodioTest < Test::Unit::TestCase
       }, 400, "https://api.podio.com/foo/bar")
 
     assert_equal exc.code, "forbidden"
-    assert_equal exc.sub_code, nil
+    assert_nil exc.sub_code
     assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://help.podio.com."
     assert_equal exc.propagate, false
     assert_equal exc.parameters["foo"], "bar"

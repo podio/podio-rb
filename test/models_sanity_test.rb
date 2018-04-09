@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ModelsSanityTest < Test::Unit::TestCase
+class ModelsSanityTest < ActiveSupport::TestCase
 
   ActiveSupport::Inflector.inflections do |inflect|
     inflect.uncountable %w( status user_status via )

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ClientTest < Test::Unit::TestCase
+class ClientTest < ActiveSupport::TestCase
   test 'should setup client' do
     Podio.setup(:api_key => 'client_id', :api_secret => 'client_secret')
   
@@ -116,7 +116,6 @@ class ClientTest < Test::Unit::TestCase
 
     response = Podio.connection.get('/file/1/raw')
     assert_equal 200, response.status
-    puts "#{response.body.class}"
     assert response.body.is_a?(String)
   end
 end
