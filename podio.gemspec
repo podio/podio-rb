@@ -19,17 +19,17 @@ Gem::Specification.new do |s|
 
   s.has_rdoc          = false
 
-  s.add_dependency('faraday', '~> 0.10')
-  s.add_dependency('multi_json')
+  s.add_dependency 'faraday', '>= 0.8.0', '< 1.0'
+  s.add_dependency 'multi_json'
 
   if RUBY_VERSION > '2.4'
-    s.add_dependency('activesupport', '>= 4.2')
-    s.add_dependency('activemodel', '>= 4.2')
+    s.add_dependency 'activesupport', '>= 4.2'
+    s.add_dependency 'activemodel', '>= 4.2'
   else
-    s.add_dependency('activesupport', '>= 3.0')
-    s.add_dependency('activemodel', '>= 3.0')
+    s.add_dependency 'activesupport', '>= 3.0'
+    s.add_dependency 'activemodel', '>= 3.0'
   end
 
-  s.add_development_dependency('rake')
-  s.add_development_dependency('yard')
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'yard'
 end
