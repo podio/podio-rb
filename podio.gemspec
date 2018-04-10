@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.has_rdoc          = false
 
   s.add_dependency 'faraday', '>= 0.8.0', '< 1.0'
-  s.add_dependency 'multi_json'
 
   if RUBY_VERSION > '2.4'
     s.add_dependency 'activesupport', '>= 4.2'

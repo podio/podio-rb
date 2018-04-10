@@ -13,7 +13,7 @@
 # bundle exec ruby referenceGenerator.rb --update-api --file=status.rb
 
 require 'yard'
-require 'multi_json'
+require 'json'
 require '../lib/podio'
 
 operations = {}
@@ -75,7 +75,7 @@ if update_api
   Podio.client.authenticate_with_app(PODIO_SETUP[:app_id], PODIO_SETUP[:app_token])
   operations.each do |item_id, data|
     puts "Updating #{item_id}"
-    encoded_data = MultiJson.encode(data)
+    encoded_data = JSON.generate(data)
     begin
       Podio::ItemField.update(item_id, 16359339, {:value => encoded_data}, {:silent => true})
     rescue Podio::GoneError
