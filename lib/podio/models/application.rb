@@ -24,6 +24,7 @@ class Podio::Application < ActivePodio::Base
   property :token, :string
   property :url_label, :string
   property :mailbox, :string
+  property :item_accounting_info, :hash
 
   # When app is returned as part of large collection (e.g. for stream), some config properties is moved to the main object
   property :name, :string
