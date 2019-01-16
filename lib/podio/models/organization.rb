@@ -112,7 +112,7 @@ class Podio::Organization < ActivePodio::Base
 
     def get_login_report(id, options = {})
       Podio.connection.get { |req|
-        req.url("/org/#{id}/report/login/", options)
+        req.url("/org/#{id}/report/metrics/", options)
       }.body
     end
 
