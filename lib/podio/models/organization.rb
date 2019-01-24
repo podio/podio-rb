@@ -116,6 +116,7 @@ class Podio::Organization < ActivePodio::Base
       }.body
     end
 
+    # TODO: remove this method while cleaning up featurization
     def get_login_report(id, options = {})
       Podio.connection.get { |req|
         req.url("/org/#{id}/report/login/", options)
