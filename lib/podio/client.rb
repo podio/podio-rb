@@ -106,6 +106,17 @@ module Podio
       [@oauth_token, response.body['new_user_created']]
     end
 
+    def authenticate_with_saml(attributes)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'saml', :client_id => api_key, :client_secret => api_secret
+        req.body = attributes
+      end
+
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     # Sign in with an OpenID, only available for Podio
     def authenticate_with_openid(identifier, type)
       response = @trusted_connection.post do |req|
