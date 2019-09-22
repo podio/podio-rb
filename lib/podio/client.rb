@@ -107,18 +107,16 @@ module Podio
     end
 
     # Sign in with SAML SSO
-    if show_feature?(:sso_saml)
-      def authenticate_with_saml(attributes)
-        response = @oauth_connection.post do |req|
-          req.url '/oauth/token', :grant_type => 'saml', :client_id => SETTINGS.podio_api.default_client.api_key, :client_secret => SETTINGS.podio_api.default_client.api_secret
-          req.body = attributes
-        end
-        @oauth_token = OAuthToken.new(response.body)
-        configure_oauth
-        @oauth_token
+    def authenticate_with_saml(attributes)
+      response = @oauth_connection.post do |req|
+        req.url '/oauth/token', :grant_type => 'saml', :client_id => SETTINGS.podio_api.default_client.api_key, :client_secret => SETTINGS.podio_api.default_client.api_secret
+        req.body = attributes
       end
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
     end
-    
+
     # Sign in with an OpenID, only available for Podio
     def authenticate_with_openid(identifier, type)
       response = @trusted_connection.post do |req|
