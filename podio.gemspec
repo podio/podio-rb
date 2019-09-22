@@ -17,9 +17,7 @@ Gem::Specification.new do |s|
   s.test_files        = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths     = ['lib']
 
-  s.has_rdoc          = false
-
-  s.add_dependency('faraday', ['>= 0.8.0', '< 0.10.0'])
+  s.add_dependency('faraday', ['>= 0.8.0', '< 0.16.0'])
   s.add_dependency('multi_json')
 
   if RUBY_VERSION < '1.9.3'
