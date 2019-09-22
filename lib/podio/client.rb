@@ -188,11 +188,11 @@ module Podio
         builder.use Middleware::OAuth2, :podio_client => self
         builder.use Middleware::Logger, :podio_client => self
 
-        builder.adapter(*default_adapter)
-
         # first response middleware defined get's executed last
         builder.use Middleware::ErrorResponse
         builder.use Middleware::JsonResponse
+
+        builder.adapter(*default_adapter)
       end
     end
 
