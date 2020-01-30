@@ -140,7 +140,9 @@ class Podio::Item < ActivePodio::Base
 
     # @see https://developers.podio.com/doc/items/filter-items-4496747
     def find_by_filter_values(app_id, filter_values, attributes={}, options={})
-      attributes[:filters] = filter_values
+      # filter_values are now coming as hash of ActionController Parameter,
+      # so tranforming its values to have array of id's only
+      attributes[:filters] = filter_values.transform_values{|v|  v.map{|e| e["id"]}}
       collection Podio.connection.post { |req|
         req.url("/item/app/#{app_id}/filter/", options)
         req.body = attributes
