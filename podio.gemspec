@@ -22,7 +22,10 @@ Gem::Specification.new do |s|
   s.add_dependency('faraday', ['>= 0.8.0', '< 0.10.0'])
   s.add_dependency('multi_json')
 
-  if RUBY_VERSION < '1.9.3'
+  if RUBY_VERSION == '2.6.5'
+    s.add_dependency('activesupport', '=6.0')
+    s.add_dependency('activemodel', '=6.0')
+  elsif RUBY_VERSION < '1.9.3'
     s.add_dependency('i18n', '<= 0.6.11')
     s.add_dependency('activesupport', '~> 3.0')
     s.add_dependency('activemodel', '~> 3.0')
