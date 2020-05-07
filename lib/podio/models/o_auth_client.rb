@@ -58,7 +58,7 @@ class Podio::OAuthClient < ActivePodio::Base
       response.status
     end
 
-    def delete(id)``
+    def delete(id)
       response = Podio.connection.delete("/oauth/client/#{id}")
 
       response.status
