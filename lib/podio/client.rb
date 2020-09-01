@@ -63,6 +63,10 @@ module Podio
         req.body = body
       end
 
+      if response.body.key?("server_nonce")
+        return response.body
+      end
+
       @oauth_token = OAuthToken.new(response.body)
       configure_oauth
       @oauth_token
