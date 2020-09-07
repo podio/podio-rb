@@ -72,6 +72,23 @@ module Podio
       @oauth_token
     end
 
+    def authenticate_with_second_factor(nonce, secondFactor, useRecoverycode)
+      if useRecoverycode == "false"
+        body = {:nonce => nonce, :otp => secondFactor}
+      else
+        body = {:nonce => nonce, :recoveryCode => secondFactor}
+      end
+
+      response = @oauth_connection.post do |req|
+        req.url '/mfa/verify'
+        req.body = body
+      end
+  
+      @oauth_token = OAuthToken.new(response.body)
+      configure_oauth
+      @oauth_token
+    end
+
     # Sign in as an app
     def authenticate_with_app(app_id, app_token)
       response = @oauth_connection.post do |req|

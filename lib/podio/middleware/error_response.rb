@@ -13,6 +13,10 @@ module Podio
             case env[:body]['error']
             when 'invalid_grant'
               InvalidGrantError
+            when 'invalid_second_factor'
+              InvalidSecondFactorError
+            when 'nonce_validation_error'
+              NonceValidationError
             else
               BadRequestError
             end
