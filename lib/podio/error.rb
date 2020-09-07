@@ -30,6 +30,8 @@ module Podio
 
   class TokenExpired < PodioError; end
   class InvalidGrantError < PodioError; end
+  class InvalidSecondFactorError < PodioError; end
+  class NonceValidationError < PodioError; end
   class AuthorizationError < PodioError; end
   class BadRequestError < PodioError; end
   class ServerError < PodioError; end
