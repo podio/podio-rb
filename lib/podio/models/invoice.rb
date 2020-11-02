@@ -19,6 +19,10 @@ class Podio::Invoice < ActivePodio::Base
       Podio.client.connection.get("/invoice/#{invoice_id}/pdf").body
     end
 
+    def get_as_pdf_vers2(invoice_id, contract_id)
+      Podio.client.connection.get("/contract/#{contract_id}/invoice/#{invoice_id}/pdf").body
+    end
+
     def find_by_contract(contract_id)
       list Podio.connection.get("/invoice/contract/#{contract_id}/").body
     end
@@ -38,6 +42,10 @@ class Podio::Invoice < ActivePodio::Base
 
     def pay(invoice_id)
       Podio.connection.post("/invoice/#{invoice_id}/pay").status
+    end
+
+    def pay_vers2(invoice_id, contract_id)
+      Podio.connection.post("/contract/#{contract_id}/invoice/#{invoice_id}/pay").status
     end
   end
 end
