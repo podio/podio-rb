@@ -52,6 +52,13 @@ class Podio::StreamObject < ActivePodio::Base
       }.body
     end
 
+    # @see https://developers.podio.com/doc/stream/get-application-stream-v3-100406563
+    def find_all_by_app_id_v3(app_id, options={})
+      list Podio.connection.get { |req|
+        req.url("/stream/app/#{app_id}/v3/", options)
+      }.body
+    end
+
     # @see https://developers.podio.com/doc/stream/get-user-stream-1289318
     def find_all_by_user_id(user_id, options={})
       list Podio.connection.get { |req|
