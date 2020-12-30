@@ -4,6 +4,7 @@ class Podio::AccountProvider < ActivePodio::Base
   property :humanized_name, :string
   property :capabilities, :array
   property :capability_names, :hash
+  property :external_service_provider, :boolean
 
   class << self
 
