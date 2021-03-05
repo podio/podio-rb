@@ -42,4 +42,5 @@ module Podio
   class UnavailableError < PodioError; end
   class PaymentRequiredError < AuthorizationError; end
   class RequestableAuthorizationError < AuthorizationError; end
+  class Maintenance < PodioError; end
 end
