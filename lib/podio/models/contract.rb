@@ -37,6 +37,7 @@ class Podio::Contract < ActivePodio::Base
   property :days_overdue, :integer
   property :overdue_status, :string
   property :tier, :string
+  property :effective_cancellation_date, :datetime
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
@@ -74,6 +75,10 @@ class Podio::Contract < ActivePodio::Base
 
   def end(attributes)
     self.class.end(self.id, attributes)
+  end
+
+  def end_offline_sfdc(attributes)
+    self.class.end_offline_sfdc(self.id, attributes)
   end
 
   def change_to_fixed
@@ -151,6 +156,15 @@ class Podio::Contract < ActivePodio::Base
     def end(contract_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/contract/#{contract_id}/end"
+        req.body = attributes
+      end
+
+      response.body
+    end
+
+    def end_offline_sfdc(contract_id, attributes)
+      response = Podio.connection.put do |req|
+        req.url "/contract/#{contract_id}/external/cancel"
         req.body = attributes
       end
 
