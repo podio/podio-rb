@@ -24,7 +24,6 @@ class Podio::User < ActivePodio::Base
   property :landing, :string
   property :referrer, :string
   property :internal, :hash
-  property :marketo_cookie, :string
 
   alias_method :id, :user_id
 
