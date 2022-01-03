@@ -14,6 +14,10 @@ class Podio::Invoice < ActivePodio::Base
     def find(invoice_id)
       member Podio.connection.get("/invoice/#{invoice_id}").body
     end
+    
+    def find_vers2(invoice_id, contract_id)
+      Podio.client.connection.get("/contract/#{contract_id}/invoice/#{invoice_id}").body
+    end
 
     def get_as_pdf(invoice_id)
       Podio.client.connection.get("/invoice/#{invoice_id}/pdf").body
