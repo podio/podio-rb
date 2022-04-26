@@ -37,7 +37,8 @@ class Podio::Contract < ActivePodio::Base
   property :days_overdue, :integer
   property :overdue_status, :string
   property :tier, :string
-  property :effective_cancellation_date, :datetime
+  property :effective_cancellation_date, :date
+  property :force_cancellation_date, :date
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
