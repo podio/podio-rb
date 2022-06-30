@@ -78,6 +78,10 @@ class Podio::Contract < ActivePodio::Base
     self.class.end(self.id, attributes)
   end
 
+  def end_non_payment(attributes)
+   self.class.end_non_payment(self.id, attributes)
+  end
+
   def end_offline_sfdc(attributes)
     self.class.end_offline_sfdc(self.id, attributes)
   end
@@ -103,7 +107,7 @@ class Podio::Contract < ActivePodio::Base
   def unblock
     self.class.unblock(self.contract_id)
   end
-  
+
   def tier_prices
     self.class.get_tier_prices(self.contract_id)
   end
@@ -111,6 +115,10 @@ class Podio::Contract < ActivePodio::Base
   class << self
     def find(contract_id, options={})
       member Podio.connection.get("/contract/#{contract_id}", options).body
+    end
+
+    def find_non_payment_org(user_id, options={})
+      member Podio.connection.get("/contract/#{user_id}/get_payment_pending_org", options).body
     end
 
     def find_all_mine
@@ -157,6 +165,15 @@ class Podio::Contract < ActivePodio::Base
     def end(contract_id, attributes)
       response = Podio.connection.post do |req|
         req.url "/contract/#{contract_id}/end"
+        req.body = attributes
+      end
+
+      response.body
+    end
+
+    def end_non_payment(non_payment_contract_id, attributes)
+      response = Podio.connection.post do |req|
+        req.url "/contract/#{non_payment_contract_id}/flip_from_offline"
         req.body = attributes
       end
 
