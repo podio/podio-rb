@@ -24,6 +24,8 @@ class Podio::User < ActivePodio::Base
   property :landing, :string
   property :referrer, :string
   property :internal, :hash
+  # Only required to send tier information while User signup from marketing site
+  attr_accessor :tier
 
   alias_method :id, :user_id
 
@@ -158,6 +160,10 @@ class Podio::User < ActivePodio::Base
 
     def internal_source
       Podio.connection.get("/user/source").body
+    end
+
+    def source_tier
+      Podio.connection.get("/user/source/tier").body
     end
 
     def merge(activation_code)
