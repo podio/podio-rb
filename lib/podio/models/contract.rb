@@ -247,20 +247,21 @@ class Podio::Contract < ActivePodio::Base
       Podio.connection.get('/contract/plan_names').body
     end
     
-    def get_active_list_prices
-      list_prices = get_list_prices
-      active_list_prices = list_prices.select do |tier|
-        tier['deprecated'] != 'false'
-      end
+    def get_active_list_prices(list_prices={})
+      list_prices = get_list_prices if list_prices.empty?
+
+      list_prices.select {|_, data| data['deprecated'] == false }
     end
 
-    def get_default_list_price(list_prices)
-      list_prices.select {|tier| tier["default"] == 'true' }
+    def get_default_list_price(list_prices={})
+      list_prices = get_list_prices if list_prices.empty?
+
+      list_prices.select {|_, data| data["default"] == true }
     end
 
     def get_default_tier
       tiers = get_plan_names
-
+      
       tiers.present? ? tiers['default'] : nil
     end
 
