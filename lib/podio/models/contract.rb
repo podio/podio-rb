@@ -242,5 +242,71 @@ class Podio::Contract < ActivePodio::Base
     def get_list_prices
       Podio.connection.get('/contract/price/').body
     end
+
+    #=============================================================
+    # Fetches available tier plan names from backend
+    # Returns tier/plan names as active/deprecated/default plans in json format
+    # Params: (optional) array of plan names
+    #=============================================================
+    def get_plan_names
+      Podio.connection.get('/contract/plan_names').body
+    end
+
+    #=============================================================
+    # Fetches available tier plan prices from backend, 
+    # if no or empty plans are provided
+    #
+    # Returns deprecated tier/plan price details as json
+    # Params: (optional) array of plan names
+    #=============================================================
+    def get_active_list_prices(list_prices={})
+      list_prices = get_list_prices if list_prices.empty?
+
+      list_prices.select {|_, data| data['deprecated'] == false }
+    end
+
+    #=============================================================
+    # Fetches available tier plan prices from backend, 
+    # if no or empty plans are provided
+    #
+    # Returns default tier/plan price details as json
+    # Params: (optional) array of plan names
+    #=============================================================
+    def get_default_list_price(list_prices={})
+      list_prices = get_list_prices if list_prices.empty?
+
+      list_prices.select {|_, data| data["default"] == true }
+    end
+
+    #=============================================================
+    # Fetches available tier names from backend, if no or empty plans are provided
+    # Returns default tier/plan name
+    # Params: (optional) array of plan names
+    #=============================================================
+    def get_default_tier(tiers=[])
+      tiers = get_plan_names if tiers.empty?
+      
+      tiers.present? ? tiers['default'] : nil
+    end
+
+    #=============================================================
+    # Fetches currently valid/active tier plans in backend
+    # Returns an array of plan names
+    # Params: None
+    #=============================================================
+    def valid_tiers
+      tiers = get_plan_names
+      
+      tiers.present? ? tiers['active'] : []
+    end
+
+    #=============================================================
+    # Validates if a tier is valid with available plans in backend
+    # Returns a boolean value
+    # Params: name of tier
+    #=============================================================
+    def valid_tier?(tier)
+      valid_tiers.include?(tier)
+    end
   end
 end
