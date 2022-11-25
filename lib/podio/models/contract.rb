@@ -259,8 +259,8 @@ class Podio::Contract < ActivePodio::Base
       list_prices.select {|_, data| data["default"] == true }
     end
 
-    def get_default_tier
-      tiers = get_plan_names
+    def get_default_tier(tiers=[])
+      tiers = get_plan_names if tiers.empty?
       
       tiers.present? ? tiers['default'] : nil
     end
