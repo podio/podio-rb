@@ -248,7 +248,9 @@ class Podio::Contract < ActivePodio::Base
     # Returns tier/plan names as active/deprecated/default plans in json format
     # Params: (optional) array of plan names
     #=============================================================
-    def get_plan_names
+    # FIXME:: For some reason without explicit public automation throws 
+    #         private method error
+    public def get_plan_names
       Podio.connection.get('/contract/plan_names').body
     end
 
