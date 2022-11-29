@@ -288,7 +288,7 @@ class Podio::Contract < ActivePodio::Base
     def get_default_tier(tiers=[])
       tiers = get_plan_names if tiers.empty?
       
-      tiers.present? ? tiers['default'] : nil
+      tiers.present? ? tiers["default"] : ""
     end
 
     #=============================================================
@@ -299,7 +299,7 @@ class Podio::Contract < ActivePodio::Base
     def valid_tiers
       tiers = get_plan_names
       
-      tiers.present? ? tiers['active'] : []
+      tiers.present? ? tiers["active"] : []
     end
 
     #=============================================================
