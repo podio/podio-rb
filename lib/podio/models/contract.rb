@@ -250,7 +250,8 @@ class Podio::Contract < ActivePodio::Base
     #=============================================================
     # FIXME:: For some reason without explicit public automation throws 
     #         private method error
-    public def get_plan_names
+    public 
+    def get_plan_names
       Podio.connection.get('/contract/plan_names').body
     end
 
@@ -288,7 +289,7 @@ class Podio::Contract < ActivePodio::Base
     def get_default_tier(tiers=[])
       tiers = get_plan_names if tiers.empty?
       
-      tiers.present? ? tiers['default'] : nil
+      tiers.present? ? tiers["default"] : ""
     end
 
     #=============================================================
@@ -299,7 +300,7 @@ class Podio::Contract < ActivePodio::Base
     def valid_tiers
       tiers = get_plan_names
       
-      tiers.present? ? tiers['active'] : []
+      tiers.present? ? tiers["active"] : []
     end
 
     #=============================================================
