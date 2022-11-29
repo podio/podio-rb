@@ -250,7 +250,8 @@ class Podio::Contract < ActivePodio::Base
     #=============================================================
     # FIXME:: For some reason without explicit public automation throws 
     #         private method error
-    public def get_plan_names
+    public 
+    def get_plan_names
       Podio.connection.get('/contract/plan_names').body
     end
 
