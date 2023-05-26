@@ -151,5 +151,9 @@ class Podio::Organization < ActivePodio::Base
       Podio.connection.post("/org/#{id}/change_to_user_model").body
     end
 
+    def get_stats(id)
+      Podio.connection.get("/org/#{id}/stats").body
+    end
+
   end
 end

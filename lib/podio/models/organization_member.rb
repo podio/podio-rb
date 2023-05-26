@@ -70,5 +70,16 @@ class Podio::OrganizationMember < ActivePodio::Base
       Podio.connection.delete("/org/#{org_id}/admin/#{user_id}").status
     end
 
+    def change_membership(org_id, user_id, is_employee)
+      response = Podio.connection.put do |req|
+        req.url "/org/#{org_id}/membership-type"
+        req.body = {
+          user_id: user_id.to_i,
+          user_type: is_employee ? 'external' : 'employee'
+        }
+      end
+      response.status
+    end
+
   end
 end
