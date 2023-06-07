@@ -26,6 +26,10 @@ class Podio::SpaceInvitation < ActivePodio::Base
     self.class.create_member(self.space_id, self.role, self.attributes.except(:contacts))
   end
 
+  def save_guest
+    self.class.create_guest(self.space_id, self.role, self.attributes.except(:contacts))
+  end
+
   def accept(invite_code)
     self.class.accept(invite_code)
   end
@@ -43,6 +47,15 @@ class Podio::SpaceInvitation < ActivePodio::Base
     def create_member(space_id, role, attributes={})
       response = Podio.connection.post do |req|
         req.url "/space/#{space_id}/member/"
+        req.body = attributes.merge(:role => role)
+      end
+
+      response.body
+    end
+
+    def create_guest(space_id, role, attributes={})
+      response = Podio.connection.post do |req|
+        req.url "/space/#{space_id}/guest/"
         req.body = attributes.merge(:role => role)
       end
 
