@@ -14,6 +14,7 @@ class Podio::SpaceInvitation < ActivePodio::Base
   property :context_ref_id, :integer # Write
   property :context, :hash # Read
   property :external_contacts, :hash
+  property :external_user_invite, :boolean
 
   has_one :user, :class => 'User'
   has_one :inviter, :class => 'Contact'
