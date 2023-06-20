@@ -39,6 +39,7 @@ class Podio::Contract < ActivePodio::Base
   property :tier, :string
   property :effective_cancellation_date, :date
   property :force_cancellation_date, :date
+  property :contract_was_migrated, :boolean
 
   has_one :org, :class => 'Organization'
   has_one :user, :class => 'User'
