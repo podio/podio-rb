@@ -9,7 +9,7 @@ class Podio::OrganizationMember < ActivePodio::Base
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
 
-  delegate :user_id, :mail, :to => :user
+  delegate :user_id, :mail, :domain, :to => :user
   delegate :name, :avatar, :link, :title, :organization, :title_and_org, :default_title, :last_seen_on, :to => :contact
 
   class << self
