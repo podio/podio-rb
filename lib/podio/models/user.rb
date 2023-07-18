@@ -2,6 +2,7 @@
 class Podio::User < ActivePodio::Base
   property :user_id, :integer
   property :mail, :string
+  property :domain, :string
   property :status, :string
   property :locale, :string
   property :timezone, :string
