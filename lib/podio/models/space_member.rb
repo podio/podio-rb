@@ -7,6 +7,7 @@ class Podio::SpaceMember < ActivePodio::Base
   property :started_on, :datetime
   property :ended_on, :datetime
   property :grants, :integer
+  property :is_partner, :boolean
 
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
@@ -15,13 +16,19 @@ class Podio::SpaceMember < ActivePodio::Base
   delegate :user_id, :name, :to => :contact
 
   alias_method :id, :user_id
-  
+
   def employee?
     employee
   end
-  
+
   def external?
     !employee
+  end
+
+  def partner?
+    return false if employee?
+
+    is_partner
   end
 
   class << self
