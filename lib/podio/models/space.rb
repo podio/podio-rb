@@ -95,6 +95,12 @@ class Podio::Space < ActivePodio::Base
       member Podio.connection.get("/space/url?url=#{ERB::Util.url_encode(url)}").body
     end
 
+    def find_all_user_on_space_by_ref(space_id, ref_type, options = {})
+      list Podio.connection.get { |req|
+        req.url("/grant/space/#{space_id}/ref_type/#{ref_type}/", options)
+      }.body
+    end
+
     def find_by_url_slug(org_slug, space_slug, params={})
       params = params.merge(:org_slug => org_slug, :space_slug => space_slug)
       member Podio.connection.get("/space/url", params).body
