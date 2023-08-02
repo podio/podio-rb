@@ -70,6 +70,7 @@ class Podio::Grant < ActivePodio::Base
       }.body
     end
 
+    # https://podio.com/podio/api/apps/api-operations/items/920
     def find_own_on_org_by_ref(org_id, ref_type, options = {})
       list Podio.connection.get { |req|
         req.url("/grant/org/#{org_id}/#{ref_type}/own/", options)
