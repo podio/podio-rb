@@ -66,7 +66,7 @@ class Podio::Grant < ActivePodio::Base
     # https://podio.com/podio/api/apps/api-operations/items/919
     def find_for_user_on_space_by_ref(space_id, ref_type, user_id, options = {})
       list Podio.connection.get { |req|
-        req.url("/grant/space/#{space_id}/ref_type/#{ref_type}/user/#{user_id}/", options)
+        req.url("/grant/space/#{space_id}/#{ref_type}/user/#{user_id}/", options)
       }.body
     end
 
