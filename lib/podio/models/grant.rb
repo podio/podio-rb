@@ -63,6 +63,13 @@ class Podio::Grant < ActivePodio::Base
       }.body
     end
 
+    # https://podio.com/podio/api/apps/api-operations/items/919
+    def find_for_user_on_space_by_ref(space_id, ref_type, user_id, options = {})
+      list Podio.connection.get { |req|
+        req.url("/grant/space/#{space_id}/#{ref_type}/user/#{user_id}/", options)
+      }.body
+    end
+
     # https://hoist.podio.com/api/item/22330891
     def find_own_on_org(org_id, options = {})
       list Podio.connection.get { |req|
