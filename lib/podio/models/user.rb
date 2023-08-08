@@ -17,6 +17,7 @@ class Podio::User < ActivePodio::Base
   property :profile_id, :integer
   property :type, :string
   property :from_sharefile, :boolean
+  property :is_partner, :boolean
 
   has_many :mails, :class => 'UserMail'
   has_one :profile, :class => 'Contact'

@@ -9,8 +9,14 @@ class Podio::OrganizationMember < ActivePodio::Base
   has_one :user, :class => 'User'
   has_one :contact, :class => 'Contact', :property => :profile
 
-  delegate :user_id, :mail, :domain, :to => :user
+  delegate :user_id, :mail, :domain, :is_partner, :to => :user
   delegate :name, :avatar, :link, :title, :organization, :title_and_org, :default_title, :last_seen_on, :to => :contact
+
+  def partner?
+    return false if employee
+
+    is_partner
+  end
 
   class << self
     # @see https://developers.podio.com/doc/organizations/get-organization-members-50661
