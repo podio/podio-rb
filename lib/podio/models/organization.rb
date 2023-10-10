@@ -34,6 +34,7 @@ class Podio::Organization < ActivePodio::Base
   property :price_plans, :hash
   property :current_price_plan, :hash
   property :price_plans_variation, :string
+  property :trial_expired_on, :date
 
   has_one :created_by, :class => 'ByLine'
 
