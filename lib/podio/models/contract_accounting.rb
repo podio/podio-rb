@@ -12,6 +12,7 @@ class Podio::ContractAccounting < ActivePodio::Base
   property :city, :string
   property :state, :string
   property :country, :string
+  property :vat_id, :string
 
   def update
     self.class.update(self.contract_id, self.attributes)
