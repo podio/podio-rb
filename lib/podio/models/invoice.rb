@@ -7,6 +7,7 @@ class Podio::Invoice < ActivePodio::Base
   property :amount_due, :float
   property :amount_paid, :float
   property :status, :string
+  property :paidStatus, :string
 
   alias_method :id, :invoice_id
 
