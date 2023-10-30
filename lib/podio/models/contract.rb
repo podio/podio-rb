@@ -114,6 +114,7 @@ class Podio::Contract < ActivePodio::Base
   end
 
   class << self
+
     def find(contract_id, options={})
       member Podio.connection.get("/contract/#{contract_id}", options).body
     end
@@ -240,6 +241,10 @@ class Podio::Contract < ActivePodio::Base
       Podio.connection.get("/contract/#{contract_id}/price/tier").body
     end
 
+    def get_ecom_prices
+      Podio.connection.get('/contract/plans/ecom').body
+    end
+
     def get_list_prices
       Podio.connection.get('/contract/price/').body
     end
@@ -249,15 +254,15 @@ class Podio::Contract < ActivePodio::Base
     # Returns tier/plan names as active/deprecated/default plans in json format
     # Params: (optional) array of plan names
     #=============================================================
-    # FIXME:: For some reason without explicit public automation throws 
+    # FIXME:: For some reason without explicit public automation throws
     #         private method error
-    public 
+    public
     def get_plan_names
       Podio.connection.get('/contract/plan_names').body
     end
 
     #=============================================================
-    # Fetches available tier plan prices from backend, 
+    # Fetches available tier plan prices from backend,
     # if no or empty plans are provided
     #
     # Returns deprecated tier/plan price details as json
@@ -270,7 +275,7 @@ class Podio::Contract < ActivePodio::Base
     end
 
     #=============================================================
-    # Fetches available tier plan prices from backend, 
+    # Fetches available tier plan prices from backend,
     # if no or empty plans are provided
     #
     # Returns default tier/plan price details as json
@@ -289,7 +294,7 @@ class Podio::Contract < ActivePodio::Base
     #=============================================================
     def get_default_tier(tiers=[])
       tiers = get_plan_names if tiers.empty?
-      
+
       tiers.present? ? tiers["default"] : ""
     end
 
@@ -300,7 +305,7 @@ class Podio::Contract < ActivePodio::Base
     #=============================================================
     def valid_tiers
       tiers = get_plan_names
-      
+
       tiers.present? ? tiers["active"] : []
     end
 
