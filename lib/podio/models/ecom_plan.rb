@@ -8,23 +8,29 @@ class Podio::EcomPlan < ActivePodio::Base
   class << self
 
     def all
-      collection get_plans_difinition.values.map(&:plan_difinition_to_hash)
+      collection get_plans.values.map(&:plan_difinition_to_hash)
     end
 
     def find(tier)
-      member plan_difinition_to_hash get_plans_difinition[tier.to_sym]
+      member plan_difinition_to_hash get_plan_by_tier(tier)
     end
 
     private
 
-    def get_plans_difinition
-      Contract.get_ecom_prices
+    def get_plans
+      Contract.get_ecom_prices.deep_symbolize_keys
+    end
+
+    def get_plan_by_tier(tier)
+      get_plans[tier.to_sym]
     end
 
     def plan_difinition_to_hash(plan_difinition)
-      plan_difinition.pluck(:product_code, :product_name, :min_qty).merge({
-        monthly_price: plan_difinition[:monthly][:price],
-        annually_price: plan_difinition[:annually][:price]
+      plans_copy = plan_difinition.clone
+
+      plans_copy.slice(:product_code, :product_name, :min_qty).merge({
+        monthly_price: plan_difinition[:monthly][:pricePerUser],
+        annually_price: plan_difinition[:annually][:pricePerUser]
       })
     end
   end
