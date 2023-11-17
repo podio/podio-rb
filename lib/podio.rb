@@ -100,6 +100,7 @@ module Podio
   autoload :ConversationMessage,      'podio/models/conversation_message'
   autoload :ConversationParticipant,  'podio/models/conversation_participant'
   autoload :Device,                   'podio/models/device'
+  autoload :EcomPlan,                 'podio/models/ecom_plan'
   autoload :EmailSubscriptionSetting, 'podio/models/email_subscription_setting'
   autoload :EmailContact,             'podio/models/email_contact'
   autoload :Embed,                    'podio/models/embed'
