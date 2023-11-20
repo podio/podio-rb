@@ -58,7 +58,7 @@ class Podio::Contract < ActivePodio::Base
   end
 
   def update
-    self.class.update(self.contract_id, self.attributes.except(:premium_spaces))
+    self.class.update(self.contract_id, self.attributes.except(:premium_spaces, :add_limit))
   end
 
   def calculate_price
