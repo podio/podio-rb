@@ -213,14 +213,14 @@ class ActivePodioTest < Test::Unit::TestCase
       {
         "error" => "forbidden",
         "error_detail" => nil,
-        "error_description" => "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://help.podio.com.",
+        "error_description" => "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://support.sharefile.com.",
         "error_parameters" => {"foo" => "bar"},
         "error_propagate" => false
       }, 400, "https://api.podio.com/foo/bar")
 
     assert_equal exc.code, "forbidden"
     assert_equal exc.sub_code, nil
-    assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://help.podio.com."
+    assert_equal exc.message, "Only available for clients with a trust level of 4 or higher. To get your API client upgraded to a higher trust level contact support at https://support.sharefile.com."
     assert_equal exc.propagate, false
     assert_equal exc.parameters["foo"], "bar"
   end
