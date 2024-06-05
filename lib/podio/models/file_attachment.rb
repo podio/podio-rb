@@ -1,8 +1,10 @@
 # @see https://developers.podio.com/doc/files
 class Podio::FileAttachment < ActivePodio::Base
   property :file_id, :integer
+  property :uuid, :string
   property :external_file_id, :string
   property :link, :string
+  property :uuid_link, :string
   property :link_target, :string
   property :perma_link, :string
   property :thumbnail_link, :string
@@ -107,6 +109,10 @@ class Podio::FileAttachment < ActivePodio::Base
     # @see https://developers.podio.com/doc/files/download-file-1004147
     def find_raw(id)
       Podio.client.connection.get("/file/#{id}/raw").body
+    end
+
+    def find_raw_by_uuid(uuid)
+      Podio.client.connection.get("/file/#{uuid}/raw_by_uuid").body
     end
 
     # @see https://developers.podio.com/doc/files/get-files-4497983
