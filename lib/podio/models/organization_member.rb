@@ -10,7 +10,7 @@ class Podio::OrganizationMember < ActivePodio::Base
   has_one :contact, :class => 'Contact', :property => :profile
 
   delegate :user_id, :mail, :domain, :is_partner, :to => :user
-  delegate :name, :avatar, :link, :title, :organization, :title_and_org, :default_title, :last_seen_on, :to => :contact
+  delegate :name, :avatar, :link, :title, :organization, :title_and_org, :default_title, :last_seen_on, :to => :contact, allow_nil: true
 
   def partner?
     return false if employee
