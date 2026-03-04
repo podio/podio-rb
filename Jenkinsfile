@@ -58,7 +58,7 @@ pipeline {
                 BRIDGE_BLACKDUCKSCA_TOKEN = credentials('blackduck-sca-token')
                 BRIDGE_BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES = "CRITICAL"
                 BRIDGE_BLACKDUCKSCA_SCAN_FULL = "true"
-                BRIDGE_DETECT_ARGS = "--detect.project.name=DX-Podio-podio-rb --detect.project.version.name=${env.branchName} --detect.project.version.update=true --detect.project.version.distribution=SAAS --detect.project.group.name=Podio-Podio --detect.accuracy.required=NONE"
+                BRIDGE_DETECT_ARGS = "--detect.project.name=DX-Podio-podio-rb --detect.project.version.name=${env.branchName} --detect.project.version.update=true --detect.project.version.distribution=SAAS --detect.project.group.name=Podio-Podio --detect.accuracy.required=NONE --detect.wait.for.results.timeout=15"
             }
             steps {
                 dir('podio-rb') {
