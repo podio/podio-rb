@@ -13,7 +13,11 @@ class Podio::SpaceMember < ActivePodio::Base
   has_one :contact, :class => 'Contact', :property => :profile
   has_one :space, :class => 'Space'
 
-  delegate :user_id, :name, :to => :contact
+  delegate :name, :to => :contact, allow_nil: true
+
+  def user_id
+    (contact && contact.user_id) || (user && user.user_id)
+  end
 
   alias_method :id, :user_id
 
