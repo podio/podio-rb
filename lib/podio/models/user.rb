@@ -12,6 +12,8 @@ class Podio::User < ActivePodio::Base
   property :created_on, :datetime
   property :activated_on, :datetime
   property :name, :string
+  property :country, :string
+  property :company, :string
   property :link, :string
   property :avatar, :integer
   property :profile_id, :integer
