@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'azure-linux-ubuntu-18' }
+    agent { label 'aws-linuxdocker-test' }
     options {
         skipStagesAfterUnstable()
         disableConcurrentBuilds()
@@ -22,7 +22,7 @@ pipeline {
                         [$class: 'CloneOption', shallow: true, depth: 1, noTags: false]
                     ],
                     submoduleCfg: [],
-                    userRemoteConfigs: [[credentialsId: 'github-app-podio-jm', url: 'https://github.com/podio/podio-rb.git']]
+                    userRemoteConfigs: [[credentialsId: 'gh-podio-app', url: 'https://github.com/podio/podio-rb.git']]
                 ])
             }
         }
@@ -30,7 +30,7 @@ pipeline {
         stage('Polaris') {
             environment {
                 BRIDGE_POLARIS_SERVERURL = "https://polaris.blackduck.com"
-                BRIDGE_POLARIS_ACCESSTOKEN = credentials('blackduck-api-token')
+                BRIDGE_POLARIS_ACCESSTOKEN = credentials('blackduck-polaris-token')
                 BRIDGE_POLARIS_APPLICATION_NAME = "Podio-Podio"
                 BRIDGE_POLARIS_PROJECT_NAME = "podio-rb"
                 BRIDGE_POLARIS_BRANCH_NAME = "${env.branchName}"
@@ -85,7 +85,7 @@ pipeline {
                     def scanExitCode = sh(returnStatus: true, script: """
                         # Run TruffleHog scan and capture output
                         docker run --rm -v ${repoPath}:/usr/src \
-                          artifacts.progress.com/ci-local-docker/trufflesecurity/trufflehog:3.88.29-amd64 \
+                          artifacts.sharefile-coretools.com/sharefile/trufflesecurity/trufflehog:3.88.29-amd64 \
                           git file:/usr/src \
                           --branch=${env.branchName} \
                           --results=verified,unknown \
