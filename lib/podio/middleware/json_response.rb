@@ -6,6 +6,9 @@ module Podio
     class JsonResponse < Faraday::Response::Middleware
       require 'multi_json'
 
+      # Faraday 1.x removed the nested Faraday::Error::ParsingError constant
+      PARSING_ERROR = defined?(Faraday::ParsingError) ? Faraday::ParsingError : Faraday::Error::ParsingError
+
       def on_complete(env)
         if env[:body].is_a?(String) && is_json?(env) && should_unmarshal?(env) && env[:status] != 500
           env[:body] = parse(env[:body])
@@ -25,7 +28,7 @@ module Podio
         return nil if body !~ /\S/ # json gem doesn't like decoding blank strings
         MultiJson.decode(body)
       rescue Object => err
-        raise Faraday::Error::ParsingError.new(err)
+        raise PARSING_ERROR.new(err)
       end
     end
   end
