@@ -19,7 +19,7 @@ pipeline {
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [
                         [$class: 'RelativeTargetDirectory', relativeTargetDir: 'podio-rb'],
-                        [$class: 'CloneOption', shallow: true, depth: 1, noTags: false]
+                        [$class: 'CloneOption', shallow: false, noTags: false]
                     ],
                     submoduleCfg: [],
                     userRemoteConfigs: [[credentialsId: 'gh-podio-app', url: 'https://github.com/podio/podio-rb.git']]
@@ -83,23 +83,58 @@ pipeline {
                     echo "🔍 Running TruffleHog Git scan on repo path: ${repoPath}, branch: ${env.branchName}"
 
                     def scanExitCode = sh(returnStatus: true, script: """
+                        EXCLUDE_FLAG=""
+                        if [ -f "${repoPath}/.trufflehog-exclude-paths" ]; then
+                            EXCLUDE_FLAG="--exclude-paths /usr/src/.trufflehog-exclude-paths"
+                        fi
                         # Run TruffleHog scan and capture output
                         docker run --rm -v ${repoPath}:/usr/src \
                           artifacts.sharefile-coretools.com/sharefile/trufflesecurity/trufflehog:3.88.29-amd64 \
                           git file:/usr/src \
                           --branch=${env.branchName} \
-                          --results=verified,unknown \
+                          \$EXCLUDE_FLAG \
+                          --results=verified,unknown,unverified \
+                          --fail \
                           --force-skip-binaries \
                           --force-skip-archives \
                           --json \
                           --no-update \
-                          > ${scanOutput}
+                          > ${scanOutput} && scanRc=0 || scanRc=\$?
+
+                        KNOWN_FINDINGS="${repoPath}/.trufflehog-known-findings"
+                        if [ -f "\$KNOWN_FINDINGS" ]; then
+                            # Entries are "<full commit sha> <file path> <detector name>"; matching findings are dropped
+                            awk -v kf="\$KNOWN_FINDINGS" '
+                                BEGIN {
+                                    n = 0
+                                    q = sprintf("%c", 34)
+                                    while ((getline line < kf) > 0) {
+                                        if (line ~ /^[[:space:]]*#/ || split(line, p) < 3) continue
+                                        commit[n] = q "commit" q ":" q p[1] q
+                                        file[n] = q "file" q ":" q p[2] q
+                                        detector[n] = q "DetectorName" q ":" q p[3] q
+                                        n++
+                                    }
+                                }
+                                {
+                                    for (i = 0; i < n; i++) {
+                                        if (index(\$0, commit[i]) && index(\$0, file[i]) && index(\$0, detector[i])) { suppressed++; next }
+                                    }
+                                    print
+                                }
+                                END { if (suppressed) print "Suppressed " suppressed " known finding(s) listed in .trufflehog-known-findings" > "/dev/stderr" }
+                            ' "${scanOutput}" > "${scanOutput}.filtered" && mv "${scanOutput}.filtered" "${scanOutput}"
+                        fi
 
                         echo "📄 TruffleHog scan completed. Output saved to ${scanOutput}"
                         # Check if secrets were found
                         if grep -q '"SourceMetadata"' ${scanOutput}; then
                             echo "❌ TruffleHog found potential secrets!"
                             cat ${scanOutput}
+                            exit 1
+                        # 183 is the --fail code for "findings present"; any not dropped as known were caught above
+                        elif [ "\$scanRc" -ne 0 ] && [ "\$scanRc" -ne 183 ]; then
+                            echo "❌ TruffleHog exited with code \$scanRc"
                             exit 1
                         else
                             echo "✅ No secrets found."
