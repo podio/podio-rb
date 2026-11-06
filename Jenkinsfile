@@ -101,13 +101,39 @@ pipeline {
                           --no-update \
                           > ${scanOutput} && scanRc=0 || scanRc=\$?
 
+                        KNOWN_FINDINGS="${repoPath}/.trufflehog-known-findings"
+                        if [ -f "\$KNOWN_FINDINGS" ]; then
+                            # Entries are "<full commit sha> <file path> <detector name>"; matching findings are dropped
+                            awk -v kf="\$KNOWN_FINDINGS" '
+                                BEGIN {
+                                    n = 0
+                                    q = sprintf("%c", 34)
+                                    while ((getline line < kf) > 0) {
+                                        if (line ~ /^[[:space:]]*#/ || split(line, p) < 3) continue
+                                        commit[n] = q "commit" q ":" q p[1] q
+                                        file[n] = q "file" q ":" q p[2] q
+                                        detector[n] = q "DetectorName" q ":" q p[3] q
+                                        n++
+                                    }
+                                }
+                                {
+                                    for (i = 0; i < n; i++) {
+                                        if (index(\$0, commit[i]) && index(\$0, file[i]) && index(\$0, detector[i])) { suppressed++; next }
+                                    }
+                                    print
+                                }
+                                END { if (suppressed) print "Suppressed " suppressed " known finding(s) listed in .trufflehog-known-findings" > "/dev/stderr" }
+                            ' "${scanOutput}" > "${scanOutput}.filtered" && mv "${scanOutput}.filtered" "${scanOutput}"
+                        fi
+
                         echo "📄 TruffleHog scan completed. Output saved to ${scanOutput}"
                         # Check if secrets were found
                         if grep -q '"SourceMetadata"' ${scanOutput}; then
                             echo "❌ TruffleHog found potential secrets!"
                             cat ${scanOutput}
                             exit 1
-                        elif [ "\$scanRc" -ne 0 ]; then
+                        # 183 is the --fail code for "findings present"; any not dropped as known were caught above
+                        elif [ "\$scanRc" -ne 0 ] && [ "\$scanRc" -ne 183 ]; then
                             echo "❌ TruffleHog exited with code \$scanRc"
                             exit 1
                         else
