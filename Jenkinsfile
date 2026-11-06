@@ -19,7 +19,7 @@ pipeline {
                     doGenerateSubmoduleConfigurations: false,
                     extensions: [
                         [$class: 'RelativeTargetDirectory', relativeTargetDir: 'podio-rb'],
-                        [$class: 'CloneOption', shallow: true, depth: 1, noTags: false]
+                        [$class: 'CloneOption', shallow: false, noTags: false]
                     ],
                     submoduleCfg: [],
                     userRemoteConfigs: [[credentialsId: 'gh-podio-app', url: 'https://github.com/podio/podio-rb.git']]
@@ -83,23 +83,32 @@ pipeline {
                     echo "🔍 Running TruffleHog Git scan on repo path: ${repoPath}, branch: ${env.branchName}"
 
                     def scanExitCode = sh(returnStatus: true, script: """
+                        EXCLUDE_FLAG=""
+                        if [ -f "${repoPath}/.trufflehog-exclude-paths" ]; then
+                            EXCLUDE_FLAG="--exclude-paths /usr/src/.trufflehog-exclude-paths"
+                        fi
                         # Run TruffleHog scan and capture output
                         docker run --rm -v ${repoPath}:/usr/src \
                           artifacts.sharefile-coretools.com/sharefile/trufflesecurity/trufflehog:3.88.29-amd64 \
                           git file:/usr/src \
                           --branch=${env.branchName} \
-                          --results=verified,unknown \
+                          \$EXCLUDE_FLAG \
+                          --results=verified,unknown,unverified \
+                          --fail \
                           --force-skip-binaries \
                           --force-skip-archives \
                           --json \
                           --no-update \
-                          > ${scanOutput}
+                          > ${scanOutput} && scanRc=0 || scanRc=\$?
 
                         echo "📄 TruffleHog scan completed. Output saved to ${scanOutput}"
                         # Check if secrets were found
                         if grep -q '"SourceMetadata"' ${scanOutput}; then
                             echo "❌ TruffleHog found potential secrets!"
                             cat ${scanOutput}
+                            exit 1
+                        elif [ "\$scanRc" -ne 0 ]; then
+                            echo "❌ TruffleHog exited with code \$scanRc"
                             exit 1
                         else
                             echo "✅ No secrets found."
