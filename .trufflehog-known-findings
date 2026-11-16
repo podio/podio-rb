@@ -1,0 +1,9 @@
+# TruffleHog findings reviewed and accepted. Format: <full commit sha> <file path> <detector name>
+# Each entry needs a comment with the ticket and the reason it is safe.
+
+# POD-11741: OAuth token responses recorded in 2012 against the local development sandbox (api-sandbox.podio.dev)
+# with placeholder client credentials for seeded test users. Not production tokens; fixtures removed in c0906c2.
+5ac82c9656e7d268d73662b8df69123c41bd4900 test/fixtures/client/eaa5ecfefb156b0a0bd29b3591786946.rack Podio
+5ac82c9656e7d268d73662b8df69123c41bd4900 test/fixtures/client/f5a56d9a7e19777642508edf80a45bc8.rack Podio
+5ac82c9656e7d268d73662b8df69123c41bd4900 test/fixtures/client/1e1fb7999f3b19d6c8d6dfd0c5820133.rack Podio
+5ac82c9656e7d268d73662b8df69123c41bd4900 test/fixtures/client/cc73b5e3e28cce22bf8d644a68178b70.rack Podio
