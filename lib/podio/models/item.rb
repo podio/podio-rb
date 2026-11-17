@@ -299,7 +299,7 @@ class Podio::Item < ActivePodio::Base
     protected
 
       def time_options(time)
-        time.present? ? { 'time' => (time.is_a?(String) ? time : time.to_s(:db)) } : {}
+        time.present? ? { 'time' => (time.is_a?(String) ? time : time.to_formatted_s(:db)) } : {}
       end
 
       def find_next_or_previous(operation, current_item_id, time)
